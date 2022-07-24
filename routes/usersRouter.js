@@ -21,61 +21,78 @@ usersRouter.post('/users', express.json(), function (req, res) {
             email: req.body.email,
             login: req.body.login,
             password: req.body.password,
-            roles: req.body.roles
+            role_id: req.body.role_id
         }, 
-        ['id', 'name', 'email', 'login', 'roles'])
+        ['id', 'name', 'email', 'login', 'role_id'])
     .then(users => {
         let user = users[0];
-        res.json({user});
+        res.status(201).json({user});
     })
     .catch(err => res.status(500).json({message}))
 })
 
+
 // READ ALL USERS.
 usersRouter.get('/users', function (req, res) {
-    knex.select('id', 'name', 'email', 'login', 'roles')
-        .from('users')
-        .then(users => res.json(users))
-})
-
-// READ A USER BASED ON HIS ID.
-usersRouter.get('/users/:id', function (req, res) {
-    let id = Number.parseInt(req.params.id);
-    knex.select('id', 'name', 'email', 'roles')
-        .from('users')
-        .where('id',id)
+    knex('users')
+        .join('role', 'users.role_id', 'role.id')
+        .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
+        //.then(users => res.json(users))
         .then(users => {
             if(users.length){
-                res.json(users);
+                res.status(200).json(users);
             }else{
-                res.status(404).json({message: `User with id ${id} was not found.`})
+                res.status(200).json({message: `Nothing found.`})
             }
         });
 })
 
+
+// READ A USER BASED ON HIS ID.
+usersRouter.get('/users/:id', function (req, res) {
+    let id = Number.parseInt(req.params.id);
+    knex('users')
+        .where('users.id', id)
+        .join('role', 'users.role_id', 'role.id')
+        .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
+        .then(users => {
+            if(users.length){
+                res.status(200).json(users);
+            }else{
+                res.status(404).json({message: `User not found.`})
+            }
+        });
+})
+
+
 // UPDATE A USER BASED ON HIS ID.
 usersRouter.put('/users/:id', express.json(), function (req, res) {
     let id = Number.parseInt(req.params.id);
-    if (id > 0) {
-        knex('users')
-            .where('id', id)
-            .update({
-                name: req.body.name,
-                email: req.body.email,
-                login: req.body.login,
-                password: req.body.password,
-                roles: req.body.roles
-            },
-            ['id', 'name','email','login', 'roles'])
-            .then (users => {
+   
+    let response = knex('users')
+        .where('id', id)
+        .update({
+            name: req.body.name,
+            email: req.body.email,
+            login: req.body.login,
+            password: req.body.password,
+            role_id: req.body.role_id
+        },
+        ['id', 'name','email','login', 'role_id']);
+
+    response.then (users => {            
+            if(users.length){
                 let user = users[0]
-                res.status(200).json({user})
-            })
-            .catch (err => res.status(500).json ({ message: `Error trying to update user. ERROR: ${err.message}`}))
-    } else {
-        res.status(404).json({ message: "User not found!" })
-    }
+                res.status(201).json({user})
+            }else{
+                res.status(404).json({message: `User not found.`})
+            }
+        })
+        .catch (err => res.status(500)
+        .json ({ message: `Error trying to update user. ERROR: ${err.message}`}))
+  
 })
+
 
 // DELETE A USER BASED ON HIS ID.
 usersRouter.delete('/users/:id', function (req, res) {
