@@ -1,11 +1,15 @@
-
-DROP TABLE IF EXISTS glicemia;
+------------- CLEAN DATABASE -------------
+DROP TABLE IF EXISTS glucose;
+DROP TABLE IF EXISTS measurement_unity;
+DROP TABLE IF EXISTS marker_meal;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS role;
 
-DROP SEQUENCE IF EXISTS role_id_seq;
+DROP SEQUENCE IF EXISTS glucose_id_seq;
+DROP SEQUENCE IF EXISTS measurement_id_seq;
+DROP SEQUENCE IF EXISTS markermeal_id_seq;
 DROP SEQUENCE IF EXISTS user_id_seq;
-DROP SEQUENCE IF EXISTS glicemia_id_seq;
+DROP SEQUENCE IF EXISTS role_id_seq;
 
 
 
@@ -48,23 +52,71 @@ SELECT * FROM users;
 
 
 
-------------- GLICEMIA -------------
-CREATE SEQUENCE glicemia_id_seq; 
+---- MEASUREMENTS UNITY FOR GLICEMIC READINGS ----
+CREATE SEQUENCE measurement_id_seq; 
 
-CREATE TABLE glicemia ( 
-    id int NOT NULL DEFAULT nextval('glicemia_id_seq'), 
-	user_id int NOT NULL,
-	glicemia int NOT NULL,
-	unity varchar(10) NOT NULL, -- acceptable values: mg/dL or mmol/L.
-	date TIMESTAMP NOT NULL,
-	marker_meal varchar(50) NOT NULL,
-
-    CONSTRAINT glicemia_pk PRIMARY KEY (id),
-	CONSTRAINT fk_user
-      FOREIGN KEY(user_id) 
-	  REFERENCES users(id)
+CREATE TABLE measurement_unity ( 
+    id int NOT NULL DEFAULT nextval('measurement_id_seq'), 
+    description varchar(15) NOT NULL,
+    CONSTRAINT measurement_pk PRIMARY KEY (id) 
 );
 
-INSERT INTO glicemia (user_id, glicemia, unity, date, marker_meal) VALUES(1, 100, 'mg/dL', '2022-08-01 12:30:00', 'after dinner');
+-- mg/dL or mmol/L.
+INSERT INTO measurement_unity (description) VALUES('mg/dL');
+INSERT INTO measurement_unity (description) VALUES('mmol/L');
 
-SELECT * FROM glicemia;
+SELECT * FROM measurement_unity;
+
+
+
+------------- MARKER MEAL -------------
+CREATE SEQUENCE markermeal_id_seq; 
+
+CREATE TABLE marker_meal ( 
+    id int NOT NULL DEFAULT nextval('markermeal_id_seq'), 
+    description varchar(50) NOT NULL,
+    CONSTRAINT markermeal_pk PRIMARY KEY (id) 
+);
+
+INSERT INTO marker_meal (description) VALUES('Fasting');
+INSERT INTO marker_meal (description) VALUES('Before breakfast');
+INSERT INTO marker_meal (description) VALUES('After breakfast');
+INSERT INTO marker_meal (description) VALUES('Before lunh');
+INSERT INTO marker_meal (description) VALUES('After lunch');
+INSERT INTO marker_meal (description) VALUES('Before dinner');
+INSERT INTO marker_meal (description) VALUES('After dinner');
+INSERT INTO marker_meal (description) VALUES('Before sleeping');
+
+SELECT * FROM marker_meal;
+
+
+
+------------- GLICEMIA -------------
+CREATE SEQUENCE glucose_id_seq; 
+
+CREATE TABLE glucose ( 
+    id int NOT NULL DEFAULT nextval('glucose_id_seq'), 
+	user_id int NOT NULL,
+	glucose int NOT NULL,
+	unity_id int NOT NULL,
+	date DATE NOT NULL,
+    hour TIME(6) NOT NULL,
+	markermeal_id int NOT NULL,
+
+    CONSTRAINT glucose_pk PRIMARY KEY (id),
+	CONSTRAINT fk_user
+      FOREIGN KEY(user_id) 
+	  REFERENCES users(id),
+    
+    CONSTRAINT fk_unity
+      FOREIGN KEY(unity_id) 
+	  REFERENCES measurement_unity(id),
+
+    CONSTRAINT fk_markermeal
+      FOREIGN KEY(markermeal_id) 
+	  REFERENCES marker_meal(id)
+);
+
+INSERT INTO glucose (user_id, glucose, unity_id, date, hour, markermeal_id) VALUES(1, 100, 1, '2022-08-01', '12:30:00', 1);
+
+SELECT * FROM glucose;
