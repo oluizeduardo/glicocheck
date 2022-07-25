@@ -37,7 +37,6 @@ usersRouter.get('/users', function (req, res) {
     knex('users')
         .join('role', 'users.role_id', 'role.id')
         .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
-        //.then(users => res.json(users))
         .then(users => {
             if(users.length){
                 res.status(200).json(users);
@@ -90,7 +89,6 @@ usersRouter.put('/users/:id', express.json(), function (req, res) {
         })
         .catch (err => res.status(500)
         .json ({ message: `Error trying to update user. ERROR: ${err.message}`}))
-  
 })
 
 
