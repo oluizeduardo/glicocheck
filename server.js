@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 const usersRouter = require('./routes/usersRouter');
-const glicemiaRouter = require('./routes/glicemiaRouter');
+const glucoseRouter = require('./routes/glucoseRouter');
 
 const app = express();
 app.use(express.json());
@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 // MORGAN is used to log requests.
 app.use (morgan ('common'));
 app.use ('/api', usersRouter);
-app.use ('/api', glicemiaRouter);
+app.use ('/api', glucoseRouter);
 
 
 // Inicialize the server.
