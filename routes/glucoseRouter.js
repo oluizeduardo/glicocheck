@@ -13,8 +13,11 @@ const knex = require ('knex') ({
 })
 
 
+const MESSAGE_NOTHING_FOUND = "Nothing found";
+
+
 // READ ALL GLUCOSE RECORDS.
-glucoseRouter.get('/glucose', function (req, res) {
+glucoseRouter.get('/', function (req, res) {
     knex
         .select('*')
         .from('glucose')
@@ -22,14 +25,36 @@ glucoseRouter.get('/glucose', function (req, res) {
             if(glucoses.length){
                 res.status(200).json(glucoses);
             }else{
-                res.status(200).json({message: `Nothing found.`})
+                res.status(200).json({message: MESSAGE_NOTHING_FOUND})
             }
         });
 })
 
 
-// READ A GLUCOSE READING BASED ON ITS ID.
-glucoseRouter.get('/glucose/:id', function (req, res) {
+// GET ALL GLUCOSE READING OF A SPECIFIC USER ID.
+glucoseRouter.get('/user/:user_id', function (req, res) {
+    let id = Number.parseInt(req.params.user_id);
+
+    knex('glucose')
+        .where('glucose.user_id', id)
+        .join('users', 'users.id', 'glucose.user_id')
+        .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
+        .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
+        .select('glucose.id', 'users.id as user', 'glucose.glucose', 
+                'measurement_unity.description as unity',
+                'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
+        .then(glucoses => {
+            if(glucoses.length){
+                res.status(200).json(glucoses);
+            }else{
+                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
+            }
+        });
+})
+
+
+// GET A GLUCOSE READING BASED ON ID PARAMETER.
+glucoseRouter.get('/:id', function (req, res) {
     let id = Number.parseInt(req.params.id);
     knex('glucose')
         .where('glucose.id', id)
@@ -43,14 +68,14 @@ glucoseRouter.get('/glucose/:id', function (req, res) {
             if(glucoses.length){
                 res.status(200).json(glucoses);
             }else{
-                res.status(404).json({message: `User not found.`})
+                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
             }
         });
 })
 
 
 // CREATE A NEW GLUCOSE READING.
-glucoseRouter.post('/glucose', express.json(), function (req, res) {
+glucoseRouter.post('/', express.json(), function (req, res) {
     knex('glucose')
         .insert({
             user_id: req.body.userId,
@@ -69,8 +94,8 @@ glucoseRouter.post('/glucose', express.json(), function (req, res) {
 })
 
 
-// UPDATE A GLUCOSE READING BASED ON ITS ID.
-glucoseRouter.put('/glucose/:id', express.json(), function (req, res) {
+// UPDATE A GLUCOSE READING BASED ON ID PARAMETER.
+glucoseRouter.put('/:id', express.json(), function (req, res) {
     let id = Number.parseInt(req.params.id);
    
     let response = knex('glucose')
@@ -89,7 +114,7 @@ glucoseRouter.put('/glucose/:id', express.json(), function (req, res) {
                 let glucose = glucoses[0]
                 res.status(201).json({glucose})
             }else{
-                res.status(404).json({message: `Register not found.`})
+                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
             }
         })
         .catch (err => res.status(500)
@@ -97,8 +122,8 @@ glucoseRouter.put('/glucose/:id', express.json(), function (req, res) {
 })
 
 
-// DELETE A GLUCOSE READING BASED ON ITS ID.
-glucoseRouter.delete('/glucose/:id', function (req, res) {
+// DELETE A GLUCOSE READING BASED ON ID PARAMETER.
+glucoseRouter.delete('/:id', function (req, res) {
     let id = Number.parseInt(req.params.id)
 
     if (id > 0) {
@@ -109,7 +134,7 @@ glucoseRouter.delete('/glucose/:id', function (req, res) {
           .catch (err => res.status(500).json ({ message: `Error trying to delete glucose reading. ERROR: ${err.message}`}))
     } else {
         res.status(404).json({
-            message: "Register not found."
+            message: MESSAGE_NOTHING_FOUND
         })
     }        
 })

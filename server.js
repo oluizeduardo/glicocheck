@@ -14,9 +14,9 @@ const port = process.env.PORT || 3000;
 
 // MORGAN is used to log requests.
 app.use (morgan ('common'));
-app.use ('/api', usersRouter);
-app.use ('/api', glucoseRouter);
-app.use ('/api', markerMealRouter);
+app.use ('/api/users', usersRouter);
+app.use ('/api/glucose', glucoseRouter);
+app.use ('/api/markermeal', markerMealRouter);
 
 
 // Inicialize the server.

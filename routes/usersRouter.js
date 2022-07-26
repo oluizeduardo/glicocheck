@@ -13,8 +13,11 @@ const knex = require ('knex') ({
 })
 
 
+const MESSAGE_NOTHING_FOUND = "Nothing found";
+
+
 // CREATE A NEW USER.
-usersRouter.post('/users', express.json(), function (req, res) {
+usersRouter.post('/', express.json(), function (req, res) {
     knex('users')
         .insert({
             name: req.body.name,
@@ -33,7 +36,7 @@ usersRouter.post('/users', express.json(), function (req, res) {
 
 
 // READ ALL USERS.
-usersRouter.get('/users', function (req, res) {
+usersRouter.get('/', function (req, res) {
     knex('users')
         .join('role', 'users.role_id', 'role.id')
         .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
@@ -41,14 +44,14 @@ usersRouter.get('/users', function (req, res) {
             if(users.length){
                 res.status(200).json(users);
             }else{
-                res.status(200).json({message: `Nothing found.`})
+                res.status(200).json({message: MESSAGE_NOTHING_FOUND})
             }
         });
 })
 
 
 // READ A USER BASED ON HIS ID.
-usersRouter.get('/users/:id', function (req, res) {
+usersRouter.get('/:id', function (req, res) {
     let id = Number.parseInt(req.params.id);
     knex('users')
         .where('users.id', id)
@@ -58,14 +61,14 @@ usersRouter.get('/users/:id', function (req, res) {
             if(users.length){
                 res.status(200).json(users);
             }else{
-                res.status(404).json({message: `User not found.`})
+                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
             }
         });
 })
 
 
 // UPDATE A USER BASED ON HIS ID.
-usersRouter.put('/users/:id', express.json(), function (req, res) {
+usersRouter.put('/:id', express.json(), function (req, res) {
     let id = Number.parseInt(req.params.id);
    
     let response = knex('users')
@@ -84,7 +87,7 @@ usersRouter.put('/users/:id', express.json(), function (req, res) {
                 let user = users[0]
                 res.status(201).json({user})
             }else{
-                res.status(404).json({message: `User not found.`})
+                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
             }
         })
         .catch (err => res.status(500)
@@ -93,7 +96,7 @@ usersRouter.put('/users/:id', express.json(), function (req, res) {
 
 
 // DELETE A USER BASED ON HIS ID.
-usersRouter.delete('/users/:id', function (req, res) {
+usersRouter.delete('/:id', function (req, res) {
     let id = Number.parseInt(req.params.id)
 
     if (id > 0) {
@@ -104,7 +107,7 @@ usersRouter.delete('/users/:id', function (req, res) {
           .catch (err => res.status(500).json ({ message: `Error trying to delete user. ERROR: ${err.message}`}))
     } else {
         res.status(404).json({
-            message: "Register not found."
+            message: MESSAGE_NOTHING_FOUND
         })
     }        
 })
