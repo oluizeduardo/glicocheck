@@ -104,7 +104,7 @@ usersRouter.delete('/users/:id', function (req, res) {
           .catch (err => res.status(500).json ({ message: `Error trying to delete user. ERROR: ${err.message}`}))
     } else {
         res.status(404).json({
-            message: "Product not found."
+            message: "Register not found."
         })
     }        
 })

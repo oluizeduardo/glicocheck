@@ -5,6 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 const usersRouter = require('./routes/usersRouter');
 const glucoseRouter = require('./routes/glucoseRouter');
+const markerMealRouter = require('./routes/markerMealRouter');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,7 @@ const port = process.env.PORT || 3000;
 app.use (morgan ('common'));
 app.use ('/api', usersRouter);
 app.use ('/api', glucoseRouter);
+app.use ('/api', markerMealRouter);
 
 
 // Inicialize the server.
