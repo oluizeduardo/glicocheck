@@ -85,7 +85,7 @@ glucoseRouter.post('/', express.json(), function (req, res) {
             hour: req.body.hour,
             markermeal_id: req.body.markerMealId
         }, 
-        ['user_id', 'glucose', 'unity_id', 'date', 'hour', 'markermeal_id'])
+        ['id', 'user_id', 'glucose', 'unity_id', 'date', 'hour', 'markermeal_id'])
     .then(glucoses => {
         let glucose = glucoses[0];
         res.json({glucose});
@@ -130,7 +130,7 @@ glucoseRouter.delete('/:id', function (req, res) {
         knex('glucose')
           .where('id', id)
           .del()
-          .then(res.status(200).json({message: `The glucose reading with id ${id} has been deleted!`}))
+          .then(res.status(200).json({message: `The register has been deleted!`}))
           .catch (err => res.status(500).json ({ message: `Error trying to delete glucose reading. ERROR: ${err.message}`}))
     } else {
         res.status(404).json({
