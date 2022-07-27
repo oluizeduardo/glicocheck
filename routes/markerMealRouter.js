@@ -56,7 +56,7 @@ markerMealRouter.post('/', express.json(), function (req, res) {
         ['id', 'description'])
     .then(markers => {
         let marker = markers[0];
-        res.status(201).json({marker});
+        res.status(201).json({marker_meal: marker});
     })
     .catch(err => res.status(500).json({message: `Error trying to create a new marker meal.`}))
 })
