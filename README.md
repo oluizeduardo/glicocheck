@@ -29,15 +29,15 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing or `h
 
 ## /glucose
 
-| METHOD  | END-POINT                         | DESCRIPTION                      | REQUEST FIELDS                                 |
-| ------- |:---------------------------------:| :-------------------------------:|:----------------------------------------------:|
-| GET     | {HOST}/api/glucose                |  Get all glucose readings        |                                                |
-| GET     | {HOST}/api/glucose/{id}           |  Get a glucose reading by id.    |                                                |
-| GET     | {HOST}/api/glucose/user/{id}      |  Get glucose readings of a specific user.    |                                    |
-| GET     | {HOST}/api/glucose/markermeal/{markermealid} |  Get all glucose readings by markermeal id.           |                |
-| POST    | {HOST}/api/glucose                |  Create a new glucose reading register.      | userId, glucose, unityId, date, hour, markerMealId    |
-| DELETE  | {HOST}/api/glucose/{id}           |  Delete a glucose reading by id.  |                                               |
-| PUT     | {HOST}/api/glucose/{id}           |  Update a glucose reading by id.  | glucose, unityId, date, hour, markerMealId    |
+| METHOD  | END-POINT                                    | DESCRIPTION                                 | REQUEST FIELDS                                     |
+| ------- |:--------------------------------------------:| :------------------------------------------:|:--------------------------------------------------:|
+| GET     | {HOST}/api/glucose                           |  Get all glucose readings                   |                                                    |
+| GET     | {HOST}/api/glucose/{id}                      |  Get a glucose reading by id.               |                                                    |
+| GET     | {HOST}/api/glucose/user/{id}                 |  Get glucose readings of a specific user.   |                                                    |
+| GET     | {HOST}/api/glucose/markermeal/{markermealid} |  Get all glucose readings by markermeal id. |                                                    |
+| POST    | {HOST}/api/glucose                           |  Create a new glucose reading register.     | userId, glucose, unityId, date, hour, markerMealId |
+| DELETE  | {HOST}/api/glucose/{id}                      |  Delete a glucose reading by id.            |                                                    |
+| PUT     | {HOST}/api/glucose/{id}                      |  Update a glucose reading by id.            | glucose, unityId, date, hour, markerMealId         |
 
 
 ## /markermeal
