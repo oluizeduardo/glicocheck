@@ -19,9 +19,10 @@ const MESSAGE_NOTHING_FOUND = "Nothing found";
 // READ ALL GLUCOSE RECORDS.
 glucoseRouter.get('/', function (req, res) {
     knex('glucose')
+        .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
         .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
-        .select('glucose.id', 'users.id as userId', 'user.name as user',
+        .select('glucose.id', 'users.id as userId', 'users.name as user',
                 'glucose.glucose', 'measurement_unity.description as unity',
                 'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
         .then(glucoses => {
