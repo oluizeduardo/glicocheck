@@ -18,14 +18,17 @@ const MESSAGE_NOTHING_FOUND = "Nothing found";
 
 // READ ALL GLUCOSE RECORDS.
 glucoseRouter.get('/', function (req, res) {
-    knex
-        .select('*')
-        .from('glucose')
+    knex('glucose')
+        .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
+        .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
+        .select('glucose.id', 'users.id as userId', 'user.name as user',
+                'glucose.glucose', 'measurement_unity.description as unity',
+                'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
         .then(glucoses => {
             if(glucoses.length){
                 res.status(200).json(glucoses);
             }else{
-                res.status(200).json({message: MESSAGE_NOTHING_FOUND})
+                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
             }
         });
 })
@@ -40,8 +43,8 @@ glucoseRouter.get('/user/:user_id', function (req, res) {
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
         .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
-        .select('glucose.id', 'users.id as user', 'glucose.glucose', 
-                'measurement_unity.description as unity',
+        .select('glucose.id', 'users.id as userId', 'user.name as user',
+                'glucose.glucose', 'measurement_unity.description as unity',
                 'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
         .then(glucoses => {
             if(glucoses.length){
