@@ -78,6 +78,27 @@ glucoseRouter.get('/:id', function (req, res) {
 })
 
 
+// GET ALL GLUCOSE READING BY MARKERMEAL ID.
+glucoseRouter.get('/markermeal/:markermealid', function (req, res) {
+    let markermealid = Number.parseInt(req.params.markermealid);
+    knex('glucose')
+        .where('glucose.markermeal_id', markermealid)
+        .join('users', 'users.id', 'glucose.user_id')
+        .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
+        .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
+        .select('glucose.id', 'users.id as userId', 'users.name as userName', 
+                'glucose.glucose', 'measurement_unity.description as unity',
+                'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
+        .then(glucoses => {
+            if(glucoses.length){
+                res.status(200).json(glucoses);
+            }else{
+                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
+            }
+        });
+})
+
+
 // CREATE A NEW GLUCOSE READING.
 glucoseRouter.post('/', express.json(), function (req, res) {
     knex('glucose')
