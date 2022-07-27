@@ -1,15 +1,30 @@
 ------------- CLEAN DATABASE -------------
-DROP TABLE IF EXISTS glucose;
-DROP TABLE IF EXISTS measurement_unity;
-DROP TABLE IF EXISTS marker_meal;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS role;
+DELETE FROM glucose;
+DELETE FROM measurement_unity;
+DELETE FROM marker_meal;
+DELETE FROM users;
+DELETE FROM role;
 
+ALTER SEQUENCE IF EXISTS glucose_id_seq RESTART;
+ALTER SEQUENCE IF EXISTS measurement_id_seq RESTART;
+ALTER SEQUENCE IF EXISTS markermeal_id_seq RESTART;
+ALTER SEQUENCE IF EXISTS user_id_seq RESTART;
+ALTER SEQUENCE IF EXISTS role_id_seq RESTART;
+
+
+
+------------- DROPS -------------
 DROP SEQUENCE IF EXISTS glucose_id_seq;
 DROP SEQUENCE IF EXISTS measurement_id_seq;
 DROP SEQUENCE IF EXISTS markermeal_id_seq;
 DROP SEQUENCE IF EXISTS user_id_seq;
 DROP SEQUENCE IF EXISTS role_id_seq;
+
+DROP TABLE IF EXISTS glucose;
+DROP TABLE IF EXISTS measurement_unity;
+DROP TABLE IF EXISTS marker_meal;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS role;
 
 
 
@@ -81,7 +96,7 @@ CREATE TABLE marker_meal (
 INSERT INTO marker_meal (description) VALUES('Fasting');
 INSERT INTO marker_meal (description) VALUES('Before breakfast');
 INSERT INTO marker_meal (description) VALUES('After breakfast');
-INSERT INTO marker_meal (description) VALUES('Before lunh');
+INSERT INTO marker_meal (description) VALUES('Before lunch');
 INSERT INTO marker_meal (description) VALUES('After lunch');
 INSERT INTO marker_meal (description) VALUES('Before dinner');
 INSERT INTO marker_meal (description) VALUES('After dinner');

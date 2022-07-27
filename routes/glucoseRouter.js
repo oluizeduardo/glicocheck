@@ -90,7 +90,7 @@ glucoseRouter.post('/', express.json(), function (req, res) {
         let glucose = glucoses[0];
         res.json({glucose});
     })
-    .catch(err => res.status(500).json({err}))
+    .catch(err => res.status(500).json({erro: err.message}))
 })
 
 
