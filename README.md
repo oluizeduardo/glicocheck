@@ -57,6 +57,8 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing or `h
 | DELETE  | {HOST}/api/markermeal/{id}      |  Delete a marker meal by id.      |                           |
 | PUT     | {HOST}/api/markermeal/{id}      |  Update a marker meal by id.      | description               |
 
+# Database schema
+- [my-diabetes-js.pgsql](https://github.com/oluizeduardo/my-diabetes-js/blob/main/db/my-diabetes-js.pgsql)
 
 # Technologies
 - NodeJS
