@@ -61,6 +61,8 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing or `h
 # Technologies
 - NodeJS
 - Express
-- KnexJS
+- [KnexJS](https://knexjs.org/)
+- [Bcrypt](https://www.npmjs.com/package/bcrypt)
+- [Json Web Token](https://jwt.io/)
 - PostgresSQL
 - Heroku
