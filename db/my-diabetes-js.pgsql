@@ -14,17 +14,17 @@ ALTER SEQUENCE IF EXISTS role_id_seq RESTART;
 
 
 ------------- DROPS -------------
-DROP SEQUENCE IF EXISTS glucose_id_seq;
-DROP SEQUENCE IF EXISTS measurement_id_seq;
-DROP SEQUENCE IF EXISTS markermeal_id_seq;
-DROP SEQUENCE IF EXISTS user_id_seq;
-DROP SEQUENCE IF EXISTS role_id_seq;
-
 DROP TABLE IF EXISTS glucose;
 DROP TABLE IF EXISTS measurement_unity;
 DROP TABLE IF EXISTS marker_meal;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS role;
+
+DROP SEQUENCE IF EXISTS glucose_id_seq;
+DROP SEQUENCE IF EXISTS measurement_id_seq;
+DROP SEQUENCE IF EXISTS markermeal_id_seq;
+DROP SEQUENCE IF EXISTS user_id_seq;
+DROP SEQUENCE IF EXISTS role_id_seq;
 
 
 
@@ -52,7 +52,7 @@ CREATE TABLE users (
     name varchar(200) NOT NULL, 
     email varchar(100) NOT NULL, 
     login varchar(100) NOT NULL, 
-    password varchar(100) NOT NULL, 
+    password varchar(200) NOT NULL, 
     role_id int NOT NULL, 
 
     CONSTRAINT user_pk PRIMARY KEY (id),

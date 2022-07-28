@@ -16,25 +16,6 @@ const knex = require ('knex') ({
 const MESSAGE_NOTHING_FOUND = "Nothing found";
 
 
-// CREATE A NEW USER.
-usersRouter.post('/', express.json(), function (req, res) {
-    knex('users')
-        .insert({
-            name: req.body.name,
-            email: req.body.email,
-            login: req.body.login,
-            password: req.body.password,
-            role_id: req.body.role_id
-        }, 
-        ['id', 'name', 'email', 'login', 'role_id'])
-    .then(users => {
-        let user = users[0];
-        res.status(201).json({user});
-    })
-    .catch(err => res.status(500).json({message}))
-})
-
-
 // READ ALL USERS.
 usersRouter.get('/', function (req, res) {
     knex('users')
