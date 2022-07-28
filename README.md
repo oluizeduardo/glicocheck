@@ -16,28 +16,35 @@ Use an API testing tool such as [Postman](https://www.postman.com/downloads/) or
 
 You can assume `{HOST}` as being `http://localhost:3000` for local testing or `https://my-diabetes-js.herokuapp.com` for production, both address use the same datasource.
 
+## /security
+
+| METHOD  | END-POINT                     | DESCRIPTION              | REQUEST FIELDS                         | RESPONSE FIELDS              |                     
+| ------- |:-----------------------------:| :-----------------------:|:--------------------------------------:|:----------------------------:|
+| POST    | {HOST}/api/security/register  |  Register a new user.    | name, email, login, password, role_id  | id                           |
+| POST    | {HOST}/api/security/login     |  Login with credentials. | login, password                        | id, login, name, role, token |
+
+
 ## /users
 
-| METHOD  | END-POINT                       | DESCRIPTION                   | REQUEST FIELDS                           |
-| ------- |:-------------------------------:| :----------------------------:|:----------------------------------------:|
-| GET     | {HOST}/api/users                |  Get all users.               |                                          |
-| GET     | {HOST}/api/users/{id}           |  Get user by id.              |                                          |
-| POST    | {HOST}/api/users                |  Create a new user.           | name, email, login, password, role_id    |
-| DELETE  | {HOST}/api/users/{id}           |  Delete a user based on id.   |                                          |
-| PUT     | {HOST}/api/users/{id}           |  Update a user based on id.   | name, email, login, password, role_id    |
+| METHOD  | END-POINT                | DESCRIPTION                  | REQUEST FIELDS                         |
+| ------- |:------------------------:| :---------------------------:|:--------------------------------------:|
+| GET     | {HOST}/api/users         |  Get all users.              |                                        |
+| GET     | {HOST}/api/users/{id}    |  Get user by id.             |                                        |
+| DELETE  | {HOST}/api/users/{id}    |  Delete a user based on id.  |                                        |
+| PUT     | {HOST}/api/users/{id}    |  Update a user based on id.  | name, email, login, password, role_id  |
 
 
 ## /glucose
 
 | METHOD  | END-POINT                                    | DESCRIPTION                                 | REQUEST FIELDS                                     |
 | ------- |:--------------------------------------------:| :------------------------------------------:|:--------------------------------------------------:|
-| GET     | {HOST}/api/glucose                           |  Get all glucose readings                   |                                                    |
-| GET     | {HOST}/api/glucose/{id}                      |  Get a glucose reading by id.               |                                                    |
-| GET     | {HOST}/api/glucose/user/{id}                 |  Get glucose readings of a specific user.   |                                                    |
-| GET     | {HOST}/api/glucose/markermeal/{markermealid} |  Get all glucose readings by markermeal id. |                                                    |
-| POST    | {HOST}/api/glucose                           |  Create a new glucose reading register.     | userId, glucose, unityId, date, hour, markerMealId |
-| DELETE  | {HOST}/api/glucose/{id}                      |  Delete a glucose reading by id.            |                                                    |
-| PUT     | {HOST}/api/glucose/{id}                      |  Update a glucose reading by id.            | glucose, unityId, date, hour, markerMealId         |
+| GET     | {HOST}/api/glucose                           |  Get all glucose readings                   | BEARER TOKEN                                       |
+| GET     | {HOST}/api/glucose/{id}                      |  Get a glucose reading by id.               | BEARER TOKEN                                       |
+| GET     | {HOST}/api/glucose/user/{id}                 |  Get glucose readings of a specific user.   | BEARER TOKEN                                       |
+| GET     | {HOST}/api/glucose/markermeal/{markermealid} |  Get all glucose readings by markermeal id. | BEARER TOKEN                                       |
+| POST    | {HOST}/api/glucose                           |  Create a new glucose reading register.     | BEARER TOKEN + userId, glucose, unityId, date, hour, markerMealId |
+| DELETE  | {HOST}/api/glucose/{id}                      |  Delete a glucose reading by id.            | BEARER TOKEN                                       |
+| PUT     | {HOST}/api/glucose/{id}                      |  Update a glucose reading by id.            | BEARER TOKEN  + glucose, unityId, date, hour, markerMealId         |
 
 
 ## /markermeal
