@@ -21,7 +21,7 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing or `h
 | METHOD  | END-POINT                     | DESCRIPTION              | REQUEST FIELDS                         | RESPONSE FIELDS              |                     
 | ------- |:-----------------------------:| :-----------------------:|:--------------------------------------:|:----------------------------:|
 | POST    | {HOST}/api/security/register  |  Register a new user.    | name, email, login, password, role_id  | id                           |
-| POST    | {HOST}/api/security/login     |  Login with credentials. | login, password                        | id, login, name, role, token |
+| POST    | {HOST}/api/security/login     |  Login with credentials. | login, password                        | id, login, email             |
 
 
 ## /users
