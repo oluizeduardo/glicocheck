@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const usersRouter = require('./routes/usersRouter');
 const glucoseRouter = require('./routes/glucoseRouter');
 const markerMealRouter = require('./routes/markerMealRouter');
+const securityRouter = require('./routes/securityRouter');
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use (morgan ('common'));
 app.use ('/api/users', usersRouter);
 app.use ('/api/glucose', glucoseRouter);
 app.use ('/api/markermeal', markerMealRouter);
+app.use ('/api/security', securityRouter);
 
 
 // Inicialize the server.
