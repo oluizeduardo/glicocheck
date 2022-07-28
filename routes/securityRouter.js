@@ -42,23 +42,20 @@ securityRouter.post('/login', function (req, res) {
         .then( users => {
             if(users.length){
                 let user = users[0];
-                let checkPassword = bcrypt.compareSync (req.body.password, user.password);
-                if (checkPassword) {
-                    var tokenJWT = jwt.sign({ id: user.id },
-                    process.env.SECRET_KEY, {
-                        expiresIn: 3600
-                    })
-                    res.status(200).json ({
+                let isValidPassword = bcrypt.compareSync (req.body.password, user.password);
+                
+                if (isValidPassword) {
+                    var tokenJWT = createTokenJWT(user);
+                    res.set('Authorization', tokenJWT);
+                    res.status(201).json ({
                         id: user.id,
                         login: user.login,
-                        name: user.name,
-                        role: user.role_id,
-                        token: tokenJWT
-                    })
+                        email: user.email
+                    })                    
                     return
                 }
             }
-        res.status(403).json({ message: 'Wrong credentials.' })
+            res.status(403).json({ message: 'Wrong credentials.' })
     })
     .catch (err => {
         res.status(500).json({
@@ -66,5 +63,17 @@ securityRouter.post('/login', function (req, res) {
     })
 });
 
+
+function createTokenJWT(user){
+    const payload = {
+        id: user.id
+    }
+    const tokenExpiration = {
+        expiresIn: 3600
+    }
+    const secret_key = process.env.SECRET_KEY;
+    const token = jwt.sign(payload, secret_key, tokenExpiration);
+    return token;
+}
 
 module.exports = securityRouter;
