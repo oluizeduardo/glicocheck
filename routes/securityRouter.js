@@ -65,14 +65,18 @@ securityRouter.post('/login', function (req, res) {
 
 
 function createTokenJWT(user){
+    return signToken(user.id);
+}
+
+function signToken(id){
     const payload = {
-        id: user.id
+        id: id
     }
-    const tokenExpiration = {
-        expiresIn: 3600
+    const expires = {
+        expiresIn: '10m'
     }
     const secret_key = process.env.SECRET_KEY;
-    const token = jwt.sign(payload, secret_key, tokenExpiration);
+    const token = jwt.sign(payload, secret_key, expires);
     return token;
 }
 
