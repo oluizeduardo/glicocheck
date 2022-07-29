@@ -77,7 +77,7 @@ let isAdmin = (req, res, next) => {
 
 
 // READ ALL GLUCOSE RECORDS.
-glucoseRouter.get('/', checkToken, isAdmin, function (req, res) {
+glucoseRouter.get('/', checkToken, function (req, res) {
     knex('glucose')
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
@@ -159,7 +159,7 @@ glucoseRouter.get('/markermeal/:markermealid', checkToken, function (req, res) {
 })
 
 
-// CREATE A NEW GLUCOSE READING.
+// CREATE A NEW GLUCOSE READING. ONLY ADMIN ROLE.
 glucoseRouter.post('/', express.json(), checkToken, isAdmin, function (req, res) {
     knex('glucose')
         .insert({
@@ -179,7 +179,7 @@ glucoseRouter.post('/', express.json(), checkToken, isAdmin, function (req, res)
 })
 
 
-// UPDATE A GLUCOSE READING BASED ON ID PARAMETER.
+// UPDATE A GLUCOSE READING BASED ON ID PARAMETER. ONLY ADMIN ROLE.
 glucoseRouter.put('/:id', express.json(), checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id);
    
@@ -207,7 +207,7 @@ glucoseRouter.put('/:id', express.json(), checkToken, isAdmin, function (req, re
 })
 
 
-// DELETE A GLUCOSE READING BASED ON ID PARAMETER.
+// DELETE A GLUCOSE READING BASED ON ID PARAMETER. ONLY ADMIN ROLE.
 glucoseRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id)
 
