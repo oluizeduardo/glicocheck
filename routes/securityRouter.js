@@ -50,7 +50,8 @@ securityRouter.post('/login', function (req, res) {
                     res.status(201).json ({
                         id: user.id,
                         login: user.login,
-                        email: user.email
+                        email: user.email,
+                        role_id: user.role_id
                     })                    
                     return
                 }
