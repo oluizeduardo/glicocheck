@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs'); 
 const jwt = require('jsonwebtoken'); 
 const securityRouter = express.Router ();
+const Messages = require('../messages');
 
 // CONFIG TO CONNECT WITH THE DATABASE.
 const knex = require ('knex') ({
@@ -30,12 +31,18 @@ securityRouter.post('/register', express.json(), function (req, res) {
         let user = users[0];
         res.status(201).json({user});
     })
-    .catch(err => res.status(500).json({message: 'Error trying to insert a new user. - ' + err.message}))
+    .catch(err => res.status(500)
+    .json({
+        message: Messages.ERROR_CREATE_USER, 
+        error: err.message
+    }))
 });
 
 
 // LOGIN.
 securityRouter.post('/login', function (req, res) {
+    
+    console.log(bcrypt.hashSync('admin123', 8));
     knex
         .select('*').from('users')
         .where( { login: req.body.login })
@@ -56,11 +63,13 @@ securityRouter.post('/login', function (req, res) {
                     return
                 }
             }
-            res.status(403).json({ message: 'Wrong credentials.' })
+            res.status(403).json({ message: Messages.WRONG_CREDENTIALS })
     })
     .catch (err => {
         res.status(500).json({
-        message: 'Error trying to check login credentials. - ' + err.message })
+            message: Messages.ERROR_CHECKING_CREDENTIALS,
+            error: err.message 
+        })
     })
 });
 

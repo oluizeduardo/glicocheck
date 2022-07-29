@@ -61,7 +61,8 @@ CREATE TABLE users (
 	  REFERENCES role(id) 
 );
 
-INSERT INTO users (name, email, login, password, role_id) VALUES('Admin Test', 'admin@admin.com', 'adm_test', 'admin123', 1);
+INSERT INTO users (name, email, login, password, role_id) 
+    VALUES('Admin Test', 'admin@admin.com', 'adm_test', '$2a$08$TxWIlv2tAVrtjf2sayFVkuYBneqtQrufo5985f0m396qNsNpeqwSO', 1);
 
 SELECT * FROM users;
 

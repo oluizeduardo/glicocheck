@@ -1,5 +1,6 @@
 const express = require('express')
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs'); 
 const usersRouter = express.Router ();
 const Messages = require('../messages');
 
@@ -110,7 +111,7 @@ usersRouter.put('/:id', checkToken, isAdmin, express.json(), function (req, res)
             name: req.body.name,
             email: req.body.email,
             login: req.body.login,
-            password: req.body.password,
+            password: bcrypt.hashSync(req.body.password, 8),
             role_id: req.body.role_id
         },
         ['id', 'name','email','login', 'role_id']);

@@ -63,7 +63,8 @@ let isAdmin = (req, res, next) => {
         })
         .catch (err => {
             res.status(500).json({ 
-              message: 'Error trying to check user. - ' + err.message })
+              message: Messages.ERROR_CHECKING_USER_ROLE,
+              error: err.message })
         })
 };
 
@@ -196,7 +197,8 @@ glucoseRouter.put('/:id', express.json(), checkToken, isAdmin, function (req, re
             }
         })
         .catch (err => res.status(500)
-        .json ({ message: Messages.ERROR_UPDATE_GLUCOSE + ` ERROR: ${err.message}`}))
+        .json ({ message: Messages.ERROR_UPDATE_GLUCOSE,
+                 error: err.message }))
 })
 
 
@@ -209,7 +211,9 @@ glucoseRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
           .where('id', id)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED }))
-          .catch (err => res.status(500).json ({ message: Messages.ERROR_DELETE_GLUCOSE + ` ERROR: ${err.message}`}))
+          .catch (err => res.status(500)
+          .json ({ message: Messages.ERROR_DELETE_GLUCOSE,
+                   error: err.message}))
     } else {
         res.status(404).json({
             message: Messages.NOTHING_FOUND

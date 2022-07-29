@@ -63,7 +63,9 @@ let isAdmin = (req, res, next) => {
         })
         .catch (err => {
             res.status(500).json({ 
-              message: 'Error trying to check user. - ' + err.message })
+              message: Messages.ERROR_CHECKING_USER_ROLE,
+              error: err.message 
+            })
         })
 };
 
@@ -77,7 +79,7 @@ markerMealRouter.get('/', checkToken, function (req, res) {
             if(markers.length){
                 res.status(200).json(markers);
             }else{
-                res.status(200).json({message: MESSAGE_NOTHING_FOUND})
+                res.status(200).json({message: Messages.NOTHING_FOUND})
             }
         });
 })
@@ -93,7 +95,7 @@ markerMealRouter.get('/:id', checkToken, function (req, res) {
             if(markers.length){
                 res.status(200).json(markers);
             }else{
-                res.status(200).json({message: MESSAGE_NOTHING_FOUND})
+                res.status(200).json({message: Messages.NOTHING_FOUND})
             }
         });
 })
@@ -110,7 +112,7 @@ markerMealRouter.post('/', checkToken, isAdmin, express.json(), function (req, r
         let marker = markers[0];
         res.status(201).json({marker_meal: marker});
     })
-    .catch(err => res.status(500).json({message: `Error trying to create a new marker meal.`}))
+    .catch(err => res.status(500).json({message: Messages.ERROR_CREATE_MARKERMEAL}))
 })
 
 
@@ -126,11 +128,12 @@ markerMealRouter.put('/:id', checkToken, isAdmin, express.json(), function (req,
                 let marker = markers[0]
                 res.status(201).json({marker})
             }else{
-                res.status(404).json({message: MESSAGE_NOTHING_FOUND})
+                res.status(404).json({message: Messages.NOTHING_FOUND})
             }
         })
         .catch (err => res.status(500)
-        .json ({ message: `Error trying to update a marker. ERROR: ${err.message}`}))
+        .json ({ message: Messages.ERROR_UPDATE_MARKERMEAL,
+                 error: err.message}))
 })
 
 
@@ -142,11 +145,13 @@ markerMealRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
         knex('marker_meal')
           .where('id', id)
           .del()
-          .then(res.status(200).json({message: `Marker ${id} has been deleted!`}))
-          .catch (err => res.status(500).json ({ message: `Error trying to delete a marker meal. ERROR: ${err.message}`}))
+          .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
+          .catch (err => res.status(500)
+                .json ({ message: Messages.ERROR_DELETE_MARKERMEAL,
+                    error: err.message}))
     } else {
         res.status(404).json({
-            message: MESSAGE_NOTHING_FOUND
+            message: Messages.NOTHING_FOUND
         })
     }        
 })
