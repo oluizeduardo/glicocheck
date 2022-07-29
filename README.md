@@ -18,44 +18,44 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing or `h
 
 ## /security
 
-| METHOD  | END-POINT                     | DESCRIPTION              | REQUEST FIELDS                         | RESPONSE FIELDS              |                     
-| ------- |:-----------------------------:| :-----------------------:|:--------------------------------------:|:----------------------------:|
-| POST    | {HOST}/api/security/register  |  Register a new user.    | name, email, login, password, role_id  | id                           |
-| POST    | {HOST}/api/security/login     |  Login with credentials. | login, password                        | id, login, email             |
+| METHOD  | END-POINT                     | DESCRIPTION              | REQUEST FIELDS                         | RESPONSE FIELDS                    |
+| ------- |:-----------------------------:| :-----------------------:|:--------------------------------------:|:----------------------------------:|
+| POST    | {HOST}/api/security/register  |  Register a new user.    | name, email, login, password, role_id  | id                                 |
+| POST    | {HOST}/api/security/login     |  Login with credentials. | login, password                        | `TOKEN`, id, login, email, role_id |
 
 
 ## /users
 
-| METHOD  | END-POINT                | DESCRIPTION                  | REQUEST FIELDS                         |
-| ------- |:------------------------:| :---------------------------:|:--------------------------------------:|
-| GET     | {HOST}/api/users         |  Get all users.              |                                        |
-| GET     | {HOST}/api/users/{id}    |  Get user by id.             |                                        |
-| DELETE  | {HOST}/api/users/{id}    |  Delete a user based on id.  |                                        |
-| PUT     | {HOST}/api/users/{id}    |  Update a user based on id.  | name, email, login, password, role_id  |
+| METHOD  | END-POINT                | DESCRIPTION                  | REQUEST FIELDS                                             |
+| ------- |:------------------------:| :---------------------------:|:----------------------------------------------------------:|
+| GET     | {HOST}/api/users         |  Get all users.              | `TOKEN` + `ADMIN`                                          |
+| GET     | {HOST}/api/users/{id}    |  Get user by id.             | `TOKEN` + `ADMIN`                                          |
+| DELETE  | {HOST}/api/users/{id}    |  Delete a user based on id.  | `TOKEN` + `ADMIN`                                          |
+| PUT     | {HOST}/api/users/{id}    |  Update a user based on id.  | `TOKEN` + `ADMIN` + name, email, login, password, role_id  |
 
 
 ## /glucose
 
-| METHOD  | END-POINT                                    | DESCRIPTION                                 | REQUEST FIELDS                                     |
-| ------- |:--------------------------------------------:| :------------------------------------------:|:--------------------------------------------------:|
-| GET     | {HOST}/api/glucose                           |  Get all glucose readings                   | BEARER TOKEN                                       |
-| GET     | {HOST}/api/glucose/{id}                      |  Get a glucose reading by id.               | BEARER TOKEN                                       |
-| GET     | {HOST}/api/glucose/user/{id}                 |  Get glucose readings of a specific user.   | BEARER TOKEN                                       |
-| GET     | {HOST}/api/glucose/markermeal/{markermealid} |  Get all glucose readings by markermeal id. | BEARER TOKEN                                       |
-| POST    | {HOST}/api/glucose                           |  Create a new glucose reading register.     | BEARER TOKEN + userId, glucose, unityId, date, hour, markerMealId |
-| DELETE  | {HOST}/api/glucose/{id}                      |  Delete a glucose reading by id.            | BEARER TOKEN                                       |
-| PUT     | {HOST}/api/glucose/{id}                      |  Update a glucose reading by id.            | BEARER TOKEN  + glucose, unityId, date, hour, markerMealId         |
+| METHOD  | END-POINT                                    | DESCRIPTION                                 | REQUEST FIELDS                                               |
+| ------- |:--------------------------------------------:| :------------------------------------------:|:------------------------------------------------------------:|
+| GET     | {HOST}/api/glucose                           |  Get all glucose readings                   | `TOKEN`                                                      |
+| GET     | {HOST}/api/glucose/{id}                      |  Get a glucose reading by id.               | `TOKEN`                                                      |
+| GET     | {HOST}/api/glucose/user/{id}                 |  Get glucose readings of a specific user.   | `TOKEN`                                                      |
+| GET     | {HOST}/api/glucose/markermeal/{markermealid} |  Get all glucose readings by markermeal id. | `TOKEN`                                                      |
+| POST    | {HOST}/api/glucose                           |  Create a new glucose reading register.     | `TOKEN` + `ADMIN` + userId, glucose, unityId, date, hour, markerMealId |
+| DELETE  | {HOST}/api/glucose/{id}                      |  Delete a glucose reading by id.            | `TOKEN` + `ADMIN`                                            |
+| PUT     | {HOST}/api/glucose/{id}                      |  Update a glucose reading by id.            | `TOKEN` + `ADMIN` + glucose, unityId, date, hour, markerMealId         |
 
 
 ## /markermeal
 
-| METHOD  | END-POINT                       | DESCRIPTION                       | REQUEST FIELDS            |
-| ------- |:-------------------------------:| :--------------------------------:|:-------------------------:|
-| GET     | {HOST}/api/markermeal           |  Get all marker meals.            |                           |
-| GET     | {HOST}/api/markermeal/{id}      |  Get a marker meal by id.         |                           |
-| POST    | {HOST}/api/markermeal           |  Create a new marker meal.        | description               |
-| DELETE  | {HOST}/api/markermeal/{id}      |  Delete a marker meal by id.      |                           |
-| PUT     | {HOST}/api/markermeal/{id}      |  Update a marker meal by id.      | description               |
+| METHOD  | END-POINT                       | DESCRIPTION                       | REQUEST FIELDS                  |
+| ------- |:-------------------------------:| :--------------------------------:|:-------------------------------:|
+| GET     | {HOST}/api/markermeal           |  Get all marker meals.            | `TOKEN`                         |
+| GET     | {HOST}/api/markermeal/{id}      |  Get a marker meal by id.         | `TOKEN`                         |
+| POST    | {HOST}/api/markermeal           |  Create a new marker meal.        | `TOKEN` + `ADMIN` + description |
+| DELETE  | {HOST}/api/markermeal/{id}      |  Delete a marker meal by id.      | `TOKEN` + `ADMIN`               |
+| PUT     | {HOST}/api/markermeal/{id}      |  Update a marker meal by id.      | `TOKEN` + `ADMIN` + description |
 
 # Database schema
 - [my-diabetes-js.pgsql](https://github.com/oluizeduardo/my-diabetes-js/blob/main/db/my-diabetes-js.pgsql)
