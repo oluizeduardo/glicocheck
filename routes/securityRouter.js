@@ -40,30 +40,28 @@ securityRouter.post('/register', express.json(), function (req, res) {
 
 
 // LOGIN.
-securityRouter.post('/login', function (req, res) {
-    
-    console.log(bcrypt.hashSync('admin123', 8));
+securityRouter.post('/login', function (req, res) {    
     knex
-        .select('*').from('users')
-        .where( { login: req.body.login })
-        .then( users => {
-            if(users.length){
-                let user = users[0];
-                let isValidPassword = bcrypt.compareSync (req.body.password, user.password);
-                
-                if (isValidPassword) {
-                    var tokenJWT = createTokenJWT(user);
-                    res.set('Authorization', tokenJWT);
-                    res.status(201).json ({
-                        id: user.id,
-                        login: user.login,
-                        email: user.email,
-                        role_id: user.role_id
-                    })                    
-                    return
-                }
+    .select('*').from('users')
+    .where( { login: req.body.login })
+    .then( users => {
+        if(users.length){
+            let user = users[0];
+            let isValidPassword = bcrypt.compareSync (req.body.password, user.password);
+            
+            if (isValidPassword) {
+                var tokenJWT = createTokenJWT(user);
+                res.set('Authorization', tokenJWT);
+                res.status(201).json ({
+                    id: user.id,
+                    login: user.login,
+                    email: user.email,
+                    role_id: user.role_id
+                })                    
+                return
             }
-            res.status(403).json({ message: Messages.WRONG_CREDENTIALS })
+        }
+        res.status(403).json({ message: Messages.WRONG_CREDENTIALS })
     })
     .catch (err => {
         res.status(500).json({
