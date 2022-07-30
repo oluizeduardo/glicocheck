@@ -3,7 +3,8 @@ Web API to control diabetes.
 API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expressjs.com/) to manage the web application and [KnexJS](http://knexjs.org/) to build queries and datasource connection.
 
 # Link
-https://my-diabetes-js.herokuapp.com/api/
+- Homepage: https://my-diabetes-js.herokuapp.com/site/
+- API: https://my-diabetes-js.herokuapp.com/api/
 
 # How to run locally
 - Clone this project.
