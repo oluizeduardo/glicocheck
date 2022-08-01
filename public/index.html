@@ -22,7 +22,7 @@
             <div class="collapse navbar-collapse nav" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#">Login</a> </li>
-                    <li class="nav-item"><a class="nav-link" href="#">Register</a> </li>
+                    <li class="nav-item"><a class="nav-link" href="./register/register.html">Register</a> </li>
                     <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Glucose</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Markers</a></li>
@@ -31,9 +31,17 @@
         </div>
     </nav>
 
-    <div class="container">        
-        <div class="base_panel_login">
-            <div class="panel_login">
+    <div class="container">  
+        <h1>Login</h1>
+        <small>
+            <a href="https://my-diabetes-js.herokuapp.com/api/security/login">
+                https://my-diabetes-js.herokuapp.com/api/security/login
+            </a>
+        </small>
+        <hr>
+        
+        <div class="base_panel">
+            <div class="panel_form">
                 <label for="user_login">Login<span style="color: red;">*</span>:</label><br>
                 <input type="text" id="user_login" required><br>
                 <br>
@@ -44,10 +52,10 @@
                 <input type="button" class="btn btn-secondary" value="Clean" id="btnClean">
             </div>
             <div class="panel_result_login">
-                <h2>Access token:</h2>
+                <h2>Access token</h2>
                 <textarea id="token" cols="60" rows="4" disabled></textarea>
             
-                <h2>Response body:</h2>
+                <h2>Response body</h2>
                 <textarea id="response_field" cols="60" rows="7" disabled ></textarea>
             </div>
         </div>
