@@ -5,6 +5,8 @@ DELETE FROM marker_meal;
 DELETE FROM users;
 DELETE FROM role;
 
+
+------------- RESTART SEQUENCE -------------
 ALTER SEQUENCE IF EXISTS glucose_id_seq RESTART;
 ALTER SEQUENCE IF EXISTS measurement_id_seq RESTART;
 ALTER SEQUENCE IF EXISTS markermeal_id_seq RESTART;
@@ -68,7 +70,7 @@ SELECT * FROM users;
 
 
 
----- MEASUREMENTS UNITY FOR GLICEMIC READINGS ----
+---- MEASUREMENTS UNITY FOR GLUCOSE READINGS ----
 CREATE SEQUENCE measurement_id_seq; 
 
 CREATE TABLE measurement_unity ( 
@@ -107,7 +109,7 @@ SELECT * FROM marker_meal;
 
 
 
-------------- GLICEMIA -------------
+------------- GLUCOSE -------------
 CREATE SEQUENCE glucose_id_seq; 
 
 CREATE TABLE glucose ( 
