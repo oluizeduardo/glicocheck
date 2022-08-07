@@ -15,6 +15,13 @@
     <!-- Custom style -->
     <link href="./includes/styles/style.css" rel="stylesheet">
     <link href="./includes/styles/forms.css" rel="stylesheet">
+    <style>
+      #field_Login{
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    </style>
   </head>
 
   <body>  
@@ -44,17 +51,17 @@
             <main class="form-input w-100 m-auto">
 
               <!-- FORM LOGIN -->
-              <form action="./dashboard.html">
+              <form>
                 <h4 class="mb-3 fw-normal">Please sign in</h4>
                 <div class="form-floating">
-                  <input type="email" class="form-control" id="floatingLogin" placeholder="@example">
-                  <label for="floatingLogin">Login</label>
+                  <input type="text" class="form-control square-bottom-borders" id="field_Login" placeholder="Login" required>
+                  <label for="field_Login">Login</label>
                 </div>
                 <div class="form-floating">
-                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                  <label for="floatingPassword">Password</label>
+                  <input type="password" class="form-control square-top-borders" id="field_Password" placeholder="Password" required>
+                  <label for="field_Password">Password</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-primary mb-3 mt-3" type="submit">Sign in</button>
+                <button type="submit" class="w-100 btn btn-lg btn-primary mb-3 mt-3" id="btnSingIn">Sign in</button>
                 <!-- FORGOT PASSWORD? -->
                 <a href="#">Forgot password?</a><br>
                 <hr>
@@ -79,5 +86,6 @@
         </div>
       </div> 
     </div> 
+    <script src="./includes/js/signin.js"></script>
   </body>
 </html>
