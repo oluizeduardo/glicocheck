@@ -1,48 +1,46 @@
 const btnRegister = document.getElementById('btnRegister');
-const btnClean = document.getElementById('btnClean');
+let field_name = document.getElementById("field_Name");
+let field_email = document.getElementById("field_Email");
+let field_login = document.getElementById("field_Login");
+let field_password = document.getElementById("field_Password");
 
-const field_name = document.querySelector("#name");
-const field_email = document.querySelector("#email");
-const field_login = document.querySelector("#login");
-const field_password = document.querySelector("#password");
-const field_role = document.querySelector("#role");
-const field_response = document.getElementById('response_field');
+const SUCEESS = 201;
+const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnRegister.addEventListener('click', function(event){
+    event.preventDefault();
+
     if(isValidDataEntry()){
-        const xmlhttp = new XMLHttpRequest();
-        // SHOW RESPONSE WHEN EVERYHTING IS READY.
+        const xmlhttp = new XMLHttpRequest();        
         xmlhttp.onreadystatechange = () => {
-            if (isSuccessOrRefused(xmlhttp)) {
-                cleanFields();
-                const prettyJson = getPrettyJSON(xmlhttp.responseText);
-                field_response.value = prettyJson;
+            if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) 
+            {
+                if(xmlhttp.status == SUCEESS)
+                {           
+                    // REDIRECT TO /LOGIN IN CASE OF SUCCESS.                             
+                    handleLogin();
+                
+                }else {
+                    alert('Error trying to create new account. Please try again.');
+                }
             }
         };
-        let jsonNewUser = prepareJsonNewUser();
-        xmlhttp.open("POST", "/api/security/register");
-        xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        xmlhttp.send(jsonNewUser);
+        sendRequestToRegisterNewUser(xmlhttp);
+    }else{
+        showMessageAlert();
     }
-});
-
-btnClean.addEventListener('click', function(event){
-    cleanFields();
 });
 
 function isValidDataEntry(){
     return (field_name.value && field_email.value && 
-            field_login.value && field_password.value && field_role.value);
+            field_login.value && field_password.value);
 }
 
-function isSuccessOrRefused(xmlhttp){
-    return xmlhttp.readyState == 4 && (xmlhttp.status == 201 || xmlhttp.status == 403);
-}
-
-function getPrettyJSON(text){
-    if(!text) text = "{}";
-    const jsonResponse = JSON.parse(text);
-    return JSON.stringify(jsonResponse, null, '\t');
+function sendRequestToRegisterNewUser(xmlhttp){
+    let jsonNewUser = prepareJsonNewUser();
+    xmlhttp.open("POST", "/api/security/register");
+    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xmlhttp.send(jsonNewUser);
 }
 
 function prepareJsonNewUser(){
@@ -51,15 +49,22 @@ function prepareJsonNewUser(){
         email: field_email.value,
         login: field_login.value,
         password: field_password.value,
-        role_id: field_role.value
+        role_id: 2
     });
 }
 
-function cleanFields(){
-    field_name.value = "";
-    field_email.value = "";
-    field_login.value = "";
-    field_password.value = "";
-    field_role.value = "2";
-    field_response.value = "";
+async function handleLogin() {
+    const login = field_login.value;
+    const password = field_password.value;
+
+    await fetch(`/security/login`, {
+        method: 'POST',
+        body: JSON.stringify({ login, password })
+    }).then(res => {
+        location.href = './dashboard.html';
+    });
+}
+
+function showMessageAlert(){
+    alert('Please, fill in all the fields.');
 }

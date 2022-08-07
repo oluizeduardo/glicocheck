@@ -30,40 +30,40 @@
       <div class="d-flex flex-row justify-content-center alig-items-center">
         <div class="card card_form_input mt-3">
           <div class="text-center">
-            <main class="form-input w-100 m-auto">
+            <main class="form-input w-100 m-auto">              
               <form>
-
                 <div class="mb-3">
                   <h4 class="fw-normal">Create new account</h4>
                   <small>It’s quick and easy.</small>
                 </div>
 
                 <div class="form-floating">
-                  <input type="email" class="form-control" id="floatingName" placeholder="name@example.com">
-                  <label for="floatingName">Name</label>
+                  <input type="text" class="form-control square-bottom-borders" id="field_Name" placeholder="Name" required>
+                  <label for="field_Name">Name</label>
                 </div>
 
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="floatingEmail" placeholder="name@example.com">
-                  <label for="floatingEmail">Email address</label>
+                  <input type="email" class="form-control square-borders" id="field_Email" placeholder="name@example.com" required>
+                  <label for="field_Email">Email address</label>
                 </div>
 
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="floatingLogin" placeholder="name@example.com">
-                  <label for="floatingLogin">Login</label>
+                  <input type="text" class="form-control square-borders" id="field_Login" placeholder="Login" required>
+                  <label for="field_Login">Login</label>
                 </div>
 
                 <div class="form-floating">
-                  <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                  <label for="floatingPassword">Password</label>
+                  <input type="password" class="form-control square-top-borders" id="field_Password" placeholder="Password" required>
+                  <label for="field_Password">Password</label>
                 </div>
 
-                <button class="w-100 btn btn-lg btn-primary mb-3 mt-3" type="submit">Create account</button>
+                <button class="w-100 btn btn-lg btn-primary mb-3 mt-3" type="submit" id="btnRegister">Create account</button>
               </form>
             </main>
           </div>
         </div>
       </div>
     </div> 
+    <script src="./includes/js/register.js"></script>
   </body>
 </html>
