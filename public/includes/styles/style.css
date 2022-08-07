@@ -30,6 +30,10 @@ body{
     width: 25rem;
 }
 
+.footer{
+    margin-top: 35px;
+}
+
 @media (max-width: 500px) { 
     .brand{
         width: 100%;
