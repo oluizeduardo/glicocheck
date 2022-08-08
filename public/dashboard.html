@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" 
-    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">
+    <link href="./includes/styles/forms.css" rel="stylesheet">
   </head>
   <body>
     
@@ -32,8 +32,9 @@
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item item-sidemenu">
-            <a class="nav-link active" href="#">
-              <span data-feather="plus-circle" class="align-text-bottom"></span>
+            <a class="nav-link active" href="#" onclick="loadDateAndTimeFields()"
+                data-bs-toggle="modal" data-bs-target="#modalNewEnter">
+              <span data-feather="plus" class="align-text-bottom"></span>
               Add Enter
             </a>
           </li>
@@ -64,7 +65,7 @@
           <li class="nav-item item-sidemenu">
             <a class="nav-link" href="./index.html">
               <span data-feather="log-out" class="align-text-bottom"></span>
-              Sing out
+              Sign out
             </a>
           </li>
         </ul>
@@ -74,12 +75,22 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
+      </div>
+      <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
         <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-primary" onclick="loadDateAndTimeFields()"
+                    data-bs-toggle="modal" data-bs-target="#modalNewEnter">
+              <span data-feather="plus" class="align-text-bottom"></span>
+              Add enter</button>
+          </div>
+          <!-- EXPORT -->
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">
               <span data-feather="share" class="align-text-bottom"></span>
               Export</button>
           </div>
+          <!-- CALENDAR -->
           <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
             <span data-feather="calendar" class="align-text-bottom"></span>
             This week
@@ -89,11 +100,65 @@
 
       <!-- CHART -->
       <canvas class="my-4 w-100" id="myChart" width="900" height="350"></canvas>
-
     </main>
+
+    <!-- MODAL NEW GLUCOSE ENTER -->
+    <div class="modal fade" id="modalNewEnter">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">New enter</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <main class="form-input w-100 m-auto"> 
+              <form>
+                <div class="form-floating">
+                  <input type="text" class="form-control square-bottom-borders" id="field_Glucose" placeholder="Glucose" required>
+                  <label for="field_Glucose">Glucose</label>
+                </div>
+                <div class="form-floating">
+                  <input type="text" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                  <label for="field_Date">Date</label>
+                </div>
+                <div class="form-floating">
+                  <input type="text" class="form-control square-borders" id="field_Time" placeholder="Time" required>
+                  <label for="field_Time">Time</label>
+                </div>
+
+                <div class="form-floating">
+                  <select class="form-select square-top-borders" id="field_Markermeal" aria-label="Floating label select example">
+                    <option selected>SELECT...</option>
+                    <option value="1">Before breakfast</option>
+                    <option value="2">After breakfast</option>
+                    <option value="3">Before lunch</option>
+                    <option value="4">After lunch</option>
+                    <option value="3">Before dinner</option>
+                    <option value="4">After dinner</option>
+                  </select>
+                  <label for="field_Markermeal">Marker meal</label>
+                </div>
+
+              </form>
+            </main>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
+  <!-- ICON -->
   <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
   integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" 
   crossorigin="anonymous"></script>
@@ -102,11 +167,16 @@
     feather.replace({ 'aria-hidden': 'true' })
   </script>
   <!-- For toggle menu. -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" 
   integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" 
   crossorigin="anonymous"></script>
-
+  <!-- CHART.JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
   <script src="./includes/js/dashboard.js"></script> 
+
+  <!-- MODAL -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
   </body>
 </html>

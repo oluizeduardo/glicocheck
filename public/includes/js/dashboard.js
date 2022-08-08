@@ -47,4 +47,13 @@ function loadChart(){
   });
 }
 
+function loadDateAndTimeFields(){
+  const field_Time = document.getElementById('field_Time');
+  const field_Date = document.getElementById('field_Date');
+
+  const dateObject = new Date();
+  field_Time.value = dateObject.toLocaleTimeString();
+  field_Date.value = dateObject.toLocaleDateString();
+}
+
 loadChart();
