@@ -34,7 +34,8 @@ function loadChart(){
           borderColor: [
             'rgba(7, 140, 38, 2)'
           ],
-          borderWidth: 2
+          borderWidth: 2,
+          pointRadius: 6
         },        
         {
           label: 'Hypoglycemia',
@@ -67,15 +68,6 @@ function fillHypoAndHyperValues(){
   })
 }
 
-function loadDateAndTimeFields(){
-  const field_Time = document.getElementById('field_Time');
-  const field_Date = document.getElementById('field_Date');
-
-  const dateObject = new Date();
-  field_Time.value = dateObject.toLocaleTimeString();
-  field_Date.value = dateObject.toLocaleDateString();
-}
-
 function loadAllGlucoseReadings(){
   const xmlhttp = new XMLHttpRequest();        
   xmlhttp.onreadystatechange = () => {
@@ -96,14 +88,23 @@ function loadAllGlucoseReadings(){
 
 function sendGETToGlucose(xmlhttp){
   const token = getJwtToken();
-  xmlhttp.open("GET", "/api/glucose");
-  xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
-  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xmlhttp.send();
+  const userId = getUserId();
+
+  if(token && userId){
+    xmlhttp.open("GET", `/api/glucose/user/${userId}`);
+    xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
+    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xmlhttp.send();
+  }else{
+    throw Error('Authentication token not found.');
+  }
 }
 
 function getJwtToken() {
     return sessionStorage.getItem("jwt")
+}
+function getUserId() {
+  return sessionStorage.getItem("userId")
 }
 
 loadAllGlucoseReadings();

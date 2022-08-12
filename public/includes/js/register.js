@@ -16,8 +16,7 @@ btnRegister.addEventListener('click', function(event){
             if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) 
             {
                 if(xmlhttp.status == SUCEESS)
-                {           
-                    // REDIRECT TO /LOGIN IN CASE OF SUCCESS.                             
+                {                                      
                     handleLogin();
                 
                 }else {
@@ -49,20 +48,16 @@ function prepareJsonNewUser(){
         email: field_email.value,
         login: field_login.value,
         password: field_password.value,
-        role_id: 2
+        role_id: 1//ADMIN
     });
 }
 
-async function handleLogin() {
-    const login = field_login.value;
-    const password = field_password.value;
+function handleLogin() {
+    location.href = './index.html';
+}
 
-    await fetch(`/security/login`, {
-        method: 'POST',
-        body: JSON.stringify({ login, password })
-    }).then(res => {
-        location.href = './dashboard.html';
-    });
+function redirectToDashboard(){
+    location.href = './dashboard.html';
 }
 
 function showMessageAlert(){

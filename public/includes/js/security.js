@@ -2,8 +2,6 @@ function checkAuthToken(){
     const jwtToken = getJwtToken();
     if (!jwtToken) {
         location.href = './index.html';
-    }else{
-        loadChart();
     }
 }
 

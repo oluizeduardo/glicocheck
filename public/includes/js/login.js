@@ -18,7 +18,7 @@ btnSingIn.addEventListener('click', function(event){
             {
                 if(xmlhttp.status == SUCEESS)
                 {                    
-                    generateAccessTokenAndRedirect(xmlhttp);
+                    generateAccessTokenAndRedirect(xmlhttp);                    
                 
                 }else if(xmlhttp.status == FORBIDDEN){
                     alert('Wrong credentials.');
@@ -62,9 +62,19 @@ function setJwtToken(token) {
 }
 
 function generateAccessTokenAndRedirect(xmlhttp){
-    const token = getAuthorizationHeaderValue(xmlhttp);
-    setJwtToken(token);                    
+    const token = getAuthorizationHeaderValue(xmlhttp);    
+    setJwtToken(token);
+    setUserId(xmlhttp);                
     redirectToDashboard();
+}
+
+function setUserId(xmlhttp){
+    JSON.parse(xmlhttp.response, 
+        (k, v) => {
+            if(k === "id"){
+                sessionStorage.setItem("userId", v);
+            }
+        });
 }
 
 function showLoginError(){

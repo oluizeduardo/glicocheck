@@ -20,7 +20,7 @@ btnSave.addEventListener('click', function(event){
                     alert('Saved!!');
                 
                 }else {
-                    alert('Error. Please try again.');
+                    alert('Error. Please try again.\n'+xmlhttp.responseText);
                 }
             }
         };
@@ -46,11 +46,11 @@ function sendPOSTToGlucose(xmlhttp){
 
 function prepareJsonNewEnter(){
     return JSON.stringify({
-        userId: 1,
+        userId: getUserId(),
         glucose: field_Glucose.value,
         unityId: 1,
         date: field_Date.value.slice(0, 10),
-        hour: '00:00:00',
+        hour: field_Time.value,
         markerMealId: field_Markermeal.selectedIndex
     });
 }
@@ -61,4 +61,17 @@ function showMessageAlert(){
 
 function getJwtToken() {
     return sessionStorage.getItem("jwt")
+}
+
+function getUserId() {
+    return sessionStorage.getItem("userId")
+}
+
+function loadDateAndTimeFields(){
+    const field_Time = document.getElementById('field_Time');
+    const field_Date = document.getElementById('field_Date');
+
+    const dateObject = new Date();
+    field_Time.value = dateObject.toLocaleTimeString('pt-BR');
+    field_Date.value = dateObject.toLocaleDateString();
 }

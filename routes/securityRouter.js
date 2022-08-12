@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const securityRouter = express.Router ();
 const Messages = require('../messages');
 
+const TOKEN_EXPIRING_TIME = '20m'
+
 // CONFIG TO CONNECT WITH THE DATABASE.
 const knex = require ('knex') ({
     client: 'pg',// POSTGRESQL
@@ -81,7 +83,7 @@ function signToken(id){
         id: id
     }
     const expires = {
-        expiresIn: '10m'
+        expiresIn: TOKEN_EXPIRING_TIME
     }
     const secret_key = process.env.SECRET_KEY;
     const token = jwt.sign(payload, secret_key, expires);
