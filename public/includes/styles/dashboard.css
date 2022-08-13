@@ -87,3 +87,47 @@ body {
 .item-sidemenu:hover{
   background-color: rgba(5, 172, 228,.25);
 }
+
+.justify-content{
+  justify-content: flex-end;
+}
+
+/*
+ * Chart
+ */
+.visible{
+  display: block;
+}
+
+.invisible{
+  display: none;
+}
+
+
+/*
+* Welcome center
+*/
+#welcome-center{
+  display: block;
+  font-size: 3vw;
+  padding-top: 80px;
+  text-align: center;
+}
+
+.logo-welcome-center{
+  font-family: 'Pattaya', sans-serif;
+  font-size: 5vw;
+  color: rgb(5, 172, 228);
+}
+
+@media (max-width: 500px) {     
+  .welcome-center{
+    font-size: 8vw;
+  }
+  .logo-welcome-center{
+    font-size: 10vw;
+  }
+  .justify-content{
+    justify-content: center;
+  }
+}

@@ -79,6 +79,10 @@ glucoseRouter.get('/', checkToken, function (req, res) {
         .select('glucose.id', 'users.id as userId', 'users.name as user',
                 'glucose.glucose', 'measurement_unity.description as unity',
                 'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
+        .orderBy([
+            {column: 'glucose.date', order: 'asc'},
+            {column: 'glucose.hour', order: 'asc'}
+        ])       
         .then(glucoses => {
             if(glucoses.length){
                 res.status(200).json(glucoses);
@@ -101,6 +105,10 @@ glucoseRouter.get('/user/:user_id', checkToken, function (req, res) {
         .select('glucose.id', 'users.id as userId', 'users.name as user',
                 'glucose.glucose', 'measurement_unity.description as unity',
                 'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
+        .orderBy([
+            {column: 'glucose.date', order: 'asc'},
+            {column: 'glucose.hour', order: 'asc'}
+        ])
         .then(glucoses => {
             if(glucoses.length){
                 res.status(200).json(glucoses);
@@ -143,6 +151,10 @@ glucoseRouter.get('/markermeal/:markermealid', checkToken, function (req, res) {
         .select('glucose.id', 'users.id as userId', 'users.name as userName', 
                 'glucose.glucose', 'measurement_unity.description as unity',
                 'glucose.date', 'glucose.hour', 'marker_meal.description as markerMeal')
+        .orderBy([
+            {column: 'glucose.date', order: 'asc'},
+            {column: 'glucose.hour', order: 'asc'}
+        ])
         .then(glucoses => {
             if(glucoses.length){
                 res.status(200).json(glucoses);

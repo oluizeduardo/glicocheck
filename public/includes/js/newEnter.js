@@ -17,8 +17,8 @@ btnSave.addEventListener('click', function(event){
             {
                 if(xmlhttp.status == CREATED)
                 {           
-                    alert('Saved!!');
-                
+                    resetFields();
+                    resetChart();                
                 }else {
                     alert('Error. Please try again.\n'+xmlhttp.responseText);
                 }
@@ -74,4 +74,19 @@ function loadDateAndTimeFields(){
     const dateObject = new Date();
     field_Time.value = dateObject.toLocaleTimeString('pt-BR');
     field_Date.value = dateObject.toLocaleDateString();
+}
+
+function resetFields(){
+    field_Glucose.value='';
+    field_Markermeal.selectedIndex = 0;
+
+    // panel_welcome_center.removeChild(welcome_center)
+    panel_welcome_center.classList.add('invisible');
+    ctx.classList.remove('invisible');
+    ctx.classList.add('visible');
+}
+
+function resetChart(){    
+    destroyChart();
+    loadGlucoseReadingsByUserId();
 }

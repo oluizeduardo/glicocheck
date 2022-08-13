@@ -53,6 +53,7 @@ function prepareJsonNewUser(){
 }
 
 function handleLogin() {
+    alert('New user created! Now you can log in.');
     location.href = './index.html';
 }
 

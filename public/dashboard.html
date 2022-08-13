@@ -78,7 +78,7 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
       </div>
-      <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
+      <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-primary" onclick="loadDateAndTimeFields()"
@@ -100,8 +100,16 @@
         </div>
       </div>
 
+      <span id="panel-welcome-center">
+        <div id="welcome-center">
+          <span class="align-middle ">
+            Welcome to <br><span class="logo-welcome-center">My Diabetes JS</span>
+          </span>
+        </div>
+      </span>
+
       <!-- CHART -->
-      <canvas class="my-4 w-100" id="myChart" width="900" height="350"></canvas>
+      <canvas class="my-4 w-100 invisible" id="myChart" width="900" height="350"></canvas>
     </main>
 
     <!-- MODAL NEW GLUCOSE ENTER -->
@@ -176,7 +184,8 @@
   <!-- CHART.JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <!-- MODAL CONTROLLER -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>-->
+  
   <!-- LOAD DASHBOARD -->
   <script src="./includes/js/dashboard.js"></script> 
   <!-- NEW GLUCOSE ENTER -->

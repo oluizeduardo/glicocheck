@@ -1,10 +1,12 @@
-const ctx = document.getElementById('myChart');
+var ctx = document.querySelector('#myChart');
+var panel_welcome_center = document.getElementById("panel-welcome-center");
+var welcome_center = document.getElementById("welcome-center");
 
-let glucoseValues = [];
-let glucoseReadingDateLabels = [];
-let glucoseReadingsChart;
-let hyperglycemiaValues =[];
-let hypoglycemiaValues =[];
+var glucoseReadingsChart;
+var glucoseValues = [];
+var glucoseReadingDateLabels = [];
+var hyperglycemiaValues =[];
+var hypoglycemiaValues =[];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
@@ -59,6 +61,7 @@ function loadChart(){
         }
     }
   });
+  glucoseReadingsChart.update();
 }
 
 function fillHypoAndHyperValues(){
@@ -68,7 +71,7 @@ function fillHypoAndHyperValues(){
   })
 }
 
-function loadAllGlucoseReadings(){
+function loadGlucoseReadingsByUserId(){
   const xmlhttp = new XMLHttpRequest();        
   xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState == 4) 
@@ -79,6 +82,9 @@ function loadAllGlucoseReadings(){
             if(key === 'glucose') glucoseValues.push(value);
             if(key === 'date') glucoseReadingDateLabels.push(value.slice(0,10));            
           })
+        }
+        if(glucoseValues.length > 0){
+          makeChartPanelVisible();
           loadChart();
         }
       }
@@ -107,4 +113,20 @@ function getUserId() {
   return sessionStorage.getItem("userId")
 }
 
-loadAllGlucoseReadings();
+function makeChartPanelVisible(){
+  panel_welcome_center.classList.add('invisible');
+  ctx.classList.remove('invisible');
+  ctx.classList.add('visible');
+}
+
+function destroyChart(){
+  if(glucoseReadingsChart != null){
+    glucoseReadingsChart.destroy();
+  }
+  glucoseValues = [];
+  glucoseReadingDateLabels = [];
+  hyperglycemiaValues =[];
+  hypoglycemiaValues =[];
+}
+
+loadGlucoseReadingsByUserId();
