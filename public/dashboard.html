@@ -89,14 +89,24 @@
           <!-- EXPORT -->
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
-              <span data-feather="share" class="align-text-bottom"></span>
-              Export</button>
+              <span data-feather="printer" class="align-text-bottom"></span>
+              PDF</button>
           </div>
           <!-- CALENDAR -->
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" disabled>
-            <span data-feather="calendar" class="align-text-bottom"></span>
-            This week
-          </button>
+          <div class="dropdown">
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+              <span data-feather="calendar" class="caret"></span>
+              Time interval
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">1 week</a></li>
+              <li><a class="dropdown-item" href="#">2 weeks</a></li>
+              <li><a class="dropdown-item" href="#">4 weeks</a></li>
+              <li><a class="dropdown-item" href="#">8 weeks</a></li>
+              <li><a class="dropdown-item" href="#">12 weeks</a></li>
+              <li><a class="dropdown-item" href="#">Personalize</a></li>
+            </ul>
+          </div>
         </div>
       </div>
 

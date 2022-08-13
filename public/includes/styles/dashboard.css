@@ -120,14 +120,15 @@ body {
   color: rgb(5, 172, 228);
 }
 
-@media (max-width: 500px) {     
-  .welcome-center{
-    font-size: 8vw;
-  }
+@media (max-width: 500px) {
   .logo-welcome-center{
     font-size: 10vw;
   }
   .justify-content{
     justify-content: center;
+  }
+  .nav-item{
+    font-size: 5vw;
+    padding-top: 10px;
   }
 }

@@ -10,6 +10,14 @@ var hypoglycemiaValues =[];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
+const COLOR_HYPERGLYCEMIA = 'rgba(5, 172, 228, 1)';
+const COLOR_HYPOGLYCEMIA = 'rgba(255, 99, 132, 1)';
+const COLOR_MY_GLYCEMIA = 'rgba(7, 140, 38, 2)';
+const BORDER_WIDTH = 2;
+const POINT_RADIUS_HYPERGLYCEMIA = 0;
+const POINT_RADIUS_HYPOGLYCEMIA = 0;
+const POINT_RADIUS_MY_GLICEMIA = 6;
+const POINT_HOVER_RADIUS = 13;
 
 
 function loadChart(){
@@ -24,44 +32,43 @@ function loadChart(){
         {
           label: 'Hyperglycemia',
           data: hyperglycemiaValues,
-          borderColor: [              
-              'rgba(5, 172, 228, 1)'
-          ],
-          borderWidth: 2,
-          pointRadius: 0
+          borderColor: [COLOR_HYPERGLYCEMIA], 
+          backgroundColor: [COLOR_HYPERGLYCEMIA],         
+          borderWidth: BORDER_WIDTH,
+          pointRadius: POINT_RADIUS_HYPERGLYCEMIA
         },
         {
           label: 'My glycemia',
           data: glucoseValues,
-          borderColor: [
-            'rgba(7, 140, 38, 2)'
-          ],
-          borderWidth: 2,
-          pointRadius: 6
+          borderColor: [COLOR_MY_GLYCEMIA],
+          backgroundColor: [COLOR_MY_GLYCEMIA],
+          borderWidth: BORDER_WIDTH,
+          pointRadius: POINT_RADIUS_MY_GLICEMIA,
+          pointHoverRadius: POINT_HOVER_RADIUS
         },        
         {
           label: 'Hypoglycemia',
           data: hypoglycemiaValues,
-          borderColor: [
-            'rgba(255, 99, 132, 1)'
-          ],
-          borderWidth: 2,
-          pointRadius: 0
+          borderColor: [COLOR_HYPOGLYCEMIA],
+          backgroundColor: [COLOR_HYPOGLYCEMIA],
+          borderWidth: BORDER_WIDTH,
+          pointRadius: POINT_RADIUS_HYPOGLYCEMIA
       }
       ]
     },
     options: {
-        scales: {
-            y: {
-                min: 40,
-                ticks: {
-                  stepSize: 20
-                }
-            }
-        }
+      scales: {
+          y: {
+              min: 20,
+              max: 220,
+              ticks: {
+                stepSize: 20
+              }
+          }
+      }
     }
   });
-  glucoseReadingsChart.update();
+  // glucoseReadingsChart.update();
 }
 
 function fillHypoAndHyperValues(){
@@ -80,7 +87,9 @@ function loadGlucoseReadingsByUserId(){
         {
           JSON.parse(xmlhttp.response, function(key, value){
             if(key === 'glucose') glucoseValues.push(value);
-            if(key === 'date') glucoseReadingDateLabels.push(value.slice(0,10));            
+            if(key === 'date') {
+              glucoseReadingDateLabels.push(adaptLabelDate(value));
+            }            
           })
         }
         if(glucoseValues.length > 0){
@@ -111,6 +120,15 @@ function getJwtToken() {
 }
 function getUserId() {
   return sessionStorage.getItem("userId")
+}
+
+function adaptLabelDate(value){
+  const fullDate = value.slice(0,10);
+  const arrayDate = fullDate.split("-");
+  const day = arrayDate[2];
+  const month = parseInt(arrayDate[1]);
+  const initialNameMonths = ['Jan','Feb','Mar','Apr','May','Jun', 'Jul', 'Aug','Sep','Oct','Nov','Dec'];
+  return `${day}-${initialNameMonths[month-1]}`;
 }
 
 function makeChartPanelVisible(){
