@@ -57,6 +57,8 @@ function loadChart(){
       ]
     },
     options: {
+      reposive: true,
+      maintainAspectRatio: false,
       scales: {
           y: {
               min: 20,
