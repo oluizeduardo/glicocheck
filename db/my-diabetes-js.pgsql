@@ -117,7 +117,7 @@ CREATE TABLE glucose (
 	user_id int NOT NULL,
 	glucose int NOT NULL,
 	unity_id int NOT NULL,
-	date DATE NOT NULL,
+	date varchar(10) NOT NULL,
     hour TIME(6) NOT NULL,
 	markermeal_id int NOT NULL,
 

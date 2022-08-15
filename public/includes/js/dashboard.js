@@ -135,8 +135,8 @@ function getUserId() {
 
 function adaptLabelDate(value){
   const fullDate = value.slice(0,10);
-  const arrayDate = fullDate.split("-");
-  const day = arrayDate[2];
+  const arrayDate = fullDate.split("/");
+  const day = arrayDate[0];
   const month = parseInt(arrayDate[1]);
   const initialNameMonths = ['Jan','Feb','Mar','Apr','May','Jun', 'Jul', 'Aug','Sep','Oct','Nov','Dec'];
   return `${day}-${initialNameMonths[month-1]}`;

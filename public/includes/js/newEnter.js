@@ -73,17 +73,14 @@ function loadDateAndTimeFields(){
 
     const dateObject = new Date();
     field_Time.value = dateObject.toLocaleTimeString('pt-BR');
-    field_Date.value = dateObject.toLocaleDateString();
+    field_Date.value = dateObject.toLocaleDateString('pt-BR');
 }
 
 function resetFields(){
     field_Glucose.value='';
     field_Markermeal.selectedIndex = 0;
-
-    // panel_welcome_center.removeChild(welcome_center)
     panel_welcome_center.classList.add('invisible');
-    ctx.classList.remove('invisible');
-    ctx.classList.add('visible');
+    panel_chart.classList.remove('invisible');
 }
 
 function resetChart(){    

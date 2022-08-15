@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="field_Pasword" class="form-label">Password</label>
-                                        <input type="password" class="form-control password-field disabled" id="field_Password" aria-describedby="passwordHelp">
+                                        <input type="password" class="form-control password-field" id="field_Password" aria-describedby="passwordHelp">
                                         <div id="passwordHelp" class="form-text">Fill this field if you want to change your password.</div>
                                     </div>
                                     <div class="mb-3">
@@ -107,7 +107,7 @@
                                         <button type="submit" class="btn btn-primary" id="btnSave">
                                             <span data-feather="save"></span>
                                             Save</button>
-                                        <button type="button" class="btn btn-danger" id="btnDeleteAccount" disabled>
+                                        <button type="button" class="btn btn-danger" id="btnDeleteAccount" data-bs-toggle="modal" data-bs-target="#modalConfirmDeleteAccount">
                                             <span data-feather="trash-2"></span>
                                             Delete my account</button>
                                     </div>
@@ -115,8 +115,46 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
             </main>
+
+            <!-- MODAL NEW GLUCOSE ENTER -->
+            <div class="modal fade" id="modalConfirmDeleteAccount">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+        
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" title="Tooltip">Delete account</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
+                        </div>          
+            
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <main class="form-input m-auto"> 
+                                <p>
+                                    Your account and all the registers will be deleted. This action can't be undone.
+                                    <br><br>
+                                    Please, type the password to delete this account.
+                                </p>
+                                <div class="w-100 d-flex justify-content-center">
+                                    <input type="password" class="form-control w-100 password-field" id="delete_account_field_Password">
+                                </div>
+                            </main>
+                        </div>
+            
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                <span data-feather="x"></span>Cancel</button>
+                            <button type="button" class="btn btn-primary">
+                                <span data-feather="trash-2"></span>Delete account
+                            </button>
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- ICON -->
