@@ -1,4 +1,5 @@
 var ctx = document.querySelector('#myChart');
+var panel_chart = document.querySelector('#panel-chart');
 var panel_welcome_center = document.getElementById("panel-welcome-center");
 var welcome_center = document.getElementById("welcome-center");
 
@@ -57,6 +58,14 @@ function loadChart(){
       ]
     },
     options: {
+      animations: {
+        tension: {
+          duration: 1000,
+          easing: 'linear',
+          from: 1,
+          to: 0
+        }
+      },
       reposive: true,
       maintainAspectRatio: false,
       scales: {
@@ -70,7 +79,7 @@ function loadChart(){
       }
     }
   });
-  // glucoseReadingsChart.update();
+  glucoseReadingsChart.update();
 }
 
 function fillHypoAndHyperValues(){
@@ -135,8 +144,7 @@ function adaptLabelDate(value){
 
 function makeChartPanelVisible(){
   panel_welcome_center.classList.add('invisible');
-  ctx.classList.remove('invisible');
-  ctx.classList.add('visible');
+  panel_chart.classList.remove('invisible');
 }
 
 function destroyChart(){
