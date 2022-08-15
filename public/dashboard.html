@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title>My Diabetes JS | Dashboard</title>
     <!-- CHECK AUTHENTICATION -->
     <script src="./includes/js/security.js"></script>
     <!-- Bootstrap -->
@@ -34,32 +34,25 @@
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item item-sidemenu">
-            <a class="nav-link active" href="#" onclick="loadDateAndTimeFields()"
-                data-bs-toggle="modal" data-bs-target="#modalNewEnter">
-              <span data-feather="plus" class="align-text-bottom"></span>
-              Add Enter
-            </a>
-          </li>
-          <li class="nav-item item-sidemenu">
-            <a class="nav-link disabled" aria-current="page" href="#">
+            <a class="nav-link" aria-current="page" href="#">
               <span data-feather="home" class="align-text-bottom"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item item-sidemenu">
-            <a class="nav-link disabled" href="#">
+            <a class="nav-link" href="./profile.html">
               <span data-feather="users" class="align-text-bottom"></span>
               Profile
             </a>
           </li>          
           <li class="nav-item item-sidemenu">
-            <a class="nav-link disabled" href="#">
+            <a class="nav-link" href="./reports.html">
               <span data-feather="bar-chart-2" class="align-text-bottom"></span>
               Reports
             </a>
           </li>
           <li class="nav-item item-sidemenu">
-            <a class="nav-link disabled" href="#">
+            <a class="nav-link" href="./settings.html">
               <span data-feather="settings" class="align-text-bottom"></span>
               Settings
             </a>
@@ -119,11 +112,9 @@
       </span>
 
       <!-- CHART -->
-      <!--<canvas class="my-4 w-100 invisible" id="myChart" width="900" height="350"></canvas>// style="width: 100%;height: 80vh;"-->
-      <div class="container-chart">
+      <div class="container-chart bg-white">
         <canvas class="my-4 w-100 invisible" id="myChart"></canvas>
       </div>
-
     </main>
 
     <!-- MODAL NEW GLUCOSE ENTER -->

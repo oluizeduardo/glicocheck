@@ -18,7 +18,7 @@ btnSingIn.addEventListener('click', function(event){
             {
                 if(xmlhttp.status == SUCEESS)
                 {                    
-                    generateAccessTokenAndRedirect(xmlhttp);                    
+                    generateAccessTokenAndRedirect(xmlhttp);
                 
                 }else if(xmlhttp.status == FORBIDDEN){
                     alert('Wrong credentials.');

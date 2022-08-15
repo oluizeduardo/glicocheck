@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const securityRouter = express.Router ();
 const Messages = require('../messages');
 
-const TOKEN_EXPIRING_TIME = '20m'
+const TOKEN_EXPIRING_TIME = '30m'
 
 // CONFIG TO CONNECT WITH THE DATABASE.
 const knex = require ('knex') ({
