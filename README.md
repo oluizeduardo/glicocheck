@@ -45,6 +45,7 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing or `h
 | GET     | {HOST}/api/glucose/markermeal/{markermealid} |  Get all glucose readings by markermeal id. | `TOKEN`                                                      |
 | POST    | {HOST}/api/glucose                           |  Create a new glucose reading register.     | `TOKEN` + `ADMIN` + userId, glucose, unityId, date, hour, markerMealId |
 | DELETE  | {HOST}/api/glucose/{id}                      |  Delete a glucose reading by id.            | `TOKEN` + `ADMIN`                                            |
+| DELETE  | {HOST}/api/glucose/user/{userid}             |  Delete glucose readings of a specific user.| `TOKEN` + `ADMIN`                                            |
 | PUT     | {HOST}/api/glucose/{id}                      |  Update a glucose reading by id.            | `TOKEN` + `ADMIN` + glucose, unityId, date, hour, markerMealId         |
 
 
