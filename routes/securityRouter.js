@@ -58,7 +58,8 @@ securityRouter.post('/login', function (req, res) {
                     id: user.id,
                     login: user.login,
                     email: user.email,
-                    role_id: user.role_id
+                    role_id: user.role_id,
+                    accessToken: tokenJWT
                 })                    
                 return
             }
