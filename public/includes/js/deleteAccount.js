@@ -34,14 +34,14 @@ function deleteUserAccount(){
     {
         if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE && xmlhttp.status == OK) 
         {
-            location.href = './index.html'
+            logOut();
             alert('The account has been deleted!');
         }
     };
-    sendRequestToDeleteAccount(xmlhttp);
+    sendRequestToDeleteUserAccount(xmlhttp);
 }
 
-function sendRequestToDeleteAccount(xmlhttp){
+function sendRequestToDeleteUserAccount(xmlhttp){
     const token = getJwtToken();
     const userId = getUserId();
 
