@@ -1,7 +1,6 @@
 const btnSave = document.getElementById('btnSave');
 let field_Glucose = document.getElementById("field_Glucose");
 let field_Date = document.getElementById("field_Date");
-let field_Time = document.getElementById("field_Time");
 let field_Markermeal = document.getElementById("field_Markermeal");
 
 const CREATED = 200;
@@ -32,7 +31,7 @@ btnSave.addEventListener('click', function(event){
 
 function isValidDataEntry(){
     return (field_Glucose.value && field_Date.value && 
-            field_Time.value && (field_Markermeal.selectedIndex > 0));
+            (field_Markermeal.selectedIndex > 0));
 }
 
 function sendPOSTToGlucose(xmlhttp){
@@ -49,10 +48,22 @@ function prepareJsonNewEnter(){
         userId: getUserId(),
         glucose: field_Glucose.value,
         unityId: 1,
-        date: field_Date.value.slice(0, 10),
-        hour: field_Time.value,
+        date: getDate(),
+        hour: getTime(),
         markerMealId: field_Markermeal.selectedIndex
     });
+}
+
+function getDate(){
+    const arrayDate = field_Date.value.slice(0, 10).split('-');
+    const day   = arrayDate[2];
+    const month = arrayDate[1];
+    const year  = arrayDate[0];
+    return `${day}/${month}/${year}`;
+}
+
+function getTime(){
+    return field_Date.value.slice(11);
 }
 
 function showMessageAlert(){
@@ -65,15 +76,6 @@ function getJwtToken() {
 
 function getUserId() {
     return sessionStorage.getItem("userId")
-}
-
-function loadDateAndTimeFields(){
-    const field_Time = document.getElementById('field_Time');
-    const field_Date = document.getElementById('field_Date');
-
-    const dateObject = new Date();
-    field_Time.value = dateObject.toLocaleTimeString('pt-BR');
-    field_Date.value = dateObject.toLocaleDateString('pt-BR');
 }
 
 function resetFields(){

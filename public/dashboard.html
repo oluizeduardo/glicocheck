@@ -74,8 +74,7 @@
       <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-primary" onclick="loadDateAndTimeFields()"
-                    data-bs-toggle="modal" data-bs-target="#modalNewEnter">
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalNewEnter">
               <span data-feather="plus" class="align-text-bottom"></span>
               Add enter</button>
           </div>
@@ -133,16 +132,13 @@
             <main class="form-input w-100 m-auto"> 
               <form>
                 <div class="form-floating">
-                  <input type="text" class="form-control square-bottom-borders" id="field_Glucose" placeholder="Glucose" required>
-                  <label for="field_Glucose">Glucose</label>
+                  <input type="number" class="form-control square-bottom-borders" id="field_Glucose" 
+                        placeholder="Glucose" min="20" max="999" autocomplete="off" required>
+                  <label for="field_Glucose">Glucose level</label>
                 </div>
                 <div class="form-floating">
-                  <input type="text" class="form-control square-borders" id="field_Date" placeholder="Date" required>
-                  <label for="field_Date">Date</label>
-                </div>
-                <div class="form-floating">
-                  <input type="text" class="form-control square-borders" id="field_Time" placeholder="Time" required>
-                  <label for="field_Time">Time</label>
+                  <input type="datetime-local" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                  <label for="field_Date">Date and time</label>
                 </div>
 
                 <div class="form-floating">
