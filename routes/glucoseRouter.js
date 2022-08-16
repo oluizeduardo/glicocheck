@@ -233,4 +233,24 @@ glucoseRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
     }        
 })
 
+
+// DELETE ALL GLUCOSE REGISTERS OF A SPECIFIC USER.
+glucoseRouter.delete('/user/:userId', checkToken, isAdmin, function (req, res) {
+    let userId = Number.parseInt(req.params.userId)
+
+    if (userId > 0) {
+        knex('glucose')
+          .where('user_id', userId)
+          .del()
+          .then(res.status(200).json({message: Messages.REGISTER_DELETED }))
+          .catch (err => res.status(500)
+          .json ({ message: Messages.ERROR_DELETE_GLUCOSE,
+                   error: err.message}))
+    } else {
+        res.status(404).json({
+            message: Messages.NOTHING_FOUND
+        })
+    }        
+})
+
 module.exports = glucoseRouter
