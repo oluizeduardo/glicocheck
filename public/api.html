@@ -84,6 +84,7 @@
                     <th scope="col">RESOURCE</th>
                     <th scope="col">DESCRIPTION</th>
                     <th scope="col">REQUEST FIELDS</th>
+                    <th scope="col" class="text-center">ACCESS TOKEN</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -92,12 +93,14 @@
                     <td>/security/register</td>
                     <td>Register a new user.</td>
                     <td>name, email, login, password, role_id</td>
+                    <td class="text-center"><span data-feather="x"></span></td>
                   </tr>
                   <tr>
                     <td>POST</td>
                     <td>/security/login</td>
                     <td>Login with credentials.</td>
                     <td>login, password</td>
+                    <td class="text-center"><span data-feather="x"></span></td>
                   </tr>
                 </tbody>
             </table>
@@ -112,6 +115,7 @@
                     <th scope="col">RESOURCE</th>
                     <th scope="col">DESCRIPTION</th>
                     <th scope="col">REQUEST FIELDS</th>
+                    <th scope="col" class="text-center">ACCESS TOKEN</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -119,19 +123,22 @@
                     <td>GET</td>
                     <td>/users</td>
                     <td>Get all users.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>GET</td>
                     <td>/users/{id}</td>
                     <td>Get user by id.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>PUT</td>
                     <td>/users/{id}</td>
                     <td>Update a user based on id.</td>
-                    <td>BEARER TOKEN HEADER + name, email, login, password, role_id</td>
+                    <td>name, email, login, password, role_id</td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                 </tbody>
               </table>
@@ -146,6 +153,7 @@
                     <th scope="col">RESOURCE</th>
                     <th scope="col">DESCRIPTION</th>
                     <th scope="col">REQUEST FIELDS</th>
+                    <th scope="col" class="text-center">ACCESS TOKEN</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -153,37 +161,43 @@
                     <td>GET</td>
                     <td>/glucose</td>
                     <td>Get all glucose readings.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>GET</td>
                     <td>/glucose/{id}</td>
                     <td>Get a glucose reading by id.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>GET</td>
                     <td>/glucose/user/{id}</td>
                     <td>Get glucose readings of a specific user.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>GET</td>
                     <td>/glucose/markermeal/{id}</td>
                     <td>Get all glucose readings by markermeal id.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>POST</td>
                     <td>/glucose</td>
                     <td>Create a new glucose reading register.</td>
-                    <td>BEARER TOKEN HEADER + userId, glucose, unityId, date, hour, markerMealId</td>
+                    <td>userId, glucose, unityId, date, hour, markerMealId</td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>DELETE</td>
                     <td>/glucose/{id}</td>
                     <td>Delete a glucose reading by id.</td>
-                    <td>BEARER TOKEN HEADER + glucose, unityId, date, hour, markerMealId</td>
+                    <td>glucose, unityId, date, hour, markerMealId</td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                 </tbody>
               </table>
@@ -198,6 +212,7 @@
                     <th scope="col">RESOURCE</th>
                     <th scope="col">DESCRIPTION</th>
                     <th scope="col">REQUEST FIELDS</th>
+                    <th scope="col" class="text-center">ACCESS TOKEN</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -205,31 +220,36 @@
                     <td class="green-400">GET</td>
                     <td>/markermeal</td>
                     <td>Get all marker meals.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>GET</td>
                     <td>/markermeal/{id}</td>
                     <td>Get a marker meal by id.</td>
-                    <td>BEARER TOKEN HEADER</td>
-                  </tr>
-                  <tr>
-                    <td>POST</td>
-                    <td>/markermeal/{id}</td>
-                    <td>Create a new marker meal.</td>
-                    <td>BEARER TOKEN HEADER + description</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
                     <td>DELETE</td>
                     <td>/markermeal/{id}</td>
                     <td>Delete a marker meal by id.</td>
-                    <td>BEARER TOKEN HEADER</td>
+                    <td></td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
+                  <tr>
+                    <td>POST</td>
+                    <td>/markermeal/{id}</td>
+                    <td>Create a new marker meal.</td>
+                    <td>description</td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
+                  </tr>                  
                   <tr>
                     <td>PUT</td>
                     <td>/markermeal/{id}</td>
                     <td>Update a markermeal description by id.</td>
-                    <td>BEARER TOKEN HEADER + description</td>
+                    <td>description</td>
+                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                 </tbody>
               </table>
@@ -248,6 +268,14 @@
               </a>
             </footer>
         </div>
-    </div> 
+    </div>
+    <!-- ICON -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" 
+    crossorigin="anonymous"></script>
+    <script>
+      'use strict'
+      feather.replace({ 'aria-hidden': 'true' })
+    </script>
 </body>
 </html>
