@@ -2,17 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const glucoseRouter = express.Router();
 const Messages = require('../messages');
-
-// CONFIG TO CONNECT WITH THE DATABASE.
-const knex = require ('knex') ({
-    client: 'pg',// POSTGRESQL
-    connection: {
-        connectionString: process.env.DATABASE_URL,// Look up at .env file.
-        ssl: {
-            rejectUnauthorized: false
-        },
-    }
-})
+const database = require('../db/dbconfig.js');
 
 
 // Authenticate password
@@ -44,7 +34,7 @@ let checkToken = (req, res, next) => {
 
 // CHECK USER ROLE.
 let isAdmin = (req, res, next) => {
-    knex
+    database
         .select ('*').from ('users').where({ id: req.userId })
         .then ((users) => {
             if (users.length) {
@@ -72,7 +62,7 @@ let isAdmin = (req, res, next) => {
 
 // READ ALL GLUCOSE RECORDS.
 glucoseRouter.get('/', checkToken, function (req, res) {
-    knex('glucose')
+    database('glucose')
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
         .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
@@ -97,7 +87,7 @@ glucoseRouter.get('/', checkToken, function (req, res) {
 glucoseRouter.get('/user/:user_id', checkToken, function (req, res) {
     let id = Number.parseInt(req.params.user_id);
 
-    knex('glucose')
+    database('glucose')
         .where('glucose.user_id', id)
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
@@ -122,7 +112,7 @@ glucoseRouter.get('/user/:user_id', checkToken, function (req, res) {
 // GET A GLUCOSE READING BASED ON ID PARAMETER.
 glucoseRouter.get('/:id', checkToken, function (req, res) {
     let id = Number.parseInt(req.params.id);
-    knex('glucose')
+    database('glucose')
         .where('glucose.id', id)
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
@@ -143,7 +133,7 @@ glucoseRouter.get('/:id', checkToken, function (req, res) {
 // GET ALL GLUCOSE READING BY MARKERMEAL ID.
 glucoseRouter.get('/markermeal/:markermealid', checkToken, function (req, res) {
     let markermealid = Number.parseInt(req.params.markermealid);
-    knex('glucose')
+    database('glucose')
         .where('glucose.markermeal_id', markermealid)
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
@@ -167,7 +157,7 @@ glucoseRouter.get('/markermeal/:markermealid', checkToken, function (req, res) {
 
 // CREATE A NEW GLUCOSE READING. ONLY ADMIN ROLE.
 glucoseRouter.post('/', express.json(), checkToken, isAdmin, function (req, res) {
-    knex('glucose')
+    database('glucose')
         .insert({
             user_id: req.body.userId,
             glucose: req.body.glucose,
@@ -189,7 +179,7 @@ glucoseRouter.post('/', express.json(), checkToken, isAdmin, function (req, res)
 glucoseRouter.put('/:id', express.json(), checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id);
    
-    let response = knex('glucose')
+    let response = database('glucose')
         .where('id', id)
         .update({
             glucose: req.body.glucose,
@@ -219,7 +209,7 @@ glucoseRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id)
 
     if (id > 0) {
-        knex('glucose')
+        database('glucose')
           .where('id', id)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED }))
@@ -239,7 +229,7 @@ glucoseRouter.delete('/user/:userId', checkToken, isAdmin, function (req, res) {
     let userId = Number.parseInt(req.params.userId)
 
     if (userId > 0) {
-        knex('glucose')
+        database('glucose')
           .where('user_id', userId)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED }))

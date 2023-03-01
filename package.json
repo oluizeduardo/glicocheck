@@ -4,6 +4,7 @@
   "description": "NodeJS web API to control diabetes.",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,7 +26,9 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.2.0",
     "morgan": "^1.10.0",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.1.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

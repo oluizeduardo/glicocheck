@@ -3,17 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs'); 
 const usersRouter = express.Router ();
 const Messages = require('../messages');
-
-// CONFIG TO CONNECT WITH THE DATABASE.
-const knex = require ('knex') ({
-    client: 'pg',// POSTGRESQL
-    connection: {
-        connectionString: process.env.DATABASE_URL,// Look up at .env file.
-        ssl: {
-            rejectUnauthorized: false
-        },
-    }
-})
+const database = require('../db/dbconfig.js');
 
 
 // Authenticate password
@@ -45,7 +35,7 @@ let checkToken = (req, res, next) => {
 
 // CHECK USER ROLE.
 let isAdmin = (req, res, next) => {
-    knex
+    database
         .select ('*').from ('users').where({ id: req.userId })
         .then ((users) => {
             if (users.length) {
@@ -71,7 +61,7 @@ let isAdmin = (req, res, next) => {
 
 // READ ALL USERS.
 usersRouter.get('/', checkToken, isAdmin, function (req, res) {
-    knex('users')
+    database('users')
         .join('role', 'users.role_id', 'role.id')
         .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
         .then(users => {
@@ -87,7 +77,7 @@ usersRouter.get('/', checkToken, isAdmin, function (req, res) {
 // READ A USER BASED ON HIS ID.
 usersRouter.get('/:id', checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id);
-    knex('users')
+    database('users')
         .where('users.id', id)
         .join('role', 'users.role_id', 'role.id')
         .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
@@ -105,7 +95,7 @@ usersRouter.get('/:id', checkToken, isAdmin, function (req, res) {
 usersRouter.put('/:id', checkToken, isAdmin, express.json(), function (req, res) {
     let id = Number.parseInt(req.params.id);
    
-    let response = knex('users')
+    let response = database('users')
         .where('id', id)
         .update({
             name: req.body.name,
@@ -134,7 +124,7 @@ usersRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id)
 
     if (id > 0) {
-        knex('users')
+        database('users')
           .where('id', id)
           .del()
           .then(res.status(200).json({message: `User ${id} has been deleted!`}))

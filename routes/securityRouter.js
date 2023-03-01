@@ -1,26 +1,16 @@
 const express = require('express');
 const bcrypt = require('bcryptjs'); 
-const jwt = require('jsonwebtoken'); 
+const jwt = require('jsonwebtoken');
 const securityRouter = express.Router ();
 const Messages = require('../messages');
+const database = require('../db/dbconfig.js');
 
 const TOKEN_EXPIRING_TIME = '30m'
-
-// CONFIG TO CONNECT WITH THE DATABASE.
-const knex = require ('knex') ({
-    client: 'pg',// POSTGRESQL
-    connection: {
-        connectionString: process.env.DATABASE_URL,// Look up at .env file.
-        ssl: {
-            rejectUnauthorized: false
-        },
-    }
-})
 
 
 // REGISTER A NEW USER.
 securityRouter.post('/register', express.json(), function (req, res) {
-    knex('users')
+    database('users')
         .insert({
             name: req.body.name,
             email: req.body.email,
@@ -43,7 +33,7 @@ securityRouter.post('/register', express.json(), function (req, res) {
 
 // LOGIN.
 securityRouter.post('/login', function (req, res) {    
-    knex
+    database
     .select('*').from('users')
     .where( { login: req.body.login })
     .then( users => {

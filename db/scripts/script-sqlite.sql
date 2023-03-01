@@ -1,18 +1,11 @@
+-- SQLite
+
 ------------- CLEAN DATABASE -------------
 DELETE FROM glucose;
 DELETE FROM measurement_unity;
 DELETE FROM marker_meal;
 DELETE FROM users;
 DELETE FROM role;
-
-
-------------- RESTART SEQUENCE -------------
-ALTER SEQUENCE IF EXISTS glucose_id_seq RESTART;
-ALTER SEQUENCE IF EXISTS measurement_id_seq RESTART;
-ALTER SEQUENCE IF EXISTS markermeal_id_seq RESTART;
-ALTER SEQUENCE IF EXISTS user_id_seq RESTART;
-ALTER SEQUENCE IF EXISTS role_id_seq RESTART;
-
 
 
 ------------- DROPS -------------
@@ -22,21 +15,11 @@ DROP TABLE IF EXISTS marker_meal;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS role;
 
-DROP SEQUENCE IF EXISTS glucose_id_seq;
-DROP SEQUENCE IF EXISTS measurement_id_seq;
-DROP SEQUENCE IF EXISTS markermeal_id_seq;
-DROP SEQUENCE IF EXISTS user_id_seq;
-DROP SEQUENCE IF EXISTS role_id_seq;
-
-
 
 ------------- ROLES -------------
-CREATE SEQUENCE role_id_seq; 
-
 CREATE TABLE role ( 
-    id int NOT NULL DEFAULT nextval('role_id_seq'), 
-    description varchar(100) NOT NULL,
-    CONSTRAINT role_pk PRIMARY KEY (id) 
+    id integer primary key autoincrement,
+    description varchar(50) NOT NULL
 );
 
 INSERT INTO role (description) VALUES('ADMIN');
@@ -47,17 +30,14 @@ SELECT * FROM role;
 
 
 ------------- USERS -------------
-CREATE SEQUENCE user_id_seq; 
-
 CREATE TABLE users ( 
-    id int NOT NULL DEFAULT nextval('user_id_seq'), 
+    id integer primary key autoincrement,
     name varchar(200) NOT NULL, 
     email varchar(100) NOT NULL, 
     login varchar(100) NOT NULL, 
     password varchar(200) NOT NULL, 
     role_id int NOT NULL, 
 
-    CONSTRAINT user_pk PRIMARY KEY (id),
     CONSTRAINT fk_role
       FOREIGN KEY(role_id) 
 	  REFERENCES role(id) 
@@ -71,12 +51,9 @@ SELECT * FROM users;
 
 
 ---- MEASUREMENTS UNITY FOR GLUCOSE READINGS ----
-CREATE SEQUENCE measurement_id_seq; 
-
 CREATE TABLE measurement_unity ( 
-    id int NOT NULL DEFAULT nextval('measurement_id_seq'), 
-    description varchar(15) NOT NULL,
-    CONSTRAINT measurement_pk PRIMARY KEY (id) 
+    id integer primary key autoincrement,
+    description varchar(15) NOT NULL
 );
 
 -- mg/dL or mmol/L.
@@ -88,12 +65,9 @@ SELECT * FROM measurement_unity;
 
 
 ------------- MARKER MEAL -------------
-CREATE SEQUENCE markermeal_id_seq; 
-
 CREATE TABLE marker_meal ( 
-    id int NOT NULL DEFAULT nextval('markermeal_id_seq'), 
-    description varchar(50) NOT NULL,
-    CONSTRAINT markermeal_pk PRIMARY KEY (id) 
+    id integer primary key autoincrement,
+    description varchar(50) NOT NULL
 );
 
 INSERT INTO marker_meal (description) VALUES('Fasting');
@@ -110,18 +84,15 @@ SELECT * FROM marker_meal;
 
 
 ------------- GLUCOSE -------------
-CREATE SEQUENCE glucose_id_seq; 
-
 CREATE TABLE glucose ( 
-    id int NOT NULL DEFAULT nextval('glucose_id_seq'), 
-	user_id int NOT NULL,
-	glucose int NOT NULL,
-	unity_id int NOT NULL,
+    id integer primary key autoincrement,
+	user_id integer NOT NULL,
+	glucose integer NOT NULL,
+	unity_id integer NOT NULL,
 	date varchar(10) NOT NULL,
     hour TIME(6) NOT NULL,
-	markermeal_id int NOT NULL,
+	markermeal_id integer NOT NULL,
 
-    CONSTRAINT glucose_pk PRIMARY KEY (id),
 	CONSTRAINT fk_user
       FOREIGN KEY(user_id) 
 	  REFERENCES users(id),

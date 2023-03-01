@@ -2,17 +2,7 @@ const express = require('express')
 const markerMealRouter = express.Router ();
 const jwt = require('jsonwebtoken');
 const Messages = require('../messages');
-
-// CONFIG TO CONNECT WITH THE DATABASE.
-const knex = require ('knex') ({
-    client: 'pg',// POSTGRESQL
-    connection: {
-        connectionString: process.env.DATABASE_URL,// Look up at .env file.
-        ssl: {
-            rejectUnauthorized: false
-        },
-    }
-});
+const database = require('../db/dbconfig.js');
 
 
 // Authenticate password
@@ -44,7 +34,7 @@ let checkToken = (req, res, next) => {
 
 // CHECK USER ROLE.
 let isAdmin = (req, res, next) => {
-    knex
+    database
         .select ('*').from ('users').where({ id: req.userId })
         .then ((users) => {
             if (users.length) {
@@ -72,7 +62,7 @@ let isAdmin = (req, res, next) => {
 
 // READ ALL MARKERS.
 markerMealRouter.get('/', checkToken, function (req, res) {
-    knex
+    database
         .select('*')
         .from('marker_meal')
         .then(markers => {
@@ -88,7 +78,7 @@ markerMealRouter.get('/', checkToken, function (req, res) {
 // READ A MARKER MEAL BASED ON ID.
 markerMealRouter.get('/:id', checkToken, function (req, res) {
     let id = Number.parseInt(req.params.id);
-    knex('marker_meal')
+    database('marker_meal')
         .where('id', id)
         .select('id', 'description')
         .then(markers => {
@@ -103,7 +93,7 @@ markerMealRouter.get('/:id', checkToken, function (req, res) {
 
 // CREATE A NEW MARKER MEAL.
 markerMealRouter.post('/', checkToken, isAdmin, express.json(), function (req, res) {
-    knex('marker_meal')
+    database('marker_meal')
         .insert({
             description: req.body.description
         }, 
@@ -120,7 +110,7 @@ markerMealRouter.post('/', checkToken, isAdmin, express.json(), function (req, r
 markerMealRouter.put('/:id', checkToken, isAdmin, express.json(), function (req, res) {
     let id = Number.parseInt(req.params.id);
    
-    knex('marker_meal')
+    database('marker_meal')
         .where('id', id)
         .update({ description: req.body.description },['id', 'description'])
         .then (markers => {            
@@ -142,7 +132,7 @@ markerMealRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id)
 
     if (id > 0) {
-        knex('marker_meal')
+        database('marker_meal')
           .where('id', id)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
