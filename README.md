@@ -1,11 +1,14 @@
 # my-diabetes-js
-Web API to control diabetes. 
+Web platform to control diabetes. 
 API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expressjs.com/) to manage the web application and [KnexJS](http://knexjs.org/) to build queries and datasource connection.
 
 # How to run locally
 - Clone this project.
-- Run `npm install` to install the dependencies.
-- Run `nodemon server.js` on your terminal.
+    - `git clone https://github.com/oluizeduardo/my-diabetes-js.git`
+- Install all the dependencies.
+    - `npm install`
+- Run the server.
+    - `npm run dev`
 
 # Link
 - Homepage: http://localhost:3000/site
@@ -67,4 +70,4 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing.
 - [KnexJS](https://knexjs.org/)
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Json Web Token](https://jwt.io/)
-- PostgresSQL
+- [SQLite](https://www.sqlite.org/index.html)
