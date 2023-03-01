@@ -2,20 +2,19 @@
 Web API to control diabetes. 
 API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expressjs.com/) to manage the web application and [KnexJS](http://knexjs.org/) to build queries and datasource connection.
 
-# Link
-- Homepage: https://my-diabetes-js.herokuapp.com/site/
-- API: https://my-diabetes-js.herokuapp.com/api/
-
 # How to run locally
 - Clone this project.
 - Run `npm install` to install the dependencies.
-- Run `nodemon .\server.js` on your terminal.
-- On your browser type `http://localhost:3000/api/{resource}`
+- Run `nodemon server.js` on your terminal.
+
+# Link
+- Homepage: http://localhost:3000/site
+- API: http://localhost:3000/api/{resource}
 
 # Endpoints
 Use an API testing tool such as [Postman](https://www.postman.com/downloads/) or [Thunder Client for VS Code](https://marketplace.visualstudio.com/items?itemName=rangav.vscode-thunder-client) to send requests to the following endpoints.
 
-You can assume `{HOST}` as being `http://localhost:3000` for local testing or `https://my-diabetes-js.herokuapp.com` for production, both address use the same datasource.
+You can assume `{HOST}` as being `http://localhost:3000` for local testing.
 
 ## /security
 
@@ -69,4 +68,3 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing or `h
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Json Web Token](https://jwt.io/)
 - PostgresSQL
-- Heroku
