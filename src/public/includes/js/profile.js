@@ -1,6 +1,5 @@
 var field_Name = document.getElementById("field_Name");
 let field_Email = document.getElementById("field_Email");
-let field_Username = document.getElementById("field_Username");
 let field_Password = document.getElementById("field_Password");
 let field_confirm_Password = document.getElementById("field_confirm_Password");
 let btnSave = document.getElementById("btnSave");
@@ -19,7 +18,6 @@ function loadUserInfos(){
             const userInfosJSON = JSON.parse(xmlhttp.responseText);
             field_Name.value = userInfosJSON[0].name;
             field_Email.value = userInfosJSON[0].email;
-            field_Username.value = userInfosJSON[0].login;
           }
         }
     };
@@ -58,11 +56,11 @@ btnSave.addEventListener('click', function(event){
             if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) 
             {
                 if(xmlhttp.status == SUCCESS)
-                {                    
-                    alert('Saved!');
+                {
+                    swal("Saved!", '', "success");
                 
                 }else{
-                    alert('Error trying to update user infos.');
+                    swal("Error", 'Error trying to update user infos.', "error");
                 }
             }
         };
@@ -73,7 +71,7 @@ btnSave.addEventListener('click', function(event){
 });
 
 function isValidDataEntry(){
-    return (field_Name.value && field_Email.value && field_Username.value && 
+    return (field_Name.value && field_Email.value && 
             field_Password.value && field_confirm_Password.value);
 }
 
@@ -92,17 +90,13 @@ function prepareJsonUser(){
     return JSON.stringify({
         name: field_Name.value,
         email: field_Email.value,
-        login: field_Username.value,
         password: field_Password.value,
         role_id: 1
     });
 }
 
 function showAlertMessage(){
-    field_Name.style = "border:1px solid red;"
-    field_Email.style = "border:1px solid red;"
-    field_Username.style = "border:1px solid red;"
-    alert('Please, fill up all the fields.');
+    swal("Please, fill in all the fields", 'All the fields need to be filled.', "warning");
 }
 
 loadUserInfos();

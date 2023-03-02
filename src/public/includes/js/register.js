@@ -1,8 +1,8 @@
 const btnRegister = document.getElementById('btnRegister');
 let field_name = document.getElementById("field_Name");
 let field_email = document.getElementById("field_Email");
-let field_login = document.getElementById("field_Login");
-let field_password = document.getElementById("field_Password");
+var field_password = document.getElementById("field_Password");
+var confirm_password = document.getElementById("field_ConfirmPassword");
 
 const SUCEESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
@@ -20,7 +20,7 @@ btnRegister.addEventListener('click', function(event){
                     handleLogin();
                 
                 }else {
-                    alert('Error trying to create new account. Please try again.');
+                    alert(Messages.ERROR_CREATE_ACCOUNT);
                 }
             }
         };
@@ -30,9 +30,13 @@ btnRegister.addEventListener('click', function(event){
     }
 });
 
-function isValidDataEntry(){
+function isValidDataEntry(){    
     return (field_name.value && field_email.value && 
-            field_login.value && field_password.value);
+            field_password.value && isPasswordMatch());
+}
+
+function isPasswordMatch(){
+    return (field_password.value === confirm_password.value);
 }
 
 function sendRequestToRegisterNewUser(xmlhttp){
@@ -46,15 +50,22 @@ function prepareJsonNewUser(){
     return JSON.stringify({
         name: field_name.value,
         email: field_email.value,
-        login: field_login.value,
         password: field_password.value,
         role_id: 1//ADMIN
     });
 }
 
 function handleLogin() {
-    alert('New user created! Now you can log in.');
-    location.href = './index.html';
+    swal({
+        title: "Success",
+        text: "New user created! Now you can log in.",
+        icon: "success"
+    })
+    .then(willRedirect => {
+        if (willRedirect) {
+            location.href = './index.html';
+        }
+    });
 }
 
 function redirectToDashboard(){
@@ -62,5 +73,9 @@ function redirectToDashboard(){
 }
 
 function showMessageAlert(){
-    alert('Please, fill in all the fields.');
+    if(!isPasswordMatch()){
+        swal("Passwords don't match", "Please, confirm the password.", "warning");
+    }else{
+        swal("Please, fill in all the fields", 'All the fields need to be filled.', "warning");
+    }    
 }

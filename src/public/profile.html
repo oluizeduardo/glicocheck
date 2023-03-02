@@ -14,6 +14,8 @@
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">   
     <link href="./includes/styles/profile.css" rel="stylesheet">
+    <!-- Sweet alert -->
+    <link href="./includes/sweet-alert/sweetalert.css" rel="stylesheet">
   </head>
 
   <body>    
@@ -88,11 +90,6 @@
                                     <div class="mb-3">
                                         <label for="field_Email" class="form-label">Email address</label>
                                         <input type="email" class="form-control" id="field_Email" aria-describedby="emailHelp" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="field_Username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="field_Username" aria-describedby="userNameHelp" required>
-                                        <div id="userNameHelp" class="form-text">You use this username for log in.</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="field_Pasword" class="form-label">Password</label>
@@ -190,6 +187,7 @@
     crossorigin="anonymous"></script>
     <!-- LOAD PAGE ACTIONS -->
     <script src="./includes/js/profile.js"></script> 
-    <script src="./includes/js/deleteAccount.js"></script>     
+    <script src="./includes/js/deleteAccount.js"></script>
+    <script src="./includes/sweet-alert/sweetalert-dev.js"></script>
   </body>
 </html>

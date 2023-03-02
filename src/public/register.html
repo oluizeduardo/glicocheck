@@ -15,6 +15,8 @@
     <!-- Custom style -->
     <link href="./includes/styles/style.css" rel="stylesheet">
     <link href="./includes/styles/forms.css" rel="stylesheet">
+    <!-- Sweet alert -->
+    <link href="./includes/sweet-alert/sweetalert.css" rel="stylesheet">
   </head>
 
   <body>  
@@ -33,8 +35,8 @@
             <main class="form-input w-100 m-auto">              
               <form>
                 <div class="mb-3">
-                  <h4 class="fw-normal">Create new account</h4>
-                  <small>It’s quick and easy.</small>
+                  <h4 class="fw-normal">Create your account</h4>
+                  <small>It's quick and easy.</small>
                 </div>
 
                 <div class="form-floating">
@@ -48,13 +50,13 @@
                 </div>
 
                 <div class="form-floating">
-                  <input type="text" class="form-control square-borders" id="field_Login" placeholder="Login" required>
-                  <label for="field_Login">Username</label>
+                  <input type="password" class="form-control square-borders" id="field_Password" placeholder="Password" required>
+                  <label for="field_Password">Password</label>
                 </div>
 
                 <div class="form-floating">
-                  <input type="password" class="form-control square-top-borders" id="field_Password" placeholder="Password" required>
-                  <label for="field_Password">Password</label>
+                  <input type="password" class="form-control square-top-borders" id="field_ConfirmPassword" placeholder="Confirm password" required>
+                  <label for="field_ConfirmPassword">Confirm password</label>
                 </div>
 
                 <button class="w-100 btn btn-lg btn-primary mb-3 mt-3" type="submit" id="btnRegister">Create account</button>
@@ -64,13 +66,13 @@
           <!-- FOOTER -->
           <footer class="footer">
             <span >
-              <!-- FORGOT PASSWORD? -->
-              <a href="./index.html">Cancel</a><br>
+              Already have an account? <a href="./index.html">Log in</a><br>
             </span>
           </footer>
         </div>
       </div>
     </div> 
     <script src="./includes/js/register.js"></script>
+    <script src="./includes/sweet-alert/sweetalert-dev.js"></script>
   </body>
 </html>

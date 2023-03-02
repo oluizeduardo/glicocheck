@@ -14,7 +14,6 @@ securityRouter.post('/register', express.json(), function (req, res) {
         .insert({
             name: req.body.name,
             email: req.body.email,
-            login: req.body.login,
             password: bcrypt.hashSync(req.body.password, 8),
             role_id: req.body.role_id
         }, 
@@ -35,7 +34,7 @@ securityRouter.post('/register', express.json(), function (req, res) {
 securityRouter.post('/login', function (req, res) {    
     database
     .select('*').from('users')
-    .where( { login: req.body.login })
+    .where( { email: req.body.email })
     .then( users => {
         if(users.length){
             let user = users[0];
@@ -46,7 +45,6 @@ securityRouter.post('/login', function (req, res) {
                 res.set('Authorization', tokenJWT);
                 res.status(201).json ({
                     id: user.id,
-                    login: user.login,
                     email: user.email,
                     role_id: user.role_id,
                     accessToken: tokenJWT

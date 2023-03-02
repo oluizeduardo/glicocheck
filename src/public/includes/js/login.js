@@ -1,5 +1,5 @@
 let btnSingIn = document.getElementById("btnSingIn");
-var field_login = document.getElementById("field_Login");
+var field_email = document.getElementById("field_Email");
 var field_password = document.getElementById("field_Password");
 
 const SUCEESS = 201;
@@ -21,7 +21,9 @@ btnSingIn.addEventListener('click', function(event){
                     generateAccessTokenAndRedirect(xmlhttp);
                 
                 }else if(xmlhttp.status == FORBIDDEN){
-                    alert('Wrong credentials.');
+                    const message  = `Please try again by entering the same email 
+                                      and password used during account creation.`
+                    swal("Wrong credentials", message, "error");
                 }
             }
         };
@@ -32,7 +34,7 @@ btnSingIn.addEventListener('click', function(event){
 });
 
 function isValidDataEntry(){
-    return (field_login.value && field_password.value);
+    return (field_email.value && field_password.value);
 }
 
 function sendRequestToLogin(xmlhttp){
@@ -44,13 +46,16 @@ function sendRequestToLogin(xmlhttp){
 
 function prepareJsonLogin(){
     return JSON.stringify({
-        login: field_login.value,
+        email: field_email.value,
         password: field_password.value
     });
 }
 
-function redirectToDashboard(){
-    location.href = './dashboard.html';
+function generateAccessTokenAndRedirect(xmlhttp){
+    const token = getAuthorizationHeaderValue(xmlhttp);    
+    setJwtToken(token);
+    setUserId(xmlhttp);                
+    redirectToDashboard();
 }
 
 function getAuthorizationHeaderValue(xmlhttp){
@@ -59,13 +64,6 @@ function getAuthorizationHeaderValue(xmlhttp){
 
 function setJwtToken(token) {
     sessionStorage.setItem("jwt", token)
-}
-
-function generateAccessTokenAndRedirect(xmlhttp){
-    const token = getAuthorizationHeaderValue(xmlhttp);    
-    setJwtToken(token);
-    setUserId(xmlhttp);                
-    redirectToDashboard();
 }
 
 function setUserId(xmlhttp){
@@ -77,8 +75,10 @@ function setUserId(xmlhttp){
         });
 }
 
+function redirectToDashboard(){
+    location.href = './dashboard.html';
+}
+
 function showLoginError(){
-    field_login.style = "border:1px solid red;"
-    field_password.style = "border:1px solid red;"
-    alert('Please, inform correct login and password.');
+    swal("Wrong credentials", "Please, inform the correct email and password.", "warning");
 }

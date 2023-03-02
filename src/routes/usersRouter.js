@@ -59,11 +59,11 @@ let isAdmin = (req, res, next) => {
 };
 
 
-// READ ALL USERS.
+// GET ALL USERS.
 usersRouter.get('/', checkToken, isAdmin, function (req, res) {
     database('users')
         .join('role', 'users.role_id', 'role.id')
-        .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
+        .select('users.id', 'users.name', 'users.email', 'role.description as role')
         .then(users => {
             if(users.length){
                 res.status(200).json(users);
@@ -74,13 +74,13 @@ usersRouter.get('/', checkToken, isAdmin, function (req, res) {
 })
 
 
-// READ A USER BASED ON HIS ID.
+// GET USER BY ID.
 usersRouter.get('/:id', checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id);
     database('users')
         .where('users.id', id)
         .join('role', 'users.role_id', 'role.id')
-        .select('users.id', 'users.name', 'users.email', 'users.login', 'role.description as role')
+        .select('users.id', 'users.name', 'users.email', 'role.description as role')
         .then(users => {
             if(users.length){
                 res.status(200).json(users);
@@ -91,7 +91,7 @@ usersRouter.get('/:id', checkToken, isAdmin, function (req, res) {
 })
 
 
-// UPDATE A USER BASED ON HIS ID.
+// UPDATE USER BY ID.
 usersRouter.put('/:id', checkToken, isAdmin, express.json(), function (req, res) {
     let id = Number.parseInt(req.params.id);
    
@@ -100,11 +100,10 @@ usersRouter.put('/:id', checkToken, isAdmin, express.json(), function (req, res)
         .update({
             name: req.body.name,
             email: req.body.email,
-            login: req.body.login,
             password: bcrypt.hashSync(req.body.password, 8),
             role_id: req.body.role_id
         },
-        ['id', 'name','email','login', 'role_id']);
+        ['id', 'name','email', 'role_id']);
 
     response.then (users => {            
             if(users.length){
@@ -119,7 +118,7 @@ usersRouter.put('/:id', checkToken, isAdmin, express.json(), function (req, res)
 })
 
 
-// DELETE A USER BASED ON HIS ID.
+// DELETE USER BY ID.
 usersRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
     let id = Number.parseInt(req.params.id)
 

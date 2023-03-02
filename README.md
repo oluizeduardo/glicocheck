@@ -69,3 +69,5 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing.
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
 - [Json Web Token](https://jwt.io/)
 - [SQLite](https://www.sqlite.org/index.html)
+- [Bootstrap](https://getbootstrap.com/)
+- [SweetAlert](https://sweetalert.js.org/)
