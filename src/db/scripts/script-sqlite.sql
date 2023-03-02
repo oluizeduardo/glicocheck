@@ -42,9 +42,6 @@ CREATE TABLE users (
 	  REFERENCES role(id) 
 );
 
-INSERT INTO users (name, email, password, role_id) 
-    VALUES('Admin Test', 'admin@admin.com', '$2a$08$TxWIlv2tAVrtjf2sayFVkuYBneqtQrufo5985f0m396qNsNpeqwSO', 1);
-
 SELECT * FROM users;
 
 
