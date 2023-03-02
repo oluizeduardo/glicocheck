@@ -69,7 +69,7 @@ function setJwtToken(token) {
 function setUserId(xmlhttp){
     JSON.parse(xmlhttp.response, 
         (k, v) => {
-            if(k === "id"){
+            if(k === "user_id"){
                 sessionStorage.setItem("userId", v);
             }
         });

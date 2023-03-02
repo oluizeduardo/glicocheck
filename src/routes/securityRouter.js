@@ -19,8 +19,8 @@ securityRouter.post('/register', express.json(), function (req, res) {
         }, 
         ['id'])
     .then(users => {
-        let user = users[0];
-        res.status(201).json({user});
+        let user_id = users[0];
+        res.status(201).json({user_id});
     })
     .catch(err => res.status(500)
     .json({
@@ -44,9 +44,7 @@ securityRouter.post('/login', function (req, res) {
                 var tokenJWT = createTokenJWT(user);
                 res.set('Authorization', tokenJWT);
                 res.status(201).json ({
-                    id: user.id,
-                    email: user.email,
-                    role_id: user.role_id,
+                    user_id: user.id,
                     accessToken: tokenJWT
                 })                    
                 return
