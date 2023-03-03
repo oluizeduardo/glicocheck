@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const glucoseRouter = express.Router();
-const Messages = require('../messages');
+const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 
 

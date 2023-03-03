@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs'); 
 const jwt = require('jsonwebtoken');
 const securityRouter = express.Router ();
-const Messages = require('../messages');
+const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 
 const TOKEN_EXPIRING_TIME = '30m'

@@ -1,7 +1,7 @@
 const express = require('express')
 const markerMealRouter = express.Router ();
 const jwt = require('jsonwebtoken');
-const Messages = require('../messages');
+const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 
 

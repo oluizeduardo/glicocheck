@@ -2,7 +2,7 @@ const express = require('express')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs'); 
 const usersRouter = express.Router ();
-const Messages = require('../messages');
+const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 
 
