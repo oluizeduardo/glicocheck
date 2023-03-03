@@ -7,7 +7,7 @@ var confirm_password = document.getElementById("field_ConfirmPassword");
 const SUCEESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-btnRegister.addEventListener('click', function(event){
+btnRegister.addEventListener('click', (event) => {
     event.preventDefault();
 
     if(isValidDataEntry()){
@@ -26,7 +26,7 @@ btnRegister.addEventListener('click', function(event){
         };
         sendRequestToRegisterNewUser(xmlhttp);
     }else{
-        showMessageAlert();
+        showAlertMessage();
     }
 });
 
@@ -61,18 +61,12 @@ function handleLogin() {
         text: "New user created! Now you can log in.",
         icon: "success"
     })
-    .then(willRedirect => {
-        if (willRedirect) {
-            location.href = './index.html';
-        }
+    .then(() => {
+        location.href = './index.html';
     });
 }
 
-function redirectToDashboard(){
-    location.href = './dashboard.html';
-}
-
-function showMessageAlert(){
+function showAlertMessage(){
     if(!isPasswordMatch()){
         swal("Passwords don't match", "Please, confirm the password.", "warning");
     }else{

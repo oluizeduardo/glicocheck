@@ -19,13 +19,13 @@ btnSave.addEventListener('click', function(event){
                     resetFields();
                     resetChart();                
                 }else {
-                    alert('Error. Please try again.\n'+xmlhttp.responseText);
+                    swal("Error", 'Please, try again', "error");
                 }
             }
         };
         sendPOSTToGlucose(xmlhttp);
     }else{
-        showMessageAlert();
+        showWarningMessage();
     }
 });
 
@@ -66,8 +66,8 @@ function getTime(){
     return field_Date.value.slice(11);
 }
 
-function showMessageAlert(){
-    alert('Please, fill in all the fields.');
+function showWarningMessage(){
+    swal("", 'Please, fill in all the fields.', "warning");
 }
 
 function getJwtToken() {

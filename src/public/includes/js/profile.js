@@ -45,7 +45,7 @@ function getUserId() {
 return sessionStorage.getItem("userId")
 }
 
-btnSave.addEventListener('click', function(event){
+btnSave.addEventListener('click', (event) => {
     event.preventDefault();
 
     if(isValidDataEntry())
@@ -58,7 +58,7 @@ btnSave.addEventListener('click', function(event){
                 if(xmlhttp.status == SUCCESS)
                 {
                     swal("Saved!", '', "success");
-                
+                                    
                 }else{
                     swal("Error", 'Error trying to update user infos.', "error");
                 }
@@ -96,7 +96,7 @@ function prepareJsonUser(){
 }
 
 function showAlertMessage(){
-    swal("Please, fill in all the fields", 'All the fields need to be filled.', "warning");
+    swal("", 'All the fields need to be filled.', "warning");
 }
 
 loadUserInfos();

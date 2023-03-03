@@ -6,7 +6,7 @@ const SUCEESS = 201;
 const FORBIDDEN = 403;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-btnSingIn.addEventListener('click', function(event){
+btnSingIn.addEventListener('click', (event) => {
     event.preventDefault();
 
     if(isValidDataEntry())

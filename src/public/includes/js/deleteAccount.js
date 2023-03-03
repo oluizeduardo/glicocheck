@@ -1,8 +1,8 @@
 let btnConfirmDeleteAccount = document.getElementById("btnConfirmDeleteAccount");
 let field_delete_account_Password = document.getElementById("field_delete_account_Password");
 
-btnConfirmDeleteAccount.addEventListener('click', function(event){
-    // In the future check user's password.
+btnConfirmDeleteAccount.addEventListener('click', () => {
+    // In the future check user's password before deleting the account.
     if(field_delete_account_Password.value){
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = () => 
@@ -14,7 +14,7 @@ btnConfirmDeleteAccount.addEventListener('click', function(event){
         };
         sendRequestToDeleteGlucoseReadings(xmlhttp);
     }else{
-        alert('Please, type the correct password to delete this account.');
+        swal("Password needed", 'Please, type the correct password to delete your account.', "warning");
     }
 });
 
@@ -34,8 +34,15 @@ function deleteUserAccount(){
     {
         if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE && xmlhttp.status == OK) 
         {
-            logOut();
-            alert('The account has been deleted!');
+            swal({
+                title: "Success!",
+                text: "Your account has been deleted.",
+                icon: "success",
+                closeOnClickOutside: false
+            })
+            .then(() => {
+                logOut();
+            });
         }
     };
     sendRequestToDeleteUserAccount(xmlhttp);
