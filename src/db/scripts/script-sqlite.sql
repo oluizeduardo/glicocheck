@@ -102,6 +102,4 @@ CREATE TABLE glucose (
     FOREIGN KEY(markermeal_id) REFERENCES marker_meal(id)
 );
 
-INSERT INTO glucose (user_id, glucose, unity_id, date, hour, markermeal_id) VALUES(1, 60, 1, '2022-08-01', '00:05:00', 1);
-
 SELECT * FROM glucose;
