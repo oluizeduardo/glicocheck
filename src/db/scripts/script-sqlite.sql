@@ -18,8 +18,10 @@ DROP TABLE IF EXISTS role;
 
 ------------- ROLES -------------
 CREATE TABLE role ( 
-    id integer primary key autoincrement,
-    description varchar(50) NOT NULL
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    description varchar(50) NOT NULL,
+    created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+    updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
 
 INSERT INTO role (description) VALUES('ADMIN');
@@ -31,15 +33,15 @@ SELECT * FROM role;
 
 ------------- USERS -------------
 CREATE TABLE users ( 
-    id integer primary key autoincrement,
-    name varchar(200) NOT NULL, 
-    email varchar(100) NOT NULL,
-    password varchar(200) NOT NULL, 
-    role_id int NOT NULL, 
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       varchar(200) NOT NULL, 
+    email      varchar(100) NOT NULL,
+    password   varchar(200) NOT NULL, 
+    role_id    INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT (datetime('now','localtime')),
+    updated_at TIMESTAMP DEFAULT (datetime('now','localtime')),
 
-    CONSTRAINT fk_role
-      FOREIGN KEY(role_id) 
-	  REFERENCES role(id) 
+    FOREIGN KEY(role_id) REFERENCES role(id) 
 );
 
 SELECT * FROM users;
@@ -48,8 +50,10 @@ SELECT * FROM users;
 
 ---- MEASUREMENTS UNITY FOR GLUCOSE READINGS ----
 CREATE TABLE measurement_unity ( 
-    id integer primary key autoincrement,
-    description varchar(15) NOT NULL
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    description varchar(15) NOT NULL,
+    created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+    updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
 
 -- mg/dL or mmol/L.
@@ -62,8 +66,10 @@ SELECT * FROM measurement_unity;
 
 ------------- MARKER MEAL -------------
 CREATE TABLE marker_meal ( 
-    id integer primary key autoincrement,
-    description varchar(50) NOT NULL
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    description varchar(50) NOT NULL,
+    created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+    updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
 
 INSERT INTO marker_meal (description) VALUES('Fasting');
@@ -81,25 +87,19 @@ SELECT * FROM marker_meal;
 
 ------------- GLUCOSE -------------
 CREATE TABLE glucose ( 
-    id integer primary key autoincrement,
-	user_id integer NOT NULL,
-	glucose integer NOT NULL,
-	unity_id integer NOT NULL,
-	date varchar(10) NOT NULL,
-    hour TIME(6) NOT NULL,
-	markermeal_id integer NOT NULL,
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+	user_id       INTEGER NOT NULL,
+	glucose       INTEGER NOT NULL,
+	unity_id      INTEGER NOT NULL,
+	date          varchar(10) NOT NULL,
+    hour          TIME(6) NOT NULL,
+	markermeal_id INTEGER NOT NULL,
+    created_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
+    updated_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
 
-	CONSTRAINT fk_user
-      FOREIGN KEY(user_id) 
-	  REFERENCES users(id),
-    
-    CONSTRAINT fk_unity
-      FOREIGN KEY(unity_id) 
-	  REFERENCES measurement_unity(id),
-
-    CONSTRAINT fk_markermeal
-      FOREIGN KEY(markermeal_id) 
-	  REFERENCES marker_meal(id)
+    FOREIGN KEY(user_id) REFERENCES users(id),
+    FOREIGN KEY(unity_id) REFERENCES measurement_unity(id),
+    FOREIGN KEY(markermeal_id) REFERENCES marker_meal(id)
 );
 
 INSERT INTO glucose (user_id, glucose, unity_id, date, hour, markermeal_id) VALUES(1, 60, 1, '2022-08-01', '00:05:00', 1);
