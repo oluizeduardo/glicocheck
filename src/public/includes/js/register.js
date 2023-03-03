@@ -20,7 +20,9 @@ btnRegister.addEventListener('click', (event) => {
                     handleLogin();
                 
                 }else {
-                    alert(Messages.ERROR_CREATE_ACCOUNT);
+                    const message = `Error trying to create new account.
+                                    Please try again.`
+                    swal("Error", message, "error");
                 }
             }
         };

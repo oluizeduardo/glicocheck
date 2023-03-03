@@ -15,9 +15,9 @@ function loadUserInfos(){
         {
           if(xmlhttp.status == OK)
           {
-            const userInfosJSON = JSON.parse(xmlhttp.responseText);
-            field_Name.value = userInfosJSON[0].name;
-            field_Email.value = userInfosJSON[0].email;
+            const data = JSON.parse(xmlhttp.responseText);
+            field_Name.value = data.user.name;
+            field_Email.value = data.user.email;
           }
         }
     };
@@ -58,6 +58,8 @@ btnSave.addEventListener('click', (event) => {
                 if(xmlhttp.status == SUCCESS)
                 {
                     swal("Saved!", '', "success");
+                    field_Password.value = '';
+                    field_confirm_Password.value = '';
                                     
                 }else{
                     swal("Error", 'Error trying to update user infos.', "error");

@@ -3,6 +3,7 @@ const markerMealRouter = express.Router ();
 const jwt = require('jsonwebtoken');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
+const MarkerMealController = require('../controllers/markerMealController');
 
 
 // Authenticate password
@@ -59,91 +60,11 @@ let isAdmin = (req, res, next) => {
         })
 };
 
-
-// READ ALL MARKERS.
-markerMealRouter.get('/', checkToken, function (req, res) {
-    database
-        .select('*')
-        .from('marker_meal')
-        .then(markers => {
-            if(markers.length){
-                res.status(200).json(markers);
-            }else{
-                res.status(200).json({message: Messages.NOTHING_FOUND})
-            }
-        });
-})
-
-
-// READ A MARKER MEAL BASED ON ID.
-markerMealRouter.get('/:id', checkToken, function (req, res) {
-    let id = Number.parseInt(req.params.id);
-    database('marker_meal')
-        .where('id', id)
-        .select('id', 'description')
-        .then(markers => {
-            if(markers.length){
-                res.status(200).json(markers);
-            }else{
-                res.status(200).json({message: Messages.NOTHING_FOUND})
-            }
-        });
-})
-
-
-// CREATE A NEW MARKER MEAL.
-markerMealRouter.post('/', checkToken, isAdmin, express.json(), function (req, res) {
-    database('marker_meal')
-        .insert({
-            description: req.body.description
-        }, 
-        ['id', 'description'])
-    .then(markers => {
-        let marker = markers[0];
-        res.status(201).json({marker_meal: marker});
-    })
-    .catch(err => res.status(500).json({message: Messages.ERROR_CREATE_MARKERMEAL}))
-})
-
-
-// UPDATE A MARKER MEAL BASED ON ID.
-markerMealRouter.put('/:id', checkToken, isAdmin, express.json(), function (req, res) {
-    let id = Number.parseInt(req.params.id);
-   
-    database('marker_meal')
-        .where('id', id)
-        .update({ description: req.body.description },['id', 'description'])
-        .then (markers => {            
-            if(markers.length){
-                let marker = markers[0]
-                res.status(201).json({marker})
-            }else{
-                res.status(404).json({message: Messages.NOTHING_FOUND})
-            }
-        })
-        .catch (err => res.status(500)
-        .json ({ message: Messages.ERROR_UPDATE_MARKERMEAL,
-                 error: err.message}))
-})
-
-
-// DELETE A MARKER BASED ON ID.
-markerMealRouter.delete('/:id', checkToken, isAdmin, function (req, res) {
-    let id = Number.parseInt(req.params.id)
-
-    if (id > 0) {
-        database('marker_meal')
-          .where('id', id)
-          .del()
-          .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
-          .catch (err => res.status(500)
-                .json ({ message: Messages.ERROR_DELETE_MARKERMEAL,
-                    error: err.message}))
-    } else {
-        res.status(404).json({
-            message: Messages.NOTHING_FOUND
-        })
-    }        
-})
+markerMealRouter
+    .post('/', checkToken, isAdmin, express.json(), MarkerMealController.createNewMarkerMeal)
+    .get('/', checkToken, MarkerMealController.getAllMarkerMeals)
+    .get('/:id', checkToken, MarkerMealController.getMarkerMealById)
+    .put('/:id', checkToken, isAdmin, express.json(), MarkerMealController.updateMarkerMealById)
+    .delete('/:id', checkToken, isAdmin, MarkerMealController.deleteMarkerMealById);
 
 module.exports = markerMealRouter;
