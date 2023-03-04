@@ -1,6 +1,7 @@
 const Messages = require('../utils/messages');
 const jwt = require('jsonwebtoken');
 const database = require('../db/dbconfig.js');
+const bcrypt = require('bcryptjs');
 
 class SecurityUtils {
 
@@ -55,6 +56,27 @@ class SecurityUtils {
                   error: err.message })
             })
     };
+
+    /**
+     * Compare two passwords in BCrypt format.
+     * @param password1 The first password.
+     * @param password2 The second password.
+     * @returns true if are the same passwords. Return false otherwise.
+     */
+    static comparePassword = (password1, password2) => {
+        return bcrypt.compareSync(password1, password2);
+    }
+
+    /**
+     * Generates a hash value for the given string.
+     * @param s — String to hash.
+     * @return — Resulting hash
+     */
+    static generateHashValue = (s) => {
+        return bcrypt.hashSync(s, 8);
+    }
+
+    
 }
 
 module.exports = SecurityUtils;

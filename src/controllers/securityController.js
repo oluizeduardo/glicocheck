@@ -1,7 +1,7 @@
 const Messages = require('../utils/messages');
-const bcrypt = require('bcryptjs'); 
 const database = require('../db/dbconfig.js');
 const jwt = require('jsonwebtoken');
+const SecurityUtils = require('../utils/securityUtils');
 
 class SecurityController {
 
@@ -14,7 +14,7 @@ class SecurityController {
         .insert({
             name: req.body.name,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 8),
+            password: SecurityUtils.generateHashValue(req.body.password),
             role_id: req.body.role_id
         }, 
         ['id'])
@@ -40,7 +40,7 @@ class SecurityController {
       if(users.length)
       {
         let user = users[0];
-        let isValidPassword = bcrypt.compareSync (req.body.password, user.password);
+        let isValidPassword = SecurityUtils.comparePassword(req.body.password, user.password);
         
         if (isValidPassword)
         {
@@ -54,6 +54,37 @@ class SecurityController {
         }
       }
       res.status(403).json({ message: Messages.WRONG_CREDENTIALS })
+    })
+    .catch (err => {
+      res.status(500).json({
+          message: Messages.ERROR_CHECKING_CREDENTIALS,
+          error: err.message 
+      })
+    })
+  }
+
+  // PASSWORD VALIDATION
+  static passwordValidation = async (req, res) => {
+    await database
+    .select('password').from('users')
+    .where( { id: req.body.userId })
+    .then( users => 
+    {
+      if(users.length)
+      {
+        let user = users[0];
+        let isValidPassword = SecurityUtils.comparePassword(req.body.password, user.password);
+        
+        if (isValidPassword)
+        {
+          res.status(201).json ({ result: true });
+          return
+        }else{
+          res.status(201).json ({ result: false });
+          return
+        }
+      }
+      res.status(404).json({ message: Messages.NOTHING_FOUND })
     })
     .catch (err => {
       res.status(500).json({

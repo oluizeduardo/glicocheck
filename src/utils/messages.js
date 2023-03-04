@@ -21,7 +21,7 @@ class Messages{
     static ERROR_DELETE_MARKERMEAL = 'Error trying to delete marker meal.';
     static ERROR_UPDATE_MARKERMEAL = 'Error trying to update marker meal.';
 
-    static ERROR_CHECKING_CREDENTIALS = 'Error checking login credentials.';
+    static ERROR_CHECKING_CREDENTIALS = 'Error checking credentials.';
 }
 
 module.exports = Messages;
