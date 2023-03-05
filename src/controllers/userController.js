@@ -1,6 +1,6 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
-const bcrypt = require('bcryptjs'); 
+const SecurityUtils = require('../utils/securityUtils');
 
 class UserController {
 
@@ -39,23 +39,30 @@ class UserController {
 
     // UPDATE USER BY ID
     static updateUserById = async (req, res) => {
-        let id = Number.parseInt(req.params.id);
-        let user = {
+        const id = Number.parseInt(req.params.id);
+        
+        const newUser = {
             name: req.body.name,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 8),
+            password: SecurityUtils.generateHashValue(req.body.password),
             role_id: req.body.role_id,
             updated_at: new Date().toLocaleString('pt-BR', { timeZone: 'UTC' })
+        }
+        const user = {
+            name: newUser.name,
+            email: newUser.email,
+            role_id: newUser.role_id,
+            updated_at: newUser.updated_at
         }
        
         try{
             await database('users')
             .where('id', id)
-            .update(user)
+            .update(newUser)
             .then (numAffectedRegisters => {
                 if(numAffectedRegisters == 0)
                 {
-                    res.status(404).json({message: 'Nothing found'});                    
+                    res.status(404).json({message: Messages.NOTHING_FOUND});
                 }else{
                     res.status(201).json({user});
                 }

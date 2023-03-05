@@ -127,7 +127,7 @@ function sendGETToGlucose(xmlhttp){
 }
 
 function getJwtToken() {
-    return sessionStorage.getItem("jwt")
+  return sessionStorage.getItem("jwt")
 }
 function getUserId() {
   return sessionStorage.getItem("userId")

@@ -1,5 +1,6 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
+const DateTimeUtil = require('../utils/dateTimeUtil');
 
 class GlucoseController {
 
@@ -25,6 +26,7 @@ class GlucoseController {
             });
     }
 
+    // GET GLUCOSE READINGS BY USER ID.
     static getGlucoseReadingsByUserId = async (req, res) => {
         let id = Number.parseInt(req.params.userId);
     
@@ -116,28 +118,35 @@ class GlucoseController {
     static updateGlucoseReadingById = async (req, res) => {
         let id = Number.parseInt(req.params.id);
        
-        let response = database('glucose')
+        const glucose = {
+            glucose: req.body.glucose,
+            unity_id: req.body.unityId,
+            date: req.body.date,
+            hour: req.body.hour,
+            markermeal_id: req.body.markerMealId,
+            updated_at: DateTimeUtil.getCurrentDateTime()
+        }
+
+        try{
+            await database('glucose')
             .where('id', id)
-            .update({
-                glucose: req.body.glucose,
-                unity_id: req.body.unityId,
-                date: req.body.date,
-                hour: req.body.hour,
-                markermeal_id: req.body.markerMealId
-            },
-            ['glucose', 'unity_id','date','hour', 'markermeal_id']);
-    
-        response.then (glucoses => {            
-                if(glucoses.length){
-                    let glucose = glucoses[0]
-                    res.status(201).json({glucose})
+            .update({ glucose })
+            .then (numAffectedRegisters => {
+                if(numAffectedRegisters == 0)
+                {
+                    res.status(404).json({message: Messages.NOTHING_FOUND});                    
                 }else{
-                    res.status(404).json({message: Messages.NOTHING_FOUND})
+                    res.status(201).json({glucose});
                 }
-            })
-            .catch (err => res.status(500)
-            .json ({ message: Messages.ERROR_UPDATE_GLUCOSE,
-                     error: err.message }))
+            });
+        }catch (err) {
+            return res
+                .status(500)
+                .json ({ 
+                    message: Messages.ERROR_UPDATE_GLUCOSE,
+                    details: `${err.message}`
+                });
+        }
     }
 
     // DELETE GLUCOSE READING BY ID

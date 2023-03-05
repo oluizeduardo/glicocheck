@@ -1,4 +1,4 @@
-let btnSingIn = document.getElementById("btnSingIn");
+let btnLogIn = document.getElementById("btnLogIn");
 var field_email = document.getElementById("field_Email");
 var field_password = document.getElementById("field_Password");
 
@@ -6,7 +6,7 @@ const SUCEESS = 201;
 const FORBIDDEN = 403;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-btnSingIn.addEventListener('click', (event) => {
+btnLogIn.addEventListener('click', (event) => {
     event.preventDefault();
 
     if(isValidDataEntry())
@@ -63,7 +63,7 @@ function getAuthorizationHeaderValue(xmlhttp){
 }
 
 function setJwtToken(token) {
-    sessionStorage.setItem("jwt", token)
+    sessionStorage.setItem("jwt", token);
 }
 
 function setUserId(xmlhttp){

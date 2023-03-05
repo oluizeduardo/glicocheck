@@ -20,11 +20,10 @@ class SecurityUtils {
             if (err) {
                 if(err.name === 'TokenExpiredError'){
                     res.status(401).json({ message: Messages.TOKEN_EXPIRED, expiredIn: err.expiredAt});
-                    return
+                    return;
                 }
                 res.status(401).json({ message: Messages.REFUSED_ACCESS });
-                return
-    
+                return;    
             }
             req.userId = decodeToken.id
             next()
