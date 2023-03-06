@@ -1,6 +1,7 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const SecurityUtils = require('../utils/securityUtils');
+const DateTimeUtil = require('../utils/dateTimeUtil');
 
 class UserController {
 
@@ -46,7 +47,7 @@ class UserController {
             email: req.body.email,
             password: SecurityUtils.generateHashValue(req.body.password),
             role_id: req.body.role_id,
-            updated_at: new Date().toLocaleString('pt-BR', { timeZone: 'UTC' })
+            updated_at: DateTimeUtil.getCurrentDateTime()
         }
         const user = {
             name: newUser.name,

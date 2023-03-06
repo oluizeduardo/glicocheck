@@ -1,6 +1,7 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
+const WebToken = require('../utils/webToken');
 
 class GlucoseController {
 
@@ -27,11 +28,13 @@ class GlucoseController {
     }
 
     // GET GLUCOSE READINGS BY USER ID.
-    static getGlucoseReadingsByUserId = async (req, res) => {
-        let id = Number.parseInt(req.params.userId);
+    static getGlucoseReadingsByUserId = async function(req, res) {
+        
+        const token = req.headers['authorization'];
+        const userId = WebToken.getUserIdFromWebToken(token);
     
         await database('glucose')
-            .where('glucose.user_id', id)
+            .where('glucose.user_id', userId)
             .join('users', 'users.id', 'glucose.user_id')
             .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
             .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')

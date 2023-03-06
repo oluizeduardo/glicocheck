@@ -114,10 +114,12 @@ function loadGlucoseReadingsByUserId(){
 
 function sendGETToGlucose(xmlhttp){
   const token = getJwtToken();
-  const userId = getUserId();
+  //const userId = getUserId();
 
-  if(token && userId){
-    xmlhttp.open("GET", `/api/glucose/user/${userId}`);
+//  if(token && userId){
+  if(token){
+    //xmlhttp.open("GET", `/api/glucose/user/${userId}`);
+    xmlhttp.open("GET", '/api/glucose/user/online');
     xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
@@ -129,9 +131,9 @@ function sendGETToGlucose(xmlhttp){
 function getJwtToken() {
   return sessionStorage.getItem("jwt")
 }
-function getUserId() {
+/*function getUserId() {
   return sessionStorage.getItem("userId")
-}
+}*/
 
 function adaptLabelDate(value){
   const fullDate = value.slice(0,10);
