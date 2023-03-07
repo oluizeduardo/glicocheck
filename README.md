@@ -10,6 +10,11 @@ API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expres
 - Run the server.
     - `npm run dev`
 
+# How to run the static analysis
+The project uses [ESLint](https://eslint.org/) for static analysis.
+- `npm run lint` to execute the analysis.
+- `npm run lint:fix` to fix the error reported by ESLint.
+
 # Link
 - Homepage: http://localhost:3000/site
 - API: http://localhost:3000/api/{resource}
