@@ -36,6 +36,10 @@ function isValidDataEntry() {
             (fieldMarkermeal.selectedIndex > 0));
 }
 
+/**
+ * Sends a POST request to register a new glucose reading enter.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
 function sendPOSTToGlucose(xmlhttp) {
   const jsonNewEnter = prepareJsonNewEnter();
   const token = getJwtToken();
@@ -45,6 +49,10 @@ function sendPOSTToGlucose(xmlhttp) {
   xmlhttp.send(jsonNewEnter);
 }
 
+/**
+ * Creates a JSON object to be sent to register a new glucose reading.
+ * @return {JSON} A JSON object.
+ */
 function prepareJsonNewEnter() {
   return JSON.stringify({
     userId: getUserId(),
@@ -56,6 +64,10 @@ function prepareJsonNewEnter() {
   });
 }
 
+/**
+ * Formats the date to a more readable format.
+ * @return {string} A text with date formatted in DD/MM/YYYY
+ */
 function getDate() {
   const arrayDate = fieldDate.value.slice(0, 10).split('-');
   const day = arrayDate[2];
@@ -64,30 +76,65 @@ function getDate() {
   return `${day}/${month}/${year}`;
 }
 
+/**
+ * Gets the time from the date-time field.
+ * @return {string} The time value.
+ */
 function getTime() {
   return fieldDate.value.slice(11);
 }
 
+/**
+ * Shows a message warning the user to fill all the fields.
+ */
 function showWarningMessage() {
-  swal('', 'Please, fill in all the fields.', 'warning');
+  swal('', 'All the fields need to be filled.', 'warning');
 }
 
+/**
+ * Gets the JWT token from the session storage.
+ * @return {string} The JWT token.
+ */
 function getJwtToken() {
   return sessionStorage.getItem('jwt');
 }
 
+/**
+ * Gets the user id saved in the session storage.
+ * @return {string} The user id.
+ */
 function getUserId() {
   return sessionStorage.getItem('userId');
 }
 
+/**
+ * Reset fields.
+ */
 function resetFields() {
-  fieldGlucose.value='';
+  fieldGlucose.value = '';
   fieldMarkermeal.selectedIndex = 0;
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
 }
 
+/**
+ * Reset the chart by destroing it and load
+ * the updated list of glucose readings.
+ */
 function resetChart() {
   destroyChart();
   loadGlucoseReadingsByUserId();
+}
+
+/**
+ * Destroy the chart to run its update.
+ */
+function destroyChart() {
+  if (glucoseReadingsChart != null) {
+    glucoseReadingsChart.destroy();
+  }
+  glucoseValues = [];
+  glucoseReadingDateLabels = [];
+  hyperglycemiaValues = [];
+  hypoglycemiaValues = [];
 }

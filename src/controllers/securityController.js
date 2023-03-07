@@ -14,13 +14,15 @@ class SecurityController {
   static registerNewUser = async (req, res) => {
     try {
       await database('users')
-          .insert({
-            name: req.body.name,
-            email: req.body.email,
-            password: SecurityUtils.generateHashValue(req.body.password),
-            role_id: req.body.role_id,
-          },
-          ['id'])
+          .insert(
+              {
+                name: req.body.name,
+                email: req.body.email,
+                password: SecurityUtils.generateHashValue(req.body.password),
+                role_id: req.body.role_id,
+              },
+              ['id'],
+          )
           .then((users) => {
             const userId = users[0];
             res.status(201).json({userId});
@@ -36,13 +38,16 @@ class SecurityController {
   // LOGIN
   static doLogin = async (req, res) => {
     await database
-        .select('*').from('users')
-        .where( {email: req.body.email})
-        .then( (users) => {
+        .select('*')
+        .from('users')
+        .where({email: req.body.email})
+        .then((users) => {
           if (users.length) {
             const user = users[0];
-            const isValidPassword = SecurityUtils
-                .comparePassword(req.body.password, user.password);
+            const isValidPassword = SecurityUtils.comparePassword(
+                req.body.password,
+                user.password,
+            );
 
             if (isValidPassword) {
               const tokenJWT = SecurityController.createTokenJWT(user);
@@ -67,13 +72,16 @@ class SecurityController {
   // PASSWORD VALIDATION
   static passwordValidation = async (req, res) => {
     await database
-        .select('password').from('users')
-        .where( {id: req.body.userId})
-        .then( (users) => {
+        .select('password')
+        .from('users')
+        .where({id: req.body.userId})
+        .then((users) => {
           if (users.length) {
             const user = users[0];
-            const isValidPassword = SecurityUtils
-                .comparePassword(req.body.password, user.password);
+            const isValidPassword = SecurityUtils.comparePassword(
+                req.body.password,
+                user.password,
+            );
 
             if (isValidPassword) {
               res.status(201).json({result: true});

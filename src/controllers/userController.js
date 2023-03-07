@@ -10,8 +10,14 @@ class UserController {
   static getAllUsers = async (req, res) => {
     database('users')
         .join('role', 'users.role_id', 'role.id')
-        .select('users.id', 'users.name', 'users.email',
-            'role.description as role', 'users.created_at', 'users.updated_at')
+        .select(
+            'users.id',
+            'users.name',
+            'users.email',
+            'role.description as role',
+            'users.created_at',
+            'users.updated_at',
+        )
         .then((users) => {
           if (users.length) {
             res.status(200).json(users);
@@ -27,8 +33,14 @@ class UserController {
     database('users')
         .where('users.id', id)
         .join('role', 'users.role_id', 'role.id')
-        .select('users.id', 'users.name', 'users.email',
-            'role.description as role', 'users.created_at', 'users.updated_at')
+        .select(
+            'users.id',
+            'users.name',
+            'users.email',
+            'role.description as role',
+            'users.created_at',
+            'users.updated_at',
+        )
         .then((users) => {
           if (users.length) {
             const user = users[0];
@@ -69,12 +81,10 @@ class UserController {
             }
           });
     } catch (err) {
-      return res
-          .status(500)
-          .json({
-            message: `Error trying to update user.`,
-            details: `${err.message}`,
-          });
+      return res.status(500).json({
+        message: `Error trying to update user.`,
+        details: `${err.message}`,
+      });
     }
   };
 
@@ -88,9 +98,12 @@ class UserController {
           .del()
           .then(res.status(200).json({message: `User ${id} has been deleted!`}))
           .catch((err) => {
-            res.status(500).json(
-                {message: Messages.ERROR_DELETE_USER,
-                  details: `${err.message}`});
+            res
+                .status(500)
+                .json({
+                  message: Messages.ERROR_DELETE_USER,
+                  details: `${err.message}`,
+                });
           });
     } else {
       res.status(404).json({

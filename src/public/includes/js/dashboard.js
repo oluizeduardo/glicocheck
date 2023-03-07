@@ -1,9 +1,8 @@
 const ctx = document.querySelector('#myChart');
 const panelChart = document.querySelector('#panel-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
-const welcomeCenter = document.getElementById('welcome-center');
 
-let glucoseReadingsChart;
+var glucoseReadingsChart;
 let glucoseValues = [];
 let glucoseReadingDateLabels = [];
 let hyperglycemiaValues =[];
@@ -83,6 +82,10 @@ function loadChart() {
   glucoseReadingsChart.update();
 }
 
+/**
+ * It fills the list of hyperglycemia and
+ * hypoglycemia with their initial values.
+ */
 function fillHypoAndHyperValues() {
   glucoseValues.forEach(() => {
     hyperglycemiaValues.push(HYPERGLYCEMIA);
@@ -90,6 +93,10 @@ function fillHypoAndHyperValues() {
   });
 }
 
+/**
+ * Read from the database the list of glucose readings
+ * os a specific user.
+ */
 function loadGlucoseReadingsByUserId() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
@@ -111,6 +118,11 @@ function loadGlucoseReadingsByUserId() {
   sendGETToGlucose(xmlhttp);
 }
 
+/**
+ * Sends a GET request to recover the list of glucose readings
+ * of the online user.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
 function sendGETToGlucose(xmlhttp) {
   const token = getJwtToken();
   // const userId = getUserId();
@@ -119,7 +131,7 @@ function sendGETToGlucose(xmlhttp) {
   if (token) {
     // xmlhttp.open("GET", `/api/glucose/user/${userId}`);
     xmlhttp.open('GET', '/api/glucose/user/online');
-    xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
+    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
   } else {
@@ -127,6 +139,10 @@ function sendGETToGlucose(xmlhttp) {
   }
 }
 
+/**
+ * Retrives the JWT token in the session storage.
+ * @return {string} The JWt token.
+ */
 function getJwtToken() {
   return sessionStorage.getItem('jwt');
 }
@@ -144,24 +160,29 @@ function adaptLabelDate(value) {
   const arrayDate = fullDate.split('/');
   const day = arrayDate[0];
   const month = parseInt(arrayDate[1]);
-  const initialNameMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  return `${day}-${initialNameMonths[month-1]}`;
+  const initialNameMonths = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  return `${day}-${initialNameMonths[month - 1]}`;
 }
 
+/**
+ * It makes the chart panel visible at the center of the screen.
+ */
 function makeChartPanelVisible() {
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
-}
-
-function destroyChart() {
-  if (glucoseReadingsChart != null) {
-    glucoseReadingsChart.destroy();
-  }
-  glucoseValues = [];
-  glucoseReadingDateLabels = [];
-  hyperglycemiaValues =[];
-  hypoglycemiaValues =[];
 }
 
 loadGlucoseReadingsByUserId();

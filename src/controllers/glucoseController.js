@@ -14,10 +14,16 @@ class GlucoseController {
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
         .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
-        .select('glucose.id', 'users.id as userId', 'users.name as user',
-            'glucose.glucose', 'measurement_unity.description as unity',
-            'glucose.date', 'glucose.hour',
-            'marker_meal.description as markerMeal')
+        .select(
+            'glucose.id',
+            'users.id as userId',
+            'users.name as user',
+            'glucose.glucose',
+            'measurement_unity.description as unity',
+            'glucose.date',
+            'glucose.hour',
+            'marker_meal.description as markerMeal',
+        )
         .orderBy([
           {column: 'glucose.date', order: 'asc'},
           {column: 'glucose.hour', order: 'asc'},
@@ -41,10 +47,16 @@ class GlucoseController {
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
         .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
-        .select('glucose.id', 'users.id as userId', 'users.name as user',
-            'glucose.glucose', 'measurement_unity.description as unity',
-            'glucose.date', 'glucose.hour',
-            'marker_meal.description as markerMeal')
+        .select(
+            'glucose.id',
+            'users.id as userId',
+            'users.name as user',
+            'glucose.glucose',
+            'measurement_unity.description as unity',
+            'glucose.date',
+            'glucose.hour',
+            'marker_meal.description as markerMeal',
+        )
         .orderBy([
           {column: 'glucose.date', order: 'asc'},
           {column: 'glucose.hour', order: 'asc'},
@@ -66,10 +78,16 @@ class GlucoseController {
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
         .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
-        .select('glucose.id', 'users.id as userId', 'users.name as userName',
-            'glucose.glucose', 'measurement_unity.description as unity',
-            'glucose.date', 'glucose.hour',
-            'marker_meal.description as markerMeal')
+        .select(
+            'glucose.id',
+            'users.id as userId',
+            'users.name as userName',
+            'glucose.glucose',
+            'measurement_unity.description as unity',
+            'glucose.date',
+            'glucose.hour',
+            'marker_meal.description as markerMeal',
+        )
         .then((glucoses) => {
           if (glucoses.length) {
             res.status(200).json(glucoses);
@@ -87,10 +105,16 @@ class GlucoseController {
         .join('users', 'users.id', 'glucose.user_id')
         .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
         .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
-        .select('glucose.id', 'users.id as userId', 'users.name as userName',
-            'glucose.glucose', 'measurement_unity.description as unity',
-            'glucose.date', 'glucose.hour',
-            'marker_meal.description as markerMeal')
+        .select(
+            'glucose.id',
+            'users.id as userId',
+            'users.name as userName',
+            'glucose.glucose',
+            'measurement_unity.description as unity',
+            'glucose.date',
+            'glucose.hour',
+            'marker_meal.description as markerMeal',
+        )
         .orderBy([
           {column: 'glucose.date', order: 'asc'},
           {column: 'glucose.hour', order: 'asc'},
@@ -107,15 +131,25 @@ class GlucoseController {
   // CREATE NEW GLUCOSE READING
   static createNewGlucoseReading = async (req, res) => {
     await database('glucose')
-        .insert({
-          user_id: req.body.userId,
-          glucose: req.body.glucose,
-          unity_id: req.body.unityId,
-          date: req.body.date,
-          hour: req.body.hour,
-          markermeal_id: req.body.markerMealId,
-        }, ['id', 'user_id', 'glucose', 'unity_id',
-          'date', 'hour', 'markermeal_id'])
+        .insert(
+            {
+              user_id: req.body.userId,
+              glucose: req.body.glucose,
+              unity_id: req.body.unityId,
+              date: req.body.date,
+              hour: req.body.hour,
+              markermeal_id: req.body.markerMealId,
+            },
+            [
+              'id',
+              'user_id',
+              'glucose',
+              'unity_id',
+              'date',
+              'hour',
+              'markermeal_id',
+            ],
+        )
         .then((glucoses) => {
           const glucose = glucoses[0];
           res.json({glucose});
@@ -148,12 +182,10 @@ class GlucoseController {
             }
           });
     } catch (err) {
-      return res
-          .status(500)
-          .json({
-            message: Messages.ERROR_UPDATE_GLUCOSE,
-            details: `${err.message}`,
-          });
+      return res.status(500).json({
+        message: Messages.ERROR_UPDATE_GLUCOSE,
+        details: `${err.message}`,
+      });
     }
   };
 
@@ -166,9 +198,14 @@ class GlucoseController {
           .where('id', id)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
-          .catch((err) => res.status(500)
-              .json({message: Messages.ERROR_DELETE_GLUCOSE,
-                error: err.message}));
+          .catch((err) =>
+            res
+                .status(500)
+                .json({
+                  message: Messages.ERROR_DELETE_GLUCOSE,
+                  error: err.message,
+                }),
+          );
     } else {
       res.status(404).json({
         message: Messages.NOTHING_FOUND,
@@ -185,9 +222,14 @@ class GlucoseController {
           .where('user_id', userId)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
-          .catch((err) => res.status(500)
-              .json({message: Messages.ERROR_DELETE_GLUCOSE,
-                error: err.message}));
+          .catch((err) =>
+            res
+                .status(500)
+                .json({
+                  message: Messages.ERROR_DELETE_GLUCOSE,
+                  error: err.message,
+                }),
+          );
     } else {
       res.status(404).json({
         message: Messages.NOTHING_FOUND,

@@ -37,6 +37,10 @@ function isValidDataEntry() {
   return (fieldEmail.value && fieldPassword.value);
 }
 
+/**
+ * Sends a request to the login endpoint.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
 function sendRequestToLogin(xmlhttp) {
   const jsonLogin = prepareJsonLogin();
   xmlhttp.open('POST', '/api/security/login');
@@ -44,6 +48,10 @@ function sendRequestToLogin(xmlhttp) {
   xmlhttp.send(jsonLogin);
 }
 
+/**
+ * Create a JSON object for the login process.
+ * @return {JSON} JSON object.
+ */
 function prepareJsonLogin() {
   return JSON.stringify({
     email: fieldEmail.value,
@@ -51,6 +59,11 @@ function prepareJsonLogin() {
   });
 }
 
+/**
+ * Saves in the session storage the JWT token received in the request
+ * and redirect the user to the dashboard.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
 function generateAccessTokenAndRedirect(xmlhttp) {
   const token = getAuthorizationHeaderValue(xmlhttp);
   setJwtToken(token);
@@ -58,21 +71,33 @@ function generateAccessTokenAndRedirect(xmlhttp) {
   redirectToDashboard();
 }
 
+/**
+ * Returns the text in the authorization header.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ * @return {string} The text in the authorization header.
+ */
 function getAuthorizationHeaderValue(xmlhttp) {
   return xmlhttp.getResponseHeader('authorization');
 }
 
+/**
+ * Save the JWT token in the session storage.
+ * @param {string} token The JWT token.
+ */
 function setJwtToken(token) {
   sessionStorage.setItem('jwt', token);
 }
 
+/**
+ * Save the user id in the session storage.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
 function setUserId(xmlhttp) {
-  JSON.parse(xmlhttp.response,
-      (k, v) => {
-        if (k === 'user_id') {
-          sessionStorage.setItem('userId', v);
-        }
-      });
+  JSON.parse(xmlhttp.response, (k, v) => {
+    if (k === 'user_id') {
+      sessionStorage.setItem('userId', v);
+    }
+  });
 }
 
 /**
@@ -86,6 +111,8 @@ function redirectToDashboard() {
  * Shows the login error message.
  */
 function showLoginError() {
-  swal('Wrong credentials', 'Please, inform the correct email and password.',
+  swal(
+      'Wrong credentials',
+      'Please, inform the correct email and password.',
       'warning');
 }

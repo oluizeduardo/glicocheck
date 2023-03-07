@@ -39,17 +39,19 @@ class MarkerMealController {
   // CREATE NEW MARKER MEAL
   static createNewMarkerMeal = async (req, res) => {
     await database('marker_meal')
-        .insert({
-          description: req.body.description,
-        },
-        ['id', 'description'])
+        .insert(
+            {
+              description: req.body.description,
+            },
+            ['id', 'description'],
+        )
         .then((markers) => {
           const marker = markers[0];
           res.status(201).json({marker_meal: marker});
         })
-        .catch((err) => res
-            .status(500)
-            .json({message: Messages.ERROR_CREATE_MARKERMEAL}));
+        .catch((err) =>
+          res.status(500).json({message: Messages.ERROR_CREATE_MARKERMEAL}),
+        );
   };
 
   // UPDATE MARKER MEAL BY ID
@@ -74,12 +76,10 @@ class MarkerMealController {
             }
           });
     } catch (err) {
-      return res
-          .status(500)
-          .json({
-            message: Messages.ERROR_UPDATE_MARKERMEAL,
-            details: `${err.message}`,
-          });
+      return res.status(500).json({
+        message: Messages.ERROR_UPDATE_MARKERMEAL,
+        details: `${err.message}`,
+      });
     }
   };
 
@@ -92,9 +92,14 @@ class MarkerMealController {
           .where('id', id)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
-          .catch((err) => res.status(500)
-              .json({message: Messages.ERROR_DELETE_MARKERMEAL,
-                error: err.message}));
+          .catch((err) =>
+            res
+                .status(500)
+                .json({
+                  message: Messages.ERROR_DELETE_MARKERMEAL,
+                  error: err.message,
+                }),
+          );
     } else {
       res.status(404).json({
         message: Messages.NOTHING_FOUND,

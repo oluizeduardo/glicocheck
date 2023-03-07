@@ -25,13 +25,17 @@ function loadUserInfos() {
   sendGETToUserById(xmlhttp);
 }
 
+/**
+ * Sends a request to get the user details.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
 function sendGETToUserById(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
   if (token && userId) {
     xmlhttp.open('GET', `/api/users/${userId}`);
-    xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
+    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
   } else {
@@ -39,9 +43,18 @@ function sendGETToUserById(xmlhttp) {
   }
 }
 
+/**
+ * Gets the JWT token from the session storage.
+ * @return {string} The JWT token.
+ */
 function getJwtToken() {
   return sessionStorage.getItem('jwt');
 }
+
+/**
+ * Gets the user id saved in the session storage.
+ * @return {string} The user id.
+ */
 function getUserId() {
   return sessionStorage.getItem('userId');
 }
@@ -68,11 +81,19 @@ btnSave.addEventListener('click', (event) => {
   }
 });
 
+/**
+ * Checks whether the fields are properly filled.
+ * @return {boolean} true if all the fields are filled, false otherwise.
+ */
 function isValidDataEntry() {
   return (fieldName.value && fieldEmail.value &&
             fieldPassword.value && fieldConfirmPassword.value);
 }
 
+/**
+ * Sends a request to update the user details.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
 function sendRequestToUserDetails(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
@@ -84,6 +105,10 @@ function sendRequestToUserDetails(xmlhttp) {
   xmlhttp.send(jsonLogin);
 }
 
+/**
+ * Creates a JSON object with values to be updated.
+ * @return {JSON} A JSON object.
+ */
 function prepareJsonUser() {
   return JSON.stringify({
     name: fieldName.value,
@@ -93,6 +118,9 @@ function prepareJsonUser() {
   });
 }
 
+/**
+ * Shows a message warning the user to fill all the fields.
+ */
 function showAlertMessage() {
   swal('', 'All the fields need to be filled.', 'warning');
 }
