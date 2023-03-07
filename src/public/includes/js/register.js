@@ -1,77 +1,99 @@
 const btnRegister = document.getElementById('btnRegister');
-let field_name = document.getElementById("field_Name");
-let field_email = document.getElementById("field_Email");
-var field_password = document.getElementById("field_Password");
-var confirm_password = document.getElementById("field_ConfirmPassword");
+const fieldName = document.getElementById('field_Name');
+const fieldEmail = document.getElementById('field_Email');
+const fieldPassword = document.getElementById('field_Password');
+const confirmPassword = document.getElementById('field_ConfirmPassword');
 
 const SUCEESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnRegister.addEventListener('click', (event) => {
-    event.preventDefault();
+  event.preventDefault();
 
-    if(isValidDataEntry()){
-        const xmlhttp = new XMLHttpRequest();        
-        xmlhttp.onreadystatechange = () => {
-            if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) 
-            {
-                if(xmlhttp.status == SUCEESS)
-                {                                      
-                    handleLogin();
-                
-                }else {
-                    const message = `Error trying to create new account.
-                                    Please try again.`
-                    swal("Error", message, "error");
-                }
-            }
-        };
-        sendRequestToRegisterNewUser(xmlhttp);
-    }else{
-        showAlertMessage();
-    }
+  if (isValidDataEntry()) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = () => {
+      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+        if (xmlhttp.status == SUCEESS) {
+          handleLogin();
+        } else {
+          const message = `Error trying to create new account.
+                                    Please try again.`;
+          swal('Error', message, 'error');
+        }
+      }
+    };
+    sendRequestToRegisterNewUser(xmlhttp);
+  } else {
+    showAlertMessage();
+  }
 });
 
-function isValidDataEntry(){    
-    return (field_name.value && field_email.value && 
-            field_password.value && isPasswordMatch());
+/**
+ * Checks whether the fields are properly filled to register a new user.
+ * @return {boolean} true if the fields are properly filled.
+ */
+function isValidDataEntry() {
+  return (fieldName.value && fieldEmail.value &&
+            fieldPassword.value && isPasswordMatch());
 }
 
-function isPasswordMatch(){
-    return (field_password.value === confirm_password.value);
+/**
+ * Checks whether the passwords informed match.
+ * @return {boolean} true if the passwords match, false otherwise.
+ */
+function isPasswordMatch() {
+  return (fieldPassword.value === confirmPassword.value);
 }
 
-function sendRequestToRegisterNewUser(xmlhttp){
-    let jsonNewUser = prepareJsonNewUser();
-    xmlhttp.open("POST", "/api/security/register");
-    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xmlhttp.send(jsonNewUser);
+/**
+ * Send a POST to register a new user.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
+function sendRequestToRegisterNewUser(xmlhttp) {
+  const jsonNewUser = prepareJsonNewUser();
+  xmlhttp.open('POST', '/api/security/register');
+  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xmlhttp.send(jsonNewUser);
 }
 
-function prepareJsonNewUser(){
-    return JSON.stringify({
-        name: field_name.value,
-        email: field_email.value,
-        password: field_password.value,
-        role_id: 1//ADMIN
-    });
+/**
+ * Prepares the JSON object of a new user.
+ * @return {JSON} A JSON obect.
+ */
+function prepareJsonNewUser() {
+  return JSON.stringify({
+    name: fieldName.value,
+    email: fieldEmail.value,
+    password: fieldPassword.value,
+    role_id: 1, // ADMIN
+  });
 }
 
+/**
+ * Show the success message and redirect the user to the login page.
+ */
 function handleLogin() {
-    swal({
-        title: "Success",
-        text: "New user created! Now you can log in.",
-        icon: "success"
-    })
-    .then(() => {
+  swal({
+    title: 'Success',
+    text: 'New user created! Now you can log in.',
+    icon: 'success',
+  })
+      .then(() => {
         location.href = './index.html';
-    });
+      });
 }
 
-function showAlertMessage(){
-    if(!isPasswordMatch()){
-        swal("Passwords don't match", "Please, confirm the password.", "warning");
-    }else{
-        swal("Please, fill in all the fields", 'All the fields need to be filled.', "warning");
-    }    
+/**
+ * Shows the alert message
+ */
+function showAlertMessage() {
+  let message;
+  if (!isPasswordMatch()) {
+    message = 'Please, confirm the password.';
+    swal('Passwords don\'t match', message, 'warning');
+  } else {
+    message = 'All the fields need to be filled.';
+    swal('Please, fill in all the fields', message, 'warning');
+  }
 }

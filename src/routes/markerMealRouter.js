@@ -1,7 +1,7 @@
-const express = require('express')
+const express = require('express');
 const markerMealRouter = express.Router();
 const MarkerMealController = require('../controllers/markerMealController');
-const { checkToken, isAdmin } = require('../utils/securityUtils');
+const {checkToken, isAdmin} = require('../utils/securityUtils');
 
 markerMealRouter
     .post('/', checkToken, isAdmin, express.json(), MarkerMealController.createNewMarkerMeal)

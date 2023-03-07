@@ -1,7 +1,7 @@
 const express = require('express');
-const usersRouter = express.Router ();
+const usersRouter = express.Router();
 const UserController = require('../controllers/userController');
-const { checkToken, isAdmin } = require('../utils/securityUtils');
+const {checkToken, isAdmin} = require('../utils/securityUtils');
 
 usersRouter
     .get('/', checkToken, isAdmin, UserController.getAllUsers)
@@ -9,4 +9,4 @@ usersRouter
     .put('/:id', checkToken, isAdmin, express.json(), UserController.updateUserById)
     .delete('/:id', checkToken, isAdmin, UserController.deleteUserById);
 
-module.exports = usersRouter
+module.exports = usersRouter;

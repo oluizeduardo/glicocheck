@@ -1,13 +1,13 @@
-var ctx = document.querySelector('#myChart');
-var panel_chart = document.querySelector('#panel-chart');
-var panel_welcome_center = document.getElementById("panel-welcome-center");
-var welcome_center = document.getElementById("welcome-center");
+const ctx = document.querySelector('#myChart');
+const panelChart = document.querySelector('#panel-chart');
+const panelWelcomeCenter = document.getElementById('panel-welcome-center');
+const welcomeCenter = document.getElementById('welcome-center');
 
-var glucoseReadingsChart;
-var glucoseValues = [];
-var glucoseReadingDateLabels = [];
-var hyperglycemiaValues =[];
-var hypoglycemiaValues =[];
+let glucoseReadingsChart;
+let glucoseValues = [];
+let glucoseReadingDateLabels = [];
+let hyperglycemiaValues =[];
+let hypoglycemiaValues =[];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
@@ -20,23 +20,24 @@ const POINT_RADIUS_HYPOGLYCEMIA = 0;
 const POINT_RADIUS_MY_GLICEMIA = 6;
 const POINT_HOVER_RADIUS = 13;
 
-
-function loadChart(){
-
-  fillHypoAndHyperValues(); 
+/**
+ * It loads the chart in the dashboard screen.
+ */
+function loadChart() {
+  fillHypoAndHyperValues();
 
   this.glucoseReadingsChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: glucoseReadingDateLabels,
-        datasets: [
+      labels: glucoseReadingDateLabels,
+      datasets: [
         {
           label: 'Hyperglycemia',
           data: hyperglycemiaValues,
-          borderColor: [COLOR_HYPERGLYCEMIA], 
-          backgroundColor: [COLOR_HYPERGLYCEMIA],         
+          borderColor: [COLOR_HYPERGLYCEMIA],
+          backgroundColor: [COLOR_HYPERGLYCEMIA],
           borderWidth: BORDER_WIDTH,
-          pointRadius: POINT_RADIUS_HYPERGLYCEMIA
+          pointRadius: POINT_RADIUS_HYPERGLYCEMIA,
         },
         {
           label: 'My glycemia',
@@ -45,17 +46,17 @@ function loadChart(){
           backgroundColor: [COLOR_MY_GLYCEMIA],
           borderWidth: BORDER_WIDTH,
           pointRadius: POINT_RADIUS_MY_GLICEMIA,
-          pointHoverRadius: POINT_HOVER_RADIUS
-        },        
+          pointHoverRadius: POINT_HOVER_RADIUS,
+        },
         {
           label: 'Hypoglycemia',
           data: hypoglycemiaValues,
           borderColor: [COLOR_HYPOGLYCEMIA],
           backgroundColor: [COLOR_HYPOGLYCEMIA],
           borderWidth: BORDER_WIDTH,
-          pointRadius: POINT_RADIUS_HYPOGLYCEMIA
-      }
-      ]
+          pointRadius: POINT_RADIUS_HYPOGLYCEMIA,
+        },
+      ],
     },
     options: {
       animations: {
@@ -63,94 +64,98 @@ function loadChart(){
           duration: 1000,
           easing: 'linear',
           from: 1,
-          to: 0
-        }
+          to: 0,
+        },
       },
       reposive: true,
       maintainAspectRatio: false,
       scales: {
-          y: {
-              min: 20,
-              max: 220,
-              ticks: {
-                stepSize: 20
-              }
-          }
-      }
-    }
+        y: {
+          min: 20,
+          max: 220,
+          ticks: {
+            stepSize: 20,
+          },
+        },
+      },
+    },
   });
   glucoseReadingsChart.update();
 }
 
-function fillHypoAndHyperValues(){
+function fillHypoAndHyperValues() {
   glucoseValues.forEach(() => {
     hyperglycemiaValues.push(HYPERGLYCEMIA);
     hypoglycemiaValues.push(HYPOGLYCEMIA);
-  })
+  });
 }
 
-function loadGlucoseReadingsByUserId(){
-  const xmlhttp = new XMLHttpRequest();        
+function loadGlucoseReadingsByUserId() {
+  const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == 4) 
-      {
-        if(xmlhttp.status == 200)
-        {
-          JSON.parse(xmlhttp.response, function(key, value){
-            if(key === 'glucose') glucoseValues.push(value);
-            if(key === 'date') {
-              glucoseReadingDateLabels.push(adaptLabelDate(value));
-            }            
-          })
-        }
-        if(glucoseValues.length > 0){
-          makeChartPanelVisible();
-          loadChart();
-        }
+    if (xmlhttp.readyState == 4) {
+      if (xmlhttp.status == 200) {
+        JSON.parse(xmlhttp.response, function(key, value) {
+          if (key === 'glucose') glucoseValues.push(value);
+          if (key === 'date') {
+            glucoseReadingDateLabels.push(adaptLabelDate(value));
+          }
+        });
       }
+      if (glucoseValues.length > 0) {
+        makeChartPanelVisible();
+        loadChart();
+      }
+    }
   };
   sendGETToGlucose(xmlhttp);
 }
 
-function sendGETToGlucose(xmlhttp){
+function sendGETToGlucose(xmlhttp) {
   const token = getJwtToken();
-  //const userId = getUserId();
+  // const userId = getUserId();
 
-//  if(token && userId){
-  if(token){
-    //xmlhttp.open("GET", `/api/glucose/user/${userId}`);
-    xmlhttp.open("GET", '/api/glucose/user/online');
+  //  if(token && userId){
+  if (token) {
+    // xmlhttp.open("GET", `/api/glucose/user/${userId}`);
+    xmlhttp.open('GET', '/api/glucose/user/online');
     xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
-  }else{
+  } else {
     throw Error('Authentication token not found.');
   }
 }
 
 function getJwtToken() {
-  return sessionStorage.getItem("jwt")
+  return sessionStorage.getItem('jwt');
 }
-/*function getUserId() {
+/* function getUserId() {
   return sessionStorage.getItem("userId")
 }*/
 
-function adaptLabelDate(value){
-  const fullDate = value.slice(0,10);
-  const arrayDate = fullDate.split("/");
+/**
+ * This function adapts the string showed in the X axe of the chart.
+ * @param {string} value The string in the date and time format.
+ * @return {string} The date in simplified text.
+ */
+function adaptLabelDate(value) {
+  const fullDate = value.slice(0, 10);
+  const arrayDate = fullDate.split('/');
   const day = arrayDate[0];
   const month = parseInt(arrayDate[1]);
-  const initialNameMonths = ['Jan','Feb','Mar','Apr','May','Jun', 'Jul', 'Aug','Sep','Oct','Nov','Dec'];
+  const initialNameMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${day}-${initialNameMonths[month-1]}`;
 }
 
-function makeChartPanelVisible(){
-  panel_welcome_center.classList.add('invisible');
-  panel_chart.classList.remove('invisible');
+function makeChartPanelVisible() {
+  panelWelcomeCenter.classList.add('invisible');
+  panelChart.classList.remove('invisible');
 }
 
-function destroyChart(){
-  if(glucoseReadingsChart != null){
+function destroyChart() {
+  if (glucoseReadingsChart != null) {
     glucoseReadingsChart.destroy();
   }
   glucoseValues = [];
