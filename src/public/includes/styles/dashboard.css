@@ -148,3 +148,14 @@ body {
     height: 60vh;
   }
 }
+
+@media screen and (min-width: 760px) and (max-width: 1410px){
+  .logo-sidebar{
+    width: 11rem;
+    height: 6rem;
+  }
+  .logo{
+    width: 24rem;
+    height: 13rem;
+  }
+}
