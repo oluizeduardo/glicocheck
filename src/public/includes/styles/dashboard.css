@@ -8,12 +8,18 @@
 
 body {
   font-size: .875rem;
-  background-color: #eee;
+  background-color: #FFFFFF;
 }
 
 .feather {
   width: 16px;
   height: 16px;
+}
+
+.glicocheck-icon{
+  width: 1rem;
+  height: 1rem;
+  margin-left: 3px;
 }
 
 /*
@@ -27,42 +33,24 @@ body {
   left: 0;
   z-index: 100; /* Behind the navbar */
   padding: 48px 0 0; /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);  
 }
-
-/*@media (max-width: 767.98px) {
-  .sidebar {
-    top: 5rem;
-  }
-}*/
 
 .sidebar-sticky {
   height: calc(100vh - 48px);
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  background-color: #8d1818;
 }
 
 .sidebar .nav-link {
   font-weight: 500;
-  color: #333;
+  color: #f7f2f2;
 }
 
 .sidebar .nav-link .feather {
   margin-right: 4px;
-  color: #727272;
-}
-
-.sidebar .nav-link.active {
-  color: #2470dc;
-}
-
-/*.sidebar .nav-link:hover .feather,
-.sidebar .nav-link.active .feather {
-  color: inherit;
-}*/
-
-.sidebar-heading {
-  font-size: .75rem;
+  color: #eeebeb;
 }
 
 /*
@@ -72,11 +60,6 @@ body {
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-
-  font-family: 'Pattaya', sans-serif;
-  font-size: 20px;
-  color: rgb(5, 172, 228);
 }
 
 .navbar .navbar-toggler {
@@ -117,26 +100,42 @@ body {
   display: none;
 }
 
-
 /*
 * Welcome center
 */
 #welcome-center{
   display: block;
   font-size: 3vw;
-  padding-top: 80px;
+  padding-top: 20vh;
   text-align: center;
 }
 
-.logo-welcome-center{
-  font-family: 'Pattaya', sans-serif;
-  font-size: 5vw;
-  color: rgb(5, 172, 228);
+.logo{
+  width: 30rem;
+  height: 16rem;
+  opacity: 0.5;
+}
+
+.logo-sidebar-panel{
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.logo-sidebar{
+  width: 15rem;
+  height: 9rem;
+}
+
+.logo-welcome-center{  
+  width: 100%;
+  height: auto;
 }
 
 @media (max-width: 500px) {
-  .logo-welcome-center{
-    font-size: 10vw;
+  .logo{
+    width: 16rem;
+    height: 9rem;
   }
   .justify-content{
     justify-content: center;
