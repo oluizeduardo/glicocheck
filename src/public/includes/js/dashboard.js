@@ -41,8 +41,20 @@ function loadChart() {
         {
           label: 'My glycemia',
           data: glucoseValues,
-          borderColor: [COLOR_MY_GLYCEMIA],
-          backgroundColor: [COLOR_MY_GLYCEMIA],
+          borderColor: function(chart) {
+            const index = chart.dataIndex;
+            const value = chart.dataset.data[index];
+            return value <= HYPOGLYCEMIA ? COLOR_HYPOGLYCEMIA :
+              value >= HYPERGLYCEMIA ? COLOR_HYPERGLYCEMIA :
+              COLOR_MY_GLYCEMIA;
+          },
+          backgroundColor: function(chart) {
+            const index = chart.dataIndex;
+            const value = chart.dataset.data[index];
+            return value <= HYPOGLYCEMIA ? COLOR_HYPOGLYCEMIA :
+              value >= HYPERGLYCEMIA ? COLOR_HYPERGLYCEMIA :
+              COLOR_MY_GLYCEMIA;
+          },
           borderWidth: BORDER_WIDTH,
           pointRadius: POINT_RADIUS_MY_GLICEMIA,
           pointHoverRadius: POINT_HOVER_RADIUS,
