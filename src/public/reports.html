@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>My Diabetes JS | Reports</title>
-    <link rel="icon" type="image/x-icon" href="./includes/imgs/diabetes-icon.png">
+    <title>Glicocheck | Reports</title>
+    <link rel="icon" type="image/x-icon" href="./includes/imgs/tab-icon.png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CHECK AUTHENTICATION -->
@@ -20,7 +20,11 @@
 
   <body>    
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">My Diabetes JS</a>
+
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">
+            <img class="glicocheck-icon" src="./includes/imgs/tab-icon.png">
+        </a>
+
         <!-- TOGGLE MENU -->
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 
                 data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" 
@@ -34,6 +38,11 @@
             <!-- SIDEMENU -->
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3 sidebar-sticky">
+
+                <div class="logo-sidebar-panel">
+                    <img class="logo-sidebar" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
+                </div>
+
                 <ul class="nav flex-column">
                 <li class="nav-item item-sidemenu">
                     <a class="nav-link" aria-current="page" href="./dashboard.html">
