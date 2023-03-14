@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/includes/imgs/glicocheck-logo-whitebg.png">
+  <img src="https://github.com/oluizeduardo/my-diabetes-js/blob/main/src/public/includes/imgs/glicocheck-logo-whitebg.png">
 </div align="center">
 
 # Glicocheck
