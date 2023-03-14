@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="public/includes/imgs/glicocheck-logo-whitebg.png">
+</div align="center">
+
 # Glicocheck
 Web platform to manage diabetes. 
 API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expressjs.com/) to manage the web application and [KnexJS](http://knexjs.org/) to build queries and datasource connection.
