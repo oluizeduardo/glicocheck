@@ -1,5 +1,5 @@
-# my-diabetes-js
-Web platform to control diabetes. 
+# Glicocheck
+Web platform to manage diabetes. 
 API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expressjs.com/) to manage the web application and [KnexJS](http://knexjs.org/) to build queries and datasource connection.
 
 # How to run locally
