@@ -2,11 +2,11 @@ const ctx = document.querySelector('#myChart');
 const panelChart = document.querySelector('#panel-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
 
-let glucoseReadingsChart;
-const glucoseValues = [];
-const glucoseReadingDateLabels = [];
-const hyperglycemiaValues =[];
-const hypoglycemiaValues =[];
+var glucoseReadingsChart;
+let glucoseValues = [];
+let glucoseReadingDateLabels = [];
+let hyperglycemiaValues = [];
+let hypoglycemiaValues = [];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
@@ -39,27 +39,6 @@ function loadChart() {
           pointRadius: POINT_RADIUS_HYPERGLYCEMIA,
         },
         {
-          label: 'My glycemia',
-          data: glucoseValues,
-          borderColor: function(chart) {
-            const index = chart.dataIndex;
-            const value = chart.dataset.data[index];
-            return value <= HYPOGLYCEMIA ? COLOR_HYPOGLYCEMIA :
-              value >= HYPERGLYCEMIA ? COLOR_HYPERGLYCEMIA :
-              COLOR_MY_GLYCEMIA;
-          },
-          backgroundColor: function(chart) {
-            const index = chart.dataIndex;
-            const value = chart.dataset.data[index];
-            return value <= HYPOGLYCEMIA ? COLOR_HYPOGLYCEMIA :
-              value >= HYPERGLYCEMIA ? COLOR_HYPERGLYCEMIA :
-              COLOR_MY_GLYCEMIA;
-          },
-          borderWidth: BORDER_WIDTH,
-          pointRadius: POINT_RADIUS_MY_GLICEMIA,
-          pointHoverRadius: POINT_HOVER_RADIUS,
-        },
-        {
           label: 'Hypoglycemia',
           data: hypoglycemiaValues,
           borderColor: [COLOR_HYPOGLYCEMIA],
@@ -67,9 +46,33 @@ function loadChart() {
           borderWidth: BORDER_WIDTH,
           pointRadius: POINT_RADIUS_HYPOGLYCEMIA,
         },
+        {
+          label: 'My glycemia',
+          data: glucoseValues,
+          borderColor: (chart) => getColor(chart),
+          backgroundColor: (chart) => getColor(chart),
+          borderWidth: BORDER_WIDTH,
+          pointRadius: POINT_RADIUS_MY_GLICEMIA,
+          pointHoverRadius: POINT_HOVER_RADIUS,
+        },
       ],
     },
     options: {
+      plugins: {
+        tooltip: {
+          callbacks: {
+            footer: function(tooltipItems) {
+              let status = 0;
+              tooltipItems.forEach((tooltipItem) => {
+                const value = tooltipItem.parsed.y;
+                status = value <= HYPOGLYCEMIA ? 'Low' :
+                value >= HYPERGLYCEMIA ? 'High' : 'Normal';
+              });
+              return '\nStatus: ' + status;
+            },
+          },
+        },
+      },
       animations: {
         tension: {
           duration: 1000,
@@ -93,6 +96,19 @@ function loadChart() {
     },
   });
   glucoseReadingsChart.update();
+}
+
+/**
+ * Chooses a color depending on the glucose level.
+ * @param {Chart} chart The chart object.
+ * @return {string} The right color depending on the glucose level.
+ */
+function getColor(chart) {
+  const index = chart.dataIndex;
+  const value = chart.dataset.data[index];
+  return value <= HYPOGLYCEMIA ? COLOR_HYPOGLYCEMIA :
+    value >= HYPERGLYCEMIA ? COLOR_HYPERGLYCEMIA :
+    COLOR_MY_GLYCEMIA;
 }
 
 /**
