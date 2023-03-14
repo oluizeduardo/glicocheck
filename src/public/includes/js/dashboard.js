@@ -2,11 +2,11 @@ const ctx = document.querySelector('#myChart');
 const panelChart = document.querySelector('#panel-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
 
-var glucoseReadingsChart;
-let glucoseValues = [];
-let glucoseReadingDateLabels = [];
-let hyperglycemiaValues =[];
-let hypoglycemiaValues =[];
+let glucoseReadingsChart;
+const glucoseValues = [];
+const glucoseReadingDateLabels = [];
+const hyperglycemiaValues =[];
+const hypoglycemiaValues =[];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
@@ -73,7 +73,7 @@ function loadChart() {
       animations: {
         tension: {
           duration: 1000,
-          easing: 'linear',
+          easing: 'easeOutQuart',
           from: 1,
           to: 0,
         },
@@ -82,6 +82,7 @@ function loadChart() {
       maintainAspectRatio: false,
       scales: {
         y: {
+          type: 'linear',
           min: 20,
           max: 220,
           ticks: {

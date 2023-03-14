@@ -159,3 +159,6 @@ body {
     height: 13rem;
   }
 }
+
+/* It makes the page in landscape orientation for printing. */
+@media print{@page {size: landscape}}
