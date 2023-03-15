@@ -91,7 +91,8 @@ function checkUserPassword(callback) {
   xhr.open('POST', '/api/security/password/validation');
   xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xhr.send(json);
-  xhr.onLoad = () => {
-    callback(JSON.parse(xhr.response).result);
+  xhr.onload = () => {
+    const passwordValidationResult = JSON.parse(xhr.response).result;
+    callback(passwordValidationResult);
   };
 }
