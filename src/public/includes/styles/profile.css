@@ -8,6 +8,14 @@
     transform: translate(-50%,-50%);
 }
 
+.user-profile-picture:hover{
+    cursor: pointer;
+    height: 157px;
+    width: 157px;
+    border: 8px solid #c6ceee;
+    box-shadow: 3px 3px 5px rgb(77, 91, 95);
+}
+
 .card{
     border: none;
 }

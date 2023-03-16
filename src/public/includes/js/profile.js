@@ -3,6 +3,7 @@ const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 const fieldConfirmPassword = document.getElementById('field_confirm_Password');
 const btnSave = document.getElementById('btnSave');
+const userProfilePicture = document.getElementById('userProfilePicture');
 
 const OK = 200;
 const SUCCESS = 201;
@@ -124,5 +125,29 @@ function prepareJsonUser() {
 function showAlertMessage() {
   swal('', 'All the fields need to be filled.', 'warning');
 }
+
+/**
+ * Add click event listener to open a file selector
+ * to let the user upload a profile picture.
+ */
+userProfilePicture.addEventListener('click', (event) => {
+  const fileSelector = document.createElement('input');
+  fileSelector.type = 'file';
+  fileSelector.accept = 'image/*';
+  fileSelector.multiple = false;
+
+  new Promise(function(resolve) {
+    fileSelector.onchange = () => {
+      const files = Array.from(fileSelector.files);
+      resolve(files[0]);
+    };
+    fileSelector.click();
+  }).then((file) => {
+    if (file && file.name) {
+      const urlFile = URL.createObjectURL(file);
+      userProfilePicture.src = urlFile;
+    }
+  });
+});
 
 loadUserInfos();
