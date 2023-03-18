@@ -3,8 +3,7 @@
 </div align="center">
 
 # Glicocheck
-Web platform to manage diabetes. 
-API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expressjs.com/) to manage the web application and [KnexJS](http://knexjs.org/) to build queries and datasource connection.
+Web platform to manage diabetes.
 
 # Technologies applied
 - Backend
