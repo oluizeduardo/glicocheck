@@ -10,6 +10,8 @@ const HTTP_UNAUTHORIZED = 401;
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
+let profilePictureBase64 = '';
+
 /**
  * Sends a request to get the user's infos.
  */
@@ -22,6 +24,7 @@ function loadUserInfos() {
           const data = JSON.parse(xmlhttp.responseText);
           fieldName.value = data.user.name;
           fieldEmail.value = data.user.email;
+          userProfilePicture.src = data.user.picture;
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -110,11 +113,11 @@ function sendRequestToUserDetails(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
-  const jsonLogin = prepareJsonUser();
+  const jsonUpdateUser = prepareJsonUser();
   xmlhttp.open('PUT', `/api/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xmlhttp.send(jsonLogin);
+  xmlhttp.send(jsonUpdateUser);
 }
 
 /**
@@ -125,6 +128,7 @@ function prepareJsonUser() {
   return JSON.stringify({
     name: fieldName.value,
     email: fieldEmail.value,
+    picture: profilePictureBase64,
     password: fieldPassword.value,
     role_id: 1,
   });
@@ -152,9 +156,9 @@ userProfilePicture.addEventListener('click', (event) => {
     fileSelector.click();
   }).then((file) => {
     if (file && file.name) {
-      const urlFile = URL.createObjectURL(file);
-      userProfilePicture.src = urlFile;
-      // generateDataURL(file);
+      fileURL = URL.createObjectURL(file);
+      userProfilePicture.src = fileURL;
+      generateDataURL(file);
     }
   });
 });
@@ -177,15 +181,17 @@ function createFileSelector() {
  * @param {string} file The file path.
  * @return {Promise} A Promise object containing the result.
  */
-function generateDataURL(file) {
-  return new Promise((resolve, reject) => {
+async function generateDataURL(file) {
+  await new Promise((resolve, reject) => {
     const fr = new FileReader();
     fr.onerror = reject;
     fr.onload = () => {
       resolve(fr.result);
     };
     fr.readAsDataURL(file);
-  }).then((result) => console.log(result));
+  }).then((result) => {
+    profilePictureBase64 = result;
+  });
 }
 
 loadUserInfos();

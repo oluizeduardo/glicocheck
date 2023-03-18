@@ -14,6 +14,7 @@ class UserController {
             'users.id',
             'users.name',
             'users.email',
+            'users.picture',
             'role.description as role',
             'users.created_at',
             'users.updated_at',
@@ -37,6 +38,7 @@ class UserController {
             'users.id',
             'users.name',
             'users.email',
+            'users.picture',
             'role.description as role',
             'users.created_at',
             'users.updated_at',
@@ -58,6 +60,7 @@ class UserController {
     const newUser = {
       name: req.body.name,
       email: req.body.email,
+      picture: req.body.picture,
       password: SecurityUtils.generateHashValue(req.body.password),
       role_id: req.body.role_id,
       updated_at: DateTimeUtil.getCurrentDateTime(),
@@ -65,6 +68,7 @@ class UserController {
     const user = {
       name: newUser.name,
       email: newUser.email,
+      picture: newUser.picture,
       role_id: newUser.role_id,
       updated_at: newUser.updated_at,
     };

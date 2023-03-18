@@ -18,6 +18,7 @@ class SecurityController {
               {
                 name: req.body.name,
                 email: req.body.email,
+                picture: req.body.picture,
                 password: SecurityUtils.generateHashValue(req.body.password),
                 role_id: req.body.role_id,
               },

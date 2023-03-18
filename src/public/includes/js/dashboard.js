@@ -10,8 +10,8 @@ let hypoglycemiaValues = [];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
-const COLOR_HYPERGLYCEMIA = 'rgba(5, 172, 228, 1)';
-const COLOR_HYPOGLYCEMIA = 'rgba(255, 99, 132, 1)';
+const COLOR_HYPOGLYCEMIA = 'rgba(5, 172, 228, 1)';
+const COLOR_HYPERGLYCEMIA = 'rgba(255, 99, 132, 1)';
 const COLOR_MY_GLYCEMIA = 'rgba(7, 140, 38, 2)';
 const BORDER_WIDTH = 2;
 const POINT_RADIUS_HYPERGLYCEMIA = 0;
@@ -22,8 +22,11 @@ const POINT_HOVER_RADIUS = 13;
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
 const HTTP_NOT_FOUND = 404;
-
 const XMLHTTPREQUEST_STATUS_DONE = 4;
+
+const CHART_LINE_TENSION = 0.3;
+const Y_MIN_SCALE = 20;
+const Y_MAX_SCALE = 220;
 
 /**
  * It loads the chart in the dashboard screen.
@@ -45,14 +48,6 @@ function loadChart() {
           pointRadius: POINT_RADIUS_HYPERGLYCEMIA,
         },
         {
-          label: 'Hypoglycemia',
-          data: hypoglycemiaValues,
-          borderColor: [COLOR_HYPOGLYCEMIA],
-          backgroundColor: [COLOR_HYPOGLYCEMIA],
-          borderWidth: BORDER_WIDTH,
-          pointRadius: POINT_RADIUS_HYPOGLYCEMIA,
-        },
-        {
           label: 'My glycemia',
           data: glucoseValues,
           borderColor: (chart) => getColor(chart),
@@ -60,6 +55,14 @@ function loadChart() {
           borderWidth: BORDER_WIDTH,
           pointRadius: POINT_RADIUS_MY_GLICEMIA,
           pointHoverRadius: POINT_HOVER_RADIUS,
+        },
+        {
+          label: 'Hypoglycemia',
+          data: hypoglycemiaValues,
+          borderColor: [COLOR_HYPOGLYCEMIA],
+          backgroundColor: [COLOR_HYPOGLYCEMIA],
+          borderWidth: BORDER_WIDTH,
+          pointRadius: POINT_RADIUS_HYPOGLYCEMIA,
         },
       ],
     },
@@ -84,7 +87,7 @@ function loadChart() {
           duration: 1000,
           easing: 'easeOutQuart',
           from: 1,
-          to: 0,
+          to: CHART_LINE_TENSION,
         },
       },
       reposive: true,
@@ -92,8 +95,8 @@ function loadChart() {
       scales: {
         y: {
           type: 'linear',
-          min: 20,
-          max: 220,
+          min: Y_MIN_SCALE,
+          max: Y_MAX_SCALE,
           ticks: {
             stepSize: 20,
           },
@@ -232,13 +235,6 @@ function adaptLabelDate(value) {
 function makeChartPanelVisible() {
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
-}
-
-/**
- * Redirect the user to the login page.
- */
-function redirectToLoginPage() {
-  location.href = './index.html';
 }
 
 loadGlucoseReadingsByUserId();

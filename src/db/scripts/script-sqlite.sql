@@ -37,6 +37,7 @@ CREATE TABLE users (
     name       varchar(200) NOT NULL, 
     email      varchar(100) NOT NULL,
     password   varchar(200) NOT NULL, 
+    picture    TEXT,
     role_id    INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT (datetime('now','localtime')),
     updated_at TIMESTAMP DEFAULT (datetime('now','localtime')),
