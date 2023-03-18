@@ -3,8 +3,7 @@ const fieldGlucose = document.getElementById('field_Glucose');
 const fieldDate = document.getElementById('field_Date');
 const fieldMarkermeal = document.getElementById('field_Markermeal');
 
-const CREATED = 200;
-const XMLHTTPREQUEST_STATUS_DONE = 4;
+const HTTP_CREATED = 200;
 
 btnSave.addEventListener('click', function(event) {
   event.preventDefault();
@@ -13,11 +12,19 @@ btnSave.addEventListener('click', function(event) {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == CREATED) {
-          resetFields();
-          resetChart();
-        } else {
-          swal('Error', 'Please, try again', 'error');
+        switch (xmlhttp.status) {
+          case HTTP_CREATED:
+            resetFields();
+            resetChart();
+            break;
+
+          case HTTP_UNAUTHORIZED:
+            handleSessionExpired();
+            break;
+
+          default:
+            swal('Error', 'Please, try again', 'error');
+            break;
         }
       }
     };

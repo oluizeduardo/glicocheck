@@ -5,7 +5,8 @@ const fieldConfirmPassword = document.getElementById('field_confirm_Password');
 const btnSave = document.getElementById('btnSave');
 const userProfilePicture = document.getElementById('userProfilePicture');
 
-const OK = 200;
+const HTTP_OK = 200;
+const HTTP_UNAUTHORIZED = 401;
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
@@ -16,10 +17,20 @@ function loadUserInfos() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-      if (xmlhttp.status == OK) {
-        const data = JSON.parse(xmlhttp.responseText);
-        fieldName.value = data.user.name;
-        fieldEmail.value = data.user.email;
+      switch (xmlhttp.status) {
+        case HTTP_OK:
+          const data = JSON.parse(xmlhttp.responseText);
+          fieldName.value = data.user.name;
+          fieldEmail.value = data.user.email;
+          break;
+
+        case HTTP_UNAUTHORIZED:
+          handleSessionExpired();
+          break;
+
+        default:
+          swal('Error', 'Please, try again', 'error');
+          break;
       }
     }
   };
@@ -131,10 +142,7 @@ function showAlertMessage() {
  * to let the user upload a profile picture.
  */
 userProfilePicture.addEventListener('click', (event) => {
-  const fileSelector = document.createElement('input');
-  fileSelector.type = 'file';
-  fileSelector.accept = 'image/*';
-  fileSelector.multiple = false;
+  const fileSelector = createFileSelector();
 
   new Promise(function(resolve) {
     fileSelector.onchange = () => {
@@ -146,8 +154,38 @@ userProfilePicture.addEventListener('click', (event) => {
     if (file && file.name) {
       const urlFile = URL.createObjectURL(file);
       userProfilePicture.src = urlFile;
+      // generateDataURL(file);
     }
   });
 });
+
+/**
+ * Creates a new file selector.
+ * @return {Element} type input - File selector.
+ */
+function createFileSelector() {
+  const fileSelector = document.createElement('input');
+  fileSelector.type = 'file';
+  fileSelector.accept = 'image/*';
+  fileSelector.multiple = false;
+  return fileSelector;
+}
+
+/**
+ * This functions uses a FileReader object to
+ * generate the Base64 dataURL from a given file.
+ * @param {string} file The file path.
+ * @return {Promise} A Promise object containing the result.
+ */
+function generateDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onerror = reject;
+    fr.onload = () => {
+      resolve(fr.result);
+    };
+    fr.readAsDataURL(file);
+  }).then((result) => console.log(result));
+}
 
 loadUserInfos();

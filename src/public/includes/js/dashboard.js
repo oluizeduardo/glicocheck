@@ -19,6 +19,12 @@ const POINT_RADIUS_HYPOGLYCEMIA = 0;
 const POINT_RADIUS_MY_GLICEMIA = 6;
 const POINT_HOVER_RADIUS = 13;
 
+const HTTP_OK = 200;
+const HTTP_UNAUTHORIZED = 401;
+const HTTP_NOT_FOUND = 404;
+
+const XMLHTTPREQUEST_STATUS_DONE = 4;
+
 /**
  * It loads the chart in the dashboard screen.
  */
@@ -129,15 +135,29 @@ function fillHypoAndHyperValues() {
 function loadGlucoseReadingsByUserId() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-    if (xmlhttp.readyState == 4) {
-      if (xmlhttp.status == 200) {
-        JSON.parse(xmlhttp.response, function(key, value) {
-          if (key === 'glucose') glucoseValues.push(value);
-          if (key === 'date') {
-            glucoseReadingDateLabels.push(adaptLabelDate(value));
-          }
-        });
+    if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+      switch (xmlhttp.status) {
+        case HTTP_OK:
+          JSON.parse(xmlhttp.response, (key, value) => {
+            if (key === 'glucose') glucoseValues.push(value);
+            if (key === 'date') {
+              glucoseReadingDateLabels.push(adaptLabelDate(value));
+            }
+          });
+          break;
+
+        case HTTP_NOT_FOUND:
+          break;
+
+        case HTTP_UNAUTHORIZED:
+          handleSessionExpired();
+          break;
+
+        default:
+          swal('Error', 'Please, try again', 'error');
+          break;
       }
+
       if (glucoseValues.length > 0) {
         makeChartPanelVisible();
         loadChart();
@@ -212,6 +232,13 @@ function adaptLabelDate(value) {
 function makeChartPanelVisible() {
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
+}
+
+/**
+ * Redirect the user to the login page.
+ */
+function redirectToLoginPage() {
+  location.href = './index.html';
 }
 
 loadGlucoseReadingsByUserId();

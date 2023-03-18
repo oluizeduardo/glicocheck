@@ -6,11 +6,20 @@ btnConfirmDeleteAccount.addEventListener('click', () => {
     if (isCorrectPassword) {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = () => {
-        if (
-          xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE &&
-          xmlhttp.status == OK
-        ) {
-          deleteUserAccount();
+        if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+          switch (xmlhttp.status) {
+            case HTTP_OK:
+              deleteUserAccount();
+              break;
+
+            case HTTP_UNAUTHORIZED:
+              handleSessionExpired();
+              break;
+
+            default:
+              swal('Error', 'Please, try again', 'error');
+              break;
+          }
         }
       };
       sendRequestToDeleteGlucoseReadings(xmlhttp);
@@ -44,7 +53,7 @@ function deleteUserAccount() {
   xmlhttp.onreadystatechange = () => {
     if (
       xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE &&
-      xmlhttp.status == OK
+      xmlhttp.status == HTTP_OK
     ) {
       swal({
         title: 'Success!',
