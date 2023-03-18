@@ -6,6 +6,25 @@
 Web platform to manage diabetes. 
 API developed in [NodeJS](https://nodejs.org/en/) with [ExpressJS](http://expressjs.com/) to manage the web application and [KnexJS](http://knexjs.org/) to build queries and datasource connection.
 
+# Technologies applied
+- Backend
+    - NodeJS
+    - Express
+    - [Bcrypt](https://www.npmjs.com/package/bcrypt)
+    - [Json Web Token](https://jwt.io/)
+- Database
+    - [SQLite](https://www.sqlite.org/index.html)
+    - [KnexJS](https://knexjs.org/)
+- Frontend
+    - [Bootstrap](https://getbootstrap.com/)
+    - [SweetAlert](https://sweetalert.js.org/)
+- Quality
+    - Test
+        - [Jest](https://jestjs.io/)
+        - [Supertest](https://www.npmjs.com/package/supertest)
+    - Static analysis
+        - [ESLint](https://eslint.org/)
+
 # How to run locally
 - Clone this project.
     - `git clone https://github.com/oluizeduardo/my-diabetes-js.git`
@@ -70,13 +89,3 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing.
 | DELETE  | {HOST}/api/markermeal/{id}      |  Delete a marker meal by id.      | `TOKEN` + `ADMIN`               |
 | PUT     | {HOST}/api/markermeal/{id}      |  Update a marker meal by id.      | `TOKEN` + `ADMIN` + description |
 
-
-# Technologies
-- NodeJS
-- Express
-- [KnexJS](https://knexjs.org/)
-- [Bcrypt](https://www.npmjs.com/package/bcrypt)
-- [Json Web Token](https://jwt.io/)
-- [SQLite](https://www.sqlite.org/index.html)
-- [Bootstrap](https://getbootstrap.com/)
-- [SweetAlert](https://sweetalert.js.org/)
