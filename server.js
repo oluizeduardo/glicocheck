@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-const path  = require ('path');
+const path = require('path');
 const morgan = require('morgan');
 const usersRouter = require('./src/routes/usersRouter');
 const glucoseRouter = require('./src/routes/glucoseRouter');
@@ -24,10 +24,10 @@ app.use('/api/glucose', glucoseRouter);
 app.use('/api/markermeal', markerMealRouter);
 app.use('/api/security', securityRouter);
 
-app.use(express.urlencoded({ extended: true }));
-app.use('/site', express.static(path.join (__dirname, '/src/public')));
+app.use(express.urlencoded({extended: true}));
+app.use('/site', express.static(path.join(__dirname, '/src/public')));
 
 // Inicialize the server.
-app.listen(port, function () {
-    console.log(`Server running on ${port}.`);
-})
+app.listen(port, function() {
+  console.log(`Server running on ${port}.`);
+});
