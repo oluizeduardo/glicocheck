@@ -2,7 +2,7 @@ const fieldName = document.getElementById('field_Name');
 const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 const fieldConfirmPassword = document.getElementById('field_confirm_Password');
-const btnSave = document.getElementById('btnSave');
+const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 const userProfilePicture = document.getElementById('userProfilePicture');
 
 const HTTP_OK = 200;
@@ -74,7 +74,7 @@ function getUserId() {
   return sessionStorage.getItem('userId');
 }
 
-btnSave.addEventListener('click', (event) => {
+btnSaveUserDetails.addEventListener('click', (event) => {
   event.preventDefault();
 
   if (isValidDataEntry()) {
@@ -101,8 +101,7 @@ btnSave.addEventListener('click', (event) => {
  * @return {boolean} true if all the fields are filled, false otherwise.
  */
 function isValidDataEntry() {
-  return (fieldName.value && fieldEmail.value &&
-            fieldPassword.value && fieldConfirmPassword.value);
+  return (fieldName.value && fieldEmail.value);
 }
 
 /**
@@ -129,7 +128,6 @@ function prepareJsonUser() {
     name: fieldName.value,
     email: fieldEmail.value,
     picture: profilePictureBase64,
-    password: fieldPassword.value,
     role_id: 1,
   });
 }

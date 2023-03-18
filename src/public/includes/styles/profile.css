@@ -1,3 +1,7 @@
+h5{
+    font-weight: bold;
+}
+
 .user-profile-picture{
     height: 150px;
     width: 150px;
@@ -6,6 +10,7 @@
     left: 50%;
     top: 0;
     transform: translate(-50%,-50%);
+    z-index: 1;
 }
 
 .user-profile-picture:hover{
@@ -31,6 +36,11 @@
 .panel-buttons{
     display: flex;
     justify-content: space-between;
+}
+
+.form{
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 @media (max-width: 500px) {

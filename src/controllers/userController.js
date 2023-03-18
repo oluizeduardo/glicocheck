@@ -57,26 +57,18 @@ class UserController {
   static updateUserById = async (req, res) => {
     const id = Number.parseInt(req.params.id);
 
-    const newUser = {
+    const user = {
       name: req.body.name,
       email: req.body.email,
       picture: req.body.picture,
-      password: SecurityUtils.generateHashValue(req.body.password),
       role_id: req.body.role_id,
       updated_at: DateTimeUtil.getCurrentDateTime(),
-    };
-    const user = {
-      name: newUser.name,
-      email: newUser.email,
-      picture: newUser.picture,
-      role_id: newUser.role_id,
-      updated_at: newUser.updated_at,
     };
 
     try {
       await database('users')
           .where('id', id)
-          .update(newUser)
+          .update(user)
           .then((numAffectedRegisters) => {
             if (numAffectedRegisters == 0) {
               res.status(404).json({message: Messages.NOTHING_FOUND});

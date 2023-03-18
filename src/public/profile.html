@@ -52,7 +52,7 @@
                         <li class="nav-item item-sidemenu">
                             <a class="nav-link" href="#">
                             <span data-feather="user" class="align-middle"></span>
-                            Profile
+                            My Account
                             </a>
                         </li>          
                         <li class="nav-item item-sidemenu">
@@ -93,35 +93,70 @@
                                     src="./includes/imgs/default-profile-picture.png" 
                                     alt="User profile picture">
                                 </div>                                                               
-                            </div>
-                            <div class="container mt-5 pb-5">
-                                <form class="mt-80">
-                                    <div class="mb-3">
-                                        <label for="field_Name" class="form-label ">Name</label>
-                                        <input type="text" class="form-control" id="field_Name" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="field_Email" class="form-label">Email address</label>
-                                        <input type="email" class="form-control" id="field_Email" aria-describedby="emailHelp" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="field_Pasword" class="form-label">Password</label>
-                                        <input type="password" class="form-control password-field" id="field_Password" aria-describedby="passwordHelp">
-                                        <div id="passwordHelp" class="form-text">Fill this field if you want to change your password.</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="field_confirm_Password" class="form-label">Confirm password</label>
-                                        <input type="password" class="form-control password-field" id="field_confirm_Password">
-                                    </div>
-                                    <div class="mt-5 panel-buttons">
-                                        <button type="submit" class="btn btn-primary" id="btnSave">
-                                            <span data-feather="save"></span>
-                                            Save</button>
-                                        <button type="button" class="btn btn-danger" id="btnDeleteAccount" data-bs-toggle="modal" data-bs-target="#modalConfirmDeleteAccount">
-                                            <span data-feather="trash-2"></span>
-                                            Delete my account</button>
-                                    </div>
-                                </form>
+                            </div>                            
+                            <div class="mt-3 pb-5">
+
+                                <!-- PANEL USER DETAILS -->
+                                <div class="shadow card">
+                                    <form class="form mt-80">
+                                        <h5 class="mb-3">User Details</h5>
+                                        <div class="mb-3">
+                                            <label for="field_Name" class="form-label ">Name</label>
+                                            <input type="text" class="form-control" id="field_Name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="field_Email" class="form-label">Email address</label>
+                                            <input type="email" class="form-control" id="field_Email" aria-describedby="emailHelp" required>
+                                        </div>
+                                        <div class="mt-5 mb-3 panel-buttons">
+                                            <button type="submit" class="btn btn-primary" id="btnSaveUserDetails">
+                                                <span data-feather="save"></span>
+                                                Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- PANEL CHANGE PASSWORD -->
+                                <div class="shadow card mt-3">
+                                    <form class="form mt-5">
+                                        <h5 class="mb-3">Change Password</h5>
+                                        <div class="mb-3">
+                                            <label for="field_Pasword" class="form-label">Old Password</label>
+                                            <input type="password" class="form-control password-field" id="field_oldPassword" aria-describedby="passwordOld">
+                                            <div id="passwordOld" class="form-text">Fill this field with your current password.</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="field_Pasword" class="form-label">New Password</label>
+                                            <input type="password" class="form-control password-field" id="field_Password" aria-describedby="passwordHelp">
+                                            <div id="passwordHelp" class="form-text">Fill this field with your new password.</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="field_confirm_Password" class="form-label">Confirm password</label>
+                                            <input type="password" class="form-control password-field" id="field_confirm_Password" aria-describedby="confirmNewPassword">
+                                            <div id="confirmNewPassword" class="form-text">Confirm your new password.</div>
+                                        </div>
+                                        <div class="mt-5 mb-3 panel-buttons">
+                                            <button type="submit" class="btn btn-primary" id="btnChangePassword">
+                                                <span data-feather="save"></span>
+                                                Change password</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- PANEL DELETE ACCOUNT -->
+                                <div class="shadow card mt-3">
+                                    <form class="form mt-5">
+                                        <h5 class="mb-3">Delete Account</h5>                                        
+                                        <div class="alert alert-danger mb-3" role="alert">
+                                            Deleting your account is irrevesible and you will no longer have access to your dashboard.
+                                        </div>
+                                        <div class="mt-5 mb-3 panel-buttons">
+                                            <button type="button" class="btn btn-danger" id="btnDeleteAccount" data-bs-toggle="modal" data-bs-target="#modalConfirmDeleteAccount">
+                                                <span data-feather="trash-2"></span>
+                                                Delete my account</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
