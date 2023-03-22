@@ -10,9 +10,9 @@ let hypoglycemiaValues = [];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
-const COLOR_HYPOGLYCEMIA = 'rgba(5, 172, 228, 1)';
-const COLOR_HYPERGLYCEMIA = 'rgba(255, 99, 132, 1)';
+const COLOR_HYPERGLYCEMIA = 'rgba(5, 172, 228, 1)';
 const COLOR_MY_GLYCEMIA = 'rgba(7, 140, 38, 2)';
+const COLOR_HYPOGLYCEMIA = 'rgba(255, 99, 132, 1)';
 const BORDER_WIDTH = 2;
 const POINT_RADIUS_HYPERGLYCEMIA = 0;
 const POINT_RADIUS_HYPOGLYCEMIA = 0;

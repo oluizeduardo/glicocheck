@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">   
-    <link href="./includes/styles/profile.css" rel="stylesheet">
+    <link href="./includes/styles/profile.css" rel="stylesheet">    
   </head>
 
   <body>    
@@ -52,7 +52,7 @@
                         <li class="nav-item item-sidemenu">
                             <a class="nav-link" href="#">
                             <span data-feather="user" class="align-middle"></span>
-                            My Account
+                            Profile
                             </a>
                         </li>          
                         <li class="nav-item item-sidemenu">
@@ -80,13 +80,13 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                  <h1 class="h2">My account</h1>
+                  <h1 class="h2">Profile</h1>
                 </div>        
 
                 <div class="container">
                     <div class="row mb-3">
                         <div class="w-100 mt-80 bg-white">
-                            <div class="card d-flex align-items-center justify-content-center mb-3">
+                            <div class="card d-flex align-items-center justify-content-center mb-3 mt-3">
                                 <div class="w-100">
                                     <img id="userProfilePicture"
                                     class="user-profile-picture rounded-circle" 
@@ -99,15 +99,49 @@
                                 <!-- PANEL USER DETAILS -->
                                 <div class="shadow card">
                                     <form class="form mt-80">
-                                        <h5 class="mb-3">User Details</h5>
+                                        <h5 class="mb-4">User Details</h5>
                                         <div class="mb-3">
-                                            <label for="field_Name" class="form-label ">Name</label>
+                                            <label for="field_Name" class="form-label ">Name<span class="required">*</span></label>
                                             <input type="text" class="form-control" id="field_Name" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="field_Email" class="form-label">Email address</label>
+                                            <label for="field_Email" class="form-label">Email address<span class="required">*</span></label>
                                             <input type="email" class="form-control" id="field_Email" aria-describedby="emailHelp" required>
                                         </div>
+
+                                        <div class="row">                                            
+                                            <div class="col-sm mb-3">
+                                                <label for="field_DateOfBirth" class="form-label">Date of birth<span class="required">*</span></label>
+                                                <input type="date" id="field_DateOfBirth" class="form-control text-center mr-2">
+                                            </div>
+
+                                            <div class="col-sm mb-3">
+                                                <label for="field_Phone" class="form-label">Cell Phone</label>
+                                                <input type="tel" id="field_Phone" class="form-control text-center mr-2" 
+                                                pattern="[0-9]{2}-9[0-9]{4}-[0-9]{4}" placeholder="(##)#####-####">
+                                            </div>
+
+                                            <div class="col-sm mb-3">
+                                                <label for="field_Gender" class="form-label">Gender<span class="required">*</span></label>
+                                                <select id="field_Gender" class="form-select r-2">
+                                                    <option selected>Select your gender</option>
+                                                    <option value="1">Male</option>
+                                                    <option value="2">Female</option>
+                                                    <option value="3">Unspecified</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-sm mb-3">
+                                                <label for="field_Weight" class="form-label">Weight (Kg)</label>
+                                                <input type="number" id="field_Weight" class="form-control text-center mr-2" min="1">
+                                            </div>
+
+                                            <div class="col-sm mb-3">
+                                                <label for="field_Height" class="form-label">Height (cm)</label>
+                                                <input type="number" id="field_Height" class="form-control text-center mr-2" min="10">
+                                            </div>
+                                        </div>                                        
+
                                         <div class="mt-5 mb-3 panel-buttons">
                                             <button type="submit" class="btn btn-primary" id="btnSaveUserDetails">
                                                 <span data-feather="save"></span>
@@ -116,22 +150,67 @@
                                     </form>
                                 </div>
 
+                                <!-- PANEL HEALTH INFORMATION -->
+                                <div class="shadow card mt-4">
+                                    <form class="form mt-80">
+                                        <h5 class="mb-4">Health Information</h5>
+                                        
+                                        <div class="row"> 
+                                            <div class="col-sm mb-3">
+                                                <label for="field_DiabetesType" class="form-label">Diabetes Type</label>
+                                                <select id="field_DiabetesType" class="form-select r-2">
+                                                    <option selected>Select your diabetes type</option>
+                                                    <option value="1">Diabetes Mellitus Type 1</option>
+                                                    <option value="2">Diabetes Mellitus Type 2</option>
+                                                    <option value="3">Diabetes Gestational</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="col-sm mb-3">
+                                                <label for="field_DateOfDiagnosis" class="form-label">Month of diagnosis</label>
+                                                <input type="month" id="field_DateOfDiagnosis" class="form-control text-center mr-2">
+                                            </div>
+
+                                            <div class="col-sm mb-3">
+                                                <label for="field_BloodType" class="form-label">Blood Type</label>
+                                                <select id="field_BloodType" class="form-select r-2">
+                                                    <option selected>Select your blood type</option>
+                                                    <option value="1">A+</option>
+                                                    <option value="2">A-</option>
+                                                    <option value="3">B+</option>
+                                                    <option value="3">B-</option>
+                                                    <option value="4">AB+</option>
+                                                    <option value="5">AB-</option>
+                                                    <option value="6">O+</option>
+                                                    <option value="7">O-</option>
+                                                </select>
+                                            </div>
+                                        </div>                                        
+
+                                        <div class="mt-5 mb-3 panel-buttons">
+                                            <button type="submit" class="btn btn-primary" id="btnUpdateHealthInfo">
+                                                <span data-feather="save"></span>
+                                                Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+
                                 <!-- PANEL CHANGE PASSWORD -->
-                                <div class="shadow card mt-3">
+                                <div class="shadow card mt-4">
                                     <form class="form mt-5">
-                                        <h5 class="mb-3">Change Password</h5>
+                                        <h5 class="mb-4">Change Password</h5>
                                         <div class="mb-3">
-                                            <label for="field_Pasword" class="form-label">Old Password</label>
+                                            <label for="field_Pasword" class="form-label">Old Password<span class="required">*</span></label>
                                             <input type="password" class="form-control password-field" id="field_oldPassword" aria-describedby="passwordOld">
                                             <div id="passwordOld" class="form-text">Fill this field with your current password.</div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="field_Pasword" class="form-label">New Password</label>
+                                            <label for="field_Pasword" class="form-label">New Password<span class="required">*</span></label>
                                             <input type="password" class="form-control password-field" id="field_Password" aria-describedby="passwordHelp">
                                             <div id="passwordHelp" class="form-text">Fill this field with your new password.</div>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="field_confirm_Password" class="form-label">Confirm password</label>
+                                            <label for="field_confirm_Password" class="form-label">Confirm password<span class="required">*</span></label>
                                             <input type="password" class="form-control password-field" id="field_confirm_Password" aria-describedby="confirmNewPassword">
                                             <div id="confirmNewPassword" class="form-text">Confirm your new password.</div>
                                         </div>
@@ -144,9 +223,9 @@
                                 </div>
 
                                 <!-- PANEL DELETE ACCOUNT -->
-                                <div class="shadow card mt-3">
+                                <div class="shadow card mt-4">
                                     <form class="form mt-5">
-                                        <h5 class="mb-3">Delete Account</h5>                                        
+                                        <h5 class="mb-4">Delete Account</h5>                                        
                                         <div class="alert alert-danger mb-3" role="alert">
                                             Deleting your account is irrevesible and you will no longer have access to your dashboard.
                                         </div>
@@ -219,5 +298,6 @@
     <script src="./includes/js/deleteAccount.js"></script>
     <!-- SWEET ALERT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="./includes/js/calendarRange.js"></script>
   </body>
 </html>

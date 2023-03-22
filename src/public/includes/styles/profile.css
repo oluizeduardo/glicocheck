@@ -26,7 +26,7 @@ h5{
 }
 
 .mt-80{
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
 .password-field{
@@ -41,6 +41,11 @@ h5{
 .form{
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.required{
+    color: red;
+    font-weight: bold;
 }
 
 @media (max-width: 500px) {

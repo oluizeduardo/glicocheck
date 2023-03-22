@@ -1,12 +1,12 @@
 {
-  "name": "my-diabetes",
+  "name": "glicocheck",
   "version": "1.0.0",
-  "description": "NodeJS web API to control diabetes.",
+  "description": "NodeJS web platform for diabetes management.",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
     "test": "jest --coverage --watchAll",
-    "lint": "eslint server.js",
+    "lint": "eslint src/public/includes/js/calendarRange.js",
     "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/oluizeduardo/my-diabetes-js.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luiz Eduardo da Costa",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/oluizeduardo/my-diabetes-js/issues"
@@ -28,7 +28,6 @@
     "jsonwebtoken": "^9.0.0",
     "knex": "^2.4.2",
     "morgan": "^1.10.0",
-    "pg": "^8.7.3",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.4"
   },
