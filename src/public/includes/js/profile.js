@@ -1,6 +1,8 @@
 const fieldName = document.getElementById('field_Name');
 const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
+const fieldBirthdate = document.getElementById('field_Birthdate');
+const fieldGender = document.getElementById('field_Gender');
 const fieldConfirmPassword = document.getElementById('field_confirm_Password');
 const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 const userProfilePicture = document.getElementById('userProfilePicture');
@@ -24,7 +26,8 @@ function loadUserInfos() {
           const data = JSON.parse(xmlhttp.responseText);
           fieldName.value = data.user.name;
           fieldEmail.value = data.user.email;
-          userProfilePicture.src = data.user.picture;
+          profilePictureBase64 = data.user.picture;
+          userProfilePicture.src = profilePictureBase64;
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -101,7 +104,8 @@ btnSaveUserDetails.addEventListener('click', (event) => {
  * @return {boolean} true if all the fields are filled, false otherwise.
  */
 function isValidDataEntry() {
-  return (fieldName.value && fieldEmail.value);
+  return (fieldName.value && fieldEmail.value &&
+          fieldBirthdate.value && fieldGender.value !== '0');
 }
 
 /**

@@ -11,8 +11,8 @@ if (month < 10) {
 
 today = year + '-' + month + '-' + day;
 dateMin = (year-120) + '-01-01';
-document.getElementById('field_DateOfBirth').setAttribute('min', dateMin);
-document.getElementById('field_DateOfBirth').setAttribute('max', today);
+document.getElementById('field_Birthdate').setAttribute('min', dateMin);
+document.getElementById('field_Birthdate').setAttribute('max', today);
 
 const thisMonth = year+'-'+month;
 const minMonth = (year-120)+'-'+month;
