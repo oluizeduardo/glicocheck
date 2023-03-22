@@ -6,6 +6,11 @@
   font-family: 'Poppins', sans-serif;
 }
 
+body {
+  font-size: .875rem;
+  background-color: #FFFFFF;
+}
+
 .default-background-color {
   background-color: #8d1818;
 }
@@ -16,11 +21,6 @@
 
 .round-border-top-left{
   border-top-left-radius: 2rem;
-}
-
-body {
-  font-size: .875rem;
-  background-color: #FFFFFF;
 }
 
 .feather {
@@ -100,16 +100,20 @@ body {
 /*
  * Chart
  */
- .container-chart{
+.container-chart{
   width: 100%;
   height: 70vh;
- }
+}
 
 .visible{
   display: block;
 }
 
 .invisible{
+  display: none;
+}
+
+.header-visibility{
   display: none;
 }
 
@@ -146,6 +150,9 @@ body {
 }
 
 @media (max-width: 500px) {
+  .header-visibility{
+    display: flex;
+  }
   .logo{
     width: 16rem;
     height: 9rem;
