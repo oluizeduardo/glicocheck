@@ -6,6 +6,10 @@ DELETE FROM measurement_unity;
 DELETE FROM marker_meal;
 DELETE FROM users;
 DELETE FROM role;
+DELETE FROM gender;
+DELETE FROM health_info;
+DELETE FROM diabetes_type;
+DELETE FROM blood_type;
 
 
 ------------- DROPS -------------
@@ -14,6 +18,10 @@ DROP TABLE IF EXISTS measurement_unity;
 DROP TABLE IF EXISTS marker_meal;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS gender;
+DROP TABLE IF EXISTS health_info;
+DROP TABLE IF EXISTS diabetes_type;
+DROP TABLE IF EXISTS blood_type;
 
 
 ------------- ROLES -------------
@@ -36,16 +44,85 @@ CREATE TABLE users (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     name       varchar(200) NOT NULL, 
     email      varchar(100) NOT NULL,
-    password   varchar(200) NOT NULL, 
-    picture    TEXT,
+    password   varchar(200) NOT NULL,     
+    birthdate  varchar(8),
+    cellphone  varchar(20),
+    gender_id  INTEGER,
+    health_id  INTEGER,
+    weight     FLOAT,
+    height     FLOAT,
     role_id    INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT (datetime('now','localtime')),
     updated_at TIMESTAMP DEFAULT (datetime('now','localtime')),
+    picture    TEXT,
 
-    FOREIGN KEY(role_id) REFERENCES role(id) 
+    FOREIGN KEY(role_id) REFERENCES role(id),
+    FOREIGN KEY(health_id) REFERENCES health_info(id),
+    FOREIGN KEY(gender_id) REFERENCES gender(id)
 );
 
 SELECT * FROM users;
+
+
+---- HEALTH INFO ----
+CREATE TABLE health_info (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id         INTEGER NOT NULL,
+  diabetes_type   INTEGER,
+  blood_type      INTEGER,  
+  month_diagnosis varchar(15),
+  created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+  updated_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  FOREIGN KEY (diabetes_type) REFERENCES diabetes_type(id)
+);
+
+
+---- DIABETES TYPE ----
+CREATE TABLE diabetes_type (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  description VARCHAR(20),
+  created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+  updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
+);
+
+INSERT INTO diabetes_type (description) VALUES('Diabetes Mellitus Type 1');
+INSERT INTO diabetes_type (description) VALUES('Diabetes Mellitus Type 2');
+INSERT INTO diabetes_type (description) VALUES('Diabetes Gestational');
+
+
+
+---- BLOOD TYPE ----
+CREATE TABLE blood_type (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  description VARCHAR(3),
+  created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+  updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
+);
+
+INSERT INTO blood_type (description) VALUES('A+');
+INSERT INTO blood_type (description) VALUES('A-');
+INSERT INTO blood_type (description) VALUES('B+');
+INSERT INTO blood_type (description) VALUES('B-');
+INSERT INTO blood_type (description) VALUES('AB+');
+INSERT INTO blood_type (description) VALUES('AB-');
+INSERT INTO blood_type (description) VALUES('O+');
+INSERT INTO blood_type (description) VALUES('O-');
+
+
+
+---- GENDER ----
+CREATE TABLE gender (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  description VARCHAR(20),
+  created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+  updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
+);
+
+INSERT INTO gender (description) VALUES('Male');
+INSERT INTO gender (description) VALUES('Female');
+INSERT INTO gender (description) VALUES('Unspecified');
 
 
 
@@ -88,19 +165,19 @@ SELECT * FROM marker_meal;
 
 ------------- GLUCOSE -------------
 CREATE TABLE glucose ( 
-    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+  id            INTEGER PRIMARY KEY AUTOINCREMENT,
 	user_id       INTEGER NOT NULL,
 	glucose       INTEGER NOT NULL,
 	unity_id      INTEGER NOT NULL,
 	date          varchar(10) NOT NULL,
-    hour          TIME(6) NOT NULL,
+  hour          TIME(6) NOT NULL,
 	markermeal_id INTEGER NOT NULL,
-    created_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
-    updated_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
+  created_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
+  updated_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
 
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(unity_id) REFERENCES measurement_unity(id),
-    FOREIGN KEY(markermeal_id) REFERENCES marker_meal(id)
+  FOREIGN KEY(user_id) REFERENCES users(id),
+  FOREIGN KEY(unity_id) REFERENCES measurement_unity(id),
+  FOREIGN KEY(markermeal_id) REFERENCES marker_meal(id)
 );
 
 SELECT * FROM glucose;
