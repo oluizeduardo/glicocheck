@@ -33,54 +33,54 @@
         </button>
     </header>
   
-    <div class="container-fluid">
+    <div class="container-fluid default-background-color">
         <div class="row">
             <!-- SIDEMENU -->
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3 sidebar-sticky">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3 sidebar-sticky">
 
-                <div class="logo-sidebar-panel">
-                    <img class="logo-sidebar" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
+                    <div class="logo-sidebar-panel">
+                        <img class="logo-sidebar" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
+                    </div>
+
+                    <ul class="nav flex-column">
+                        <li class="nav-item item-sidemenu">
+                            <a class="nav-link" aria-current="page" href="./dashboard.html">
+                            <span data-feather="home" class="align-middle"></span>
+                            Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item item-sidemenu">
+                            <a class="nav-link" href="./profile.html">
+                            <span data-feather="user" class="align-middle"></span>
+                            Profile
+                            </a>
+                        </li>          
+                        <li class="nav-item item-sidemenu">
+                            <a class="nav-link" href="./reports.html">
+                            <span data-feather="bar-chart-2" class="align-middle"></span>
+                            Reports
+                            </a>
+                        </li>
+                        <li class="nav-item item-sidemenu">
+                            <a class="nav-link" href="#">
+                            <span data-feather="settings" class="align-middle"></span>
+                            Settings
+                            </a>
+                        </li>
+                        <li class="nav-item item-sidemenu">
+                            <a class="nav-link" href="#" onclick="logOut()">
+                            <span data-feather="log-out" class="align-middle"></span>
+                            Log out
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-
-                <ul class="nav flex-column">
-                    <li class="nav-item item-sidemenu">
-                        <a class="nav-link" aria-current="page" href="./dashboard.html">
-                        <span data-feather="home" class="align-middle"></span>
-                        Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item item-sidemenu">
-                        <a class="nav-link" href="./profile.html">
-                        <span data-feather="user" class="align-middle"></span>
-                        Profile
-                        </a>
-                    </li>          
-                    <li class="nav-item item-sidemenu">
-                        <a class="nav-link" href="./reports.html">
-                        <span data-feather="bar-chart-2" class="align-middle"></span>
-                        Reports
-                        </a>
-                    </li>
-                    <li class="nav-item item-sidemenu">
-                        <a class="nav-link" href="#">
-                        <span data-feather="settings" class="align-middle"></span>
-                        Settings
-                        </a>
-                    </li>
-                    <li class="nav-item item-sidemenu">
-                        <a class="nav-link" href="#" onclick="logOut()">
-                        <span data-feather="log-out" class="align-middle"></span>
-                        Log out
-                        </a>
-                    </li>
-                </ul>
-            </div>
             </nav>
             <!-- END - SIDEMENU -->
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
                     <h1 class="h2">Settings</h1>
                 </div>
             </main>
