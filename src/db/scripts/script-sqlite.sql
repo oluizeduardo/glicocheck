@@ -46,7 +46,7 @@ CREATE TABLE users (
     email      varchar(100) NOT NULL,
     password   varchar(200) NOT NULL,     
     birthdate  varchar(8),
-    cellphone  varchar(20),
+    phone      varchar(20),
     gender_id  INTEGER,
     health_id  INTEGER,
     weight     FLOAT,
