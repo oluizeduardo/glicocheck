@@ -3,6 +3,9 @@ const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 const fieldBirthdate = document.getElementById('field_Birthdate');
 const fieldGender = document.getElementById('field_Gender');
+const fieldPhone = document.getElementById('field_Phone');
+const fieldWeight = document.getElementById('field_Weight');
+const fieldHeight = document.getElementById('field_Height');
 const fieldConfirmPassword = document.getElementById('field_confirm_Password');
 const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 const userProfilePicture = document.getElementById('userProfilePicture');
@@ -24,10 +27,7 @@ function loadUserInfos() {
       switch (xmlhttp.status) {
         case HTTP_OK:
           const data = JSON.parse(xmlhttp.responseText);
-          fieldName.value = data.user.name;
-          fieldEmail.value = data.user.email;
-          profilePictureBase64 = data.user.picture;
-          userProfilePicture.src = profilePictureBase64;
+          fillScreenFields(data);
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -59,6 +59,22 @@ function sendGETToUserById(xmlhttp) {
   } else {
     throw Error('Authentication token not found.');
   }
+}
+
+/**
+ * Distributes the data response in the fields.
+ * @param {Response} data The response data.
+ */
+function fillScreenFields(data) {
+  fieldName.value = data.user.name;
+  fieldEmail.value = data.user.email;
+  profilePictureBase64 = data.user.picture;
+  userProfilePicture.src = profilePictureBase64;
+  fieldBirthdate.value = data.user.birthdate ? data.user.birthdate : '';
+  fieldPhone.value = data.user.phone ? data.user.phone : '';
+  fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
+  fieldWeight.value = data.user.weight ? data.user.weight : '';
+  fieldHeight.value = data.user.height ? data.user.height : '';
 }
 
 /**
@@ -105,7 +121,7 @@ btnSaveUserDetails.addEventListener('click', (event) => {
  */
 function isValidDataEntry() {
   return (fieldName.value && fieldEmail.value &&
-          fieldBirthdate.value && fieldGender.value !== '0');
+          fieldBirthdate.value && fieldGender.selectedIndex > 0);
 }
 
 /**
@@ -131,6 +147,11 @@ function prepareJsonUser() {
   return JSON.stringify({
     name: fieldName.value,
     email: fieldEmail.value,
+    birthdate: fieldBirthdate.value,
+    phone: fieldPhone.value,
+    gender_id: fieldGender.value,
+    weight: fieldWeight.value,
+    height: fieldHeight.value,
     picture: profilePictureBase64,
     role_id: 1,
   });

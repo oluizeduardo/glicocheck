@@ -15,6 +15,12 @@ class UserController {
             'users.name',
             'users.email',
             'users.picture',
+            'users.birthdate',
+            'users.phone',
+            'users.gender_id',
+            'users.health_id',
+            'users.weight',
+            'users.height',
             'role.description as role',
             'users.created_at',
             'users.updated_at',
@@ -38,6 +44,12 @@ class UserController {
             'users.id',
             'users.name',
             'users.email',
+            'users.birthdate',
+            'users.phone',
+            'users.gender_id',
+            'users.health_id',
+            'users.weight',
+            'users.height',
             'users.picture',
             'role.description as role',
             'users.created_at',
@@ -60,6 +72,11 @@ class UserController {
     const user = {
       name: req.body.name,
       email: req.body.email,
+      birthdate: req.body.birthdate,
+      phone: req.body.phone,
+      gender_id: req.body.gender_id,
+      weight: req.body.weight,
+      height: req.body.height,
       picture: req.body.picture,
       role_id: req.body.role_id,
       updated_at: DateTimeUtil.getCurrentDateTime(),
@@ -78,7 +95,7 @@ class UserController {
           });
     } catch (err) {
       return res.status(500).json({
-        message: `Error trying to update user.`,
+        message: Messages.ERROR_UPDATING_USER,
         details: `${err.message}`,
       });
     }
@@ -92,7 +109,7 @@ class UserController {
       database('users')
           .where('id', id)
           .del()
-          .then(res.status(200).json({message: `User ${id} has been deleted!`}))
+          .then(res.status(200).json({message: Messages.USER_DELETED}))
           .catch((err) => {
             res
                 .status(500)
