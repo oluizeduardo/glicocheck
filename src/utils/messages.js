@@ -14,8 +14,10 @@ class Messages {
                                 'Please try again.';
 
   static NEW_USER_CREATED = 'New user created! Now you can log in.';
+  static USER_DELETED = 'User deleted.';
   static ERROR_DELETE_USER = 'Error trying to delete user.';
   static ERROR_CREATE_USER = 'Error trying to insert a new user.';
+  static ERROR_UPDATING_USER = 'Error updating user.';
   static ERROR_CHECKING_USER_ROLE = 'Error checking user role.';
 
   static ERROR_UPDATE_GLUCOSE = 'Error trying to update glucose reading.';
