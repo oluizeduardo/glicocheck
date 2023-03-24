@@ -28,6 +28,9 @@ class Messages {
   static ERROR_UPDATE_MARKERMEAL = 'Error trying to update marker meal.';
 
   static ERROR_CHECKING_CREDENTIALS = 'Error checking credentials.';
+
+  static RESET_PASSWORD_MESSAGE_SENT = 'Reset password message sent.';
+  static ERROR_SEND_RESET_PASSWORD_MESSAGE = 'Error sending reset password message.';
 }
 
 module.exports = Messages;

@@ -80,10 +80,9 @@ function handleLogin() {
     title: 'Success',
     text: 'New user created! Now you can log in.',
     icon: 'success',
-  })
-      .then(() => {
-        location.href = './index.html';
-      });
+  }).then(() => {
+    location.href = './index.html';
+  });
 }
 
 /**
