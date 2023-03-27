@@ -10,6 +10,7 @@ DELETE FROM gender;
 DELETE FROM health_info;
 DELETE FROM diabetes_type;
 DELETE FROM blood_type;
+DELETE FROM reset_token;
 
 
 ------------- DROPS -------------
@@ -22,6 +23,7 @@ DROP TABLE IF EXISTS gender;
 DROP TABLE IF EXISTS health_info;
 DROP TABLE IF EXISTS diabetes_type;
 DROP TABLE IF EXISTS blood_type;
+DROP TABLE IF EXISTS reset_token;
 
 
 ------------- ROLES -------------
@@ -181,3 +183,15 @@ CREATE TABLE glucose (
 );
 
 SELECT * FROM glucose;
+
+
+
+------------- RESET TOKEN -------------
+CREATE TABLE reset_token (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  token       varchar(50) NOT NULL,
+	email_owner varchar(50) NOT NULL,
+  created_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
+);
+
+INSERT INTO reset_token (token, email_owner) VALUES('5a4551725c15cd40dad1d6c04687885378ef6811','costaeduardoluiz@gmail.com');
