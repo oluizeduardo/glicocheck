@@ -42,10 +42,10 @@ btnResetPassword.addEventListener('click', (event) => {
  * @param {XMLHttpRequest} xmlhttp The XMLHttpRequest object.
  */
 function sendRequestToResetPassword(xmlhttp) {
-  const jsonRestPassword = prepareJsonForgotPassword();
+  const jsonResetPassword = prepareJsonForgotPassword();
   xmlhttp.open('POST', '/api/reset/forgot-password');
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xmlhttp.send(jsonRestPassword);
+  xmlhttp.send(jsonResetPassword);
 }
 /**
  * Checks whether the field is properly filled with a valid email address.
@@ -77,10 +77,11 @@ function showInvalidEmailMessage() {
  */
 function showSuccessMessage() {
   swal({
-    title: 'Email sent',
-    text: `The reset password link was sent to the email 
-        ${fieldEmail.value}`,
+    title: 'We sent a link to your email.',
+    text: 'If you don\'t see the email in your inbox, please check your spam folder.',
     icon: 'success',
+  }).then(() => {
+    location.href = './index.html';
   });
 }
 /**
@@ -94,9 +95,8 @@ function showErrorMessage() {
  * Shows email not found message.
  */
 function showEmailNotFoundMessage() {
-  const message = `This email is not registered in the system.
-                    Please try another email address.`;
-  swal('Email not registered', message, 'warning');
+  const message = `The email provided is unknown by the system.`;
+  swal('Unknown email', message, 'warning');
 }
 /**
  * This function prepares the json object that will be sent in the request

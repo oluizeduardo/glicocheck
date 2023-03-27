@@ -24,8 +24,8 @@ body {
 }
 
 .feather {
-  width: 16px;
-  height: 16px;
+  width: 25px;
+  height: 25px;
 }
 
 .glicocheck-icon{
@@ -88,9 +88,14 @@ body {
   margin-top: 100px;
 }
 
+.item-sidemenu{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 .item-sidemenu:hover{
-  /*background-color: rgba(5, 172, 228,.25);*/
   background: linear-gradient(to right, #d14242, transparent);
+  border-radius: 20px;
 }
 
 .justify-content{
@@ -179,7 +184,7 @@ body {
   }
   .logo{
     width: 24rem;
-    height: 13rem;
+    height: 13rem;    
   }
 }
 

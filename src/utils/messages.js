@@ -31,6 +31,11 @@ class Messages {
 
   static RESET_PASSWORD_MESSAGE_SENT = 'Reset password message sent.';
   static ERROR_SEND_RESET_PASSWORD_MESSAGE = 'Error sending reset password message.';
+
+  static RESET_TOKEN_DELETED = 'Token deleted.';
+  static ERROR_DELETE_RESET_TOKEN = 'Error deleting reset token';
+  static RESET_PASSWORD_PROCESS = 'Executing reset password process.';
+  static PASSWORD_UPDATED = 'Password updated.';
 }
 
 module.exports = Messages;

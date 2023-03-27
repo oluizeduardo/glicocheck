@@ -26,6 +26,11 @@ body{
     margin-bottom: 35px;
 }
 
+.link:hover{
+    background-color: rgb(224, 234, 243);
+    border-radius: 20px;
+}
+
 @media (max-width: 500px) {     
     .card_form_input{
         width: 21rem;

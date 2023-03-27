@@ -1,6 +1,6 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
-const SecurityUtils = require('../utils/securityUtils');
+// const SecurityUtils = require('../utils/securityUtils');
 const DateTimeUtil = require('../utils/dateTimeUtil');
 /**
  * UserController.
