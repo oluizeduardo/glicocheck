@@ -11,6 +11,7 @@ Web platform to manage diabetes.
     - Express
     - [Bcrypt](https://www.npmjs.com/package/bcrypt)
     - [Json Web Token](https://jwt.io/)
+    - [Nodemailer](https://nodemailer.com/about/)
 - Database
     - [SQLite](https://www.sqlite.org/index.html)
     - [KnexJS](https://knexjs.org/)
