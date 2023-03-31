@@ -38,6 +38,9 @@ The project uses [ESLint](https://eslint.org/) for static analysis.
 - `npm run lint` to execute the analysis.
 - `npm run lint:fix` to fix the error reported by ESLint.
 
+# SonarCloud
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=oluizeduardo_my-diabetes-js&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=oluizeduardo_my-diabetes-js)
+
 # Link
 - Homepage: http://localhost:3000/site
 - API: http://localhost:3000/api/{resource}
@@ -88,4 +91,3 @@ You can assume `{HOST}` as being `http://localhost:3000` for local testing.
 | POST    | {HOST}/api/markermeal           |  Create a new marker meal.        | `TOKEN` + `ADMIN` + description |
 | DELETE  | {HOST}/api/markermeal/{id}      |  Delete a marker meal by id.      | `TOKEN` + `ADMIN`               |
 | PUT     | {HOST}/api/markermeal/{id}      |  Update a marker meal by id.      | `TOKEN` + `ADMIN` + description |
-
