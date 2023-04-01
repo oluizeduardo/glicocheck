@@ -50,12 +50,21 @@
                             Dashboard
                             </a>
                         </li>
-                        <li class="nav-item item-sidemenu">
-                            <a class="nav-link" href="./profile.html">
-                            <span data-feather="user" class="align-middle"></span>
-                            Profile
-                            </a>
-                        </li>          
+                        <li class="nav-item">
+                            <div class="item-sidemenu">
+                              <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                                <span data-feather="user" class="align-middle"></span>
+                                My Account
+                                <span class="ms-2 arrow-icon" data-feather="chevron-down"></span>
+                              </a>
+                            </div>
+                            <div class="collapse" id="dashboard-collapse">
+                              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li class="m-2 ps-2"><a href="./profile.html" class="nav-link item-sidemenu">Profile</a></li>
+                                <li class="m-2 ps-2"><a href="./security.html" class="nav-link item-sidemenu">Security</a></li>
+                              </ul>
+                            </div>
+                          </li>           
                         <li class="nav-item item-sidemenu">
                             <a class="nav-link" href="./reports.html">
                             <span data-feather="bar-chart-2" class="align-middle"></span>
@@ -81,7 +90,10 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
-                    <h1 class="h2">Settings</h1>
+                    <h1 class="h2">
+                        <span data-feather="settings" class="align-middle pb-1"></span>
+                        Settings
+                    </h1>
                 </div>
             </main>
         </div>

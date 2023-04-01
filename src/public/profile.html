@@ -49,12 +49,21 @@
                             Dashboard
                             </a>
                         </li>
-                        <li class="nav-item item-sidemenu">
-                            <a class="nav-link" href="#">
-                            <span data-feather="user" class="align-middle"></span>
-                            Profile
-                            </a>
-                        </li>          
+                        <li class="nav-item">
+                            <div class="item-sidemenu">
+                              <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                                <span data-feather="user" class="align-middle"></span>
+                                My Account
+                                <span class="ms-2 arrow-icon" data-feather="chevron-down"></span>
+                              </a>
+                            </div>
+                            <div class="collapse" id="dashboard-collapse">
+                              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li class="m-2 ps-2"><a href="./profile.html" class="nav-link item-sidemenu">Profile</a></li>
+                                <li class="m-2 ps-2"><a href="./security.html" class="nav-link item-sidemenu">Security</a></li>
+                              </ul>
+                            </div>
+                          </li>           
                         <li class="nav-item item-sidemenu">
                             <a class="nav-link" href="./reports.html">
                             <span data-feather="bar-chart-2" class="align-middle"></span>
@@ -80,7 +89,10 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
-                  <h1 class="h2">Profile</h1>
+                  <h1 class="h2">
+                    <span data-feather="user" class="align-middle pb-1"></span>
+                    Profile
+                </h1>
                 </div>        
 
                 <div class="container">
@@ -194,92 +206,11 @@
                                         </div>
                                     </form>
                                 </div>
-
-                                <!-- PANEL CHANGE PASSWORD -->
-                                <div class="shadow card mt-4">
-                                    <form class="form mt-5">
-                                        <h5 class="mb-4">Change Password</h5>
-                                        <div class="mb-3">
-                                            <label for="field_Pasword" class="form-label">Old Password<span class="required">*</span></label>
-                                            <input type="password" class="form-control password-field" id="field_oldPassword" aria-describedby="passwordOld">
-                                            <div id="passwordOld" class="form-text">Fill this field with your current password.</div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="field_Pasword" class="form-label">New Password<span class="required">*</span></label>
-                                            <input type="password" class="form-control password-field" id="field_Password" aria-describedby="passwordHelp">
-                                            <div id="passwordHelp" class="form-text">Fill this field with your new password.</div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="field_confirm_Password" class="form-label">Confirm password<span class="required">*</span></label>
-                                            <input type="password" class="form-control password-field" id="field_confirm_Password" aria-describedby="confirmNewPassword">
-                                            <div id="confirmNewPassword" class="form-text">Confirm your new password.</div>
-                                        </div>
-                                        <div class="mt-5 mb-3 panel-buttons">
-                                            <button type="submit" class="btn btn-primary" id="btnChangePassword">
-                                                <span data-feather="save"></span>
-                                                Change password</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <!-- PANEL DELETE ACCOUNT -->
-                                <div class="shadow card mt-4">
-                                    <form class="form mt-5">
-                                        <h5 class="mb-4">Delete Account</h5>                                        
-                                        <div class="alert alert-danger mb-3" role="alert">
-                                            Deleting your account is irrevesible and you will no longer have access to your dashboard.
-                                        </div>
-                                        <div class="mt-5 mb-3 panel-buttons">
-                                            <button type="button" class="btn btn-danger" id="btnDeleteAccount" data-bs-toggle="modal" data-bs-target="#modalConfirmDeleteAccount">
-                                                <span data-feather="trash-2"></span>
-                                                Delete my account</button>
-                                        </div>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>                
             </main>
-
-            <!-- MODAL DELETE ACCOUNT -->
-            <div class="modal fade" id="modalConfirmDeleteAccount">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-        
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                            <h5 class="modal-title" title="Tooltip">Delete account</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
-                        </div>          
-            
-                        <!-- Modal body -->
-                        <div class="modal-body">
-                            <main class="form-input m-auto"> 
-                                <p>
-                                    Your account and all the registers will be deleted. This action can't be undone.
-                                    <br><br>
-                                    Please, type the password to delete your account.
-                                </p>
-                                <div class="w-100 d-flex justify-content-center">
-                                    <input type="password" id="field_delete_account_Password"
-                                        class="form-control w-100 password-field border border-danger">
-                                </div>
-                            </main>
-                        </div>
-            
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                                <span data-feather="x"></span>Cancel</button>
-                            <button type="button" class="btn btn-primary" id="btnConfirmDeleteAccount">
-                                <span data-feather="trash-2"></span>Delete account
-                            </button>
-                        </div>
-        
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <!-- ICON -->
