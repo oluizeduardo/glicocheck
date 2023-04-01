@@ -2,7 +2,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
 const usersRouter = require('./src/routes/usersRouter');
@@ -12,13 +11,14 @@ const securityRouter = require('./src/routes/securityRouter');
 const resetPasswordRouter = require('./src/routes/resetPasswordRouter');
 
 const app = express();
+// Disclosing the fingerprinting of this web technology.
+app.disable('x-powered-by');
 
 const port = process.env.PORT || 3000;
 
 // MORGAN is used to log requests.
 app.use(morgan('common'));
 app.use(express.json({limit: '2mb'}));
-app.use(cors());
 
 app.use('/api/users', usersRouter);
 app.use('/api/glucose', glucoseRouter);

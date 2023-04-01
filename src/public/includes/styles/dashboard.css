@@ -175,6 +175,9 @@ body {
   .round-border-top-left{
     border-top-left-radius: 0rem;
   }
+  .menu_button-text{
+    display: none;
+  }
 }
 
 @media screen and (min-width: 760px) and (max-width: 1410px){

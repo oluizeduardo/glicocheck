@@ -33,8 +33,16 @@ const Y_MAX_SCALE = 220;
  */
 function loadChart() {
   fillHypoAndHyperValues();
+  this.glucoseReadingsChart = new Chart(ctx, getChartConfiguration());
+  glucoseReadingsChart.update();
+}
 
-  this.glucoseReadingsChart = new Chart(ctx, {
+/**
+ * Configures the chart which will be built on the screen.
+ * @return {Object} Object representing the chart configured.
+ */
+function getChartConfiguration() {
+  return {
     type: 'line',
     data: {
       labels: glucoseReadingDateLabels,
@@ -67,8 +75,14 @@ function loadChart() {
       ],
     },
     options: {
+      interaction: {
+        intersect: false,
+        mode: 'nearest',
+        axis: 'xy',
+      },
       plugins: {
         tooltip: {
+          titleAlign: 'center',
           callbacks: {
             footer: function(tooltipItems) {
               let status = 0;
@@ -78,6 +92,13 @@ function loadChart() {
                 value >= HYPERGLYCEMIA ? 'High' : 'Normal';
               });
               return '\nStatus: ' + status;
+            },
+          },
+        },
+        legend: {
+          labels: {
+            font: {
+              size: 15,
             },
           },
         },
@@ -100,11 +121,28 @@ function loadChart() {
           ticks: {
             stepSize: 20,
           },
+          title: {
+            display: true,
+            text: 'Glycemia ( mg/dL )',
+          },
+        },
+        x: {
+          ticks: {
+            callback: function(value) {
+              let label = '';
+              let previousLabel = '';
+              const currentLabel = this.getLabelForValue(value);
+              if (value > 0) {
+                previousLabel = this.getLabelForValue(value-1);
+              }
+              label = currentLabel === previousLabel ? '' : currentLabel;
+              return label;
+            },
+          },
         },
       },
     },
-  });
-  glucoseReadingsChart.update();
+  };
 }
 
 /**
@@ -150,6 +188,7 @@ function loadGlucoseReadingsByUserId() {
           break;
 
         case HTTP_NOT_FOUND:
+          console.log('No data found to build the chart.');
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -177,11 +216,8 @@ function loadGlucoseReadingsByUserId() {
  */
 function sendGETToGlucose(xmlhttp) {
   const token = getJwtToken();
-  // const userId = getUserId();
-
-  //  if(token && userId){
+  
   if (token) {
-    // xmlhttp.open("GET", `/api/glucose/user/${userId}`);
     xmlhttp.open('GET', '/api/glucose/user/online');
     xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -198,9 +234,6 @@ function sendGETToGlucose(xmlhttp) {
 function getJwtToken() {
   return sessionStorage.getItem('jwt');
 }
-/* function getUserId() {
-  return sessionStorage.getItem("userId")
-}*/
 
 /**
  * This function adapts the string showed in the X axe of the chart.

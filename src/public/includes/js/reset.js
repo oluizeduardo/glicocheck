@@ -62,14 +62,13 @@ function isValidDataEntry() {
  * Returns false otherwise.
  */
 function validateEmail(email) {
-  const regex = /\S+@\S+\.\S+/;
-  return regex.test(email);
+  return /\S+@\S+\.\S+/.test(email);
 }
 /**
  * Shows invalid email message.
  */
 function showInvalidEmailMessage() {
-  message = 'Please, inform a valid email address.';
+  const message = 'Please, inform a valid email address.';
   swal('Invalid email', message, 'warning');
 }
 /**
