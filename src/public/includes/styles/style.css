@@ -1,10 +1,10 @@
 html,
 body {
-  height: 90%;
+  height: 100%;
 }
-
 body{
-    background-color: #F2F4F6;
+    overflow: hidden; /* Hide scrollbars */
+    background: linear-gradient(to bottom, #809EF7, transparent);
 }
 
 .panel_brand_icon{

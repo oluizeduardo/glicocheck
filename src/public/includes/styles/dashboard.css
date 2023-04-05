@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root{
+  --sidebar-primary-color: #2B50C2;
+  --sidebar-secondary-color: #809EF7;
+  --white-background-color: #FFFFFF;
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -8,19 +15,19 @@
 
 body {
   font-size: .875rem;
-  background-color: #FFFFFF;
+  background-color: var(--white-background-color);
 }
 
 .default-background-color {
-  background-color: #8d1818;
+  background-color: var(--sidebar-primary-color);
 }
 
 .default-panel-color {
-  background-color: white;
+  background-color: var(--white-background-color);
 }
 
 .round-border-top-left{
-  border-top-left-radius: 2rem;
+  border-top-left-radius: 3rem;
 }
 
 .feather {
@@ -45,14 +52,14 @@ body {
   left: 0;
   z-index: 100; /* Behind the navbar */
   padding: 48px 0 0; /* Height of navbar */
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);  
+  background: linear-gradient(to top, var(--sidebar-secondary-color), transparent);
 }
 
 .sidebar-sticky {
   height: calc(100vh - 48px);
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  background-color: #8d1818;
+  background: linear-gradient(to top, var(--sidebar-secondary-color), transparent);
 }
 
 .sidebar .nav-link {
@@ -62,7 +69,7 @@ body {
 
 .sidebar .nav-link .feather {
   margin-right: 4px;
-  color: #eeebeb;
+  color: #F5F2F2;
 }
 
 /*
@@ -94,7 +101,7 @@ body {
 }
 
 .item-sidemenu:hover{
-  background: linear-gradient(to right, #d14242, transparent);
+  background: linear-gradient(to right, var(--sidebar-secondary-color), transparent);
   border-radius: 20px;
 }
 
@@ -177,6 +184,9 @@ body {
   }
   .menu_button-text{
     display: none;
+  }
+  .sidebar {
+    background: var(--sidebar-secondary-color);
   }
 }
 
