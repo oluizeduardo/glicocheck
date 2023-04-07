@@ -1,5 +1,5 @@
 .body_background{ 
-    background-color: #92cef3;       
     background: url("../imgs/initial-background.jpg") no-repeat center center fixed; 
+    background-color: #92cef3;       
     background-size: cover;
 }
