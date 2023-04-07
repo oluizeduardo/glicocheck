@@ -1,14 +1,17 @@
 const btnConfirmDeleteAccount = document.getElementById('btnConfirmDeleteAccount');
 const fieldDeleteAccountPassword = document.getElementById('field_delete_account_Password');
 
+const HTTP_SUCCESS = 200;
+const HTTP_UNAUTHORIZED = 401;
+
 btnConfirmDeleteAccount.addEventListener('click', () => {
   checkUserPassword((isCorrectPassword) => {
     if (isCorrectPassword) {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = () => {
-        if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+        if (xmlhttp.readyState == 4) {
           switch (xmlhttp.status) {
-            case HTTP_OK:
+            case HTTP_SUCCESS:
               deleteUserAccount();
               break;
 
@@ -46,15 +49,12 @@ function sendRequestToDeleteGlucoseReadings(xmlhttp) {
 }
 
 /**
- * Delete an user account.
+ * Delete an user account and redirect the user to logout.
  */
 function deleteUserAccount() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-    if (
-      xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE &&
-      xmlhttp.status == HTTP_OK
-    ) {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       swal({
         title: 'Success!',
         text: 'Your account has been deleted.',
@@ -104,4 +104,18 @@ function checkUserPassword(callback) {
     const passwordValidationResult = JSON.parse(xhr.response).result;
     callback(passwordValidationResult);
   };
+}
+/**
+ * Gets the user id saved in the session storage.
+ * @return {string} The user id.
+ */
+function getUserId() {
+  return sessionStorage.getItem('userId');
+}
+/**
+ * Gets the JWT token from the session storage.
+ * @return {string} The JWT token.
+ */
+function getJwtToken() {
+  return sessionStorage.getItem('jwt');
 }

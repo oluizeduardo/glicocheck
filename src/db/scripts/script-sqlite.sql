@@ -43,7 +43,7 @@ SELECT * FROM role;
 
 ------------- USERS -------------
 CREATE TABLE users ( 
-    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    id         varchar(50)  NOT NULL PRIMARY KEY,
     name       varchar(200) NOT NULL, 
     email      varchar(100) NOT NULL,
     password   varchar(200) NOT NULL,     
@@ -193,5 +193,3 @@ CREATE TABLE reset_token (
 	email_owner varchar(50) NOT NULL,
   created_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
-
-INSERT INTO reset_token (token, email_owner) VALUES('5a4551725c15cd40dad1d6c04687885378ef6811','costaeduardoluiz@gmail.com');

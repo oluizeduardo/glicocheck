@@ -13,7 +13,7 @@ class Messages {
   static ERROR_CREATE_ACCOUNT = 'Error trying to create new account.'+
                                 'Please try again.';
 
-  static NEW_USER_CREATED = 'New user created! Now you can log in.';
+  static NEW_USER_CREATED = 'New user created.';
   static USER_DELETED = 'User deleted.';
   static ERROR_DELETE_USER = 'Error trying to delete user.';
   static ERROR_CREATE_USER = 'Error trying to insert a new user.';

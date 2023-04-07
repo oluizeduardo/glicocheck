@@ -2,6 +2,8 @@ const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const jwt = require('jsonwebtoken');
 const SecurityUtils = require('../utils/securityUtils');
+const CryptoUtil = require('../utils/cryptoUtil');
+
 /**
  * SecurityController.
  *
@@ -16,6 +18,7 @@ class SecurityController {
       await database('users')
           .insert(
               {
+                id: CryptoUtil.createRandomToken(),
                 name: req.body.name,
                 email: req.body.email,
                 picture: req.body.picture,
@@ -25,8 +28,8 @@ class SecurityController {
               ['id'],
           )
           .then((users) => {
-            const userId = users[0];
-            res.status(201).json({userId});
+            // const newUser = users[0];
+            res.status(201).json({message: Messages.NEW_USER_CREATED});
           });
     } catch (err) {
       return res.status(500).json({
@@ -85,10 +88,10 @@ class SecurityController {
             );
 
             if (isValidPassword) {
-              res.status(201).json({result: true});
+              res.status(200).json({result: true});
               return;
             } else {
-              res.status(201).json({result: false});
+              res.status(200).json({result: false});
               return;
             }
           }

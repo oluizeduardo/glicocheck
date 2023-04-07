@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CHECK AUTHENTICATION -->
-    <script src="./includes/js/security.js"></script>
+    <script src="./includes/js/sessionUtils.js"></script>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
@@ -103,17 +103,17 @@
                             <h5 class="mb-4">Change Password</h5>
                             <div class="mb-3">
                                 <label for="field_Pasword" class="form-label">Old Password<span class="required">*</span></label>
-                                <input type="password" class="form-control password-field" id="field_oldPassword" aria-describedby="passwordOld">
+                                <input type="password" class="form-control password-field" id="field_oldPassword" aria-describedby="passwordOld" required>
                                 <div id="passwordOld" class="form-text">Fill this field with your current password.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="field_Pasword" class="form-label">New Password<span class="required">*</span></label>
-                                <input type="password" class="form-control password-field" id="field_Password" aria-describedby="passwordHelp">
+                                <label for="field_newPasword" class="form-label">New Password<span class="required">*</span></label>
+                                <input type="password" class="form-control password-field" id="field_newPassword" aria-describedby="passwordHelp" required>
                                 <div id="passwordHelp" class="form-text">Fill this field with your new password.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="field_confirm_Password" class="form-label">Confirm password<span class="required">*</span></label>
-                                <input type="password" class="form-control password-field" id="field_confirm_Password" aria-describedby="confirmNewPassword">
+                                <label for="field_confirmPassword" class="form-label">Confirm password<span class="required">*</span></label>
+                                <input type="password" class="form-control password-field" id="field_confirmPassword" aria-describedby="confirmNewPassword" required>
                                 <div id="confirmNewPassword" class="form-text">Confirm your new password.</div>
                             </div>
                             <div class="mt-5 mb-3 panel-buttons">
@@ -193,5 +193,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
     crossorigin="anonymous"></script>
+    <!-- SWEET ALERT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
+    integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
+    crossorigin="anonymous"></script>
+    <script src="./includes/js/security.js"></script>
+    <script src="./includes/js/deleteAccount.js"></script>
   </body>
 </html>

@@ -1,10 +1,10 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
-const crypto = require('crypto');
 const DateTimeUtil = require('../utils/dateTimeUtil');
 const EmailService = require('../service/emailService');
 const fs = require('fs');
 const SecurityUtils = require('../utils/securityUtils');
+const CryptoUtil = require('../utils/cryptoUtil');
 
 const baseFilePath = getBaseFilePath();
 const PAGE_RESET_PASSWORD = baseFilePath+'/public/reset-password.html';
@@ -74,14 +74,14 @@ class ResetPasswordController {
         });
   };
   /**
-   * After informimng a valid email address, this function
+   * After informing a valid email address, this function
    * starts the process to reset the user password.
    * @param {Request} req The request object.
    * @param {Response} res The response object.
    */
   static handleForgotPassword = async (req, res) => {
     const {email} = req.body;
-    // It checks if the email exists in the database.
+    // It checks whether the email exists or not in the database.
     await database('users')
         .where('email', email)
         .select('id')
@@ -100,43 +100,53 @@ class ResetPasswordController {
    * @param {Response} res The response object.
    */
   static updateUserPassword = async (req, res) => {
-    const resetToken = (req.body.token).replace('\'', '');
-    console.log('TOKEN: '+resetToken);
-    const email = req.body.email;
+    let resetToken = '';
+    let email = '';
+    let userId = '';
+    const password = req.body.password;
+
+    // Forgot password flow.
+    if (req.body.token && req.body.email) {
+      resetToken = (req.body.token).replace('\'', '');
+      email = req.body.email;
+    }
+
+    // Profile>security flow.
+    if (req.body.userId) {
+      userId = req.body.userId;
+    }
+
     const user = {
-      password: SecurityUtils.generateHashValue(req.body.password),
+      password: SecurityUtils.generateHashValue(password),
       updated_at: DateTimeUtil.getCurrentDateTime(),
     };
 
     await database('users')
         .where('email', email)
+        .orWhere('id', userId)
         .update(user)
         .then((numAffectedRegisters) => {
           if (numAffectedRegisters == 0) {
             res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
           } else {
-            ResetPasswordController.deleteToken(resetToken);
+            // Forgot password flow.
+            if (resetToken) {
+              ResetPasswordController.deleteToken(resetToken);
+            }
             res.status(OK).json({message: Messages.PASSWORD_UPDATED});
           }
         });
   };
   /**
    * Creates a new password reset token.
-   * @param {string} owner The owner email address.
+   * Save the new token in the database and return the token itself.
+   * @param {string} email The user email address.
    * @return {string} The reset password token.
    */
-  static createResetToken = (owner) => {
-    const token = ResetPasswordController.createRandomToken();
-    ResetPasswordController.saveResetToken(token, owner);
+  static createResetToken = (email) => {
+    const token = CryptoUtil.createRandomToken();
+    ResetPasswordController.saveResetToken(token, email);
     return token;
-  };
-  /**
-   * Creates a random token.
-   * @return {string} A hexadecimal string representing
-   * the token.
-   */
-  static createRandomToken = () => {
-    return crypto.randomBytes(20).toString('hex');
   };
   /**
    * Save in the database the new reset password token.

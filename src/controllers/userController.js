@@ -1,6 +1,5 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
-// const SecurityUtils = require('../utils/securityUtils');
 const DateTimeUtil = require('../utils/dateTimeUtil');
 /**
  * UserController.
@@ -36,7 +35,7 @@ class UserController {
 
   // GET USER BY ID
   static getUserById = async (req, res) => {
-    const id = Number.parseInt(req.params.id);
+    const id = req.params.id;
     database('users')
         .where('users.id', id)
         .join('role', 'users.role_id', 'role.id')
@@ -67,7 +66,7 @@ class UserController {
 
   // UPDATE USER BY ID
   static updateUserById = async (req, res) => {
-    const id = Number.parseInt(req.params.id);
+    const id = req.params.id;
 
     const user = {
       name: req.body.name,
@@ -103,26 +102,33 @@ class UserController {
 
   // DELETE USER BY ID
   static deleteUserById = async (req, res) => {
-    const id = Number.parseInt(req.params.id);
+    const id = req.params.id;
 
-    if (id > 0) {
-      database('users')
-          .where('id', id)
-          .del()
-          .then(res.status(200).json({message: Messages.USER_DELETED}))
-          .catch((err) => {
-            res
-                .status(500)
-                .json({
-                  message: Messages.ERROR_DELETE_USER,
-                  details: `${err.message}`,
+    console.log('User id: '+id);
+
+    database('users')
+        .where('users.id', id)
+        .select('users.id')
+        .then((users) => {
+          if (users.length > 0) {
+            const user = users[0];
+            database('users')
+                .where('id', user.id)
+                .del()
+                .then(res.status(200).json({message: Messages.USER_DELETED}))
+                .catch((err) => {
+                  res
+                      .status(500)
+                      .json({
+                        message: Messages.ERROR_DELETE_USER,
+                        details: `${err.message}`,
+                      });
                 });
-          });
-    } else {
-      res.status(404).json({
-        message: Messages.MESSAGE_NOTHING_FOUND,
-      });
-    }
+          } else {
+            // User not found to delete.
+            res.status(404).json({message: Messages.MESSAGE_NOTHING_FOUND});
+          }
+        });
   };
 }
 

@@ -1,12 +1,10 @@
 const fieldName = document.getElementById('field_Name');
 const fieldEmail = document.getElementById('field_Email');
-const fieldPassword = document.getElementById('field_Password');
 const fieldBirthdate = document.getElementById('field_Birthdate');
 const fieldGender = document.getElementById('field_Gender');
 const fieldPhone = document.getElementById('field_Phone');
 const fieldWeight = document.getElementById('field_Weight');
 const fieldHeight = document.getElementById('field_Height');
-const fieldConfirmPassword = document.getElementById('field_confirm_Password');
 const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 const userProfilePicture = document.getElementById('userProfilePicture');
 
@@ -19,6 +17,10 @@ let profilePictureBase64 = '';
 
 /**
  * Sends a request to get the user's infos.
+ * If the request returns suceess, the data recovered
+ * should be used to fill the fields on the screen.
+ * In case the JWT token is expired, executes handleSessionExpired()
+ * from security.js.
  */
 function loadUserInfos() {
   const xmlhttp = new XMLHttpRequest();
@@ -27,11 +29,11 @@ function loadUserInfos() {
       switch (xmlhttp.status) {
         case HTTP_OK:
           const data = JSON.parse(xmlhttp.responseText);
-          fillScreenFields(data);
+          loadFiledsWithUserData(data);
           break;
 
         case HTTP_UNAUTHORIZED:
-          handleSessionExpired();
+          handleSessionExpired();// security.js
           break;
 
         default:
@@ -65,7 +67,7 @@ function sendGETToUserById(xmlhttp) {
  * Distributes the data response in the fields.
  * @param {Response} data The response data.
  */
-function fillScreenFields(data) {
+function loadFiledsWithUserData(data) {
   fieldName.value = data.user.name;
   fieldEmail.value = data.user.email;
   profilePictureBase64 = data.user.picture;
@@ -93,6 +95,9 @@ function getUserId() {
   return sessionStorage.getItem('userId');
 }
 
+// /////////////////
+// SAVE USER DETAILS
+// /////////////////
 btnSaveUserDetails.addEventListener('click', (event) => {
   event.preventDefault();
 
@@ -102,10 +107,8 @@ btnSaveUserDetails.addEventListener('click', (event) => {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
         if (xmlhttp.status == SUCCESS) {
           swal('Saved!', '', 'success');
-          fieldPassword.value = '';
-          fieldConfirmPassword.value = '';
         } else {
-          swal('Error', 'Error trying to update user infos.', 'error');
+          swal('Error', 'Error trying to update user details.', 'error');
         }
       }
     };
@@ -117,6 +120,7 @@ btnSaveUserDetails.addEventListener('click', (event) => {
 
 /**
  * Checks whether the fields are properly filled.
+ * The fields listed in this function are only the required fields.
  * @return {boolean} true if all the fields are filled, false otherwise.
  */
 function isValidDataEntry() {

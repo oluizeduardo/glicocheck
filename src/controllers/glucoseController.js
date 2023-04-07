@@ -215,9 +215,9 @@ class GlucoseController {
 
   // DELETE ALL GLUCOSE READINGS OF A SPECIFIC USER.
   static deleteGlucoseReadingsByUserId = async (req, res) => {
-    const userId = Number.parseInt(req.params.userId);
+    const userId = req.params.userId;
 
-    if (userId > 0) {
+    if (userId) {
       database('glucose')
           .where('user_id', userId)
           .del()
