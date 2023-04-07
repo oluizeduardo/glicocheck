@@ -43,4 +43,4 @@ The project uses [ESLint](https://eslint.org/) for static analysis.
 - API: http://localhost:3000/api/{resource}
 
 # Code analysis
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=oluizeduardo_my-diabetes-js)
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=oluizeduardo_glicocheck)
