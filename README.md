@@ -27,7 +27,7 @@ Web platform to manage diabetes.
 
 # How to run locally
 - Clone this project.
-    - `git clone https://github.com/oluizeduardo/my-diabetes-js.git`
+    - `git clone https://github.com/oluizeduardo/glicocheck.git`
 - Install all the dependencies.
     - `npm install`
 - Run the server.
