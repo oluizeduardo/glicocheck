@@ -51,7 +51,7 @@
                     <a href="./index.html" rel="noopener" style="color: black;">Home page</a>
                 </li>
                 <li>
-                    <a href="https://github.com/oluizeduardo/my-diabetes-js" style="color: black;" target="_blank" rel="noopener">Repository</a>
+                    <a href="https://github.com/oluizeduardo/glicocheck" style="color: black;" target="_blank" rel="noopener">Repository</a>
                 </li>
             </ul>
         </p>
@@ -71,14 +71,14 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>POST</td>
+                    <td><span class="badge rounded-pill bg-success">POST</span></td>
                     <td>/security/register</td>
                     <td>Register a new user.</td>
-                    <td>name, email, login, password, role_id</td>
+                    <td>name, email, password, role_id</td>
                     <td class="text-center"><span data-feather="x"></span></td>
                   </tr>
                   <tr>
-                    <td>POST</td>
+                    <td><span class="badge rounded-pill bg-success">POST</span></td>
                     <td>/security/login</td>
                     <td>Login with credentials.</td>
                     <td>login, password</td>
@@ -102,28 +102,28 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/users</td>
                     <td>Get all users.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/users/{id}</td>
                     <td>Get user by id.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>PUT</td>
+                    <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
                     <td>/users/{id}</td>
-                    <td>Update a user based on id.</td>
+                    <td>Update user by id.</td>
                     <td>name, email, login, password, role_id</td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>DELETE</td>
+                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
                     <td>/users/{id}</td>
                     <td>Delete user by id.</td>
                     <td></td>
@@ -147,56 +147,56 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/glucose</td>
                     <td>Get all glucose readings.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/glucose/{id}</td>
                     <td>Get a glucose reading by id.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/glucose/user/{id}</td>
-                    <td>Get glucose readings of a specific user.</td>
+                    <td>Get glucose readings by a specific user id.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/glucose/markermeal/{id}</td>
                     <td>Get all glucose readings by markermeal id.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>POST</td>
+                    <td><span class="badge rounded-pill bg-success">POST</span></td>
                     <td>/glucose</td>
                     <td>Add glucose reading.</td>
                     <td>userId, glucose, unityId, date, hour, markerMealId</td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>PUT</td>
+                    <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
                     <td>/glucose</td>
                     <td>Update glucose reading by id.</td>
                     <td>glucose, unityId, date, hour, markerMealId</td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>DELETE</td>
+                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
                     <td>/glucose/user/id</td>
                     <td>Delete glucose by user id.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>DELETE</td>
+                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
                     <td>/glucose/{id}</td>
                     <td>Delete a glucose reading by id.</td>
                     <td>glucose, unityId, date, hour, markerMealId</td>
@@ -220,35 +220,35 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="green-400">GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/markermeal</td>
                     <td>Get all marker meals.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>GET</td>
+                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
                     <td>/markermeal/{id}</td>
                     <td>Get a marker meal by id.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>DELETE</td>
+                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
                     <td>/markermeal/{id}</td>
                     <td>Delete a marker meal by id.</td>
                     <td></td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>
                   <tr>
-                    <td>POST</td>
+                    <td><span class="badge rounded-pill bg-success">POST</span></td>
                     <td>/markermeal/{id}</td>
                     <td>Create a new marker meal.</td>
                     <td>description</td>
                     <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
                   </tr>                  
                   <tr>
-                    <td>PUT</td>
+                    <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
                     <td>/markermeal/{id}</td>
                     <td>Update a markermeal description by id.</td>
                     <td>description</td>
