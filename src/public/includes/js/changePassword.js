@@ -9,27 +9,54 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnChangePassword.addEventListener('click', (event) => {
   event.preventDefault();
-
   if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        switch (xmlhttp.status) {
-          case HTTP_OK:
-            showSuccessMessage();
-            break;
-
-          case INTERNAL_SERVER_ERROR:
-            showErrorMessage();
-            break;
-        }
+    checkUserPassword((isCorrectPassword) => {
+      if (isCorrectPassword) {
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = () => {
+          if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+            switch (xmlhttp.status) {
+              case HTTP_OK:
+                showSuccessMessage();
+                break;
+              case INTERNAL_SERVER_ERROR:
+                showInternalServerErrorMessage();
+                break;
+            }
+          }
+        };
+        sendRequestToUpdatePassword(xmlhttp);
+      } else {
+        showInvalidCurrentPasswordMessage();
       }
-    };
-    sendRequestToUpdatePassword(xmlhttp);
+    });
   } else {
-    showInvalidPasswordMessage();
+    showWarningMessage();
   }
 });
+/**
+ * Check whether a password is used by a specific user.
+ * @param {Function} callback The callback function
+ * to be executed when the password checking is done.
+ */
+function checkUserPassword(callback) {
+  const userId = getUserId();
+  const password = fieldOldPassword.value;
+
+  const json = JSON.stringify({
+    userId: userId,
+    password: password,
+  });
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/security/password/validation');
+  xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xhr.send(json);
+  xhr.onload = () => {
+    const passwordValidationResult = JSON.parse(xhr.response).result;
+    callback(passwordValidationResult);
+  };
+}
 /**
  * Checks whether the field is properly filled with a valid email address.
  * @return {boolean} true if the field contains a valid emails address.
@@ -85,23 +112,48 @@ function showSuccessMessage() {
   });
 }
 /**
- * Shows an error message when trying to update the user password.
+ * Shows a message indicating internal server error
+ * when trying to update the user password.
  */
-function showErrorMessage() {
+function showInternalServerErrorMessage() {
   const message = `Error trying to reset your password. Please try again.`;
   swal('Error', message, 'error');
+  cleanPasswordFields();
 }
 /**
- * Shows the alert message.
+ * Shows a message of invalid current password.
  */
-function showInvalidPasswordMessage() {
+function showInvalidCurrentPasswordMessage() {
+  swal({
+    title: 'Invalid password',
+    text: 'Please, inform your current password.',
+    icon: 'error',
+    closeOnClickOutside: false,
+  }).then(() => {
+    cleanPasswordFields();
+  });
+}
+/**
+ * Shows a warning message informing that
+ * all the fields need to be filled or the new
+ * password informed needs to be confirmed.
+ */
+function showWarningMessage() {
   let message;
   if (!isPasswordMatch()) {
-    message = 'Please, confirm the password.';
+    message = 'Please, confirm the new password.';
     swal('Passwords don\'t match', message, 'warning');
   } else {
     message = 'Fill the fields to change your password.';
     swal('Please, fill in all the fields', message, 'warning');
   }
+}
+/**
+ * Clean the password fields.
+ */
+function cleanPasswordFields() {
+  fieldOldPassword.value = '';
+  fieldNewPassword.value = '';
+  fieldConfirmPassword.value = '';
 }
 
