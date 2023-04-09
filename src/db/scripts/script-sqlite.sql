@@ -69,7 +69,7 @@ SELECT * FROM users;
 ---- HEALTH INFO ----
 CREATE TABLE health_info (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id         INTEGER NOT NULL,
+  user_id         varchar(50) NOT NULL,
   diabetes_type   INTEGER,
   blood_type      INTEGER,  
   month_diagnosis varchar(15),
@@ -168,11 +168,10 @@ SELECT * FROM marker_meal;
 ------------- GLUCOSE -------------
 CREATE TABLE glucose ( 
   id            INTEGER PRIMARY KEY AUTOINCREMENT,
-	user_id       INTEGER NOT NULL,
+	user_id       varchar(50) NOT NULL,
 	glucose       INTEGER NOT NULL,
 	unity_id      INTEGER NOT NULL,
-	date          varchar(10) NOT NULL,
-  hour          TIME(6) NOT NULL,
+	dateTime      varchar(20) NOT NULL,
 	markermeal_id INTEGER NOT NULL,
   created_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
   updated_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
