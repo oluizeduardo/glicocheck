@@ -1,0 +1,480 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Glicocheck",
+    "dateExported": "2023-04-09T04:58:42.979Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "925d76ef-9162-48bd-9355-b283217fef27",
+            "name": "Security",
+            "containerId": "",
+            "created": "2022-07-28T01:01:40.531Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "d37b5e83-08d1-4f7f-bc4d-50b142ef3d9a",
+            "name": "Users",
+            "containerId": "",
+            "created": "2022-07-25T00:41:56.530Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Glucose",
+            "containerId": "",
+            "created": "2022-07-25T00:50:18.654Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "f86319fe-6ffe-4d65-b254-7a89260dea23",
+            "name": "Marker Meal",
+            "containerId": "",
+            "created": "2022-07-25T23:26:36.636Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "6a559e68-1a3a-4303-b0bc-6bc2e5c8d635",
+            "name": "Forgot Password",
+            "containerId": "",
+            "created": "2023-03-24T01:44:30.732Z",
+            "sortNum": 50000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "2f12b6f0-b6cf-4948-8c91-6bdc4db81cc5",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "925d76ef-9162-48bd-9355-b283217fef27",
+            "name": "Register new user",
+            "url": "{{LOCALHOST}}/api/security/register",
+            "method": "POST",
+            "sortNum": 2500,
+            "created": "2022-07-25T00:40:54.125Z",
+            "modified": "2023-04-07T14:41:12.430Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"Luiz Eduardo da Costa\",\n    \"email\": \"costaeduardoluiz@gmail.com\",\n    \"password\": \"123456\",\n    \"role_id\": 1\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "983fe559-84a7-4fb0-8e76-aef5019b58f9",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "925d76ef-9162-48bd-9355-b283217fef27",
+            "name": "Login",
+            "url": "{{LOCALHOST}}/api/security/login",
+            "method": "POST",
+            "sortNum": 5000,
+            "created": "2022-07-28T01:20:44.893Z",
+            "modified": "2023-04-07T21:06:51.452Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"email\": \"costaeduardoluiz@gmail.com\",\n    \"password\": \"asd\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "811ac594-abad-47ea-baf2-b886f8f98bc5",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Add glucose reading",
+            "url": "{{LOCALHOST}}/api/glucose",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2022-07-25T00:50:31.613Z",
+            "modified": "2023-04-09T04:09:25.716Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"userId\": \"d7fe034b4b13b48f62abd13f534ebd19f8f1fd4d\",\n    \"glucose\": 79,\n    \"unityId\": 1,\n    \"dateTime\": \"2023-04-09T00:54\",\n    \"markerMealId\": 3\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTMyNDYsImV4cCI6MTY4MTAxNTA0Nn0.Z6PVPQfXktCN3RQBCdH_V4iod7Th_4s4B-IjLEnyYzM"
+            },
+            "tests": []
+        },
+        {
+            "_id": "ab942bfd-e534-4174-94c1-3506445f3748",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "d37b5e83-08d1-4f7f-bc4d-50b142ef3d9a",
+            "name": "Get all users",
+            "url": "{{LOCALHOST}}/api/users",
+            "method": "GET",
+            "sortNum": 12500,
+            "created": "2022-07-25T00:42:42.924Z",
+            "modified": "2023-03-05T21:30:32.982Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "6ca95e3c-4fc7-486f-b7e5-cce42485b3cd",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "d37b5e83-08d1-4f7f-bc4d-50b142ef3d9a",
+            "name": "Update user by id",
+            "url": "{{LOCALHOST}}/api/users/20",
+            "method": "PUT",
+            "sortNum": 15000,
+            "created": "2022-07-25T00:45:32.648Z",
+            "modified": "2023-03-05T20:54:07.014Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"Maria\",\n    \"email\": \"edgar@test.com\",\n    \"password\": \"abc123\",\n    \"role_id\": 1\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA0OTYxNCwiZXhwIjoxNjc4MDUxNDE0fQ.arUPdY_QWQZp702RcsIS9mr8GML56uCJbGDQU_EXhDs"
+            },
+            "tests": []
+        },
+        {
+            "_id": "9059d958-76b9-4ed6-9fd6-c3dcb565f745",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Get all glucose readings",
+            "url": "{{LOCALHOST}}/api/glucose",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2022-07-25T01:07:05.824Z",
+            "modified": "2023-04-09T04:50:14.486Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "7ac4bf38-56eb-47be-a522-49a3eba08fb1",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "d37b5e83-08d1-4f7f-bc4d-50b142ef3d9a",
+            "name": "Get user by id",
+            "url": "{{LOCALHOST}}/api/users/26",
+            "method": "GET",
+            "sortNum": 25000,
+            "created": "2022-07-25T00:44:21.663Z",
+            "modified": "2023-03-05T20:49:37.335Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTY3ODA0OTI3MywiZXhwIjoxNjc4MDUxMDczfQ.v1z4Dmd3EDd3fPGFzLSQNBAqIrOb-QuqcYV9mzIYw6k"
+            },
+            "tests": []
+        },
+        {
+            "_id": "56fee3ab-080a-4da2-8056-bbee661cfa65",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "d37b5e83-08d1-4f7f-bc4d-50b142ef3d9a",
+            "name": "Delete user by id",
+            "url": "{{LOCALHOST}}/api/users/a0334f1b55e3d890c7fc9cdbd7cfd3421974fd8",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2022-07-25T00:43:39.492Z",
+            "modified": "2023-04-07T21:49:28.638Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEwMzM0ZjFiNTVlM2Q4OTBjN2ZjOWNkYmQ3Y2ZkMzQyMTk3NGZkOGUiLCJpYXQiOjE2ODA5MDQwODgsImV4cCI6MTY4MDkwNTg4OH0.rVmA210VI82KAoIaAbweIi0nXrXhlDrlkvQZnFxiuog"
+            },
+            "tests": []
+        },
+        {
+            "_id": "a8d104e3-406b-40a4-98cd-56a5a0c97f48",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Get glucose by id",
+            "url": "{{LOCALHOST}}/api/glucose/1",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2022-07-25T02:43:22.528Z",
+            "modified": "2023-04-09T04:50:33.801Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "953b97c0-778a-4b2b-85f5-02070816d687",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Get glucose by user id",
+            "url": "{{LOCALHOST}}/api/glucose/user/online",
+            "method": "GET",
+            "sortNum": 35000,
+            "created": "2022-07-26T01:42:04.111Z",
+            "modified": "2023-04-09T04:50:53.916Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "34e4cc8c-7635-4697-acbc-b45e48bca5ea",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Get glucose by markermeal id",
+            "url": "{{LOCALHOST}}/api/glucose/markermeal/3",
+            "method": "GET",
+            "sortNum": 37500,
+            "created": "2022-07-27T02:02:56.945Z",
+            "modified": "2023-04-09T04:54:33.313Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "fced3a50-e4ad-4ff9-b77b-916a4bcb286f",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "f86319fe-6ffe-4d65-b254-7a89260dea23",
+            "name": "Add marker meal",
+            "url": "{{LOCALHOST}}/api/markermeal",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2022-07-25T23:28:53.061Z",
+            "modified": "2023-03-05T21:35:57.123Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"description\": \"Supper\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "eb49a5c0-01b6-4c36-b2c9-b5029a05d414",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Update glucose by id",
+            "url": "{{LOCALHOST}}/api/glucose/34",
+            "method": "PUT",
+            "sortNum": 65000,
+            "created": "2022-07-25T02:17:27.604Z",
+            "modified": "2023-03-05T21:52:35.919Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"glucose\" : 130,\n    \"unityId\": 1,\n    \"date\": \"2022-05-01\",\n    \"hour\": \"09:30:00\",\n    \"markerMealId\": 3\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "e39cf850-2a78-4faa-8983-569d8ccf98bb",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Delete glucose by user id",
+            "url": "{{LOCALHOST}}/api/glucose/user/d7fe034b4b13b48f62abd13f534ebd19f8f1fd4d",
+            "method": "DELETE",
+            "sortNum": 81250,
+            "created": "2022-08-16T13:34:58.223Z",
+            "modified": "2023-04-09T04:55:07.682Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "4c0a20ae-3467-47e6-a59e-011b1eb59398",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
+            "name": "Delete glucose reading by id",
+            "url": "{{LOCALHOST}}/api/glucose/35",
+            "method": "DELETE",
+            "sortNum": 90000,
+            "created": "2022-07-25T02:26:33.845Z",
+            "modified": "2023-03-05T21:35:29.189Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "8369dc73-70fe-4c97-8d24-ee37775955f0",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "f86319fe-6ffe-4d65-b254-7a89260dea23",
+            "name": "Get all markers",
+            "url": "{{LOCALHOST}}/api/markermeal",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2022-07-25T23:26:48.915Z",
+            "modified": "2023-03-05T21:36:03.659Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5a2e192d-f955-4fb9-8d43-39bb47c57a5d",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "f86319fe-6ffe-4d65-b254-7a89260dea23",
+            "name": "Get marker by id",
+            "url": "{{LOCALHOST}}/api/markermeal/{{ID_MARKERMEAL_TEST}}",
+            "method": "GET",
+            "sortNum": 110000,
+            "created": "2022-07-26T00:28:47.803Z",
+            "modified": "2023-03-05T21:36:18.072Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d94e6250-d8c5-428f-ad4e-737cdbb1baa5",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "f86319fe-6ffe-4d65-b254-7a89260dea23",
+            "name": "Update marker by id",
+            "url": "{{LOCALHOST}}/api/markermeal/10",
+            "method": "PUT",
+            "sortNum": 140000,
+            "created": "2022-07-26T00:33:22.700Z",
+            "modified": "2023-03-05T21:47:37.811Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"description\": \"Depois da janta\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "9d1a6428-e44e-4bde-a6a7-6d9c46504772",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "f86319fe-6ffe-4d65-b254-7a89260dea23",
+            "name": "Delete marker by id",
+            "url": "{{LOCALHOST}}/api/markermeal/{{ID_MARKERMEAL_TEST}}",
+            "method": "DELETE",
+            "sortNum": 150000,
+            "created": "2022-07-26T00:34:56.330Z",
+            "modified": "2023-03-05T21:36:53.034Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+            },
+            "tests": []
+        },
+        {
+            "_id": "7eb2cf88-9d64-46cb-878a-be9e76db872d",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "925d76ef-9162-48bd-9355-b283217fef27",
+            "name": "Password Validation",
+            "url": "{{LOCALHOST}}/api/security/password/validation",
+            "method": "POST",
+            "sortNum": 160000,
+            "created": "2023-03-04T13:26:49.072Z",
+            "modified": "2023-04-08T02:42:03.409Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userId\":\"a35256411cd535b8ec4b78385a7a25ea58d91080\",\n  \"password\": \"asd\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjc3OTM2NTU5LCJleHAiOjE2Nzc5MzgzNTl9.ws7qI4aZYfJSmkbSo_sn7mqoBDS7lLuCjbcTsvZoFUY"
+            },
+            "tests": []
+        },
+        {
+            "_id": "c6246d7a-c5dc-45d8-bb29-0ab058dbb1c1",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "6a559e68-1a3a-4303-b0bc-6bc2e5c8d635",
+            "name": "Forgot password",
+            "url": "{{LOCALHOST}}/api/reset/forgot-password",
+            "method": "POST",
+            "sortNum": 180000,
+            "created": "2023-03-24T01:44:41.701Z",
+            "modified": "2023-03-24T15:00:44.058Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"costaeduardoluiz@gmail.com\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "edeba66c-daae-4706-a088-d0e10598fa95",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "6a559e68-1a3a-4303-b0bc-6bc2e5c8d635",
+            "name": "Update User Password",
+            "url": "{{LOCALHOST}}/api/reset/password",
+            "method": "PUT",
+            "sortNum": 190000,
+            "created": "2023-03-27T01:03:56.848Z",
+            "modified": "2023-03-27T01:36:34.863Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"token\": \"token_here\",\n  \"email\": \"costaeduardoluiz@gmail.com\",\n  \"password\": \"123@@\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ],
+    "settings": {
+        "headers": [],
+        "tests": [],
+        "envId": "3c61b27e-5380-4976-ae84-25fdbf16992d"
+    }
+}
