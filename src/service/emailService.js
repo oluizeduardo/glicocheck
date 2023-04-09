@@ -11,9 +11,8 @@ class EmailService {
    * receive the reset password message.
    * @param {string} resetToken The hexadecimal string representing
    * the reset password token.
-   * @param {Response} res The response object.
    */
-  sendEmail(destination, resetToken, res) {
+  async sendEmail(destination, resetToken) {
     const resource = 'EmailService.sendEmail';
 
     const host = process.env.EMAIL_HOST;

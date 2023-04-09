@@ -7,32 +7,38 @@ const HTTP_UNAUTHORIZED = 401;
 btnConfirmDeleteAccount.addEventListener('click', (event) => {
   event.preventDefault();
   const password = fieldPassword.value;
-  checkUserPassword(password, (isCorrectPassword) => {
-    if (isCorrectPassword) {
-      const xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = () => {
-        if (xmlhttp.readyState == 4) {
-          switch (xmlhttp.status) {
-            case HTTP_SUCCESS:
-              deleteUserAccount();
-              break;
 
-            case HTTP_UNAUTHORIZED:
-              handleSessionExpired();
-              break;
+  if (password) {
+    checkUserPassword(password, (isCorrectPassword) => {
+      if (isCorrectPassword) {
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = () => {
+          if (xmlhttp.readyState == 4) {
+            switch (xmlhttp.status) {
+              case HTTP_SUCCESS:
+                deleteUserAccount();
+                break;
 
-            default:
-              swal('Error', 'Please, try again', 'error');
-              break;
+              case HTTP_UNAUTHORIZED:
+                handleSessionExpired();
+                break;
+
+              default:
+                swal('Error', 'Please, try again', 'error');
+                break;
+            }
           }
-        }
-      };
-      sendRequestToDeleteGlucoseReadings(xmlhttp);
-    } else {
-      const text = 'Please, type the correct password to delete your account.';
-      swal('Password needed', text, 'warning');
-    }
-  });
+        };
+        sendRequestToDeleteGlucoseReadings(xmlhttp);
+      } else {
+        const text = 'Please, inform the correct password to delete your account.';
+        swal('Incorrect password', text, 'warning');
+      }
+    });
+  } else {
+    const text = 'Please, inform your password to delete your account.';
+    swal('Password needed', text, 'warning');
+  }
 });
 
 /**

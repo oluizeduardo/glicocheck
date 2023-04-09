@@ -10,6 +10,7 @@ class ResetPasswordHTMLMessage {
    * @return {string} HTML page.
    */
   static createHTMLMessage = (resetToken) => {
+    const baseUrl = process.env.BASE_URL;
     return `
     <img src="https://raw.githubusercontent.com/oluizeduardo/my-diabetes-js/main/src/public/includes/imgs/glicocheck-logo-whitebg.png" 
     alt="Glicocheck logo" width="220" height="120">
@@ -21,7 +22,7 @@ class ResetPasswordHTMLMessage {
       <p>
         Please, click the button bellow to change your password.
         <p>
-        <a href="http://localhost:4500/api/reset/${resetToken}">
+        <a href="${baseUrl}/api/reset/${resetToken}">
         <button style="width:400px;padding:10px;background-color:#1877f2;
               color:white;border:none;border-radius:10px;">
               Change password
@@ -31,7 +32,7 @@ class ResetPasswordHTMLMessage {
       </p>
       <p style="padding:10px">
       <div style="font-weight: bold;">Didn't request this change?</div>
-        If you didn't request a new password, <a href="http://localhost:4500/api/reset/cancel/${resetToken}">let us know</a>.
+        If you didn't request a new password, <a href="${baseUrl}/api/reset/cancel/${resetToken}">let us know</a>.
       </p>
     </h3>
     <div style="margin-top:50px;">
