@@ -132,10 +132,14 @@ function getChartConfiguration() {
               let label = '';
               let previousLabel = '';
               const currentLabel = this.getLabelForValue(value);
-              if (value > 0) {
+              if (value > 0) {// at least two registers.
                 previousLabel = this.getLabelForValue(value-1);
               }
-              label = currentLabel === previousLabel ? '' : currentLabel;
+              if (currentLabel.split(' ')[0] === previousLabel.split(' ')[0]) {
+                label = '';
+              } else {
+                label = currentLabel.split(' ');
+              }
               return label;
             },
           },
@@ -181,14 +185,14 @@ function loadGlucoseReadingsByUserId() {
         case HTTP_OK:
           JSON.parse(xmlhttp.response, (key, value) => {
             if (key === 'glucose') glucoseValues.push(value);
-            if (key === 'date') {
+            if (key === 'dateTime') {
               glucoseReadingDateLabels.push(adaptLabelDate(value));
             }
           });
           break;
 
         case HTTP_NOT_FOUND:
-          console.log('No data found to build the chart.');
+          console.log('No registers found.');
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -216,7 +220,7 @@ function loadGlucoseReadingsByUserId() {
  */
 function sendGETToGlucose(xmlhttp) {
   const token = getJwtToken();
-  
+
   if (token) {
     xmlhttp.open('GET', '/api/glucose/user/online');
     xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
@@ -242,24 +246,12 @@ function getJwtToken() {
  */
 function adaptLabelDate(value) {
   const fullDate = value.slice(0, 10);
-  const arrayDate = fullDate.split('/');
-  const day = arrayDate[0];
-  const month = parseInt(arrayDate[1]);
-  const initialNameMonths = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  return `${day}-${initialNameMonths[month - 1]}`;
+  const arrayDate = fullDate.split('-');
+  const day = arrayDate[2];
+  const month = arrayDate[1];
+  const year = arrayDate[0];
+  const time = value.slice(-5);
+  return `${day}/${month}/${year.slice(-2)} ${time}`;
 }
 
 /**

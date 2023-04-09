@@ -4,7 +4,7 @@ const GlucoseController = require('../controllers/glucoseController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');
 
 glucoseRouter
-    .get('/', checkToken, GlucoseController.getAllGlucoseRecords)
+    .get('/', express.json(), checkToken, GlucoseController.getAllGlucoseRecords)
     .post('/', express.json(), checkToken, isAdmin, GlucoseController.createNewGlucoseReading)
     .get('/:id', checkToken, GlucoseController.getGlucoseById)
     .put('/:id', express.json(), checkToken, isAdmin, GlucoseController.updateGlucoseReadingById)

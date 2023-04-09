@@ -20,16 +20,16 @@ class GlucoseController {
             'users.name as user',
             'glucose.glucose',
             'measurement_unity.description as unity',
-            'glucose.date',
-            'glucose.hour',
+            'glucose.dateTime',
             'marker_meal.description as markerMeal',
+            'glucose.created_at',
+            'glucose.updated_at',
         )
         .orderBy([
-          {column: 'glucose.date', order: 'asc'},
-          {column: 'glucose.hour', order: 'asc'},
+          {column: 'glucose.dateTime', order: 'asc'},
         ])
         .then((glucoses) => {
-          if (glucoses.length) {
+          if (glucoses.length > 0) {
             res.status(200).json(glucoses);
           } else {
             res.status(404).json({message: Messages.NOTHING_FOUND});
@@ -53,13 +53,13 @@ class GlucoseController {
             'users.name as user',
             'glucose.glucose',
             'measurement_unity.description as unity',
-            'glucose.date',
-            'glucose.hour',
+            'glucose.dateTime',
             'marker_meal.description as markerMeal',
+            'glucose.created_at',
+            'glucose.updated_at',
         )
         .orderBy([
-          {column: 'glucose.date', order: 'asc'},
-          {column: 'glucose.hour', order: 'asc'},
+          {column: 'glucose.dateTime', order: 'asc'},
         ])
         .then((glucoses) => {
           if (glucoses.length) {
@@ -84,9 +84,10 @@ class GlucoseController {
             'users.name as userName',
             'glucose.glucose',
             'measurement_unity.description as unity',
-            'glucose.date',
-            'glucose.hour',
+            'glucose.dateTime',
             'marker_meal.description as markerMeal',
+            'glucose.created_at',
+            'glucose.updated_at',
         )
         .then((glucoses) => {
           if (glucoses.length) {
@@ -111,13 +112,13 @@ class GlucoseController {
             'users.name as userName',
             'glucose.glucose',
             'measurement_unity.description as unity',
-            'glucose.date',
-            'glucose.hour',
+            'glucose.dateTime',
             'marker_meal.description as markerMeal',
+            'glucose.created_at',
+            'glucose.updated_at',
         )
         .orderBy([
-          {column: 'glucose.date', order: 'asc'},
-          {column: 'glucose.hour', order: 'asc'},
+          {column: 'glucose.dateTime', order: 'asc'},
         ])
         .then((glucoses) => {
           if (glucoses.length) {
@@ -136,8 +137,7 @@ class GlucoseController {
               user_id: req.body.userId,
               glucose: req.body.glucose,
               unity_id: req.body.unityId,
-              date: req.body.date,
-              hour: req.body.hour,
+              dateTime: req.body.dateTime,
               markermeal_id: req.body.markerMealId,
             },
             [
@@ -145,9 +145,10 @@ class GlucoseController {
               'user_id',
               'glucose',
               'unity_id',
-              'date',
-              'hour',
+              'dateTime',
               'markermeal_id',
+              'created_at',
+              'updated_at',
             ],
         )
         .then((glucoses) => {
@@ -164,8 +165,7 @@ class GlucoseController {
     const glucose = {
       glucose: req.body.glucose,
       unity_id: req.body.unityId,
-      date: req.body.date,
-      hour: req.body.hour,
+      dateTime: req.body.date,
       markermeal_id: req.body.markerMealId,
       updated_at: DateTimeUtil.getCurrentDateTime(),
     };

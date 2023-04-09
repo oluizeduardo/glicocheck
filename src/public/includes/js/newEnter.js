@@ -65,30 +65,9 @@ function prepareJsonNewEnter() {
     userId: getUserId(),
     glucose: fieldGlucose.value,
     unityId: 1,
-    date: getDate(),
-    hour: getTime(),
+    dateTime: fieldDate.value,
     markerMealId: fieldMarkermeal.selectedIndex,
   });
-}
-
-/**
- * Formats the date to a more readable format.
- * @return {string} A text with date formatted in DD/MM/YYYY
- */
-function getDate() {
-  const arrayDate = fieldDate.value.slice(0, 10).split('-');
-  const day = arrayDate[2];
-  const month = arrayDate[1];
-  const year = arrayDate[0];
-  return `${day}/${month}/${year}`;
-}
-
-/**
- * Gets the time from the date-time field.
- * @return {string} The time value.
- */
-function getTime() {
-  return fieldDate.value.slice(11);
 }
 
 /**
