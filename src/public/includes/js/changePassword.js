@@ -10,7 +10,8 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 btnChangePassword.addEventListener('click', (event) => {
   event.preventDefault();
   if (isValidDataEntry()) {
-    checkUserPassword((isCorrectPassword) => {
+    const password = fieldOldPassword.value;
+    checkUserPassword(password, (isCorrectPassword) => {
       if (isCorrectPassword) {
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = () => {
@@ -34,29 +35,6 @@ btnChangePassword.addEventListener('click', (event) => {
     showWarningMessage();
   }
 });
-/**
- * Check whether a password is used by a specific user.
- * @param {Function} callback The callback function
- * to be executed when the password checking is done.
- */
-function checkUserPassword(callback) {
-  const userId = getUserId();
-  const password = fieldOldPassword.value;
-
-  const json = JSON.stringify({
-    userId: userId,
-    password: password,
-  });
-
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/security/password/validation');
-  xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xhr.send(json);
-  xhr.onload = () => {
-    const passwordValidationResult = JSON.parse(xhr.response).result;
-    callback(passwordValidationResult);
-  };
-}
 /**
  * Checks whether the field is properly filled with a valid email address.
  * @return {boolean} true if the field contains a valid emails address.

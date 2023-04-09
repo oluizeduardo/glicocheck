@@ -6,20 +6,25 @@
   "scripts": {
     "dev": "nodemon server.js",
     "test": "jest --coverage --watchAll",
-    "lint": "eslint src/controllers/glucoseController.js",
+    "lint": "eslint src/public/includes/js/security.js",
     "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/oluizeduardo/my-diabetes-js.git"
+    "url": "git+https://github.com/oluizeduardo/glicocheck.git"
   },
-  "keywords": [],
+  "keywords": [
+    "diabetes monitoring",
+    "diabetes",
+    "health",
+    "charts"
+  ],
   "author": "Luiz Eduardo da Costa",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/oluizeduardo/my-diabetes-js/issues"
+    "url": "https://github.com/oluizeduardo/glicocheck/issues"
   },
-  "homepage": "https://github.com/oluizeduardo/my-diabetes-js#readme",
+  "homepage": "https://github.com/oluizeduardo/glicocheck#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",

@@ -1,11 +1,13 @@
 const btnConfirmDeleteAccount = document.getElementById('btnConfirmDeleteAccount');
-const fieldDeleteAccountPassword = document.getElementById('field_delete_account_Password');
+const fieldPassword = document.getElementById('field_delete_account_Password');
 
 const HTTP_SUCCESS = 200;
 const HTTP_UNAUTHORIZED = 401;
 
-btnConfirmDeleteAccount.addEventListener('click', () => {
-  checkUserPassword((isCorrectPassword) => {
+btnConfirmDeleteAccount.addEventListener('click', (event) => {
+  event.preventDefault();
+  const password = fieldPassword.value;
+  checkUserPassword(password, (isCorrectPassword) => {
     if (isCorrectPassword) {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = () => {
@@ -80,30 +82,6 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
   xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send();
-}
-
-/**
- * Check whether a password is used by a specific user.
- * @param {Function} callback The callback function
- * to be executed when the password checking is done.
- */
-function checkUserPassword(callback) {
-  const userId = getUserId();
-  const password = fieldDeleteAccountPassword.value;
-
-  const json = JSON.stringify({
-    userId: userId,
-    password: password,
-  });
-
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/security/password/validation');
-  xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xhr.send(json);
-  xhr.onload = () => {
-    const passwordValidationResult = JSON.parse(xhr.response).result;
-    callback(passwordValidationResult);
-  };
 }
 /**
  * Gets the user id saved in the session storage.
