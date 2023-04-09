@@ -67,10 +67,12 @@ class ResetPasswordController {
         .then(() => {
           res.status(OK);
           res.sendFile(PAGE_RESET_CANCEL);
+          return;
         })
         .catch((err) => {
           res.status(INTERNAL_SERVER_ERROR);
           res.sendFile(PAGE_ERROR);
+          return;
         });
   };
   /**
@@ -89,8 +91,11 @@ class ResetPasswordController {
           if (users.length > 0) {
             const token = ResetPasswordController.createResetToken(email);
             new EmailService().sendEmail(email, token, res);
+            return res.status(200)
+                .json({message: Messages.RESET_PASSWORD_MESSAGE_SENT});
           } else {
-            res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
+            return res.status(NOT_FOUND)
+                .json({message: Messages.NOTHING_FOUND});
           }
         });
   };

@@ -1,10 +1,5 @@
 const nodemailer = require('nodemailer');
-const Messages = require('../utils/messages');
 const ResetPasswordHTMLMessage = require('../utils/resetPasswordHTMLMessage');
-
-// HTTP status code.
-const OK = 200;
-const INTERNAL_SERVER_ERROR = 500;
 
 /**
  * Email service.
@@ -18,7 +13,9 @@ class EmailService {
    * the reset password token.
    * @param {Response} res The response object.
    */
-  async sendEmail(destination, resetToken, res) {
+  sendEmail(destination, resetToken, res) {
+    const resource = 'EmailService.sendEmail';
+
     const host = process.env.EMAIL_HOST;
     const port = process.env.EMAIL_PORT;
     const user = process.env.EMAIL_USER;
@@ -31,20 +28,15 @@ class EmailService {
     });
     transporter
         .sendMail({
-          from: user,
+          from: `"Glicocheck" <${user}>`,
           to: destination,
-          subject: 'Glicocheck - Reset password',
+          subject: 'Reset password',
           html: ResetPasswordHTMLMessage.createHTMLMessage(resetToken),
-        })
-        .then(() => {
-          res.status(OK)
-              .json({message: Messages.RESET_PASSWORD_MESSAGE_SENT});
+        }).then(() => {
+          console.error(`${resource} - Email sent to ${destination}`);
         })
         .catch((error) => {
-          res.status(INTERNAL_SERVER_ERROR).json({
-            message: Messages.ERROR_SEND_RESET_PASSWORD_MESSAGE,
-            details: error,
-          });
+          console.error(`${resource} - Error: ${error}`);
         });
   }
 }

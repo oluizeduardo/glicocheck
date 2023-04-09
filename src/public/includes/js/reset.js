@@ -1,6 +1,5 @@
 const btnResetPassword = document.getElementById('btnResetPassword');
 const fieldEmail = document.getElementById('field_Email');
-const spinnerBorder = document.getElementById('spinnerBorder');
 
 const HTTP_SUCEESS = 200;
 const HTTP_NOT_FOUND = 404;
@@ -10,7 +9,6 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 btnResetPassword.addEventListener('click', (event) => {
   event.preventDefault();
   if (isValidDataEntry()) {
-    isDisabledButton(true);
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
@@ -106,23 +104,4 @@ function prepareJsonForgotPassword() {
   return JSON.stringify({
     email: fieldEmail.value,
   });
-}
-/**
- * Set the disabled attribute.
- * @param {boolean} disabled Indicates if the button has the disabled atribute.
- */
-function isDisabledButton(disabled) {
-  btnResetPassword.disabled = disabled;
-  showSpinnerBorder(disabled);
-}
-/**
- * Set if the spinner border has to be visible.
- * @param {boolean} showBorder Indicates if the spinner border is visible.
- */
-function showSpinnerBorder(showBorder) {
-  if (showBorder) {
-    spinnerBorder.classList.remove('invisible');
-  } else {
-    spinnerBorder.classList.add('invisible');
-  }
 }
