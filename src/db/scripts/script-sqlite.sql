@@ -45,7 +45,7 @@ SELECT * FROM role;
 CREATE TABLE users ( 
     id         varchar(50)  NOT NULL PRIMARY KEY,
     name       varchar(200) NOT NULL, 
-    email      varchar(100) NOT NULL,
+    email      varchar(100) NOT NULL UNIQUE,
     password   varchar(200) NOT NULL,     
     birthdate  varchar(8),
     phone      varchar(20),
@@ -185,10 +185,10 @@ SELECT * FROM glucose;
 
 
 
-------------- RESET TOKEN -------------
-CREATE TABLE reset_token (
+---------- PASSWORD RESET TOKENS ----------
+CREATE TABLE password_reset_tokens (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  token       varchar(50) NOT NULL,
+  token       varchar(50) NOT NULL UNIQUE,
 	email_owner varchar(50) NOT NULL,
   created_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
