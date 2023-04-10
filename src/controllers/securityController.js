@@ -14,29 +14,42 @@ class SecurityController {
 
   // NEW USER
   static registerNewUser = async (req, res) => {
-    try {
-      await database('users')
-          .insert(
-              {
-                id: CryptoUtil.createRandomToken(),
-                name: req.body.name,
-                email: req.body.email,
-                picture: req.body.picture,
-                password: SecurityUtils.generateHashValue(req.body.password),
-                role_id: req.body.role_id,
-              },
-              ['id'],
-          )
-          .then((users) => {
-            // const newUser = users[0];
-            res.status(201).json({message: Messages.NEW_USER_CREATED});
-          });
-    } catch (err) {
-      return res.status(500).json({
-        message: Messages.ERROR_CREATE_USER,
-        error: err.message,
-      });
-    }
+    // Checks whether the email is already used.
+    await database('users')
+        .where('users.email', req.body.email)
+        .select('users.id')
+        .limit(1)
+        .then((users) => {
+          if (users.length > 0) {
+            // Return message email already used.
+            res.status(400).json({message: Messages.EMAIL_ALREADY_USED});
+            return;
+          } else {
+            // Register a new user.
+            try {
+              database('users')
+                  .insert(
+                      {
+                        id: CryptoUtil.createRandomToken(),
+                        name: req.body.name,
+                        email: req.body.email,
+                        picture: req.body.picture,
+                        password: SecurityUtils.generateHashValue(req.body.password),
+                        role_id: req.body.role_id,
+                      },
+                      ['id'],
+                  )
+                  .then(() => {
+                    res.status(201).json({message: Messages.NEW_USER_CREATED});
+                  });
+            } catch (err) {
+              return res.status(500).json({
+                message: Messages.ERROR_CREATE_USER,
+                error: err.message,
+              });
+            }
+          }
+        });
   };
 
   // LOGIN

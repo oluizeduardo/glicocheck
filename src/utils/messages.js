@@ -19,6 +19,7 @@ class Messages {
   static ERROR_CREATE_USER = 'Error trying to insert a new user.';
   static ERROR_UPDATING_USER = 'Error updating user.';
   static ERROR_CHECKING_USER_ROLE = 'Error checking user role.';
+  static EMAIL_ALREADY_USED = 'The email address is already used.';
 
   static ERROR_UPDATE_GLUCOSE = 'Error trying to update glucose reading.';
   static ERROR_DELETE_GLUCOSE = 'Error trying to delete glucose reading.';

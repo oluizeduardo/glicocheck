@@ -5,6 +5,7 @@ const fieldPassword = document.getElementById('field_Password');
 const confirmPassword = document.getElementById('field_ConfirmPassword');
 
 const SUCEESS = 201;
+const BAD_REQUEST = 400;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.png';
 
@@ -14,13 +15,23 @@ btnRegister.addEventListener('click', (event) => {
   if (isValidDataEntry()) {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCEESS) {
-          handleLogin();
-        } else {
-          const message = `Error trying to create new account.
-                                    Please try again.`;
-          swal('Error', message, 'error');
+      if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+        let message ='';
+        switch (xmlhttp.status) {
+          case SUCEESS:
+            handleLogin();
+            break;
+
+          case BAD_REQUEST:
+            message = `This email is already used. Please, try another one.`;
+            swal('Refused email', message, 'error');
+            break;
+
+          default:
+            message = `Error trying to create new account. 
+            Please try again.`;
+            swal('Error', message, 'error');
+            break;
         }
       }
     };

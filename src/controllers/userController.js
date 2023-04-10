@@ -103,9 +103,6 @@ class UserController {
   // DELETE USER BY ID
   static deleteUserById = async (req, res) => {
     const id = req.params.id;
-
-    console.log('User id: '+id);
-
     database('users')
         .where('users.id', id)
         .select('users.id')
