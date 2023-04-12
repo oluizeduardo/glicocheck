@@ -22,6 +22,7 @@ Web platform to manage diabetes.
     - Test
         - [Jest](https://jestjs.io/)
         - [Supertest](https://www.npmjs.com/package/supertest)
+        - [Cypress](https://www.cypress.io/)
     - Static analysis
         - [ESLint](https://eslint.org/)
 
