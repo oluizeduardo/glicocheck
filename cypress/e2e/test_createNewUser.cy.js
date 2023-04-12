@@ -1,10 +1,5 @@
 describe('Create new user', () => {
-  it('should go to the new-account page.', () => {
-    cy.visit('http://localhost:4500/site');
-    cy.get('[href="./new-account.html"] > .btn').click();
-  });
-
-  it('should create new user.', () => {
+  it('should inform new user details and click to create account.', () => {
     cy.visit('http://localhost:4500/site/new-account.html');
 
     cy.get('#field_Name').type('Neil Armstrong');

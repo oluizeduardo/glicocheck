@@ -1,5 +1,4 @@
-describe('Testing home page options', () => {
-  
+describe('Testing home page navigation', () => {
   beforeEach(() => {
     cy.visit('http://localhost:4500/site');
   });
@@ -23,5 +22,9 @@ describe('Testing home page options', () => {
       cy.get('[href="./new-account.html"] > .btn').click();
       cy.get('.fw-normal').contains('Create your account');
     });
+  });
+
+  after(() => {
+    cy.visit('http://localhost:4500/site');
   });
 });
