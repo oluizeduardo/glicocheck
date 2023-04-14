@@ -10,7 +10,7 @@ DELETE FROM gender;
 DELETE FROM health_info;
 DELETE FROM diabetes_type;
 DELETE FROM blood_type;
-DELETE FROM reset_token;
+DELETE FROM password_reset_tokens;
 
 
 ------------- DROPS -------------
@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS gender;
 DROP TABLE IF EXISTS health_info;
 DROP TABLE IF EXISTS diabetes_type;
 DROP TABLE IF EXISTS blood_type;
-DROP TABLE IF EXISTS reset_token;
+DROP TABLE IF EXISTS password_reset_tokens;
 
 
 ------------- ROLES -------------
