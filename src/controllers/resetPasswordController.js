@@ -32,7 +32,7 @@ class ResetPasswordController {
   static handleResetPassword = async (req, res) => {
     const resetToken = req.params.resetToken;
 
-    await database('reset_token')
+    await database('password_reset_tokens')
         .where('token', resetToken)
         .select('*')
         .then((results) => {
@@ -159,7 +159,7 @@ class ResetPasswordController {
    * @param {string} email_owner The owner email address.
    */
   static saveResetToken = async (token, email_owner) => {
-    await database('reset_token').insert({token, email_owner});
+    await database('password_reset_tokens').insert({token, email_owner});
   };
   /**
    * Deletes a token in the database.
@@ -167,7 +167,7 @@ class ResetPasswordController {
    * @return {Promise} A Promise object.
    */
   static deleteToken = async (token) => {
-    return database('reset_token').where('token', token).del();
+    return database('password_reset_tokens').where('token', token).del();
   };
 }
 /**
