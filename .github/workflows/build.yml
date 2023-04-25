@@ -1,5 +1,7 @@
 name: Glicocheck Github Continuos Integration
-on: push
+on: 
+  push:
+    branches: [main]
 jobs:
   build-node:
     name: Build and run Node project
@@ -8,11 +10,12 @@ jobs:
     steps:
       - run: node --version
         name: Check Node version
+
       - run: npm --version
         name: Check NPM version
+
       - uses: actions/checkout@v3
         name: Check out code from Github
+
       - run: npm install
-        name: Install Npm packages
-      - run: npm run dev
-        name: Run Node application
+        name: Install NPM packages
