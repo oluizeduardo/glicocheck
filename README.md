@@ -1,10 +1,11 @@
 <div align="center">
-  <img src="https://github.com/oluizeduardo/my-diabetes-js/blob/main/src/public/includes/imgs/glicocheck-logo-whitebg.png">
+  <a href="https://glicocheck.onrender.com/site/index.html">
+    <img src="https://github.com/oluizeduardo/my-diabetes-js/blob/main/src/public/includes/imgs/glicocheck-logo-whitebg.png">
+  </a>  
 </div align="center">
 
 # Glicocheck
 Web platform to manage diabetes.
-https://glicocheck.onrender.com/site
 
 # Technologies applied
 - Backend
@@ -30,6 +31,19 @@ https://glicocheck.onrender.com/site
     - [Render](https://render.com/)
   
 
+# Environment Variables
+A `.env` file is required on the root folder and must contain the following key and values:
+
+| Key           | Value         |
+| ------------- |:-------------|
+| `BASE_URL`    | The basic context of the application. Should contain the protocol + host + port.<br>Ex: `http://localhost:3000` |
+| `PORT`        | The port where the application is running.<br>Ex: `3000`      |
+| `EMAIL_HOST`  | The SMTP host to send emails messages.<br>Ex: `smtp-mail.outlook.com`     |
+| `EMAIL_PORT`  | Where SMTP server is running.<br>Ex: `587`     |
+| `EMAIL_USER`  | Email username for authentication.      |
+| `EMAIL_PASS`  | The email password for authentication. |
+| `SECRET_KEY`  | Any secret key encrypted using BCrypt.<br>Suggested tool: https://bcrypt-generator.com/      |
+
 # How to run locally
 - Clone this project.
     - `git clone https://github.com/oluizeduardo/glicocheck.git`
@@ -41,6 +55,7 @@ https://glicocheck.onrender.com/site
 # Link
 - Homepage: http://localhost:3000/site
 - API: http://localhost:3000/api/{resource}
+- Production: https://glicocheck.onrender.com/site/index.html
 
 # Code analysis
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=oluizeduardo_glicocheck)
