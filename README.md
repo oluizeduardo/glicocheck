@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://glicocheck.onrender.com/site/index.html">
+  <a href="https://glicocheck.onrender.com/site/index.html" target="_blank">
     <img src="https://github.com/oluizeduardo/my-diabetes-js/blob/main/src/public/includes/imgs/glicocheck-logo-whitebg.png">
   </a>  
 </div align="center">
@@ -52,10 +52,9 @@ A `.env` file is required on the root folder and must contain the following key 
 - Run the server.
     - `npm run dev`
 
-# Link
-- Homepage: http://localhost:3000/site
-- API: http://localhost:3000/api/{resource}
-- Production: https://glicocheck.onrender.com/site/index.html
+# Links
+- Homepage (local): http://localhost:3000/site
+- API (local): http://localhost:3000/api/{resource}
 
 # Code analysis
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=oluizeduardo_glicocheck)
