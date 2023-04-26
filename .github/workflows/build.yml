@@ -1,21 +1,30 @@
-name: Glicocheck Github Continuos Integration
+name: Glicocheck - Github Actions - Continuos Integration
 on: 
   push:
     branches: [main]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build-node:
     name: Build and run Node project
     runs-on: ubuntu-latest
     container: node:16
     steps:
-      - run: node --version
-        name: Check Node version
-
-      - run: npm --version
-        name: Check NPM version
-
       - uses: actions/checkout@v3
         name: Check out code from Github
 
       - run: npm install
         name: Install NPM packages
+
+  deploy:
+    name: Deploy to Render
+    needs: [build-node]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
