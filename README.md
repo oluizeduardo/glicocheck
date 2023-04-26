@@ -4,6 +4,7 @@
 
 # Glicocheck
 Web platform to manage diabetes.
+https://glicocheck.onrender.com/site
 
 # Technologies applied
 - Backend
@@ -25,6 +26,9 @@ Web platform to manage diabetes.
         - [Cypress](https://www.cypress.io/)
     - Static analysis
         - [ESLint](https://eslint.org/)
+- Deploy
+    - [Render](https://render.com/)
+  
 
 # How to run locally
 - Clone this project.
