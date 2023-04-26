@@ -34,16 +34,16 @@
     </header>
   
     <div class="container-fluid default-background-color">
-        <div class="row">
-            <!-- SIDEMENU -->
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+      <div class="row">
+          <!-- SIDEMENU -->
+          <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
             <div class="position-sticky pt-3 sidebar-sticky">
 
-                <div class="logo-sidebar-panel">
-                    <img class="logo-sidebar" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
-                </div>
+              <div class="logo-sidebar-panel">
+                  <img class="logo-sidebar" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
+              </div>
 
-                <ul class="nav flex-column">
+              <ul class="nav flex-column">
                 <li class="nav-item item-sidemenu">
                     <a class="nav-link" aria-current="page" href="./dashboard.html">
                     <span data-feather="home" class="align-middle"></span>
@@ -51,20 +51,20 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <div class="item-sidemenu">
-                      <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                        <span data-feather="user" class="align-middle"></span>
-                        My Account
-                        <span class="ms-2 arrow-icon" data-feather="chevron-down"></span>
-                      </a>
-                    </div>
-                    <div class="collapse" id="dashboard-collapse">
-                      <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        <li class="m-2 ps-2"><a href="./profile.html" class="nav-link item-sidemenu">Profile</a></li>
-                        <li class="m-2 ps-2"><a href="./security.html" class="nav-link item-sidemenu">Security</a></li>
-                      </ul>
-                    </div>
-                  </li>           
+                  <div class="item-sidemenu">
+                    <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                      <span data-feather="user" class="align-middle"></span>
+                      My Account
+                      <span class="ms-2 arrow-icon" data-feather="chevron-down"></span>
+                    </a>
+                  </div>
+                  <div class="collapse" id="dashboard-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                      <li class="m-2 ps-2"><a href="./profile.html" class="nav-link item-sidemenu">Profile</a></li>
+                      <li class="m-2 ps-2"><a href="./security.html" class="nav-link item-sidemenu">Security</a></li>
+                    </ul>
+                  </div>
+                </li>           
                 <li class="nav-item item-sidemenu">
                     <a class="nav-link" href="#">
                     <span data-feather="bar-chart-2" class="align-middle"></span>
@@ -83,20 +83,223 @@
                     Log out
                     </a>
                 </li>
-                </ul>
+              </ul>
             </div>
-            </nav>
-            <!-- END - SIDEMENU -->
+          </nav>
+          <!-- END - SIDEMENU -->
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left main-content">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
-                    <h1 class="h2">
-                        <span data-feather="bar-chart-2" class="align-middle pb-1"></span>
-                        Reports
-                    </h1>
+          <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left main-content">
+              <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
+                  <h1 class="h2">
+                      <span data-feather="bar-chart-2" class="align-middle pb-1"></span>
+                      Reports
+                  </h1>
+              </div>
+
+              <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
+                <div class="btn-toolbar mb-2 mb-md-0">          
+                  <!-- CALENDAR -->
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                      <span data-feather="calendar" class="caret"></span>
+                      <span class="menu_button-text">Time interval</span>              
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">1 week</a></li>
+                      <li><a class="dropdown-item" href="#">2 weeks</a></li>
+                      <li><a class="dropdown-item" href="#">4 weeks</a></li>
+                      <li><a class="dropdown-item" href="#">8 weeks</a></li>
+                      <li><a class="dropdown-item" href="#">12 weeks</a></li>
+                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
+                    </ul>
+                  </div>
                 </div>
-            </main>
+              </div>
+
+              <!-- BLOOD GLUCOSE DAIRY -->
+              <section class="m-3">
+
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped">
+                    <thead style="font-size: 12px;">
+                      <tr>
+                        <th rowspan="3" class="align-middle text-center">DATE</th>
+                        <th colspan="5">
+                          <span data-feather="sunrise" class="align-text-center"></span>
+                          <span class="ms-1">BREAKFAST</span>
+                        </th>
+                        <th colspan="5">
+                          <span data-feather="sun" class="align-text-center"></span>
+                          <span class="ms-1">LUNCH</span>                   
+                        </th>
+                        <th colspan="5">
+                          <span data-feather="sunset" class="align-text-center"></span>
+                          <span class="ms-1">DINNER</span>                  
+                        </th>
+                        <th colspan="5">
+                          <span data-feather="moon" class="align-text-center"></span>
+                          <span class="ms-1">BED TIME</span>                  
+                        </th>
+                      </tr>
+                      <tr>
+                        <!-- BREAKFAST -->
+                        <td colspan="3">06:00<br>Preprandial</td>
+                        <td colspan="2">08:00<br>Postprandial</td>
+                        <!-- LUNCH -->
+                        <td colspan="3">12:00<br>Preprandial</td>
+                        <td colspan="2">14:00<br>Postprandial</td>
+                        <!-- DINNER -->
+                        <td colspan="3">20:00<br>Preprandial</td>
+                        <td colspan="2">22:00<br>Postprandial</td>
+                        <!-- BED TIME -->
+                        <td colspan="3">20:00<br>Preprandial</td>
+                        <td colspan="2">23:00<br>Sleep</td>
+                      </tr>
+                      <tr>
+                        <!-- BREAKFAST -->
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                        <td class="text-center">Carbs<br><small>g</small></td>
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                        <!-- LUNCH -->
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                        <td class="text-center">Carbs<br><small>g</small></td>
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                        <!-- DINNER -->
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                        <td class="text-center">Carbs<br><small>g</small></td>
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                        <!-- BED TIME -->
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                        <td class="text-center">Carbs<br><small>g</small></td>
+                        <td class="text-center">Glycemia<br><small>mg/dL</small></td>
+                        <td class="text-center">Ins<br><small>U</small></td>
+                      </tr>          
+                    </thead>
+                    <tbody class="text-center">
+                      <tr>
+                        <td scope="row">
+                          SUNDAY<br>
+                          <small>16/04/23</small>
+                        </td>
+                        <td>
+                          <div class="badge bg-danger text-light border border-light rounded-circle p-2">40</div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>140</td>
+                        <td></td>
+          
+                        <td>90</td>
+                        <td></td>
+                        <td></td>
+                        <td>130</td>
+                        <td>0</td>
+          
+                        <td>
+                          <div class="badge bg-primary text-light border border-light rounded-circle p-2">192</div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>100</td>
+                        <td></td>
+          
+                        <td>90</td>
+                        <td>1</td>
+                        <td>60</td>
+                        <td>
+                          <div class="badge bg-primary text-light border border-light rounded-circle p-2">176</div>
+                        </td>
+                        <td>0</td>
+                      </tr>
+          
+                      <tr>
+                        <td scope="row">
+                          MONDAY<br>
+                          <small>17/04/23</small>
+                        </td>
+                        <td>
+                          <div class="badge bg-primary text-light border border-light rounded-circle p-2">184</div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td>140</td>
+                        <td></td>
+          
+                        <td>90</td>
+                        <td></td>
+                        <td></td>
+                        <td>140</td>
+                        <td></td>
+          
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+          
+                        <td>90</td>
+                        <td></td>
+                        <td></td>
+                        <td>140</td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>  
+                </div>        
+              </section>
+
+          </main>
         </div>
+
+        <!-- MODAL FILTER WITH CALENDAR -->
+        <div class="modal fade" id="modalCalendar">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title" title="Tooltip">Time Interval</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
+              </div>          
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <main class="form-input w-100 m-auto"> 
+                  <form>
+
+                    <div class="form-floating">
+                      <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                      <label for="field_start_date">Start</label>
+                    </div>
+
+                    <div class="form-floating">
+                      <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                      <label for="field_end_date">End</label>
+                    </div>
+
+                  </form>
+                </main>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer text-center">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancelTimeIntervalModal">
+                  <span data-feather="x" class="align-middle"></span>Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSaveTimeIntervalModal">
+                  <span data-feather="search" class="align-middle"></span>Search</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
     </div>
     <!-- ICON -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
