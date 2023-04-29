@@ -13,6 +13,7 @@ function getGlucoseReadingsByUserId() {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
+          document.getElementById('diary-table-body').deleteRow(0);
           fillGlucoseDiaryTable(xmlhttp.responseText);
           break;
 
@@ -151,7 +152,6 @@ function createTD(data, cssClass='td') {
 function setGlucoseValueBasedOnTime(tr, glucoseValue, dateTime) {
   const time = dateTime.slice(-5);
   const hour = Number.parseInt(time.slice(0, 2));
-
   const collection = tr.querySelectorAll('td');
   fillColumnDate(collection[0], dateTime);
   const element = collection[getIndex(hour)];
@@ -278,5 +278,16 @@ function applyStyle(element, glucoseValue) {
   }
   styleClasses.forEach((style) => element.classList.add(style));
 }
+
+document.getElementById('btnExport').addEventListener('click', () => {
+  const divElement = document.getElementById('glucoseDiaryDiv').innerHTML;
+  const oldPage = document.body.innerHTML;
+  document.body.innerHTML =
+    `<html><head><title>Diary Report</title></head><body>${divElement}</body>`;
+  window.print();
+  document.body.innerHTML = oldPage;
+  window.location.reload();
+  return false;
+});
 
 getGlucoseReadingsByUserId();

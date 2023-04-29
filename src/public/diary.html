@@ -97,7 +97,16 @@
               </div>
 
               <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
-                <div class="btn-toolbar mb-2 mb-md-0">          
+                <div class="btn-toolbar mb-2 mb-md-0">  
+                  
+                  <!-- EXPORT -->
+                  <div class="btn-group me-2">
+                    <button id="btnExport" type="button" class="btn btn-sm btn-outline-secondary">
+                      <span data-feather="share" class="align-text-bottom"></span>
+                      <span class="menu_button-text">Export</span>
+                    </button>
+                  </div>
+                  
                   <!-- CALENDAR -->
                   <div class="dropdown">
                     <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
@@ -118,8 +127,7 @@
 
               <!-- BLOOD GLUCOSE DAIRY -->
               <section class="m-3">
-
-                <div class="table-responsive">
+                <div class="table-responsive" id="glucoseDiaryDiv">                  
                   <table class="table table-bordered table-striped" id="glucoseDiary">
                     <thead style="font-size: 12px;">
                       <tr>
@@ -182,7 +190,11 @@
                         <td class="text-center">Ins<br><small>U</small></td>
                       </tr>          
                     </thead>
-                    <tbody class="text-center"></tbody>
+                    <tbody class="text-center" id="diary-table-body">
+                      <tr>
+                        <td colspan="21">No records yet.</td>
+                      </tr>
+                    </tbody>
                   </table>  
                 </div>        
               </section>
