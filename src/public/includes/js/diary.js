@@ -13,15 +13,7 @@ function getGlucoseReadingsByUserId() {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
-          const registers = JSON.parse(xmlhttp.responseText);
-          const diaryTable = document.getElementById('glucoseDiary')
-              .getElementsByTagName('tbody')[0];
-
-          for (i=0; i < registers.length; i++) {
-            const dateTime = registers[i].dateTime;
-            const glucoseValue = registers[i].glucose;
-            addNewRowIntoTheDiaryTable(diaryTable, glucoseValue, dateTime);
-          }
+          fillGlucoseDiaryTable(xmlhttp.responseText);
           break;
 
         case HTTP_NOT_FOUND:
@@ -65,14 +57,42 @@ function getJwtToken() {
   return sessionStorage.getItem('jwt');
 }
 /**
- * Adds a new row to the diary table.
- * @param {HTMLElement} diaryTable The diary table element.
+ * Distributes on the table the values received from the API response.
+ * @param {string} responseText The response text from XMLHttpRequest.
+ */
+function fillGlucoseDiaryTable(responseText) {
+  const registers = JSON.parse(responseText);
+  const diaryTable = document.getElementById('glucoseDiary')
+      .getElementsByTagName('tbody')[0];
+
+  for (i=0; i < registers.length; i++) {
+    const dateTime = registers[i].dateTime;
+    const glucoseValue = registers[i].glucose;
+    addNewValueIntoTheTable(diaryTable, glucoseValue, dateTime);
+  }
+}
+
+let currentDateOnTableRow = '';
+let currentTableRow;
+
+/**
+ * Adds a new glucose reading value into the diary table.
+ * The readings made in the same day will be distributed in the
+ * same line on the table depending on the time.
+ * @param {HTMLElement} diaryTable The HTML element representing the table.
  * @param {Number} glucoseValue The glucose value that should
  * be printed on the table.
  * @param {string} dateTime The date and time when this reading was made.
  */
-function addNewRowIntoTheDiaryTable(diaryTable, glucoseValue, dateTime) {
-  diaryTable.appendChild(createTR(glucoseValue, dateTime));
+function addNewValueIntoTheTable(diaryTable, glucoseValue, dateTime) {
+  const date = dateTime.slice(0, 10);
+  if (date !== currentDateOnTableRow) {
+    currentTableRow = createTR(glucoseValue, dateTime);
+    diaryTable.appendChild(currentTableRow);
+    currentDateOnTableRow = date;
+  } else {
+    setGlucoseValueBasedOnTime(currentTableRow, glucoseValue, dateTime);
+  }
 }
 /**
  * Creates a new TR HTML element.
@@ -83,26 +103,26 @@ function addNewRowIntoTheDiaryTable(diaryTable, glucoseValue, dateTime) {
  */
 function createTR(glucoseValue, dateTime) {
   const newTR = document.createElement('tr');
-  newTR.appendChild(createTD('', 'td'));
-  newTR.appendChild(createTD('', 'td'));
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD('', 'td'));
-  newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD('', 'td'));
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD('', 'td'));
-  newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD('', 'td'));
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD('', 'td'));
-  newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD('', 'td'));
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD('', 'td'));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
+  newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
   setGlucoseValueBasedOnTime(newTR, glucoseValue, dateTime);
   return newTR;
@@ -113,7 +133,7 @@ function createTR(glucoseValue, dateTime) {
  * @param {string} cssClass The CSS class.
  * @return {Element} HTML element 'td'.
  */
-function createTD(data, cssClass) {
+function createTD(data, cssClass='td') {
   const td = document.createElement('td');
   td.textContent = data;
   td.classList.add(cssClass);
