@@ -22,7 +22,7 @@
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow header-visibility">
 
         <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">
-            <img class="glicocheck-icon" src="./includes/imgs/tab-icon.png" alt="Glicocheck icon">
+          <img class="glicocheck-icon" src="./includes/imgs/tab-icon.png" alt="Glicocheck icon">
         </a>
 
         <!-- TOGGLE MENU -->
@@ -45,9 +45,9 @@
 
               <ul class="nav flex-column">
                 <li class="nav-item item-sidemenu">
-                    <a class="nav-link" aria-current="page" href="./dashboard.html">
+                    <a class="nav-link" aria-current="page" href="./home.html">
                     <span data-feather="home" class="align-middle"></span>
-                    Dashboard
+                    Home
                     </a>
                 </li>
                 <li class="nav-item">
@@ -68,7 +68,7 @@
                 <li class="nav-item item-sidemenu">
                     <a class="nav-link" href="#">
                     <span data-feather="bar-chart-2" class="align-middle"></span>
-                    Reports
+                    Diary
                     </a>
                 </li>
                 <li class="nav-item item-sidemenu">
@@ -92,7 +92,7 @@
               <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
                   <h1 class="h2">
                       <span data-feather="bar-chart-2" class="align-middle pb-1"></span>
-                      Reports
+                      Diary
                   </h1>
               </div>
 
@@ -102,7 +102,7 @@
                   <div class="dropdown">
                     <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
                       <span data-feather="calendar" class="caret"></span>
-                      <span class="menu_button-text">Time interval</span>              
+                      <span>Time interval</span>              
                     </button>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="#">1 week</a></li>
@@ -120,7 +120,7 @@
               <section class="m-3">
 
                 <div class="table-responsive">
-                  <table class="table table-bordered table-striped">
+                  <table class="table table-bordered table-striped" id="glucoseDiary">
                     <thead style="font-size: 12px;">
                       <tr>
                         <th rowspan="3" class="align-middle text-center">DATE</th>
@@ -149,11 +149,11 @@
                         <td colspan="3">12:00<br>Preprandial</td>
                         <td colspan="2">14:00<br>Postprandial</td>
                         <!-- DINNER -->
-                        <td colspan="3">20:00<br>Preprandial</td>
-                        <td colspan="2">22:00<br>Postprandial</td>
+                        <td colspan="3">19:00<br>Preprandial</td>
+                        <td colspan="2">21:00<br>Postprandial</td>
                         <!-- BED TIME -->
-                        <td colspan="3">20:00<br>Preprandial</td>
-                        <td colspan="2">23:00<br>Sleep</td>
+                        <td colspan="3">22:00<br>Preprandial</td>
+                        <td colspan="2">00:00<br>Sleep</td>
                       </tr>
                       <tr>
                         <!-- BREAKFAST -->
@@ -182,75 +182,7 @@
                         <td class="text-center">Ins<br><small>U</small></td>
                       </tr>          
                     </thead>
-                    <tbody class="text-center">
-                      <tr>
-                        <td scope="row">
-                          SUNDAY<br>
-                          <small>16/04/23</small>
-                        </td>
-                        <td>
-                          <div class="badge bg-danger text-light border border-light rounded-circle p-2">40</div>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td>140</td>
-                        <td></td>
-          
-                        <td>90</td>
-                        <td></td>
-                        <td></td>
-                        <td>130</td>
-                        <td>0</td>
-          
-                        <td>
-                          <div class="badge bg-primary text-light border border-light rounded-circle p-2">192</div>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td>100</td>
-                        <td></td>
-          
-                        <td>90</td>
-                        <td>1</td>
-                        <td>60</td>
-                        <td>
-                          <div class="badge bg-primary text-light border border-light rounded-circle p-2">176</div>
-                        </td>
-                        <td>0</td>
-                      </tr>
-          
-                      <tr>
-                        <td scope="row">
-                          MONDAY<br>
-                          <small>17/04/23</small>
-                        </td>
-                        <td>
-                          <div class="badge bg-primary text-light border border-light rounded-circle p-2">184</div>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td>140</td>
-                        <td></td>
-          
-                        <td>90</td>
-                        <td></td>
-                        <td></td>
-                        <td>140</td>
-                        <td></td>
-          
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-          
-                        <td>90</td>
-                        <td></td>
-                        <td></td>
-                        <td>140</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
+                    <tbody class="text-center"></tbody>
                   </table>  
                 </div>        
               </section>
@@ -313,5 +245,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
     crossorigin="anonymous"></script>
+    <!-- SWEET ALERT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
+    integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
+    crossorigin="anonymous"></script>
+    <!-- Load reports -->
+    <script src="./includes/js/diary.js"></script>
   </body>
 </html>

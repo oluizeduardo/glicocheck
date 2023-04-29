@@ -104,7 +104,7 @@ function setUserId(xmlhttp) {
  * Redirects the user to the dashboard page.
  */
 function redirectToDashboard() {
-  location.href = './dashboard.html';
+  location.href = './home.html';
 }
 
 /**
