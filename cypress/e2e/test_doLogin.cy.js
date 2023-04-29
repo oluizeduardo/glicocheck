@@ -30,7 +30,7 @@ describe('Test successful login', () => {
 
       cy.get('#btnLogIn').click();
 
-      cy.get('.h2').contains('Dashboard');
+      cy.get('.h2').contains('Home');
     });
   });
 });
