@@ -27,7 +27,7 @@ app.use('/api/security', securityRouter);
 app.use('/api/reset', resetPasswordRouter);
 
 app.use(express.urlencoded({extended: true}));
-app.use('/site', express.static(path.join(__dirname, '/src/public')));
+app.use('/', express.static(path.join(__dirname, '/src/public')));
 
 // Inicialize the server.
 app.listen(port, function() {
