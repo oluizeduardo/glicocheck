@@ -48,6 +48,12 @@ h5{
     font-weight: bold;
 }
 
+.container-userdetails-small-fields {
+    display: flex;
+    flex-direction: row;
+    column-gap: 25px;
+}
+
 @media (max-width: 500px) {
     .password-field{
         width: 100%;
@@ -57,4 +63,19 @@ h5{
         flex-direction: column;
         row-gap: 10px;
     }
+    .container-userdetails-small-fields {
+        display: block;
+    }
+}
+
+@media only screen and (max-height: 575.98px) and (orientation: landscape) {
+    .container-userdetails-small-fields{
+        display: block;
+        flex-direction: column;
+    }
+    .panel-buttons{
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }  
 }

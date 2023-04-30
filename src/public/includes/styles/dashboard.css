@@ -206,5 +206,20 @@ body {
   }
 }
 
+@media only screen and (max-height: 575.98px) and (orientation: landscape) {
+  #sidebarMenu {
+    width: 0;
+  }
+  .main-content {
+    width: 100%;
+  }
+  .round-border-top-left{
+    border-top-left-radius: 0rem;
+  }
+  .container-chart{
+    height: 105vh;
+  }
+}
+
 /* It makes the page in landscape orientation for printing. */
 @media print{@page {size: landscape}}
