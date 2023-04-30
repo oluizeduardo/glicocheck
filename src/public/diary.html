@@ -99,6 +99,15 @@
               <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
                 <div class="btn-toolbar mb-2 mb-md-0">  
                   
+                  <!-- ADD ENTER -->
+                  <div class="btn-group me-2">
+                    <button type="button" class="btn btn-sm btn-primary" 
+                    data-bs-toggle="modal" data-bs-target="#modalNewEnter">
+                      <span data-feather="plus" class="align-text-bottom"></span>
+                      <span >Add enter</span>
+                    </button>
+                  </div>
+
                   <!-- EXPORT -->
                   <div class="btn-group me-2">
                     <button id="btnExport" type="button" class="btn btn-sm btn-outline-secondary">
@@ -111,7 +120,7 @@
                   <div class="dropdown">
                     <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
                       <span data-feather="calendar" class="caret"></span>
-                      <span>Time interval</span>              
+                      <span class="menu_button-text">Time interval</span>               
                     </button>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="#">1 week</a></li>
@@ -198,8 +207,64 @@
                   </table>  
                 </div>        
               </section>
-
           </main>
+
+          <!-- MODAL NEW GLUCOSE ENTER -->
+          <div class="modal fade" id="modalNewEnter">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title" title="Tooltip">New enter</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
+                </div>          
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <main class="form-input w-100 m-auto"> 
+                    <form>
+                      <div class="form-floating">
+                        <input type="number" class="form-control square-bottom-borders" id="field_Glucose" 
+                              placeholder="Glucose" min="20" max="999" autocomplete="off" required>
+                        <label for="field_Glucose">Glucose level</label>
+                      </div>
+                      <div class="form-floating">
+                        <input type="datetime-local" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                        <label for="field_Date">Date and time</label>
+                      </div>
+
+                      <div class="form-floating">
+                        <select class="form-select square-top-borders" id="field_Markermeal" aria-label="Floating label select example">
+                          <option selected>SELECT...</option>
+                          <option value="1">Fasting</option>
+                          <option value="2">Before breakfast</option>
+                          <option value="3">After breakfast</option>
+                          <option value="4">Before lunch</option>
+                          <option value="5">After lunch</option>
+                          <option value="6">Before dinner</option>
+                          <option value="7">After dinner</option>
+                          <option value="8">Before sleeping</option>
+                        </select>
+                        <label for="field_Markermeal">Marker meal</label>
+                      </div>
+
+                    </form>
+                  </main>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer text-center">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancel">
+                    <span data-feather="x" class="align-middle"></span>Cancel</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSave">
+                    <span data-feather="save" class="align-middle"></span>Save</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- MODAL FILTER WITH CALENDAR -->
@@ -261,7 +326,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
     integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
     crossorigin="anonymous"></script>
-    <!-- Load reports -->
+    <!-- FILL DIARY TABLE -->
     <script src="./includes/js/diary.js"></script>
+    <!-- NEW GLUCOSE ENTER -->
+    <script src="./includes/js/newEnter.js"></script>
   </body>
 </html>

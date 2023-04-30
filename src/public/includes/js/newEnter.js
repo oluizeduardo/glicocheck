@@ -4,6 +4,7 @@ const fieldDate = document.getElementById('field_Date');
 const fieldMarkermeal = document.getElementById('field_Markermeal');
 
 const HTTP_CREATED = 200;
+const NAME_PAGE_DAIRY = 'diary.html';
 
 btnSave.addEventListener('click', function(event) {
   event.preventDefault();
@@ -14,8 +15,12 @@ btnSave.addEventListener('click', function(event) {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
         switch (xmlhttp.status) {
           case HTTP_CREATED:
-            resetFields();
-            resetChart();
+            if (location.href.endsWith(NAME_PAGE_DAIRY)) {
+              window.location.reload();
+            } else {
+              resetFields();
+              resetChart();
+            }
             break;
 
           case HTTP_UNAUTHORIZED:
