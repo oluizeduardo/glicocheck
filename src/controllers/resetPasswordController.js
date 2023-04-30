@@ -186,7 +186,8 @@ function createContentResetPasswordPage(token) {
   const filePath = PAGE_RESET_PASSWORD;
   let fileContent = fs.readFileSync(filePath).toString();
   fileContent = fileContent.replace('#{email}', token.email_owner);
-  fileContent = fileContent.replace('#{token}', token.token);
+  fileContent = fileContent.replace('<a href="#{url_reset_token}">',
+  `<a href="https://glicocheck.onrender.com/api/reset/cancel/${token.token}">`);
   return fileContent;
 }
 
