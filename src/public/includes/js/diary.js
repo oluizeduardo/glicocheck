@@ -15,6 +15,7 @@ function getGlucoseReadingsByUserId() {
         case HTTP_OK:
           document.getElementById('diary-table-body').deleteRow(0);
           fillGlucoseDiaryTable(xmlhttp.responseText);
+          fillProrgessBarGlucoseDistribution();
           break;
 
         case HTTP_NOT_FOUND:
@@ -254,6 +255,23 @@ function getIndex(hour) {
   }
   return index;
 }
+
+let qtdRegistersHipoglycemia = 0;
+let qtdRegistersHyperglycemia = 0;
+let qtdRegistersNormalGlycemia = 0;
+
+/**
+ * Gets the number of registers found.
+ * @return {Number} The number of registers found.
+ */
+function getNumberOfRegisters() {
+  return (
+    qtdRegistersHipoglycemia +
+    qtdRegistersHyperglycemia +
+    qtdRegistersNormalGlycemia
+  );
+}
+
 /**
  * Applies style classes depending on the glucose value.
  * There are two different set of style classes: for hypoglycemia
@@ -271,12 +289,53 @@ function applyStyle(element, glucoseValue) {
   ];
   if (glucoseValue <= 60) {
     styleClasses.push('bg-danger');
+    qtdRegistersHipoglycemia++;
   } else if (glucoseValue >= 160) {
     styleClasses.push('bg-primary');
+    qtdRegistersHyperglycemia++;
   } else {
     styleClasses.push('bg-success');
+    qtdRegistersNormalGlycemia++;
   }
   styleClasses.forEach((style) => element.classList.add(style));
+}
+/**
+ * Fill the progressbar about the distribution
+ * of glucose values.
+ */
+function fillProrgessBarGlucoseDistribution() {
+  const pbHypo = document.getElementById('pbHypo');
+  const pbNormal = document.getElementById('pbNormal');
+  const pbHyper = document.getElementById('pbHyper');
+
+  const percentHypo = convertToPercentage(qtdRegistersHipoglycemia);
+  const percentNormal = convertToPercentage(qtdRegistersNormalGlycemia);
+  const percentHyper = convertToPercentage(qtdRegistersHyperglycemia);
+
+  pbHypo.innerText = qtdRegistersHipoglycemia;
+  pbNormal.innerText = qtdRegistersNormalGlycemia;
+  pbHyper.innerText = qtdRegistersHyperglycemia;
+
+  pbHypo.style.width = adaptValueToPercentageText(percentHypo);
+  pbNormal.style.width = adaptValueToPercentageText(percentNormal);
+  pbHyper.style.width = adaptValueToPercentageText(percentHyper);
+}
+/**
+ * Concatenates a value with the percentage simbol.
+ * @param {Number} value The number to be converted in text.
+ * @return {string} A text with the informed value with percentage simbol.
+ */
+function adaptValueToPercentageText(value) {
+  return ''.concat(value).concat('%');
+}
+/**
+ * Converts a number to percentage according to the total number
+ * of registers of glucose readings.
+ * @param {Number} value The number to be converted in percentage.
+ * @return {Number}
+ */
+function convertToPercentage(value) {
+  return (value / getNumberOfRegisters()) * 100;
 }
 
 document.getElementById('btnExport').addEventListener('click', () => {

@@ -16,6 +16,7 @@
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">
     <link href="./includes/styles/forms.css" rel="stylesheet">
+    <link href="./includes/styles/progressBar.css" rel="stylesheet">
   </head>
 
   <body>    
@@ -133,10 +134,25 @@
                   </div>
                 </div>
               </div>
+              
+              <!-- PROGRESSBAR -->
+              <div class="ms-3 me-3">
+                <h6>Distribution of blood glucose values:</h6>
+                <div class="progress mb-4 container-progressbar">
+                  <div id="pbHypo" class="progress-bar bg-danger" role="progressbar" style="width: 0%" 
+                  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
+
+                  <div id="pbNormal" class="progress-bar bg-success" role="progressbar" style="width: 0%" 
+                  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
+
+                  <div id="pbHyper" class="progress-bar" role="progressbar" style="width: 0%" 
+                  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0</div>
+                </div>
+              </div>
 
               <!-- BLOOD GLUCOSE DAIRY -->
               <section class="m-3">
-                <div class="table-responsive" id="glucoseDiaryDiv">                  
+                <div class="table-responsive" id="glucoseDiaryDiv">
                   <table class="table table-bordered table-striped" id="glucoseDiary">
                     <thead style="font-size: 12px;">
                       <tr>

@@ -1,0 +1,28 @@
+.container-progressbar {
+    width: 25%;
+}
+@media screen and (max-width: 600px) {
+    .container-progressbar {
+        width: 100%;
+    }   
+}
+@media screen and (min-width: 601px) {
+    .container-progressbar {
+        width: 50%;
+    }   
+}
+@media screen and (min-width: 1000px) {
+    .container-progressbar {
+        width: 35%;
+    }   
+}
+@media screen and (min-width: 1200px) {
+    .container-progressbar {
+        width: 25%;
+    }   
+}
+@media (max-width: 830px) and (orientation: landscape) {
+    .container-progressbar {
+        width: 100%;
+    } 
+}
