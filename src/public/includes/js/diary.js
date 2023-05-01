@@ -339,14 +339,14 @@ function convertToPercentage(value) {
 }
 
 document.getElementById('btnExport').addEventListener('click', () => {
-  const divElement = document.getElementById('glucoseDiaryDiv').innerHTML;
-  const oldPage = document.body.innerHTML;
-  document.body.innerHTML =
-    `<html><head><title>Diary Report</title></head><body>${divElement}</body>`;
-  window.print();
-  document.body.innerHTML = oldPage;
-  window.location.reload();
-  return false;
+  const element = document.getElementById('glucoseDiaryDiv');
+  const opt = {
+    margin: 15,
+    filename: 'Glicocheck-DiaryReport.pdf',
+    html2canvas: {scale: 2},
+    jsPDF: {unit: 'mm', format: 'B4', orientation: 'landscape'},
+  };
+  html2pdf().set(opt).from(element).save();
 });
 
 getGlucoseReadingsByUserId();

@@ -1,21 +1,10 @@
 document.getElementById('btnExport').addEventListener('click', () => {
-  const myCanvas = document.getElementById('myChart');
-  const url = myCanvas.toDataURL();
-  const win = window.open();
-  const html = `<html>
-      <head><title>Glicocheck - Report</title></head>
-      <body>
-        <img src='${url}'/>
-      </body>
-    <html>`;
-  win.document.write(html);
-  win.document.addEventListener(
-      'load',
-      function() {
-        win.document.close();
-        win.focus();
-        win.print();
-      },
-      true,
-  );
+  const element = document.getElementById('myChart');
+  const opt = {
+    margin: 15,
+    filename: 'Glicocheck-GlucoseReport.pdf',
+    html2canvas: {scale: 2},
+    jsPDF: {unit: 'mm', format: 'A4', orientation: 'landscape'},
+  };
+  html2pdf().set(opt).from(element).save();
 });

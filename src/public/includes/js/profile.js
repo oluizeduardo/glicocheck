@@ -1,3 +1,4 @@
+// USER DETAILS
 const fieldName = document.getElementById('field_Name');
 const fieldEmail = document.getElementById('field_Email');
 const fieldBirthdate = document.getElementById('field_Birthdate');
@@ -5,8 +6,13 @@ const fieldGender = document.getElementById('field_Gender');
 const fieldPhone = document.getElementById('field_Phone');
 const fieldWeight = document.getElementById('field_Weight');
 const fieldHeight = document.getElementById('field_Height');
-const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 const userProfilePicture = document.getElementById('userProfilePicture');
+const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
+// HEALTH INFO
+const fieldDiabetesType = document.getElementById('field_DiabetesType');
+const fieldDateOfDiagnosis = document.getElementById('field_DateOfDiagnosis');
+const fieldBloodType = document.getElementById('field_BloodType');
+const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
 
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
