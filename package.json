@@ -4,7 +4,7 @@
   "description": "NodeJS web platform for diabetes management.",
   "main": "index.js",
   "engines": {
-    "node": "18"
+    "node": "16"
   },
   "scripts": {
     "build": "tsup src",
