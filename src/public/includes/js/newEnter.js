@@ -160,28 +160,64 @@ async function addNewListItem(food) {
   const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
   const myInit = {method: 'GET', headers: myHeaders};
   const response = await fetch(url, myInit);
-  const data = await response.json();
 
-  const carbohydrate = Math.round(data.carbohydrate);
-  const calories = Math.round(data.calories);
+  const {status} = response;
 
-  totalCarbs += carbohydrate;
+  switch (status) {
+    case 200:
+      const data = await response.json();
+      const carbohydrate = Math.round(data.carbohydrate);
+      const calories = Math.round(data.calories);
+      const html = createNewListItemHTML(food, carbohydrate, calories);
+      addListItemElement(html);
+      updateTotalCarbs(carbohydrate);
+      break;
 
-  const html = `<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">${food}</div>
-          Carbs: ${carbohydrate}g | Cal: ${calories}Kcal
-        </div>
-        <button type="button" 
-          class="btn btn-danger" 
-          style="width: 20px; height: 20px; padding: 0px;" 
-          title="Delete"
-          onclick="removeItem(this, ${carbohydrate})">x
-        </button>
-      </li>`;
+    case 401:
+      handleSessionExpired();
+      break;
 
-  panelListFood.innerHTML = panelListFood.innerHTML.concat(html);
-  labelTotalCarbs.textContent = totalCarbs;
+    case 404:
+      swal('No records found',
+          'Please, check the spelling and try again.',
+          'warning');
+      break;
+  }
   fieldFood.value = '';
 }
-
+/**
+ * Updates the total amount of carbohydrate.
+ * @param {Number} value A new value to be summed to the total.
+ */
+function updateTotalCarbs(value) {
+  totalCarbs += value;
+  labelTotalCarbs.textContent = totalCarbs;
+}
+/**
+ * Creates the HTML string of a new list item.
+ * @param {string} food
+ * @param {Number} carbohydrate
+ * @param {Number} calories
+ * @return {string} String of a new list item HTML element. 
+ */
+function createNewListItemHTML(food, carbohydrate, calories) {
+  return `<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">${food}</div>
+              Carbs: ${carbohydrate}g | Cal: ${calories}Kcal
+            </div>
+            <button type="button" 
+              class="btn btn-highlight" 
+              style="width: 20px; height: 20px; padding: 0px;" 
+              title="Delete"
+              onclick="removeItem(this, ${carbohydrate})">x
+            </button>
+          </li>`;
+}
+/**
+ * Adds a new list item to the list of food.
+ * @param {string} html
+ */
+function addListItemElement(html) {
+  panelListFood.innerHTML = panelListFood.innerHTML.concat(html);
+}

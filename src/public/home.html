@@ -17,6 +17,8 @@
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">
     <link href="./includes/styles/forms.css" rel="stylesheet">
+    <!-- Edamam badge -->
+    <script src="https://developer.edamam.com/attribution/badge.js"></script>
   </head>
   <body>
     <style>
@@ -154,20 +156,20 @@
           </div>
         </main>
 
-        <!-- MODAL NEW ENTER -->
+        <!-- MODAL NEW ENTRY -->
         <div class="modal fade" id="modalNewEnter">
           <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
 
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title" title="Tooltip">New enter</h4>
+                <h4 class="modal-title" title="Tooltip">New entry</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
               </div>          
 
               <!-- Modal body -->
               <div class="modal-body">
-                <main class="w-100 m-auto form-input"> 
+                <main class="w-100 m-auto form-input" style="padding-bottom: 0%;"> 
                   <div>
                     <!-- TABS -->
                     <ul class="m-0 nav nav-fill nav-justified nav-tabs" id="myTab" role="tablist"> 
@@ -238,19 +240,22 @@
                         </div>
                         <ol class="list-group mt-2 mb-3 scrollablePanel" id="panelListFood"></ol>
                       </div> 
-                      <span style="font-size: 18px;">
+                      <span style="font-size: 20px;">
                         <span style="font-weight: bold;">Total Carbs: </span>
                           <span style="color: red;">
                             <span id="labelTotalCarbs">0</span>g
                           </span>
                       </span>
+                      <div class="text-center mt-3">
+                        <div id="edamam-badge" data-color="badge"></div>
+                      </div>
                     </div> 
                   </div>
                 </main>
               </div>
 
               <!-- Modal footer -->
-              <div class="modal-footer text-center">
+              <div class="modal-footer text-center" style="margin-top: 0px;">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancel">
                   <span data-feather="x" class="align-middle"></span>Cancel</button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSave">
