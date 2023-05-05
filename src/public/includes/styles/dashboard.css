@@ -166,6 +166,11 @@ body {
   height: auto;
 }
 
+.scrollablePanel{
+  max-height: 200px;
+  overflow: auto;
+}
+
 @media (max-width: 500px) {
   .header-visibility{
     display: flex;

@@ -2,6 +2,7 @@ const btnSave = document.getElementById('btnSave');
 const fieldGlucose = document.getElementById('field_Glucose');
 const fieldDate = document.getElementById('field_Date');
 const fieldMarkermeal = document.getElementById('field_Markermeal');
+const fieldFood = document.getElementById('field_Food');
 
 const HTTP_CREATED = 200;
 const NAME_PAGE_DAIRY = 'diary.html';
@@ -129,3 +130,58 @@ function destroyChart() {
   hyperglycemiaValues = [];
   hypoglycemiaValues = [];
 }
+
+const panelListFood = document.getElementById('panelListFood');
+const labelTotalCarbs = document.getElementById('labelTotalCarbs');
+let totalCarbs = 0;
+
+
+/**
+ * Add keypress listener to the field Food name.
+ */
+fieldFood.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    const food = fieldFood.value.trim();
+    if (food) {
+      addNewListItem(food);
+    }
+  }
+});
+
+/**
+ * Sends a request to the Nutrition table API.
+ * @param {string} food The food that wants to check the
+ * total of calories and carbohydrate. The ideal format
+ * for this value is: amount of food followed by the food's name,
+ * e.g. "1 cup of milk", "2 slices of cheese".
+ */
+async function addNewListItem(food) {
+  const url = `/api/carbscounting/${food}`;
+  const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
+  const myInit = {method: 'GET', headers: myHeaders};
+  const response = await fetch(url, myInit);
+  const data = await response.json();
+
+  const carbohydrate = Math.round(data.carbohydrate);
+  const calories = Math.round(data.calories);
+
+  totalCarbs += carbohydrate;
+
+  const html = `<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">${food}</div>
+          Carbs: ${carbohydrate}g | Cal: ${calories}Kcal
+        </div>
+        <button type="button" 
+          class="btn btn-danger" 
+          style="width: 20px; height: 20px; padding: 0px;" 
+          title="Delete"
+          onclick="removeItem(this, ${carbohydrate})">x
+        </button>
+      </li>`;
+
+  panelListFood.innerHTML = panelListFood.innerHTML.concat(html);
+  labelTotalCarbs.textContent = totalCarbs;
+  fieldFood.value = '';
+}
+
