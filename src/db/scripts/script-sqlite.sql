@@ -1,7 +1,7 @@
 -- SQLite
 
 ------------- CLEAN DATABASE -------------
-DELETE FROM glucose;
+DELETE FROM blood_glucose_diary;
 DELETE FROM measurement_unity;
 DELETE FROM marker_meal;
 DELETE FROM users;
@@ -14,7 +14,7 @@ DELETE FROM password_reset_tokens;
 
 
 ------------- DROPS -------------
-DROP TABLE IF EXISTS glucose;
+DROP TABLE IF EXISTS blood_glucose_diary;
 DROP TABLE IF EXISTS measurement_unity;
 DROP TABLE IF EXISTS marker_meal;
 DROP TABLE IF EXISTS users;
@@ -128,7 +128,7 @@ INSERT INTO gender (description) VALUES('Unspecified');
 
 
 
----- MEASUREMENTS UNITY FOR GLUCOSE READINGS ----
+---- MEASUREMENTS UNITY ----
 CREATE TABLE measurement_unity ( 
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     description varchar(15) NOT NULL,
@@ -136,9 +136,9 @@ CREATE TABLE measurement_unity (
     updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
 
--- mg/dL or mmol/L.
 INSERT INTO measurement_unity (description) VALUES('mg/dL');
 INSERT INTO measurement_unity (description) VALUES('mmol/L');
+INSERT INTO measurement_unity (description) VALUES('g');
 
 SELECT * FROM measurement_unity;
 
@@ -147,7 +147,7 @@ SELECT * FROM measurement_unity;
 ------------- MARKER MEAL -------------
 CREATE TABLE marker_meal ( 
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    description varchar(50) NOT NULL,
+    description varchar(30) NOT NULL,
     created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
     updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
@@ -165,23 +165,26 @@ SELECT * FROM marker_meal;
 
 
 
-------------- GLUCOSE -------------
-CREATE TABLE glucose ( 
-  id            INTEGER PRIMARY KEY AUTOINCREMENT,
-	user_id       varchar(50) NOT NULL,
-	glucose       INTEGER NOT NULL,
-	unity_id      INTEGER NOT NULL,
-	dateTime      varchar(20) NOT NULL,
-	markermeal_id INTEGER NOT NULL,
-  created_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
-  updated_at    TIMESTAMP DEFAULT (datetime('now','localtime')),
+----------- BLOOD GLUCOSE DIARY -----------
+CREATE TABLE blood_glucose_diary ( 
+  id               INTEGER PRIMARY KEY AUTOINCREMENT,
+	user_id          varchar(50) NOT NULL,
+	glucose          INTEGER NOT NULL,
+	glucose_unity_id INTEGER NOT NULL,
+  total_carbs      INTEGER, -- optional
+	carbs_unity_id   INTEGER, -- optional
+	dateTime         varchar(20) NOT NULL,
+	markermeal_id    INTEGER NOT NULL,
+  created_at       TIMESTAMP DEFAULT (datetime('now','localtime')),
+  updated_at       TIMESTAMP DEFAULT (datetime('now','localtime')),
 
   FOREIGN KEY(user_id) REFERENCES users(id),
-  FOREIGN KEY(unity_id) REFERENCES measurement_unity(id),
+  FOREIGN KEY(glucose_unity_id) REFERENCES measurement_unity(id),
+  FOREIGN KEY(carbs_unity_id) REFERENCES measurement_unity(id),
   FOREIGN KEY(markermeal_id) REFERENCES marker_meal(id)
 );
 
-SELECT * FROM glucose;
+SELECT * FROM blood_glucose_diary;
 
 
 
