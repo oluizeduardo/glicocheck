@@ -73,7 +73,6 @@ function prepareJsonNewEnter() {
     glucose: fieldGlucose.value,
     glucose_unity_id: 1, // mg/dL
     total_carbs: getTotalCarbs(),
-    carbs_unity_id: 3, // grams (g)
     dateTime: fieldDate.value,
     markerMealId: fieldMarkermeal.selectedIndex,
   });

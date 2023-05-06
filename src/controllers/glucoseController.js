@@ -153,7 +153,6 @@ class GlucoseController {
               glucose: req.body.glucose,
               glucose_unity_id: req.body.glucose_unity_id,
               total_carbs: req.body.total_carbs,
-              carbs_unity_id: req.body.carbs_unity_id,
               dateTime: req.body.dateTime,
               markermeal_id: req.body.markerMealId,
             },
@@ -163,7 +162,6 @@ class GlucoseController {
               'glucose',
               'glucose_unity_id',
               'total_carbs',
-              'carbs_unity_id',
               'dateTime',
               'markermeal_id',
               'created_at',
@@ -190,7 +188,6 @@ class GlucoseController {
       glucose: req.body.glucose,
       glucose_unity_id: req.body.unityId,
       total_carbs: req.body.total_carbs,
-      carbs_unity_id: req.body.carbs_unity_id,
       markermeal_id: req.body.markerMealId,
       updated_at: DateTimeUtil.getCurrentDateTime(),
     };
