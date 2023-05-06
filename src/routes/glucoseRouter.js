@@ -5,13 +5,12 @@ const {checkToken, isAdmin} = require('../utils/securityUtils');
 
 glucoseRouter
     .get('/', express.json(), checkToken, GlucoseController.getAllGlucoseRecords)
-    .post('/', express.json(), checkToken, isAdmin, GlucoseController.createNewGlucoseReading)
+    .post('/', express.json(), checkToken, isAdmin, GlucoseController.createNewGlucoseRecord)
     .get('/:id', checkToken, GlucoseController.getGlucoseById)
-    .put('/:id', express.json(), checkToken, isAdmin, GlucoseController.updateGlucoseReadingById)
-    .delete('/:id', checkToken, isAdmin, GlucoseController.deleteGlucoseReadingById)
-    // .get('/user/:userId', checkToken, GlucoseController.getGlucoseReadingsByUserId)
-    .get('/user/online', checkToken, GlucoseController.getGlucoseReadingsByUserId)
-    .delete('/user/:userId', checkToken, isAdmin, GlucoseController.deleteGlucoseReadingsByUserId)
-    .get('/markermeal/:markermealid', checkToken, GlucoseController.getGlucoseReadingsByMarkerMealId);
+    .put('/:id', express.json(), checkToken, isAdmin, GlucoseController.updateGlucoseRecordById)
+    .delete('/:id', checkToken, isAdmin, GlucoseController.deleteGlucoseRecordById)
+    .get('/user/online', checkToken, GlucoseController.getGlucoseRecordsByUserId)
+    .delete('/user/:userId', checkToken, isAdmin, GlucoseController.deleteGlucoseRecordsByUserId)
+    .get('/markermeal/:markermealid', checkToken, GlucoseController.getGlucoseRecordsByMarkerMealId);
 
 module.exports = glucoseRouter;

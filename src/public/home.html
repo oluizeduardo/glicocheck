@@ -17,260 +17,314 @@
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">
     <link href="./includes/styles/forms.css" rel="stylesheet">
+    <link href="./includes/styles/tabPanel.css" rel="stylesheet">
+    <!-- Edamam badge -->
+    <script src="https://developer.edamam.com/attribution/badge.js"></script>
   </head>
   <body>
-    
-  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow header-visibility">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">
-      <img class="glicocheck-icon" src="./includes/imgs/tab-icon.png" alt="Glicocheck icon">
-    </a> 
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow header-visibility">
+      <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6">
+        <img class="glicocheck-icon" src="./includes/imgs/tab-icon.png" alt="Glicocheck icon">
+      </a> 
 
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 
-            data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" 
-            aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </header>
+      <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" 
+              data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" 
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </header>
 
-<div class="container-fluid default-background-color">
-  <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-      <div class="position-sticky pt-3 sidebar-sticky">
+    <div class="container-fluid default-background-color">
+      <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+          <div class="position-sticky pt-3 sidebar-sticky">
 
-        <div class="logo-sidebar-panel">
-          <img class="logo-sidebar" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
-        </div>
-
-        <ul class="nav flex-column">
-          <li class="nav-item item-sidemenu py-1">
-            <a class="nav-link" aria-current="page" href="#">
-              <span data-feather="home" class="align-middle"></span>
-              Home
-            </a>
-          </li>
-          <li class="nav-item">
-            <div class="item-sidemenu">
-              <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                <span data-feather="user" class="align-middle"></span>
-                My Account
-                <span class="ms-2 arrow-icon" data-feather="chevron-down"></span>
-              </a>
+            <div class="logo-sidebar-panel">
+              <img class="logo-sidebar" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
             </div>
-            <div class="collapse" id="dashboard-collapse">
-              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li class="m-2 ps-2"><a href="./profile.html" class="nav-link item-sidemenu">Profile</a></li>
-                <li class="m-2 ps-2"><a href="./security.html" class="nav-link item-sidemenu">Security</a></li>
-              </ul>
-            </div>
-          </li>        
-          <li class="nav-item item-sidemenu">
-            <a class="nav-link" href="./diary.html">
-              <span data-feather="book-open" class="align-middle"></span>
-              Diary
-            </a>
-          </li>
-          <li class="nav-item item-sidemenu">
-            <a class="nav-link" href="./settings.html">
-              <span data-feather="settings" class="align-middle"></span>
-              Settings
-            </a>
-          </li>
-          <li class="nav-item item-sidemenu">
-            <a class="nav-link" href="#" onclick="logOut()">
-              <span data-feather="log-out" class="align-middle"></span>
-              Log out
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
 
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left main-content">
-      
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
-        <h1 class="h2">
-          <span data-feather="home" class="align-middle pb-1"></span>
-          Home
-        </h1>
-      </div>
-
-      <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <!-- ADD ENTER -->
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalNewEnter">
-              <span data-feather="plus" class="align-text-bottom"></span>
-              <span >Add enter</span>
-            </button>
-          </div>
-          <!-- EXPORT -->
-          <div class="btn-group me-2">
-            <button id="btnExport" type="button" class="btn btn-sm btn-outline-secondary">
-              <span data-feather="share" class="align-text-bottom"></span>
-              <span class="menu_button-text">Export</span>
-            </button>
-          </div>
-          <!-- CALENDAR -->
-          <div class="dropdown">
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
-              <span data-feather="calendar" class="caret"></span>
-              <span class="menu_button-text">Time interval</span>              
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">1 week</a></li>
-              <li><a class="dropdown-item" href="#">2 weeks</a></li>
-              <li><a class="dropdown-item" href="#">4 weeks</a></li>
-              <li><a class="dropdown-item" href="#">8 weeks</a></li>
-              <li><a class="dropdown-item" href="#">12 weeks</a></li>
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
+            <ul class="nav flex-column">
+              <li class="nav-item item-sidemenu py-1">
+                <a class="nav-link" aria-current="page" href="#">
+                  <span data-feather="home" class="align-middle"></span>
+                  Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <div class="item-sidemenu">
+                  <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                    <span data-feather="user" class="align-middle"></span>
+                    My Account
+                    <span class="ms-2 arrow-icon" data-feather="chevron-down"></span>
+                  </a>
+                </div>
+                <div class="collapse" id="dashboard-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li class="m-2 ps-2"><a href="./profile.html" class="nav-link item-sidemenu">Profile</a></li>
+                    <li class="m-2 ps-2"><a href="./security.html" class="nav-link item-sidemenu">Security</a></li>
+                  </ul>
+                </div>
+              </li>        
+              <li class="nav-item item-sidemenu">
+                <a class="nav-link" href="./diary.html">
+                  <span data-feather="book-open" class="align-middle"></span>
+                  Diary
+                </a>
+              </li>
+              <li class="nav-item item-sidemenu">
+                <a class="nav-link" href="./settings.html">
+                  <span data-feather="settings" class="align-middle"></span>
+                  Settings
+                </a>
+              </li>
+              <li class="nav-item item-sidemenu">
+                <a class="nav-link" href="#" onclick="logOut()">
+                  <span data-feather="log-out" class="align-middle"></span>
+                  Log out
+                </a>
+              </li>
             </ul>
           </div>
-        </div>
-      </div>
-      <!-- WELCOME PANEL -->
-      <span id="panel-welcome-center">
-        <div id="welcome-center">
-          <span class="align-middle">
-            <span class="logo-welcome-center mt-5">
-              <img class="logo" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
-            </span>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left main-content">
+          
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
+            <h1 class="h2">
+              <span data-feather="home" class="align-middle pb-1"></span>
+              Home
+            </h1>
+          </div>
+
+          <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <!-- ADD ENTER -->
+              <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalNewEnter">
+                  <span data-feather="plus" class="align-text-bottom"></span>
+                  <span >Add enter</span>
+                </button>
+              </div>
+              <!-- EXPORT -->
+              <div class="btn-group me-2">
+                <button id="btnExport" type="button" class="btn btn-sm btn-outline-secondary">
+                  <span data-feather="share" class="align-text-bottom"></span>
+                  <span class="menu_button-text">Export</span>
+                </button>
+              </div>
+              <!-- CALENDAR -->
+              <div class="dropdown">
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                  <span data-feather="calendar" class="caret"></span>
+                  <span class="menu_button-text">Time interval</span>              
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">1 week</a></li>
+                  <li><a class="dropdown-item" href="#">2 weeks</a></li>
+                  <li><a class="dropdown-item" href="#">4 weeks</a></li>
+                  <li><a class="dropdown-item" href="#">8 weeks</a></li>
+                  <li><a class="dropdown-item" href="#">12 weeks</a></li>
+                  <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- WELCOME PANEL -->
+          <span id="panel-welcome-center">
+            <div id="welcome-center">
+              <span class="align-middle">
+                <span class="logo-welcome-center mt-5">
+                  <img class="logo" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
+                </span>
+              </span>
+            </div>
           </span>
+
+          <!-- CHART -->
+          <div class="container-chart bg-white p-3 invisible" id="panel-chart">
+            <canvas class="my-4 w-100" id="myChart"></canvas>
+          </div>
+        </main>
+
+        <!-- MODAL NEW ENTRY -->
+        <div class="modal fade" id="modalNewEnter">
+          <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title" title="Tooltip">New entry</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
+              </div>          
+
+              <!-- Modal body -->
+              <div class="modal-body">
+                <main class="w-100 m-auto form-input" style="padding-bottom: 0%;"> 
+                  <div>
+                    <!-- TABS -->
+                    <ul class="m-0 nav nav-fill nav-justified nav-tabs" id="myTab" role="tablist"> 
+                      
+                      <!-- TAB GLUCOSE READING -->
+                      <li class="nav-item" role="presentation"> 
+                        <button class="active nav-link" 
+                          id="glucose-tab" data-bs-toggle="tab" 
+                          data-bs-target="#home" type="button" 
+                          role="tab" aria-controls="home" 
+                          aria-selected="true" title="New glucose reading"> 
+                          <span data-feather="droplet" class="align-middle"></span>
+                        </button> 
+                      </li> 
+        
+                      <!-- TAB CARBS COUNTING -->
+                      <li class="nav-item" role="presentation"> 
+                        <button class="nav-link" 
+                          id="carbscounting-tab" data-bs-toggle="tab" 
+                          data-bs-target="#profile" type="button" 
+                          role="tab" aria-controls="profile" 
+                          aria-selected="false" title="Carbohydrate counting"> 
+                          <span data-feather="coffee" class="align-middle"></span>
+                        </button> 
+                      </li>               
+                    </ul>
+                  </div>
+
+                  <!-- CONTENT PANELS -->
+                  <div class="tab-content"> 
+
+                    <!-- NEW GLUCOSE READING PANEL-->
+                    <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="glucose-tab"> 
+                      <div class="mt-3">
+                        <div class="form-floating">
+                          <input type="number" class="form-control square-bottom-borders" id="field_Glucose" 
+                                placeholder="Glucose" min="20" max="999" autocomplete="off" required>
+                          <label for="field_Glucose">Glucose level</label>
+                        </div>
+                        <div class="form-floating">
+                          <input type="datetime-local" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                          <label for="field_Date">Date and time</label>
+                        </div>
+
+                        <div class="form-floating">
+                          <select class="form-select square-top-borders" id="field_Markermeal" aria-label="Floating label select example">
+                            <option selected>SELECT...</option>
+                            <option value="1">Fasting</option>
+                            <option value="2">Before breakfast</option>
+                            <option value="3">After breakfast</option>
+                            <option value="4">Before lunch</option>
+                            <option value="5">After lunch</option>
+                            <option value="6">Before dinner</option>
+                            <option value="7">After dinner</option>
+                            <option value="8">Before sleeping</option>
+                          </select>
+                          <label for="field_Markermeal">Marker meal</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- CARBS COUNTING PANEL -->
+                    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="carbscounting-tab"> 
+                      <div class="mt-3">
+                        <div class="form-floating">
+                          <input type="text" class="form-control" id="field_Food" placeholder="Food" autocomplete="off">
+                          <label for="field_Food">Food</label>
+                        </div>
+                        <ol class="list-group mt-2 mb-3 scrollablePanel" id="panelListFood"></ol>
+                      </div> 
+                      <span style="font-size: 20px;">
+                        <span style="font-weight: bold;">Total Carbs: </span>
+                          <span class="ps-2 pe-2 total-carbs-background">
+                            <span id="labelTotalCarbs">0</span>g
+                            <input type="hidden" id="field_TotalCarbs">
+                          </span>
+                      </span>
+                      <div class="text-center mt-3">
+                        <div id="edamam-badge" data-color="badge"></div>
+                      </div>
+                    </div> 
+                  </div>
+                </main>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer text-center" style="margin-top: 0px;">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancel">
+                  <span data-feather="x" class="align-middle"></span>Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSave">
+                  <span data-feather="save" class="align-middle"></span>Save</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </span>
 
-      <!-- CHART -->
-      <div class="container-chart bg-white p-3 invisible" id="panel-chart">
-        <canvas class="my-4 w-100" id="myChart"></canvas>
-      </div>
-    </main>
+        <!-- MODAL FILTER WITH CALENDAR -->
+        <div class="modal fade" id="modalCalendar">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
 
-    <!-- MODAL NEW GLUCOSE ENTER -->
-    <div class="modal fade" id="modalNewEnter">
-      <div class="modal-dialog modal-sm modal-dialog-centered">
-        <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title" title="Tooltip">Time Interval</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
+              </div>          
 
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title" title="Tooltip">New enter</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
-          </div>          
+              <!-- Modal body -->
+              <div class="modal-body">
+                <main class="form-input w-100 m-auto"> 
+                  <form>
+                    <div class="form-floating">
+                      <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                      <label for="field_start_date">Start</label>
+                    </div>
 
-          <!-- Modal body -->
-          <div class="modal-body">
-            <main class="form-input w-100 m-auto"> 
-              <form>
-                <div class="form-floating">
-                  <input type="number" class="form-control square-bottom-borders" id="field_Glucose" 
-                        placeholder="Glucose" min="20" max="999" autocomplete="off" required>
-                  <label for="field_Glucose">Glucose level</label>
-                </div>
-                <div class="form-floating">
-                  <input type="datetime-local" class="form-control square-borders" id="field_Date" placeholder="Date" required>
-                  <label for="field_Date">Date and time</label>
-                </div>
+                    <div class="form-floating">
+                      <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                      <label for="field_end_date">End</label>
+                    </div>
+                  </form>
+                </main>
+              </div>
 
-                <div class="form-floating">
-                  <select class="form-select square-top-borders" id="field_Markermeal" aria-label="Floating label select example">
-                    <option selected>SELECT...</option>
-                    <option value="1">Fasting</option>
-                    <option value="2">Before breakfast</option>
-                    <option value="3">After breakfast</option>
-                    <option value="4">Before lunch</option>
-                    <option value="5">After lunch</option>
-                    <option value="6">Before dinner</option>
-                    <option value="7">After dinner</option>
-                    <option value="8">Before sleeping</option>
-                  </select>
-                  <label for="field_Markermeal">Marker meal</label>
-                </div>
-
-              </form>
-            </main>
+              <!-- Modal footer -->
+              <div class="modal-footer text-center">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancelTimeIntervalModal">
+                  <span data-feather="x" class="align-middle"></span>Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSaveTimeIntervalModal">
+                  <span data-feather="search" class="align-middle"></span>Search</button>
+              </div>
+            </div>
           </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer text-center">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancel">
-              <span data-feather="x" class="align-middle"></span>Cancel</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSave">
-              <span data-feather="save" class="align-middle"></span>Save</button>
-          </div>
-
         </div>
       </div>
     </div>
-
-    <!-- MODAL FILTER WITH CALENDAR -->
-    <div class="modal fade" id="modalCalendar">
-      <div class="modal-dialog modal-sm modal-dialog-centered">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title" title="Tooltip">Time Interval</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
-          </div>          
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <main class="form-input w-100 m-auto"> 
-              <form>
-                <div class="form-floating">
-                  <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
-                  <label for="field_start_date">Start</label>
-                </div>
-
-                <div class="form-floating">
-                  <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
-                  <label for="field_end_date">End</label>
-                </div>
-              </form>
-            </main>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer text-center">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancelTimeIntervalModal">
-              <span data-feather="x" class="align-middle"></span>Cancel</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSaveTimeIntervalModal">
-              <span data-feather="search" class="align-middle"></span>Search</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-  <!-- ICON -->
-  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
-  integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" 
-  crossorigin="anonymous"></script>
-  <script>
-    'use strict'
-    feather.replace({ 'aria-hidden': 'true' })
-  </script>
-  <!-- For toggle menu. -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" 
-  integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
-  crossorigin="anonymous"></script>
-  <!-- CHART.JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" 
-  integrity="sha384-9MhbyIRcBVQiiC7FSd7T38oJNj2Zh+EfxS7/vjhBi4OOT78NlHSnzM31EZRWR1LZ" 
-  crossorigin="anonymous"></script>
-  <!-- LOAD HOME -->
-  <script src="./includes/js/home.js"></script> 
-  <!-- NEW GLUCOSE ENTER -->
-  <script src="./includes/js/newEnter.js"></script> 
-  <!-- SWEET ALERT -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
-  integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
-  crossorigin="anonymous"></script>  
-  <!-- HTML2PDF -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" 
-  integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" 
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <!-- PRINT REPORT -->
-  <script src="./includes/js/printReport.js"></script>
+    <!-- ICON -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" 
+    crossorigin="anonymous"></script>
+    <script>
+      'use strict'
+      feather.replace({ 'aria-hidden': 'true' })
+    </script>
+    <!-- For toggle menu. -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
+    crossorigin="anonymous"></script>
+    <!-- CHART.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" 
+    integrity="sha384-9MhbyIRcBVQiiC7FSd7T38oJNj2Zh+EfxS7/vjhBi4OOT78NlHSnzM31EZRWR1LZ" 
+    crossorigin="anonymous"></script>
+    <!-- LOAD HOME -->
+    <script src="./includes/js/home.js"></script> 
+    <!-- NEW ENTRY -->
+    <script src="./includes/js/newEntry.js"></script> 
+    <!-- SWEET ALERT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
+    integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
+    crossorigin="anonymous"></script>  
+    <!-- HTML2PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" 
+    integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- PRINT REPORT -->
+    <script src="./includes/js/printReport.js"></script>
   </body>
 </html>
