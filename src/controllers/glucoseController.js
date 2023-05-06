@@ -2,31 +2,33 @@ const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
 const WebToken = require('../utils/webToken');
+
 /**
  * GlucoseController.
  *
- * Contains methods to deal with the glucose readings.
+ * Contains methods to deal with the glucose records on the database.
  */
 class GlucoseController {
-  // GET ALL GLUCOSE RECORDS.
+  // GET ALL BLOOD GLUCOSE RECORDS.
   static getAllGlucoseRecords = async function(req, res) {
-    await database('glucose')
-        .join('users', 'users.id', 'glucose.user_id')
-        .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
+    await database('blood_glucose_diary as bgd')
+        .join('users', 'users.id', 'bgd.user_id')
+        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
         .select(
-            'glucose.id',
+            'bgd.id',
             'users.id as userId',
             'users.name as user',
-            'glucose.glucose',
-            'measurement_unity.description as unity',
-            'glucose.dateTime',
+            'bgd.glucose',
+            'measurement_unity.description as glucoseUnity',
+            'bgd.total_carbs as totalCarbs',
+            'bgd.dateTime',
             'marker_meal.description as markerMeal',
-            'glucose.created_at',
-            'glucose.updated_at',
+            'bgd.created_at',
+            'bgd.updated_at',
         )
         .orderBy([
-          {column: 'glucose.dateTime', order: 'asc'},
+          {column: 'bgd.dateTime', order: 'asc'},
         ])
         .then((glucoses) => {
           if (glucoses.length > 0) {
@@ -37,29 +39,30 @@ class GlucoseController {
         });
   };
 
-  // GET GLUCOSE READINGS BY USER ID.
-  static getGlucoseReadingsByUserId = async function(req, res) {
+  // GET GLUCOSE RECORDS BY USER ID.
+  static getGlucoseRecordsByUserId = async function(req, res) {
     const token = req.headers['authorization'];
     const userId = WebToken.getUserIdFromWebToken(token);
 
-    await database('glucose')
-        .where('glucose.user_id', userId)
-        .join('users', 'users.id', 'glucose.user_id')
-        .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
+    await database('blood_glucose_diary as bgd')
+        .where('bgd.user_id', userId)
+        .join('users', 'users.id', 'bgd.user_id')
+        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
         .select(
-            'glucose.id',
+            'bgd.id',
             'users.id as userId',
             'users.name as user',
-            'glucose.glucose',
+            'bgd.glucose',
             'measurement_unity.description as unity',
-            'glucose.dateTime',
+            'bgd.total_carbs as totalCarbs',
+            'bgd.dateTime',
             'marker_meal.description as markerMeal',
-            'glucose.created_at',
-            'glucose.updated_at',
+            'bgd.created_at as createdAt',
+            'bgd.updated_at as updatedAt',
         )
         .orderBy([
-          {column: 'glucose.dateTime', order: 'asc'},
+          {column: 'bgd.dateTime', order: 'asc'},
         ])
         .then((glucoses) => {
           if (glucoses.length) {
@@ -72,71 +75,85 @@ class GlucoseController {
 
   // GET GLUCOSE BY ID
   static getGlucoseById = async (req, res) => {
-    const id = Number.parseInt(req.params.id);
-    await database('glucose')
-        .where('glucose.id', id)
-        .join('users', 'users.id', 'glucose.user_id')
-        .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
+    let id = 0;
+    try {
+      id = Number.parseInt(req.params.id);
+    } catch {
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
+    }
+
+    await database('blood_glucose_diary as bgd')
+        .where('bgd.id', id)
+        .join('users', 'users.id', 'bgd.user_id')
+        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
         .select(
-            'glucose.id',
+            'bgd.id',
             'users.id as userId',
             'users.name as userName',
-            'glucose.glucose',
+            'bgd.glucose',
             'measurement_unity.description as unity',
-            'glucose.dateTime',
+            'bgd.dateTime',
             'marker_meal.description as markerMeal',
-            'glucose.created_at',
-            'glucose.updated_at',
+            'bgd.created_at',
+            'bgd.updated_at',
         )
         .then((glucoses) => {
           if (glucoses.length) {
-            res.status(200).json(glucoses);
+            res.status(200).json(glucoses[0]);
           } else {
             res.status(404).json({message: Messages.NOTHING_FOUND});
           }
         });
   };
 
-  // GET GLUCOSE READINGS BY MARKER MEAL ID
-  static getGlucoseReadingsByMarkerMealId = async (req, res) => {
-    const markermealid = Number.parseInt(req.params.markermealid);
-    await database('glucose')
-        .where('glucose.markermeal_id', markermealid)
-        .join('users', 'users.id', 'glucose.user_id')
-        .join('marker_meal', 'marker_meal.id', 'glucose.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'glucose.unity_id')
+  // GET GLUCOSE RECORDS BY MARKER MEAL ID
+  static getGlucoseRecordsByMarkerMealId = async (req, res) => {
+    let markermealid = 0;
+    try {
+      markermealid = Number.parseInt(req.params.markermealid);
+    } catch {
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
+    }
+
+    await database('blood_glucose_diary as bgd')
+        .where('bgd.markermeal_id', markermealid)
+        .join('users', 'users.id', 'bgd.user_id')
+        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
         .select(
-            'glucose.id',
+            'bgd.id',
             'users.id as userId',
             'users.name as userName',
-            'glucose.glucose',
+            'bgd.glucose',
             'measurement_unity.description as unity',
-            'glucose.dateTime',
+            'bgd.dateTime',
             'marker_meal.description as markerMeal',
-            'glucose.created_at',
-            'glucose.updated_at',
+            'bgd.created_at',
+            'bgd.updated_at',
         )
         .orderBy([
-          {column: 'glucose.dateTime', order: 'asc'},
+          {column: 'bgd.dateTime', order: 'asc'},
         ])
         .then((glucoses) => {
           if (glucoses.length) {
-            res.status(200).json(glucoses);
+            res.status(200).json(glucoses[0]);
           } else {
             res.status(404).json({message: Messages.NOTHING_FOUND});
           }
         });
   };
 
-  // CREATE NEW GLUCOSE READING
-  static createNewGlucoseReading = async (req, res) => {
-    await database('glucose')
+  // CREATE NEW GLUCOSE RECORD
+  static createNewGlucoseRecord = async (req, res) => {
+    await database('blood_glucose_diary')
         .insert(
             {
               user_id: req.body.userId,
               glucose: req.body.glucose,
-              unity_id: req.body.unityId,
+              glucose_unity_id: req.body.glucose_unity_id,
+              total_carbs: req.body.total_carbs,
+              carbs_unity_id: req.body.carbs_unity_id,
               dateTime: req.body.dateTime,
               markermeal_id: req.body.markerMealId,
             },
@@ -144,34 +161,42 @@ class GlucoseController {
               'id',
               'user_id',
               'glucose',
-              'unity_id',
+              'glucose_unity_id',
+              'total_carbs',
+              'carbs_unity_id',
               'dateTime',
               'markermeal_id',
               'created_at',
               'updated_at',
             ],
         )
-        .then((glucoses) => {
-          const glucose = glucoses[0];
-          res.json({glucose});
+        .then((records) => {
+          const glucoseRecord = records[0];
+          res.json({glucoseRecord});
         })
         .catch((err) => res.status(500).json({err}));
   };
 
-  // UPDATE GLUCOSE READING BY ID
-  static updateGlucoseReadingById = async (req, res) => {
-    const id = Number.parseInt(req.params.id);
+  // UPDATE GLUCOSE RECORD BY ID
+  static updateGlucoseRecordById = async (req, res) => {
+    let id = 0;
+    try {
+      id = Number.parseInt(req.params.id);
+    } catch {
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
+    }
 
     const glucose = {
       glucose: req.body.glucose,
-      unity_id: req.body.unityId,
-      dateTime: req.body.date,
+      glucose_unity_id: req.body.unityId,
+      total_carbs: req.body.total_carbs,
+      carbs_unity_id: req.body.carbs_unity_id,
       markermeal_id: req.body.markerMealId,
       updated_at: DateTimeUtil.getCurrentDateTime(),
     };
 
     try {
-      await database('glucose')
+      await database('blood_glucose_diary')
           .where('id', id)
           .update({glucose})
           .then((numAffectedRegisters) => {
@@ -189,12 +214,17 @@ class GlucoseController {
     }
   };
 
-  // DELETE GLUCOSE READING BY ID
-  static deleteGlucoseReadingById = async (req, res) => {
-    const id = Number.parseInt(req.params.id);
+  // DELETE GLUCOSE RECORD BY ID
+  static deleteGlucoseRecordById = async (req, res) => {
+    let id = 0;
+    try {
+      id = Number.parseInt(req.params.id);
+    } catch {
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
+    }
 
     if (id > 0) {
-      database('glucose')
+      database('blood_glucose_diary')
           .where('id', id)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
@@ -213,12 +243,12 @@ class GlucoseController {
     }
   };
 
-  // DELETE ALL GLUCOSE READINGS OF A SPECIFIC USER.
-  static deleteGlucoseReadingsByUserId = async (req, res) => {
+  // DELETE ALL GLUCOSE RECORDS OF A SPECIFIC USER.
+  static deleteGlucoseRecordsByUserId = async (req, res) => {
     const userId = req.params.userId;
 
     if (userId) {
-      database('glucose')
+      database('blood_glucose_diary')
           .where('user_id', userId)
           .del()
           .then(res.status(200).json({message: Messages.REGISTER_DELETED}))

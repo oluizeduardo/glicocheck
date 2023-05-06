@@ -226,58 +226,112 @@
               </section>
           </main>
 
-          <!-- MODAL NEW GLUCOSE ENTER -->
+          <!-- MODAL NEW ENTRY -->
           <div class="modal fade" id="modalNewEnter">
-            <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-dialog modal-md modal-dialog-centered">
               <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                  <h4 class="modal-title" title="Tooltip">New enter</h4>
+                  <h4 class="modal-title" title="Tooltip">New entry</h4>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
                 </div>          
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                  <main class="form-input w-100 m-auto"> 
-                    <form>
-                      <div class="form-floating">
-                        <input type="number" class="form-control square-bottom-borders" id="field_Glucose" 
-                              placeholder="Glucose" min="20" max="999" autocomplete="off" required>
-                        <label for="field_Glucose">Glucose level</label>
-                      </div>
-                      <div class="form-floating">
-                        <input type="datetime-local" class="form-control square-borders" id="field_Date" placeholder="Date" required>
-                        <label for="field_Date">Date and time</label>
+                  <main class="w-100 m-auto form-input" style="padding-bottom: 0%;"> 
+                    <div>
+                      <!-- TABS -->
+                      <ul class="m-0 nav nav-fill nav-justified nav-tabs" id="myTab" role="tablist"> 
+                        
+                        <!-- TAB GLUCOSE READING -->
+                        <li class="nav-item" role="presentation"> 
+                          <button class="active nav-link" 
+                            id="glucose-tab" data-bs-toggle="tab" 
+                            data-bs-target="#home" type="button" 
+                            role="tab" aria-controls="home" 
+                            aria-selected="true" title="New glucose reading"> 
+                            <span data-feather="droplet" class="align-middle"></span>
+                          </button> 
+                        </li> 
+          
+                        <!-- TAB CARBS COUNTING -->
+                        <li class="nav-item" role="presentation"> 
+                          <button class="nav-link" 
+                            id="carbscounting-tab" data-bs-toggle="tab" 
+                            data-bs-target="#profile" type="button" 
+                            role="tab" aria-controls="profile" 
+                            aria-selected="false" title="Carbohydrate counting"> 
+                            <span data-feather="coffee" class="align-middle"></span>
+                          </button> 
+                        </li>               
+                      </ul>
+                    </div>
+
+                    <!-- CONTENT PANELS -->
+                    <div class="tab-content"> 
+
+                      <!-- NEW GLUCOSE READING PANEL-->
+                      <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="glucose-tab"> 
+                        <div class="mt-3">
+                          <div class="form-floating">
+                            <input type="number" class="form-control square-bottom-borders" id="field_Glucose" 
+                                  placeholder="Glucose" min="20" max="999" autocomplete="off" required>
+                            <label for="field_Glucose">Glucose level</label>
+                          </div>
+                          <div class="form-floating">
+                            <input type="datetime-local" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                            <label for="field_Date">Date and time</label>
+                          </div>
+
+                          <div class="form-floating">
+                            <select class="form-select square-top-borders" id="field_Markermeal" aria-label="Floating label select example">
+                              <option selected>SELECT...</option>
+                              <option value="1">Fasting</option>
+                              <option value="2">Before breakfast</option>
+                              <option value="3">After breakfast</option>
+                              <option value="4">Before lunch</option>
+                              <option value="5">After lunch</option>
+                              <option value="6">Before dinner</option>
+                              <option value="7">After dinner</option>
+                              <option value="8">Before sleeping</option>
+                            </select>
+                            <label for="field_Markermeal">Marker meal</label>
+                          </div>
+                        </div>
                       </div>
 
-                      <div class="form-floating">
-                        <select class="form-select square-top-borders" id="field_Markermeal" aria-label="Floating label select example">
-                          <option selected>SELECT...</option>
-                          <option value="1">Fasting</option>
-                          <option value="2">Before breakfast</option>
-                          <option value="3">After breakfast</option>
-                          <option value="4">Before lunch</option>
-                          <option value="5">After lunch</option>
-                          <option value="6">Before dinner</option>
-                          <option value="7">After dinner</option>
-                          <option value="8">Before sleeping</option>
-                        </select>
-                        <label for="field_Markermeal">Marker meal</label>
-                      </div>
-
-                    </form>
+                      <!-- CARBS COUNTING PANEL -->
+                      <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="carbscounting-tab"> 
+                        <div class="mt-3">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="field_Food" placeholder="Food" autocomplete="off">
+                            <label for="field_Food">Food</label>
+                          </div>
+                          <ol class="list-group mt-2 mb-3 scrollablePanel" id="panelListFood"></ol>
+                        </div> 
+                        <span style="font-size: 20px;">
+                          <span style="font-weight: bold;">Total Carbs: </span>
+                            <span class="ps-2 pe-2 total-carbs-background">
+                              <span id="labelTotalCarbs">0</span>g
+                              <input type="hidden" id="field_TotalCarbs">
+                            </span>
+                        </span>
+                        <div class="text-center mt-3">
+                          <div id="edamam-badge" data-color="badge"></div>
+                        </div>
+                      </div> 
+                    </div>
                   </main>
                 </div>
 
                 <!-- Modal footer -->
-                <div class="modal-footer text-center">
+                <div class="modal-footer text-center" style="margin-top: 0px;">
                   <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancel">
                     <span data-feather="x" class="align-middle"></span>Cancel</button>
                   <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSave">
                     <span data-feather="save" class="align-middle"></span>Save</button>
                 </div>
-
               </div>
             </div>
           </div>
@@ -345,11 +399,20 @@
     crossorigin="anonymous"></script>
     <!-- FILL DIARY TABLE -->
     <script src="./includes/js/diary.js" defer></script>
-    <!-- NEW GLUCOSE ENTER -->
-    <script src="./includes/js/newEnter.js" defer></script>
+    <!-- NEW ENTRY -->
+    <script src="./includes/js/newEntry.js" defer></script>
     <!-- HTML2PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" 
     integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" 
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      function removeItem(buttom, carbohydrate) {
+        const item = buttom.parentNode;
+        item.parentNode.removeChild(item);
+        totalCarbs -= carbohydrate;
+        labelTotalCarbs.textContent = totalCarbs;
+        fieldTotalCarbs.value = totalCarbs;
+      }
+    </script>
   </body>
 </html>

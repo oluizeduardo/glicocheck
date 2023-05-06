@@ -175,6 +175,11 @@ body {
   background: rgb(245, 223, 223);
 }
 
+.total-carbs-background{
+  color: red; 
+  background: #dee2e6;
+}
+
 @media (max-width: 500px) {
   .header-visibility{
     display: flex;
@@ -201,6 +206,9 @@ body {
   }
   .sidebar {
     background: var(--sidebar-secondary-color);
+  }
+  .scrollablePanel{
+    max-height: 150px;
   }
 }
 
