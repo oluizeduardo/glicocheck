@@ -326,14 +326,5 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- PRINT REPORT -->
     <script src="./includes/js/printReport.js"></script>
-    <script>
-      function removeItem(buttom, carbohydrate) {
-        const item = buttom.parentNode;
-        item.parentNode.removeChild(item);
-        totalCarbs -= carbohydrate;
-        labelTotalCarbs.textContent = totalCarbs;
-        fieldTotalCarbs.value = totalCarbs;
-      }
-    </script>
   </body>
 </html>

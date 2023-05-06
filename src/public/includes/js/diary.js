@@ -4,8 +4,7 @@ const HTTP_NOT_FOUND = 404;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 /**
- * Read from the database the list of glucose readings
- * of a specific user.
+ * Read from the database the list of glucose records of a specific user.
  */
 function getGlucoseReadingsByUserId() {
   const xmlhttp = new XMLHttpRequest();
@@ -13,7 +12,7 @@ function getGlucoseReadingsByUserId() {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
-          document.getElementById('diary-table-body').deleteRow(0);
+          deleteFirstTableRow();
           fillGlucoseDiaryTable(xmlhttp.responseText);
           fillProrgessBarGlucoseDistribution();
           break;
@@ -35,7 +34,7 @@ function getGlucoseReadingsByUserId() {
   sendGETToGlucose(xmlhttp);
 }
 /**
- * Sends a GET request to recover the list of glucose readings
+ * Sends a GET request to recover the list of glucose records
  * of the online user.
  * @param {XMLHttpRequest} xmlhttp The request object.
  */
@@ -48,8 +47,23 @@ function sendGETToGlucose(xmlhttp) {
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
   } else {
-    throw Error('Authentication token not found.');
+    const message = `Error consulting blood glucose diary data. 
+    Please do the login again.`;
+    swal({
+      title: 'Error',
+      text: message,
+      icon: 'error',
+    }).then(() => {
+      logOut();
+    });
   }
+}
+/**
+ * Before printing values on the table, remove the
+ * first table line wich contains a default message.
+ */
+function deleteFirstTableRow() {
+  document.getElementById('diary-table-body').deleteRow(0);
 }
 /**
  * Retrives the JWT token in the session storage.
@@ -64,46 +78,60 @@ function getJwtToken() {
  */
 function fillGlucoseDiaryTable(responseText) {
   const registers = JSON.parse(responseText);
-  const diaryTable = document.getElementById('glucoseDiary')
-      .getElementsByTagName('tbody')[0];
+  const diaryTable = getDiaryTable();
 
   for (i=0; i < registers.length; i++) {
-    const dateTime = registers[i].dateTime;
-    const glucoseValue = registers[i].glucose;
-    addNewValueIntoTheTable(diaryTable, glucoseValue, dateTime);
+    const specificData = getSpecificData(registers[i]);
+    addNewRegisterIntoTheTable(diaryTable, specificData);
   }
 }
-
-let currentDateOnTableRow = '';
-let currentTableRow;
-
 /**
- * Adds a new glucose reading value into the diary table.
- * The readings made in the same day will be distributed in the
- * same line on the table depending on the time.
- * @param {HTMLElement} diaryTable The HTML element representing the table.
- * @param {Number} glucoseValue The glucose value that should
- * be printed on the table.
- * @param {string} dateTime The date and time when this reading was made.
+ * @return {HTMLElement} The glucose diary table body element.
  */
-function addNewValueIntoTheTable(diaryTable, glucoseValue, dateTime) {
-  const date = dateTime.slice(0, 10);
-  if (date !== currentDateOnTableRow) {
-    currentTableRow = createTR(glucoseValue, dateTime);
+function getDiaryTable() {
+  return document.getElementById('glucoseDiary')
+      .getElementsByTagName('tbody')[0];
+}
+/**
+ * Gets in JSON format the specific data to be printed on the diary table.
+ * @param {Object} register
+ * @return {JSON} A JSON object.
+ */
+function getSpecificData(register) {
+  return {
+    dateTime: register.dateTime,
+    glucoseValue: register.glucose,
+    totalCarbs: register.totalCarbs,
+  };
+}
+
+let currentTableRow;
+let currentDateOnCurrentTableRow = '';
+
+/**
+ * Adds a new glucose diary register into the table.
+ * The blood glucose readings made in the same day will be
+ * distributed in the same line on the table depending on the time.
+ * @param {HTMLElement} diaryTable The HTML element representing the table.
+ * @param {JSON} specificData Specific data to be printed on the table.
+ */
+function addNewRegisterIntoTheTable(diaryTable, specificData) {
+  const date = specificData.dateTime.slice(0, 10);
+  // If it's the same date, print it on the same table row.
+  if (date !== currentDateOnCurrentTableRow) {
+    currentTableRow = createTR(specificData);
     diaryTable.appendChild(currentTableRow);
-    currentDateOnTableRow = date;
+    currentDateOnCurrentTableRow = date;
   } else {
-    setGlucoseValueBasedOnTime(currentTableRow, glucoseValue, dateTime);
+    setGlucoseRegisterBasedOnTime(currentTableRow, specificData);
   }
 }
 /**
- * Creates a new TR HTML element.
- * @param {Number} glucoseValue The glucose value that should
- * be printed on the table.
- * @param {string} dateTime The date and time when this reading was made.
+ * Creates a new TR HTML element populated with specific data.
+ * @param {JSON} specificData Specific data to be printed on the table.
  * @return {Element} HTML element 'tr'.
  */
-function createTR(glucoseValue, dateTime) {
+function createTR(specificData) {
   const newTR = document.createElement('tr');
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
@@ -126,19 +154,18 @@ function createTR(glucoseValue, dateTime) {
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
-  setGlucoseValueBasedOnTime(newTR, glucoseValue, dateTime);
+  setGlucoseRegisterBasedOnTime(newTR, specificData);
   return newTR;
 }
 /**
  * Creates an instance of "td" element.
- * @param {string} data The text that should be printed inside td element.
- * @param {string} cssClass The CSS class.
+ * @param {string} text The text that should be printed inside td element.
  * @return {Element} HTML element 'td'.
  */
-function createTD(data, cssClass='td') {
+function createTD(text) {
   const td = document.createElement('td');
-  td.textContent = data;
-  td.classList.add(cssClass);
+  td.textContent = text;
+  td.classList.add('td');
   return td;
 }
 /**
@@ -146,17 +173,23 @@ function createTD(data, cssClass='td') {
  * when this glucose reading was recorded.
  * @param {HTMLElement} tr The table line where the glucose.
  * value will be printed.
- * @param {Number} glucoseValue The value to be showed on the table.
- * @param {string} dateTime A value representing the date and time when the
- * glucose reading was recorded.
+ * @param {JSON} specificData Specific data to be printed on the table.
  */
-function setGlucoseValueBasedOnTime(tr, glucoseValue, dateTime) {
+function setGlucoseRegisterBasedOnTime(tr, specificData) {
+  const hour = getHour(specificData.dateTime);
+  const listOfTDs = tr.querySelectorAll('td');
+  fillColumnDate(listOfTDs[0], specificData.dateTime);
+  fillColumnGlycemia(listOfTDs, hour, specificData.glucoseValue);
+  fillColumnCarbohydrate(listOfTDs, hour, specificData.totalCarbs);
+}
+/**
+ * Extracts from a string a number representing the hour.
+ * @param {string} dateTime Date and time in string format.
+ * @return {Number} The hour in number format.
+ */
+function getHour(dateTime) {
   const time = dateTime.slice(-5);
-  const hour = Number.parseInt(time.slice(0, 2));
-  const collection = tr.querySelectorAll('td');
-  fillColumnDate(collection[0], dateTime);
-  const element = collection[getIndex(hour)];
-  element.appendChild(createDiv(glucoseValue));
+  return Number.parseInt(time.slice(0, 2));
 }
 /**
  * Fill the column responsible to receive information about the date.
@@ -180,6 +213,32 @@ function fillColumnDate(element, dateTime) {
   element.appendChild(createSmall(dateTime));
 }
 /**
+ * Fill the column glycemia.
+ * @param {Array} tdElements List of table TDs.
+ * @param {Number} hour The hour when the glucose value was recorded.
+ * @param {Number} glucoseValue The value to be printed on the table.
+ */
+function fillColumnGlycemia(tdElements, hour, glucoseValue) {
+  const element = tdElements[getIndexGlycemiaTD(hour)];
+  element.appendChild(createDiv(glucoseValue));
+}
+/**
+ * Fill the column with the total amount of carbohydrate.
+ * @param {Array} tdElements List of table TDs.
+ * @param {Number} hour The hour when the glucose value was recorded.
+ * @param {Number} totalCarbs The value to be printed on the table.
+ */
+function fillColumnCarbohydrate(tdElements, hour, totalCarbs) {
+  const indexTD = getIndexCarbsTD(hour);
+  if (indexTD > 0) {
+    const element = tdElements[indexTD];
+    if (totalCarbs === 0) {
+      totalCarbs = '';
+    }
+    element.innerText = totalCarbs;
+  }
+}
+/**
  * Creates a small element with a date inside.
  * @param {string} dateTime A value representing the date and time when the
  * glucose reading was recorded.
@@ -192,8 +251,8 @@ function createSmall(dateTime) {
 }
 /**
  * This function adapts the string showed in the X axe of the chart.
- * @param {string} value The string in the date and time format.
- * @return {string} The date in simplified text.
+ * @param {string} value A string in the date and time format.
+ * @return {string} The date in the format dd/MM/yyyy.
  */
 function adaptLabelDate(value) {
   const fullDate = value.slice(0, 10);
@@ -218,9 +277,27 @@ function createDiv(glucoseValue) {
 /**
  * Gets an index based on the informed hour.
  * @param {Number} hour A number representing the hour.
+ * @return {Number} A number representing the index.
+ */
+function getIndexCarbsTD(hour) {
+  let index = -1;
+  if (hour >= 6 && hour < 8) {
+    index = 3;
+  } else if (hour >= 12 && hour < 14) {
+    index = 8;
+  } else if (hour >= 19 && hour < 21) {
+    index = 13;
+  } else if (hour >= 22) {
+    index = 18;
+  }
+  return index;
+}
+/**
+ * Gets an index based on the informed hour.
+ * @param {Number} hour A number representing the hour.
  * @return {Number} A number representing an index.
  */
-function getIndex(hour) {
+function getIndexGlycemiaTD(hour) {
   let index = 0;
   if (hour >= 0) {
     index = 19;
@@ -272,6 +349,9 @@ function getNumberOfRegisters() {
   );
 }
 
+const HYPOGLYCEMIA = 60;
+const HYPERGLYCEMIA = 160;
+
 /**
  * Applies style classes depending on the glucose value.
  * There are two different set of style classes: for hypoglycemia
@@ -287,10 +367,10 @@ function applyStyle(element, glucoseValue) {
     'rounded-circle',
     'p-2',
   ];
-  if (glucoseValue <= 60) {
+  if (glucoseValue <= HYPOGLYCEMIA) {
     styleClasses.push('bg-danger');
     qtdRegistersHipoglycemia++;
-  } else if (glucoseValue >= 160) {
+  } else if (glucoseValue >= HYPERGLYCEMIA) {
     styleClasses.push('bg-primary');
     qtdRegistersHyperglycemia++;
   } else {
@@ -300,8 +380,7 @@ function applyStyle(element, glucoseValue) {
   styleClasses.forEach((style) => element.classList.add(style));
 }
 /**
- * Fill the progressbar about the distribution
- * of glucose values.
+ * Fill the progressbar about the distribution of glucose values.
  */
 function fillProrgessBarGlucoseDistribution() {
   const pbHypo = document.getElementById('pbHypo');

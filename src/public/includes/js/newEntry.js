@@ -233,3 +233,15 @@ function createNewListItemHTML(food, carbohydrate, calories) {
 function addListItemElement(html) {
   panelListFood.innerHTML = panelListFood.innerHTML.concat(html);
 }
+/**
+ * Removes a list item.
+ * @param {HTMLElement} buttom The button which was clicked.
+ * @param {Number} carbohydrate The amount to be subtracted.
+ */
+function removeItem(buttom, carbohydrate) {
+  const item = buttom.parentNode;
+  item.parentNode.removeChild(item);
+  totalCarbs -= carbohydrate;
+  labelTotalCarbs.textContent = totalCarbs;
+  fieldTotalCarbs.value = totalCarbs;
+}
