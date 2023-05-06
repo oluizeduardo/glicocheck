@@ -3,6 +3,7 @@ const fieldGlucose = document.getElementById('field_Glucose');
 const fieldDate = document.getElementById('field_Date');
 const fieldMarkermeal = document.getElementById('field_Markermeal');
 const fieldFood = document.getElementById('field_Food');
+const fieldTotalCarbs = document.getElementById('field_TotalCarbs');
 
 const HTTP_CREATED = 200;
 const NAME_PAGE_DAIRY = 'diary.html';
@@ -70,10 +71,21 @@ function prepareJsonNewEnter() {
   return JSON.stringify({
     userId: getUserId(),
     glucose: fieldGlucose.value,
-    unityId: 1,
+    glucose_unity_id: 1, // mg/dL
+    total_carbs: getTotalCarbs(),
+    carbs_unity_id: 3, // grams (g)
     dateTime: fieldDate.value,
     markerMealId: fieldMarkermeal.selectedIndex,
   });
+}
+/**
+ * @return {Number} The total amount of carbohydrates.
+ */
+function getTotalCarbs() {
+  if (fieldTotalCarbs.value.trim()) {
+    return parseInt(fieldTotalCarbs.value);
+  }
+  return 0;
 }
 
 /**
@@ -192,6 +204,7 @@ async function addNewListItem(food) {
 function updateTotalCarbs(value) {
   totalCarbs += value;
   labelTotalCarbs.textContent = totalCarbs;
+  fieldTotalCarbs.value = totalCarbs;
 }
 /**
  * Creates the HTML string of a new list item.
