@@ -101,10 +101,15 @@ function fillGlucoseDiaryTable(responseText) {
  */
 function updateGlucoseIndicators(glucoseValue) {
   listOfGlucoseValues.push(glucoseValue);
-  if (glucoseValue < lowestGlucoseValue) {
+  if (listOfGlucoseValues.length === 1) {
     lowestGlucoseValue = glucoseValue;
-  } else if (glucoseValue > highestGlucoseValue) {
     highestGlucoseValue = glucoseValue;
+  } else {
+    if (glucoseValue < lowestGlucoseValue) {
+      lowestGlucoseValue = glucoseValue;
+    } else if (glucoseValue > highestGlucoseValue) {
+      highestGlucoseValue = glucoseValue;
+    }
   }
 }
 
