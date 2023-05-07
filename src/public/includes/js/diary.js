@@ -280,17 +280,11 @@ function createDiv(glucoseValue) {
  * @return {Number} A number representing the index.
  */
 function getIndexCarbsTD(hour) {
-  let index = -1;
-  if (hour >= 6 && hour < 8) {
-    index = 3;
-  } else if (hour >= 12 && hour < 14) {
-    index = 8;
-  } else if (hour >= 19 && hour < 21) {
-    index = 13;
-  } else if (hour >= 22) {
-    index = 18;
-  }
-  return index;
+  if (hour >= 22) return 18;
+  if (hour >= 19 && hour < 21) return 13;
+  if (hour >= 12 && hour < 14) return 8;
+  if (hour >= 6 && hour < 8) return 3;
+  return -1;
 }
 /**
  * Gets an index based on the informed hour.
@@ -298,39 +292,14 @@ function getIndexCarbsTD(hour) {
  * @return {Number} A number representing an index.
  */
 function getIndexGlycemiaTD(hour) {
-  let index = 0;
-  if (hour >= 0) {
-    index = 19;
-
-    if (hour >= 5) {
-      index = 1;
-
-      if (hour >= 8) {
-        index = 4;
-
-        if (hour >= 12) {
-          index = 6;
-
-          if (hour >= 14) {
-            index = 9;
-
-            if (hour >= 19) {
-              index = 11;
-
-              if (hour >= 21) {
-                index = 14;
-
-                if (hour >= 22) {
-                  index = 16;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  return index;
+  if (hour >= 22) return 16;
+  if (hour >= 21) return 14;
+  if (hour >= 19) return 11;
+  if (hour >= 14) return 9;
+  if (hour >= 12) return 6;
+  if (hour >= 8) return 4;
+  if (hour >= 5) return 1;
+  return 19;
 }
 
 let qtdRegistersHipoglycemia = 0;
@@ -349,7 +318,7 @@ function getNumberOfRegisters() {
   );
 }
 
-const HYPOGLYCEMIA = 60;
+const HYPOGLYCEMIA = 70;
 const HYPERGLYCEMIA = 160;
 
 /**

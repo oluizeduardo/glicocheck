@@ -210,7 +210,7 @@ function updateTotalCarbs(value) {
  * @param {string} food
  * @param {Number} carbohydrate
  * @param {Number} calories
- * @return {string} String of a new list item HTML element. 
+ * @return {string} String of a new list item HTML element.
  */
 function createNewListItemHTML(food, carbohydrate, calories) {
   return `<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
