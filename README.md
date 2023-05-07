@@ -43,6 +43,8 @@ A `.env` file is required on the root folder and must contain the following key 
 | `EMAIL_USER`  | Email username for authentication.      |
 | `EMAIL_PASS`  | The email password for authentication. |
 | `SECRET_KEY`  | Any secret key encrypted using BCrypt.<br>Suggested tool: https://bcrypt-generator.com/      |
+| `EDAMAM_APP_ID`  | Edamam `app id` to consult the nutritional table. https://www.edamam.com/      |
+| `EDAMAM_APP_KEY`  | Edamam `app key`.      |
 
 # How to run locally
 - Clone this project.
