@@ -7,7 +7,7 @@ const confirmPassword = document.getElementById('field_ConfirmPassword');
 const SUCEESS = 201;
 const BAD_REQUEST = 400;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
-const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.png';
+const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';
 
 btnRegister.addEventListener('click', (event) => {
   event.preventDefault();
