@@ -258,6 +258,36 @@ async function loadGenderList() {
 }
 
 /**
+ * Loads the diabetes type list.
+ */
+async function loadDiabetesTypeList() {
+  const url = `/api/diabetestype/`;
+  const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
+  const myInit = {method: 'GET', headers: myHeaders};
+  const response = await fetch(url, myInit);
+
+  const {status} = response;
+
+  switch (status) {
+    case 200:
+      const data = await response.json();
+      data.forEach((item) => {
+        const html = createNewSelectOptionHTML(item.id, item.description);
+        addSelectOptionElement(fieldDiabetesType, html);
+      });
+      break;
+
+    case 401:
+      console.log('Session expired.');
+      break;
+
+    case 404:
+      console.log('No itens for diabetes type list.');
+      break;
+  }
+}
+
+/**
  * Create a new HTML element to be a select option.
  * @param {Number} value The return value for this option.
  * @param {string} description The string that will be printed.
@@ -278,3 +308,4 @@ function addSelectOptionElement(selectElement, html) {
 
 loadUserInfos();
 loadGenderList();
+loadDiabetesTypeList();

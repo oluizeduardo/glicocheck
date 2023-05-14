@@ -2,47 +2,46 @@ const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
 /**
- * GenderController.
+ * DiabetesTypeController.
  */
-class GenderController {
-  // GET ALL GENDERS
-  static getAllGenders = async (req, res) => {
-    database('gender')
+class DiabetesTypeController {
+  // GET ALL TYPES
+  static getAllTypes = async (req, res) => {
+    database('diabetes_type')
         .select(
-            'gender.id',
-            'gender.description',
-            'gender.created_at',
-            'gender.updated_at',
+            'diabetes_type.id',
+            'diabetes_type.description',
+            'diabetes_type.created_at',
+            'diabetes_type.updated_at',
         )
-        .then((genders) => {
-          if (genders.length > 0) {
-            res.status(200).json(genders);
+        .then((types) => {
+          if (types.length > 0) {
+            res.status(200).json(types);
           } else {
             res.status(404).json({message: Messages.NOTHING_FOUND});
           }
         });
   };
 
-  // CREATE NEW GENDER
-  static createNewGender = async (req, res) => {
-    await database('gender')
+  // CREATE NEW TYPE
+  static createNewType = async (req, res) => {
+    await database('diabetes_type')
         .insert(
             {
               description: req.body.description,
             },
             ['id', 'description', 'created_at', 'updated_at'],
         )
-        .then((genders) => {
-          const gender = genders[0];
-          res.status(201).json(gender);
+        .then((types) => {
+          res.status(201).json(types[0]);
         })
         .catch((err) =>
-          res.status(500).json({message: Messages.ERROR_CREATE_GENDER}),
+          res.status(500).json({message: Messages.ERROR_CREATE_DIABETES_TYPE}),
         );
   };
 
-  // GET GENDER BY ID
-  static getGenderById = async (req, res) => {
+  // GET DIABETES TYPE BY ID
+  static getTypeById = async (req, res) => {
     let id = 0;
     try {
       id = Number.parseInt(req.params.id);
@@ -50,25 +49,25 @@ class GenderController {
       return res.status(404).json({message: Messages.NOTHING_FOUND});
     }
 
-    database('gender')
-        .where('gender.id', id)
+    database('diabetes_type')
+        .where('diabetes_type.id', id)
         .select(
-            'gender.id',
-            'gender.description',
-            'gender.created_at',
-            'gender.updated_at',
+            'diabetes_type.id',
+            'diabetes_type.description',
+            'diabetes_type.created_at',
+            'diabetes_type.updated_at',
         )
-        .then((genders) => {
-          if (genders.length > 0) {
-            res.status(200).json(genders[0]);
+        .then((types) => {
+          if (types.length > 0) {
+            res.status(200).json(types[0]);
           } else {
             res.status(404).json({message: Messages.NOTHING_FOUND});
           }
         });
   };
 
-  // UPDATE GENDER BY ID
-  static updateGenderById = async (req, res) => {
+  // UPDATE TYPE BY ID
+  static updateTypeById = async (req, res) => {
     let id = 0;
     try {
       id = Number.parseInt(req.params.id);
@@ -76,32 +75,32 @@ class GenderController {
       return res.status(404).json({message: Messages.NOTHING_FOUND});
     }
 
-    const gender = {
+    const newType = {
       description: req.body.description,
       updated_at: DateTimeUtil.getCurrentDateTime(),
     };
 
     try {
-      await database('gender')
+      await database('diabetes_type')
           .where('id', id)
-          .update(gender)
+          .update(newType)
           .then((numAffectedRegisters) => {
             if (numAffectedRegisters == 0) {
               res.status(404).json({message: Messages.NOTHING_FOUND});
             } else {
-              res.status(201).json(gender);
+              res.status(201).json(newType);
             }
           });
     } catch (err) {
       return res.status(500).json({
-        message: Messages.ERROR_UPDATING_GENDER,
+        message: Messages.ERROR_UPDATING_DIABETES_TYPE,
         details: `${err.message}`,
       });
     }
   };
 
-  // DELETE GENDER BY ID
-  static deleteGenderById = async (req, res) => {
+  // DELETE TYPE BY ID
+  static deleteTypeById = async (req, res) => {
     let id = 0;
     try {
       id = Number.parseInt(req.params.id);
@@ -109,21 +108,23 @@ class GenderController {
       return res.status(404).json({message: Messages.NOTHING_FOUND});
     }
 
-    database('gender')
-        .where('gender.id', id)
-        .select('gender.id')
-        .then((genders) => {
-          if (genders.length > 0) {
-            const gender = genders[0];
-            database('gender')
-                .where('id', gender.id)
+    database('diabetes_type')
+        .where('diabetes_type.id', id)
+        .select('diabetes_type.id')
+        .then((types) => {
+          if (types.length > 0) {
+            const type = types[0];
+            database('diabetes_type')
+                .where('id', type.id)
                 .del()
-                .then(res.status(200).json({message: Messages.GENDER_DELETED}))
+                .then(res.status(200).json({
+                  message: Messages.DIABETES_TYPE_DELETED
+                }))
                 .catch((err) => {
                   res
                       .status(500)
                       .json({
-                        message: Messages.ERROR_DELETE_GENDER,
+                        message: Messages.ERROR_DELETE_DIABETES_TYPE,
                         details: `${err.message}`,
                       });
                 });
@@ -134,4 +135,4 @@ class GenderController {
   };
 }
 
-module.exports = GenderController;
+module.exports = DiabetesTypeController;

@@ -27,6 +27,12 @@ class Messages {
   static ERROR_CREATE_GENDER = 'Error trying to insert a new gender.';
   static ERROR_UPDATING_GENDER = 'Error updating gender.';
 
+  static NEW_DIABETES_TYPE_CREATED = 'New diabetes type created.';
+  static DIABETES_TYPE_DELETED = 'Diabetes type deleted.';
+  static ERROR_DELETE_DIABETES_TYPE = 'Error trying to delete diabetes type.';
+  static ERROR_CREATE_DIABETES_TYPE = 'Error trying to insert a new diabetes type.';
+  static ERROR_UPDATING_DIABETES_TYPE = 'Error updating diabetes type.';
+
   static ERROR_UPDATE_GLUCOSE = 'Error trying to update glucose reading.';
   static ERROR_DELETE_GLUCOSE = 'Error trying to delete glucose reading.';
 
