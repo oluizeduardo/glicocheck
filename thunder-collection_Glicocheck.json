@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Glicocheck",
-    "dateExported": "2023-05-14T20:24:23.683Z",
+    "dateExported": "2023-05-14T20:56:45.395Z",
     "version": "1.1",
     "folders": [
         {
@@ -59,6 +59,13 @@
             "containerId": "",
             "created": "2023-05-14T20:06:07.907Z",
             "sortNum": 80000
+        },
+        {
+            "_id": "90f01f95-0c75-42a2-9ad8-99233d65250c",
+            "name": "Blood Type",
+            "containerId": "",
+            "created": "2023-05-14T20:53:38.143Z",
+            "sortNum": 90000
         }
     ],
     "requests": [
@@ -531,6 +538,24 @@
             "tests": []
         },
         {
+            "_id": "c4233b95-48a2-4de7-bb84-faf1bb53764b",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "90f01f95-0c75-42a2-9ad8-99233d65250c",
+            "name": "Get Types",
+            "url": "{{LOCALHOST}}/api/bloodtype",
+            "method": "GET",
+            "sortNum": 220000,
+            "created": "2023-05-14T20:53:38.143Z",
+            "modified": "2023-05-14T20:55:10.813Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTc2ODYsImV4cCI6MTY4NDA5OTQ4Nn0.1fO_X-mqpXg0npuGfrHN_AFplnG-buov2nPk-e4vd7U"
+            },
+            "tests": []
+        },
+        {
             "_id": "d2f3c0f6-a1eb-4554-a463-1e2ed8abbf6a",
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "94ec2669-485e-40fa-a564-6be5162c605f",
@@ -577,6 +602,29 @@
             "tests": []
         },
         {
+            "_id": "b95e59ed-a91a-4162-9187-2b77ffdf9c64",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "90f01f95-0c75-42a2-9ad8-99233d65250c",
+            "name": "Add Type",
+            "url": "{{LOCALHOST}}/api/bloodtype",
+            "method": "POST",
+            "sortNum": 230000,
+            "created": "2023-05-14T20:53:38.144Z",
+            "modified": "2023-05-14T20:55:30.347Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"description\": \"ABC+\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTc2ODYsImV4cCI6MTY4NDA5OTQ4Nn0.1fO_X-mqpXg0npuGfrHN_AFplnG-buov2nPk-e4vd7U"
+            },
+            "tests": []
+        },
+        {
             "_id": "70f4ca4e-ad96-41c0-ba04-fcf6f988051b",
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "ee6bb683-5cd5-4daa-9f21-b1bc6fff556c",
@@ -596,6 +644,29 @@
             "auth": {
                 "type": "bearer",
                 "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTQ4MzAsImV4cCI6MTY4NDA5NjYzMH0.UeNB0bTaZci11SAVVjyr1vAUGFjMDTgMeDnoigQYjOE"
+            },
+            "tests": []
+        },
+        {
+            "_id": "5718d637-9c0b-4b2c-a704-05b5e16a82b5",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "90f01f95-0c75-42a2-9ad8-99233d65250c",
+            "name": "Update Type",
+            "url": "{{LOCALHOST}}/api/bloodtype/9",
+            "method": "PUT",
+            "sortNum": 250000,
+            "created": "2023-05-14T20:53:38.145Z",
+            "modified": "2023-05-14T20:56:05.767Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"description\": \"FGH+\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTc2ODYsImV4cCI6MTY4NDA5OTQ4Nn0.1fO_X-mqpXg0npuGfrHN_AFplnG-buov2nPk-e4vd7U"
             },
             "tests": []
         },
@@ -637,6 +708,24 @@
             "auth": {
                 "type": "bearer",
                 "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTQ4MzAsImV4cCI6MTY4NDA5NjYzMH0.UeNB0bTaZci11SAVVjyr1vAUGFjMDTgMeDnoigQYjOE"
+            },
+            "tests": []
+        },
+        {
+            "_id": "3bfca73f-ec32-4235-8b31-7424a0b6be97",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "90f01f95-0c75-42a2-9ad8-99233d65250c",
+            "name": "Delete Type",
+            "url": "{{LOCALHOST}}/api/bloodtype/9",
+            "method": "DELETE",
+            "sortNum": 260000,
+            "created": "2023-05-14T20:53:38.146Z",
+            "modified": "2023-05-14T20:56:26.940Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTc2ODYsImV4cCI6MTY4NDA5OTQ4Nn0.1fO_X-mqpXg0npuGfrHN_AFplnG-buov2nPk-e4vd7U"
             },
             "tests": []
         },
