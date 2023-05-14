@@ -227,4 +227,54 @@ async function generateDataURL(file) {
   });
 }
 
+/**
+ * Loads the gender list.
+ */
+async function loadGenderList() {
+  const url = `/api/gender/`;
+  const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
+  const myInit = {method: 'GET', headers: myHeaders};
+  const response = await fetch(url, myInit);
+
+  const {status} = response;
+
+  switch (status) {
+    case 200:
+      const data = await response.json();
+      data.forEach((item) => {
+        const html = createNewSelectOptionHTML(item.id, item.description);
+        addSelectOptionElement(fieldGender, html);
+      });
+      break;
+
+    case 401:
+      console.log('Session expired.');
+      break;
+
+    case 404:
+      console.log('No itens for gender list.');
+      break;
+  }
+}
+
+/**
+ * Create a new HTML element to be a select option.
+ * @param {Number} value The return value for this option.
+ * @param {string} description The string that will be printed.
+ * @return {string} String HTML of a new select option.
+ */
+function createNewSelectOptionHTML(value, description) {
+  return `<option value="${value}">${description}</option>`;
+}
+/**
+ * Adds a new select option.
+ * @param {HTMLElement} selectElement The select element that will
+ * receive the new option.
+ * @param {string} html The string HTML of the select option.
+ */
+function addSelectOptionElement(selectElement, html) {
+  selectElement.innerHTML = selectElement.innerHTML.concat(html);
+}
+
 loadUserInfos();
+loadGenderList();

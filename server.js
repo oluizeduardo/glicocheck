@@ -10,6 +10,7 @@ const markerMealRouter = require('./src/routes/markerMealRouter');
 const securityRouter = require('./src/routes/securityRouter');
 const resetPasswordRouter = require('./src/routes/resetPasswordRouter');
 const carbsCountingRouter = require('./src/routes/carbsCountingRouter');
+const genderRouter = require('./src/routes/genderRouter');
 
 const app = express();
 // Disclosing the fingerprinting of this web technology.
@@ -27,6 +28,7 @@ app.use('/api/markermeal', markerMealRouter);
 app.use('/api/security', securityRouter);
 app.use('/api/reset', resetPasswordRouter);
 app.use('/api/carbscounting', carbsCountingRouter);
+app.use('/api/gender', genderRouter);
 
 app.use(express.urlencoded({extended: true}));
 app.use('/', express.static(path.join(__dirname, '/src/public')));

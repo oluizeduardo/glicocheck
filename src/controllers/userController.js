@@ -27,7 +27,7 @@ class UserController {
           if (users.length) {
             res.status(200).json(users);
           } else {
-            res.status(200).json({message: Messages.MESSAGE_NOTHING_FOUND});
+            res.status(200).json({message: Messages.NOTHING_FOUND});
           }
         });
   };
@@ -58,7 +58,7 @@ class UserController {
             const user = users[0];
             res.status(200).json({user});
           } else {
-            res.status(404).json({message: Messages.MESSAGE_NOTHING_FOUND});
+            res.status(404).json({message: Messages.NOTHING_FOUND});
           }
         });
   };
@@ -122,7 +122,7 @@ class UserController {
                 });
           } else {
             // User not found to delete.
-            res.status(404).json({message: Messages.MESSAGE_NOTHING_FOUND});
+            res.status(404).json({message: Messages.NOTHING_FOUND});
           }
         });
   };

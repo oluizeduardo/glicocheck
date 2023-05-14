@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Glicocheck",
-    "dateExported": "2023-04-09T04:58:42.979Z",
+    "dateExported": "2023-05-14T18:58:37.942Z",
     "version": "1.1",
     "folders": [
         {
@@ -20,7 +20,7 @@
         },
         {
             "_id": "fd9589d5-fe49-46fe-89c3-fd875295b932",
-            "name": "Glucose",
+            "name": "Blood Glucose Diary",
             "containerId": "",
             "created": "2022-07-25T00:50:18.654Z",
             "sortNum": 30000
@@ -38,6 +38,20 @@
             "containerId": "",
             "created": "2023-03-24T01:44:30.732Z",
             "sortNum": 50000
+        },
+        {
+            "_id": "03159ddd-4e61-4af6-9ccf-61ce9748a797",
+            "name": "Counting Carbs",
+            "containerId": "",
+            "created": "2023-05-05T00:26:53.017Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "94ec2669-485e-40fa-a564-6be5162c605f",
+            "name": "Genders",
+            "containerId": "",
+            "created": "2023-05-14T18:48:14.496Z",
+            "sortNum": 70000
         }
     ],
     "requests": [
@@ -50,7 +64,7 @@
             "method": "POST",
             "sortNum": 2500,
             "created": "2022-07-25T00:40:54.125Z",
-            "modified": "2023-04-07T14:41:12.430Z",
+            "modified": "2023-04-10T01:24:39.755Z",
             "headers": [],
             "params": [],
             "body": {
@@ -83,22 +97,22 @@
             "_id": "811ac594-abad-47ea-baf2-b886f8f98bc5",
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
-            "name": "Add glucose reading",
+            "name": "Add glucose record",
             "url": "{{LOCALHOST}}/api/glucose",
             "method": "POST",
             "sortNum": 10000,
             "created": "2022-07-25T00:50:31.613Z",
-            "modified": "2023-04-09T04:09:25.716Z",
+            "modified": "2023-05-06T15:04:38.623Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n    \"userId\": \"d7fe034b4b13b48f62abd13f534ebd19f8f1fd4d\",\n    \"glucose\": 79,\n    \"unityId\": 1,\n    \"dateTime\": \"2023-04-09T00:54\",\n    \"markerMealId\": 3\n}",
+                "raw": "{\n    \"userId\": \"04deb35bceeb4bcbdb2e66f013cdc2e2404ddc66\",\n    \"glucose\": 79,\n    \"glucose_unity_id\": 1,\n    \"total_carbs\": 40,\n    \"dateTime\": \"2023-04-09T00:54\",\n    \"markerMealId\": 3\n}",
                 "form": []
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTMyNDYsImV4cCI6MTY4MTAxNTA0Nn0.Z6PVPQfXktCN3RQBCdH_V4iod7Th_4s4B-IjLEnyYzM"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA0ZGViMzViY2VlYjRiY2JkYjJlNjZmMDEzY2RjMmUyNDA0ZGRjNjYiLCJpYXQiOjE2ODMzNDM4NjYsImV4cCI6MTY4MzM0NTY2Nn0.ckWV6bYi_jWVcN809Lk_lnLqpdpWaepFMTFwFcrkPBk"
             },
             "tests": []
         },
@@ -111,12 +125,12 @@
             "method": "GET",
             "sortNum": 12500,
             "created": "2022-07-25T00:42:42.924Z",
-            "modified": "2023-03-05T21:30:32.982Z",
+            "modified": "2023-04-14T01:42:08.261Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhmMmZjOTEzZTIyOTI0YjVkZjRmNWFiMjU3MzBhMTFmZTgzZTU0NjgiLCJpYXQiOjE2ODE0MzY1MjAsImV4cCI6MTY4MTQzODMyMH0.s8UOsiGy7bUhR0CCk79eIMyw2kAmbIkudgt9BtTKCxU"
             },
             "tests": []
         },
@@ -147,17 +161,17 @@
             "_id": "9059d958-76b9-4ed6-9fd6-c3dcb565f745",
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
-            "name": "Get all glucose readings",
+            "name": "Get all glucose record",
             "url": "{{LOCALHOST}}/api/glucose",
             "method": "GET",
             "sortNum": 20000,
             "created": "2022-07-25T01:07:05.824Z",
-            "modified": "2023-04-09T04:50:14.486Z",
+            "modified": "2023-05-06T03:33:53.522Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA0ZGViMzViY2VlYjRiY2JkYjJlNjZmMDEzY2RjMmUyNDA0ZGRjNjYiLCJpYXQiOjE2ODMzNDM4NjYsImV4cCI6MTY4MzM0NTY2Nn0.ckWV6bYi_jWVcN809Lk_lnLqpdpWaepFMTFwFcrkPBk"
             },
             "tests": []
         },
@@ -201,18 +215,14 @@
             "_id": "a8d104e3-406b-40a4-98cd-56a5a0c97f48",
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
-            "name": "Get glucose by id",
+            "name": "Get glucose record by id",
             "url": "{{LOCALHOST}}/api/glucose/1",
             "method": "GET",
             "sortNum": 30000,
             "created": "2022-07-25T02:43:22.528Z",
-            "modified": "2023-04-09T04:50:33.801Z",
+            "modified": "2023-05-06T03:39:56.255Z",
             "headers": [],
             "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
-            },
             "tests": []
         },
         {
@@ -224,13 +234,9 @@
             "method": "GET",
             "sortNum": 35000,
             "created": "2022-07-26T01:42:04.111Z",
-            "modified": "2023-04-09T04:50:53.916Z",
+            "modified": "2023-05-06T03:41:50.209Z",
             "headers": [],
             "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
-            },
             "tests": []
         },
         {
@@ -242,13 +248,9 @@
             "method": "GET",
             "sortNum": 37500,
             "created": "2022-07-27T02:02:56.945Z",
-            "modified": "2023-04-09T04:54:33.313Z",
+            "modified": "2023-05-06T03:42:40.222Z",
             "headers": [],
             "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
-            },
             "tests": []
         },
         {
@@ -279,21 +281,21 @@
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
             "name": "Update glucose by id",
-            "url": "{{LOCALHOST}}/api/glucose/34",
+            "url": "{{LOCALHOST}}/api/glucose/1",
             "method": "PUT",
             "sortNum": 65000,
             "created": "2022-07-25T02:17:27.604Z",
-            "modified": "2023-03-05T21:52:35.919Z",
+            "modified": "2023-05-06T15:04:50.655Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n    \"glucose\" : 130,\n    \"unityId\": 1,\n    \"date\": \"2022-05-01\",\n    \"hour\": \"09:30:00\",\n    \"markerMealId\": 3\n}",
+                "raw": "{\n    \"glucose\" : 130,\n    \"glucose_unity_id\": 1,\n    \"total_carbs\": 70,\n    \"marker_meal_id\": 3\n}",
                 "form": []
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA0ZGViMzViY2VlYjRiY2JkYjJlNjZmMDEzY2RjMmUyNDA0ZGRjNjYiLCJpYXQiOjE2ODMzNDM4NjYsImV4cCI6MTY4MzM0NTY2Nn0.ckWV6bYi_jWVcN809Lk_lnLqpdpWaepFMTFwFcrkPBk"
             },
             "tests": []
         },
@@ -302,34 +304,30 @@
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
             "name": "Delete glucose by user id",
-            "url": "{{LOCALHOST}}/api/glucose/user/d7fe034b4b13b48f62abd13f534ebd19f8f1fd4d",
+            "url": "{{LOCALHOST}}/api/glucose/user/04deb35bceeb4bcbdb2e66f013cdc2e2404ddc66",
             "method": "DELETE",
             "sortNum": 81250,
             "created": "2022-08-16T13:34:58.223Z",
-            "modified": "2023-04-09T04:55:07.682Z",
+            "modified": "2023-05-06T03:47:51.112Z",
             "headers": [],
             "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3ZmUwMzRiNGIxM2I0OGY2MmFiZDEzZjUzNGViZDE5ZjhmMWZkNGQiLCJpYXQiOjE2ODEwMTU1MDEsImV4cCI6MTY4MTAxNzMwMX0.hBoZv7YcKfEJW10FYN80tjowaK9PrqIyOV2VdB2hLiQ"
-            },
             "tests": []
         },
         {
             "_id": "4c0a20ae-3467-47e6-a59e-011b1eb59398",
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "fd9589d5-fe49-46fe-89c3-fd875295b932",
-            "name": "Delete glucose reading by id",
-            "url": "{{LOCALHOST}}/api/glucose/35",
+            "name": "Delete glucose record by id",
+            "url": "{{LOCALHOST}}/api/glucose/3",
             "method": "DELETE",
             "sortNum": 90000,
             "created": "2022-07-25T02:26:33.845Z",
-            "modified": "2023-03-05T21:35:29.189Z",
+            "modified": "2023-05-06T03:48:04.774Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjcsImlhdCI6MTY3ODA1MTU0NCwiZXhwIjoxNjc4MDUzMzQ0fQ.oOKQ-TIhiRqj34ANDuqRMuT3tKENlztrtrSq6QMP3-Q"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA0ZGViMzViY2VlYjRiY2JkYjJlNjZmMDEzY2RjMmUyNDA0ZGRjNjYiLCJpYXQiOjE2ODMzNDM4NjYsImV4cCI6MTY4MzM0NTY2Nn0.ckWV6bYi_jWVcN809Lk_lnLqpdpWaepFMTFwFcrkPBk"
             },
             "tests": []
         },
@@ -468,6 +466,83 @@
                 "type": "json",
                 "raw": "{\n  \"token\": \"token_here\",\n  \"email\": \"costaeduardoluiz@gmail.com\",\n  \"password\": \"123@@\"\n}",
                 "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "08ee625c-f4b1-4a7d-b745-d1546b790f6e",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "03159ddd-4e61-4af6-9ccf-61ce9748a797",
+            "name": "Carbs Counting",
+            "url": "{{LOCALHOST}}/api/carbscounting/1 bar of chocolate",
+            "method": "GET",
+            "sortNum": 200000,
+            "created": "2023-05-05T00:27:47.566Z",
+            "modified": "2023-05-05T01:01:47.135Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM3NTI3YzNiN2M1YWQyMDI0OTFkODBkNTAzZTEwNWIwYjYxZGFlYWMiLCJpYXQiOjE2ODMyNDg0MzgsImV4cCI6MTY4MzI1MDIzOH0.oWRDa6mMFlNbhe-N9tRWgwM8qZthBLpi9I2VBBrUCto"
+            },
+            "tests": []
+        },
+        {
+            "_id": "14396b51-5631-4dfc-b0d5-b4ba18f87e86",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "94ec2669-485e-40fa-a564-6be5162c605f",
+            "name": "Get Genders",
+            "url": "{{LOCALHOST}}/api/gender/",
+            "method": "GET",
+            "sortNum": 220000,
+            "created": "2023-05-14T18:48:32.761Z",
+            "modified": "2023-05-14T18:57:49.596Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTAxNzIsImV4cCI6MTY4NDA5MTk3Mn0.NIWvgyqXQB0N6Clqc7W405is5n_VGDebrDe1H2qFXQo"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d2f3c0f6-a1eb-4554-a463-1e2ed8abbf6a",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "94ec2669-485e-40fa-a564-6be5162c605f",
+            "name": "Add Gender",
+            "url": "{{LOCALHOST}}/api/gender",
+            "method": "POST",
+            "sortNum": 230000,
+            "created": "2023-05-14T18:50:32.308Z",
+            "modified": "2023-05-14T18:51:38.084Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"description\": \"Not Informed\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTAxNzIsImV4cCI6MTY4NDA5MTk3Mn0.NIWvgyqXQB0N6Clqc7W405is5n_VGDebrDe1H2qFXQo"
+            },
+            "tests": []
+        },
+        {
+            "_id": "2be18531-0aca-4140-a065-2a9a478d1aa5",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "94ec2669-485e-40fa-a564-6be5162c605f",
+            "name": "Delete Gender",
+            "url": "{{LOCALHOST}}/api/gender/3",
+            "method": "DELETE",
+            "sortNum": 240000,
+            "created": "2023-05-14T18:56:58.865Z",
+            "modified": "2023-05-14T18:57:35.775Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTAxNzIsImV4cCI6MTY4NDA5MTk3Mn0.NIWvgyqXQB0N6Clqc7W405is5n_VGDebrDe1H2qFXQo"
             },
             "tests": []
         }

@@ -21,6 +21,12 @@ class Messages {
   static ERROR_CHECKING_USER_ROLE = 'Error checking user role.';
   static EMAIL_ALREADY_USED = 'The email address is already used.';
 
+  static NEW_GENDER_CREATED = 'New gender created.';
+  static GENDER_DELETED = 'Gender deleted.';
+  static ERROR_DELETE_GENDER = 'Error trying to delete gender.';
+  static ERROR_CREATE_GENDER = 'Error trying to insert a new gender.';
+  static ERROR_UPDATING_GENDER = 'Error updating gender.';
+
   static ERROR_UPDATE_GLUCOSE = 'Error trying to update glucose reading.';
   static ERROR_DELETE_GLUCOSE = 'Error trying to delete glucose reading.';
 
