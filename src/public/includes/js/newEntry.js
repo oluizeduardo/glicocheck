@@ -4,6 +4,9 @@ const fieldDate = document.getElementById('field_Date');
 const fieldMarkermeal = document.getElementById('field_Markermeal');
 const fieldFood = document.getElementById('field_Food');
 const fieldTotalCarbs = document.getElementById('field_TotalCarbs');
+const panelListFood = document.getElementById('panelListFood');
+const labelTotalCarbs = document.getElementById('labelTotalCarbs');
+let totalCarbs = 0;
 
 const HTTP_CREATED = 200;
 const NAME_PAGE_DAIRY = 'diary.html';
@@ -55,19 +58,19 @@ function isValidDataEntry() {
  * @param {XMLHttpRequest} xmlhttp The request object.
  */
 function sendPOSTToGlucose(xmlhttp) {
-  const jsonNewEnter = prepareJsonNewEnter();
+  const jsonNewEntry = prepareJsonNewEntry();
   const token = getJwtToken();
   xmlhttp.open('POST', '/api/glucose');
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xmlhttp.send(jsonNewEnter);
+  xmlhttp.send(jsonNewEntry);
 }
 
 /**
  * Creates a JSON object to be sent to register a new glucose reading.
  * @return {JSON} A JSON object.
  */
-function prepareJsonNewEnter() {
+function prepareJsonNewEntry() {
   return JSON.stringify({
     userId: getUserId(),
     glucose: fieldGlucose.value,
@@ -115,7 +118,12 @@ function getUserId() {
  */
 function resetFields() {
   fieldGlucose.value = '';
+  fieldDate.value = '';
   fieldMarkermeal.selectedIndex = 0;
+  fieldTotalCarbs.value = '0';
+  totalCarbs = 0;
+  labelTotalCarbs.innerText = '0';
+  panelListFood.innerHTML = '';
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
 }
@@ -141,11 +149,6 @@ function destroyChart() {
   hyperglycemiaValues = [];
   hypoglycemiaValues = [];
 }
-
-const panelListFood = document.getElementById('panelListFood');
-const labelTotalCarbs = document.getElementById('labelTotalCarbs');
-let totalCarbs = 0;
-
 
 /**
  * Add keypress listener to the field Food name.
@@ -213,7 +216,8 @@ function updateTotalCarbs(value) {
  * @return {string} String of a new list item HTML element.
  */
 function createNewListItemHTML(food, carbohydrate, calories) {
-  return `<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+  return `<li class="list-group-item list-group-item-action 
+            d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
               <div class="fw-bold">${food}</div>
               Carbs: ${carbohydrate}g | Cal: ${calories}Kcal
