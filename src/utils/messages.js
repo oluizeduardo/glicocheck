@@ -21,6 +21,24 @@ class Messages {
   static ERROR_CHECKING_USER_ROLE = 'Error checking user role.';
   static EMAIL_ALREADY_USED = 'The email address is already used.';
 
+  static NEW_GENDER_CREATED = 'New gender created.';
+  static GENDER_DELETED = 'Gender deleted.';
+  static ERROR_DELETE_GENDER = 'Error trying to delete gender.';
+  static ERROR_CREATE_GENDER = 'Error trying to insert a new gender.';
+  static ERROR_UPDATING_GENDER = 'Error updating gender.';
+
+  static NEW_DIABETES_TYPE_CREATED = 'New diabetes type created.';
+  static DIABETES_TYPE_DELETED = 'Diabetes type deleted.';
+  static ERROR_DELETE_DIABETES_TYPE = 'Error trying to delete diabetes type.';
+  static ERROR_CREATE_DIABETES_TYPE = 'Error trying to insert a new diabetes type.';
+  static ERROR_UPDATING_DIABETES_TYPE = 'Error updating diabetes type.';
+
+  static NEW_BLOOD_TYPE_CREATED = 'New blood type created.';
+  static BLOOD_TYPE_DELETED = 'Blood type deleted.';
+  static ERROR_DELETE_BLOOD_TYPE = 'Error trying to delete blood type.';
+  static ERROR_CREATE_BLOOD_TYPE = 'Error trying to insert a new blood type.';
+  static ERROR_UPDATING_BLOOD_TYPE = 'Error updating blood type.';
+
   static ERROR_UPDATE_GLUCOSE = 'Error trying to update glucose reading.';
   static ERROR_DELETE_GLUCOSE = 'Error trying to delete glucose reading.';
 
