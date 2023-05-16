@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Glicocheck",
-    "dateExported": "2023-05-14T20:56:45.395Z",
+    "dateExported": "2023-05-16T12:23:56.744Z",
     "version": "1.1",
     "folders": [
         {
@@ -66,6 +66,13 @@
             "containerId": "",
             "created": "2023-05-14T20:53:38.143Z",
             "sortNum": 90000
+        },
+        {
+            "_id": "88cd1aa5-dc91-4cd1-8596-5679c82e7827",
+            "name": "System Health Check",
+            "containerId": "",
+            "created": "2023-05-16T12:21:35.976Z",
+            "sortNum": 100000
         }
     ],
     "requests": [
@@ -716,11 +723,11 @@
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "90f01f95-0c75-42a2-9ad8-99233d65250c",
             "name": "Delete Type",
-            "url": "{{LOCALHOST}}/api/bloodtype/9",
+            "url": "{{LOCALHOST}}/api/bloodtype/10",
             "method": "DELETE",
             "sortNum": 260000,
             "created": "2023-05-14T20:53:38.146Z",
-            "modified": "2023-05-14T20:56:26.940Z",
+            "modified": "2023-05-14T21:06:15.482Z",
             "headers": [],
             "params": [],
             "auth": {
@@ -745,6 +752,20 @@
                 "type": "bearer",
                 "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVkYWNkODk0ZDVjOWJhNWY2NWQxNzdhOTEyMTczOGFmMDk3YjJmY2UiLCJpYXQiOjE2ODQwOTQ4MzAsImV4cCI6MTY4NDA5NjYzMH0.UeNB0bTaZci11SAVVjyr1vAUGFjMDTgMeDnoigQYjOE"
             },
+            "tests": []
+        },
+        {
+            "_id": "9929d887-d351-4dc1-b122-b4e38ed43221",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "88cd1aa5-dc91-4cd1-8596-5679c82e7827",
+            "name": "System health check",
+            "url": "{{LOCALHOST}}/api/ping",
+            "method": "GET",
+            "sortNum": 280000,
+            "created": "2023-05-16T12:21:52.369Z",
+            "modified": "2023-05-16T12:22:07.799Z",
+            "headers": [],
+            "params": [],
             "tests": []
         }
     ],

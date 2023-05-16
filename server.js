@@ -13,6 +13,7 @@ const carbsCountingRouter = require('./src/routes/carbsCountingRouter');
 const genderRouter = require('./src/routes/genderRouter');
 const diabetesTypeRouter = require('./src/routes/diabetesTypeRouter');
 const bloodTypeRouter = require('./src/routes/bloodTypeRouter');
+const systemHealthCheckRouter = require('./src/routes/systemHealthCheckRouter');
 
 const app = express();
 // Disclosing the fingerprinting of this web technology.
@@ -33,6 +34,7 @@ app.use('/api/carbscounting', carbsCountingRouter);
 app.use('/api/gender', genderRouter);
 app.use('/api/diabetestype', diabetesTypeRouter);
 app.use('/api/bloodtype', bloodTypeRouter);
+app.use('/api/ping', systemHealthCheckRouter);
 
 app.use(express.urlencoded({extended: true}));
 app.use('/', express.static(path.join(__dirname, '/src/public')));

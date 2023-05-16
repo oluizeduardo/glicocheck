@@ -2,6 +2,8 @@
  * Messages used in the system.
  */
 class Messages {
+  static PONG = 'Pong';
+
   static NOTHING_FOUND = 'Nothing found';
   static TOKEN_REQUIRED = 'Access token required';
   static TOKEN_EXPIRED = 'Token expired';
