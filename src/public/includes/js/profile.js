@@ -228,14 +228,23 @@ async function generateDataURL(file) {
 }
 
 /**
+ * This function is a utility function that simplifies the process
+ * of sending HTTP requests to an API using the Fetch API.
+ * @param {string} url The url you want to reach.
+ * @return {Response}
+ */
+async function fetchData(url) {
+  const headers = new Headers({'Authorization': 'Bearer ' + getJwtToken()});
+  const myInit = {method: 'GET', headers: headers};
+  const response = await fetch(url, myInit);
+  return response;
+}
+
+/**
  * Loads the gender list.
  */
 async function loadGenderList() {
-  const url = `/api/gender/`;
-  const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
-  const myInit = {method: 'GET', headers: myHeaders};
-  const response = await fetch(url, myInit);
-
+  const response = await fetchData('/api/gender/');
   const {status} = response;
 
   switch (status) {
@@ -261,11 +270,7 @@ async function loadGenderList() {
  * Loads the diabetes type list.
  */
 async function loadDiabetesTypeList() {
-  const url = `/api/diabetestype/`;
-  const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
-  const myInit = {method: 'GET', headers: myHeaders};
-  const response = await fetch(url, myInit);
-
+  const response = await fetchData('/api/diabetestype/');
   const {status} = response;
 
   switch (status) {
@@ -291,11 +296,7 @@ async function loadDiabetesTypeList() {
  * Loads the blood type list.
  */
 async function loadBloodTypeList() {
-  const url = `/api/bloodtype/`;
-  const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
-  const myInit = {method: 'GET', headers: myHeaders};
-  const response = await fetch(url, myInit);
-
+  const response = await fetchData('/api/bloodtype/');
   const {status} = response;
 
   switch (status) {
