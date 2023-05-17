@@ -33,9 +33,11 @@
 
     <div class="container">
         <!-- PANEL HEADER -->
-        <div class="panel_brand_icon">
-          <img class="logo" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
-        </div>
+        <a href="./index.html">
+          <div class="panel_brand_icon">
+            <img class="logo" src="./includes/imgs/glicocheck-logo.png" alt="Glicocheck logo">
+          </div>
+        </a>
 
         <div class="d-flex mt-3">
             <h1 class="mb-5">
@@ -44,7 +46,7 @@
             <h4><span class="badge rounded-pill bg-success">v1.0</span></h4>
         </div>
 
-        <p class="lead">
+        <!-- <p class="lead">
             Useful links:
             <ul class="lead">
                 <li class="mb-2">
@@ -54,208 +56,390 @@
                     <a class="link p-1" href="https://github.com/oluizeduardo/glicocheck" style="color: black;" target="_blank" rel="noopener">Repository</a>
                 </li>
             </ul>
-        </p>
+        </p> -->
+
+        <div class="mt-3">            
+          <h4 class="mb-3">Server</h4>
+          <table class="table table-light table-striped" aria-describedby="title-security">            
+            <tbody>
+              <tr>
+                <td>Localhost</td>
+                <td>http://localhost:3000/api</td>
+              </tr>
+              <tr>
+                <td>Production</td>
+                <td>https://glicocheck.onrender.com/api</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
 
         <div class="mt-5">            
-            <h4 id="title-security" class="mb-3">Security</h4>
-            <table class="table table-light table-striped" aria-describedby="title-security">
-              
-                <thead>
-                  <tr>
-                    <th scope="col">METHOD</th>
-                    <th scope="col">RESOURCE</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">REQUEST FIELDS</th>
-                    <th scope="col" class="text-center">ACCESS TOKEN</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-success">POST</span></td>
-                    <td>/security/register</td>
-                    <td>Register a new user.</td>
-                    <td>name, email, password, role_id</td>
-                    <td class="text-center"><span data-feather="x"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-success">POST</span></td>
-                    <td>/security/login</td>
-                    <td>Login with credentials.</td>
-                    <td>login, password</td>
-                    <td class="text-center"><span data-feather="x"></span></td>
-                  </tr>
-                </tbody>
-            </table>
+          <h4 id="title-security" class="mb-3">Security</h4>
+          <table class="table table-light table-striped" aria-describedby="title-security">            
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">REQUEST FIELDS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td>/security/register</td>
+                <td>Register a new user.</td>
+                <td>name, email, password, role_id</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td>/security/login</td>
+                <td>Login with credentials.</td>
+                <td>login, password</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="mt-5">
-            <h4 id="title-users" class="mb-3">Users</h4>
-            <table class="table table-light table-striped" aria-describedby="title-users">
-                <thead>
-                  <tr>
-                    <th scope="col">METHOD</th>
-                    <th scope="col">RESOURCE</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">REQUEST FIELDS</th>
-                    <th scope="col" class="text-center">ACCESS TOKEN</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/users</td>
-                    <td>Get all users.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/users/{id}</td>
-                    <td>Get user by id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
-                    <td>/users/{id}</td>
-                    <td>Update user by id.</td>
-                    <td>name, email, login, password, role_id</td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
-                    <td>/users/{id}</td>
-                    <td>Delete user by id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                </tbody>
-              </table>
+          <h4 id="title-users" class="mb-3">Users</h4>
+          <table class="table table-light table-striped" aria-describedby="title-users">
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">REQUEST FIELDS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/users</td>
+                <td>Get all users.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/users/{id}</td>
+                <td>Get user by id.</td>
+                <td></td>
+              </tr>                  
+              <tr>
+                <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
+                <td>/users/{id}</td>
+                <td>Update user by id.</td>
+                <td>name, email, login, password, role_id</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
+                <td>/users/{id}</td>
+                <td>Delete user by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td colspan="3">Use <b>/security/register</b> to add new user.</td>                    
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="mt-5">
-            <h4 id="title-glucose" class="mb-3">Glucose</h4>
-            <table class="table table-light table-striped" aria-describedby="title-glucose">
-                <thead>
-                  <tr>
-                    <th scope="col">METHOD</th>
-                    <th scope="col">RESOURCE</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">REQUEST FIELDS</th>
-                    <th scope="col" class="text-center">ACCESS TOKEN</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/glucose</td>
-                    <td>Get all glucose readings.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/glucose/{id}</td>
-                    <td>Get a glucose reading by id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/glucose/user/{id}</td>
-                    <td>Get glucose readings by user id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/glucose/markermeal/{id}</td>
-                    <td>Get all glucose readings by markermeal id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-success">POST</span></td>
-                    <td>/glucose</td>
-                    <td>Add glucose reading.</td>
-                    <td>userId, glucose, unityId, dateTime, markerMealId</td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
-                    <td>/glucose</td>
-                    <td>Update glucose reading by id.</td>
-                    <td>glucose, unityId, dateTime, markerMealId</td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
-                    <td>/glucose/user/id</td>
-                    <td>Delete glucose by user id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
-                    <td>/glucose/{id}</td>
-                    <td>Delete a glucose reading by id.</td>
-                    <td>glucose, unityId, dateTime, markerMealId</td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                </tbody>
-              </table>
+        <h4 id="title-glucose" class="mb-3">Glucose</h4>
+        <table class="table table-light table-striped" aria-describedby="title-glucose">
+          <thead>
+            <tr>
+              <th scope="col">METHOD</th>
+              <th scope="col">RESOURCE</th>
+              <th scope="col">DESCRIPTION</th>
+              <th scope="col">REQUEST FIELDS</th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/glucose</td>
+                <td>Get all glucose readings.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/glucose/{id}</td>
+                <td>Get a glucose reading by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/glucose/user/{id}</td>
+                <td>Get glucose readings by user id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/glucose/markermeal/{id}</td>
+                <td>Get all glucose readings by markermeal id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td>/glucose</td>
+                <td>Add glucose reading.</td>
+                <td>userId, glucose, unityId, dateTime, markerMealId</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
+                <td>/glucose</td>
+                <td>Update glucose reading by id.</td>
+                <td>glucose, unityId, dateTime, markerMealId</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
+                <td>/glucose/user/id</td>
+                <td>Delete glucose by user id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
+                <td>/glucose/{id}</td>
+                <td>Delete a glucose reading by id.</td>
+                <td>glucose, unityId, dateTime, markerMealId</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="mt-5">
-            <h4 id="title-marker" class="mb-3">Marker Meal</h4>
-            <table class="table table-light table-striped" aria-describedby="title-marker">
-                <thead>
-                  <tr>
-                    <th scope="col">METHOD</th>
-                    <th scope="col">RESOURCE</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">REQUEST FIELDS</th>
-                    <th scope="col" class="text-center">ACCESS TOKEN</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/markermeal</td>
-                    <td>Get all marker meals.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-primary">GET</span></td>
-                    <td>/markermeal/{id}</td>
-                    <td>Get a marker meal by id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
-                    <td>/markermeal/{id}</td>
-                    <td>Delete a marker meal by id.</td>
-                    <td></td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                  <tr>
-                    <td><span class="badge rounded-pill bg-success">POST</span></td>
-                    <td>/markermeal/{id}</td>
-                    <td>Create a new marker meal.</td>
-                    <td>description</td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>                  
-                  <tr>
-                    <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
-                    <td>/markermeal/{id}</td>
-                    <td>Update a markermeal description by id.</td>
-                    <td>description</td>
-                    <td class="text-center"><span data-feather="check" class="align-middle"></span></td>
-                  </tr>
-                </tbody>
-              </table>
+          <h4 id="title-marker-meal" class="mb-3">Marker Meal</h4>
+          <table class="table table-light table-striped" aria-describedby="title-marker-meal">
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">REQUEST FIELDS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/markermeal</td>
+                <td>Get all marker meals.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/markermeal/{id}</td>
+                <td>Get a marker meal by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
+                <td>/markermeal/{id}</td>
+                <td>Delete a marker meal by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td>/markermeal</td>
+                <td>Create a new marker meal.</td>
+                <td>description</td>
+              </tr>                  
+              <tr>
+                <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
+                <td>/markermeal/{id}</td>
+                <td>Update a markermeal description by id.</td>
+                <td>description</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-5">
+          <h4 id="title-gender" class="mb-3">Gender</h4>
+          <table class="table table-light table-striped" aria-describedby="title-gender">
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">REQUEST FIELDS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/gender</td>
+                <td>Get all genders.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/gender/{id}</td>
+                <td>Get a gender by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
+                <td>/gender/{id}</td>
+                <td>Delete a gender by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td>/gender</td>
+                <td>Create a new gender.</td>
+                <td>description</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
+                <td>/gender/{id}</td>
+                <td>Update a gender description by id.</td>
+                <td>description</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-5">
+          <h4 id="title-diabetes-type" class="mb-3">Diabetes Type</h4>
+          <table class="table table-light table-striped" aria-describedby="title-diabetes-type">
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">REQUEST FIELDS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/diabetestype</td>
+                <td>Get all diabetes types.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/diabetestype/{id}</td>
+                <td>Get a diabetes type by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
+                <td>/diabetestype/{id}</td>
+                <td>Delete a diabetes type by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td>/diabetestype</td>
+                <td>Create a new diabetes type.</td>
+                <td>description</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
+                <td>/diabetestype/{id}</td>
+                <td>Update a diabetes type description by id.</td>
+                <td>description</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-5">
+          <h4 id="title-blood-type" class="mb-3">Blood Type</h4>
+          <table class="table table-light table-striped" aria-describedby="title-blood-type">
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">REQUEST FIELDS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/bloodtype</td>
+                <td>Get all blood types.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/bloodtype/{id}</td>
+                <td>Get a blood type by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-danger">DELETE</span></td>
+                <td>/bloodtype/{id}</td>
+                <td>Delete a blood type by id.</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-success">POST</span></td>
+                <td>/bloodtype</td>
+                <td>Create a new blood type.</td>
+                <td>description</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
+                <td>/bloodtype/{id}</td>
+                <td>Update a blood type description by id.</td>
+                <td>description</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-5">
+          <h4 id="title-pass-reset" class="mb-3">Password Reset</h4>
+          <table class="table table-light table-striped" aria-describedby="title-pass-reset">
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+                <th scope="col">REQUEST FIELDS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">POST</span></td>
+                <td>/reset/forgot-password</td>
+                <td>Request a password reset token.</td>
+                <td>email</td>
+              </tr>
+              <tr>
+                <td><span class="badge rounded-pill bg-secondary">PUT</span></td>
+                <td>/reset/password</td>
+                <td>Update user's password.</td>
+                <td>token, email, password</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-5">
+          <h4 id="title-syshealth" class="mb-3">System Health Check</h4>
+          <table class="table table-light table-striped" aria-describedby="title-syshealth">
+            <thead>
+              <tr>
+                <th scope="col">METHOD</th>
+                <th scope="col">RESOURCE</th>
+                <th scope="col">DESCRIPTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge rounded-pill bg-primary">GET</span></td>
+                <td>/ping</td>
+                <td>System health check.</td>
+              </tr>              
+            </tbody>
+          </table>
         </div>
 
         <div class="container mt-5">
