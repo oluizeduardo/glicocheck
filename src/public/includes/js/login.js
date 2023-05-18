@@ -2,8 +2,8 @@ const btnLogIn = document.getElementById('btnLogIn');
 const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 
-const SUCEESS = 201;
-const FORBIDDEN = 403;
+const SUCEESS = 200;
+const FORBIDDEN = 401;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnLogIn.addEventListener('click', (event) => {

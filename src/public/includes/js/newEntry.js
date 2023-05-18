@@ -8,7 +8,7 @@ const panelListFood = document.getElementById('panelListFood');
 const labelTotalCarbs = document.getElementById('labelTotalCarbs');
 let totalCarbs = 0;
 
-const HTTP_CREATED = 200;
+const HTTP_CREATED = 201;
 const NAME_PAGE_DAIRY = 'diary.html';
 
 btnSave.addEventListener('click', function(event) {

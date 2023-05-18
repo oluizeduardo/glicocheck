@@ -35,7 +35,7 @@ function loadUserInfos() {
       switch (xmlhttp.status) {
         case HTTP_OK:
           const data = JSON.parse(xmlhttp.responseText);
-          loadFiledsWithUserData(data);
+          loadFieldsWithUserData(data);
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -73,7 +73,7 @@ function sendGETToUserById(xmlhttp) {
  * Distributes the data response in the fields.
  * @param {Response} data The response data.
  */
-function loadFiledsWithUserData(data) {
+function loadFieldsWithUserData(data) {
   fieldName.value = data.user.name;
   fieldEmail.value = data.user.email;
   profilePictureBase64 = data.user.picture;
@@ -337,7 +337,7 @@ function addSelectOptionElement(selectElement, html) {
   selectElement.innerHTML = selectElement.innerHTML.concat(html);
 }
 
-loadUserInfos();
 loadGenderList();
 loadDiabetesTypeList();
 loadBloodTypeList();
+setTimeout(loadUserInfos, 35);
