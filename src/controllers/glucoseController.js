@@ -9,257 +9,363 @@ const WebToken = require('../utils/webToken');
  * Contains methods to deal with the glucose records on the database.
  */
 class GlucoseController {
-  // GET ALL BLOOD GLUCOSE RECORDS.
-  static getAllGlucoseRecords = async function(req, res) {
-    await database('blood_glucose_diary as bgd')
-        .join('users', 'users.id', 'bgd.user_id')
-        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
-        .select(
-            'bgd.id',
-            'users.id as userId',
-            'users.name as user',
-            'bgd.glucose',
-            'measurement_unity.description as glucoseUnity',
-            'bgd.total_carbs as totalCarbs',
-            'bgd.dateTime',
-            'marker_meal.description as markerMeal',
-            'bgd.created_at',
-            'bgd.updated_at',
-        )
-        .orderBy([
-          {column: 'bgd.dateTime', order: 'asc'},
-        ])
-        .then((glucoses) => {
-          if (glucoses.length > 0) {
-            res.status(200).json(glucoses);
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+  /**
+   * Retrieves all blood glucose records.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
+  static getAllGlucoseRecords = async (req, res) => {
+    try {
+      const glucoses = await database('blood_glucose_diary as bgd')
+          .join('users', 'users.id', 'bgd.user_id')
+          .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+          .join('measurement_unity', 'measurement_unity.id',
+              'bgd.glucose_unity_id')
+          .select(
+              'bgd.id',
+              'users.id as userId',
+              'users.name as user',
+              'bgd.glucose',
+              'measurement_unity.description as glucoseUnity',
+              'bgd.total_carbs as totalCarbs',
+              'bgd.dateTime',
+              'marker_meal.description as markerMeal',
+              'bgd.created_at',
+              'bgd.updated_at',
+          )
+          .orderBy('bgd.dateTime', 'asc');
+
+      if (glucoses.length > 0) {
+        res.status(200).json(glucoses);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // GET GLUCOSE RECORDS BY USER ID.
-  static getGlucoseRecordsByUserId = async function(req, res) {
-    const token = req.headers['authorization'];
-    const userId = WebToken.getUserIdFromWebToken(token);
 
-    await database('blood_glucose_diary as bgd')
-        .where('bgd.user_id', userId)
-        .join('users', 'users.id', 'bgd.user_id')
-        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
-        .select(
-            'bgd.id',
-            'users.id as userId',
-            'users.name as user',
-            'bgd.glucose',
-            'measurement_unity.description as unity',
-            'bgd.total_carbs as totalCarbs',
-            'bgd.dateTime',
-            'marker_meal.description as markerMeal',
-            'bgd.created_at as createdAt',
-            'bgd.updated_at as updatedAt',
-        )
-        .orderBy([
-          {column: 'bgd.dateTime', order: 'asc'},
-        ])
-        .then((glucoses) => {
-          if (glucoses.length) {
-            res.status(200).json(glucoses);
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+  /**
+   * Retrieves glucose records by user ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
+  static getGlucoseRecordsByUserId = async (req, res) => {
+    try {
+      const token = req.headers['authorization'];
+      const userId = WebToken.getUserIdFromWebToken(token);
+
+      const glucoses = await database('blood_glucose_diary as bgd')
+          .where('bgd.user_id', userId)
+          .join('users', 'users.id', 'bgd.user_id')
+          .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+          .join('measurement_unity', 'measurement_unity.id',
+              'bgd.glucose_unity_id')
+          .select(
+              'bgd.id',
+              'users.id as userId',
+              'users.name as user',
+              'bgd.glucose',
+              'measurement_unity.description as unity',
+              'bgd.total_carbs as totalCarbs',
+              'bgd.dateTime',
+              'marker_meal.description as markerMeal',
+              'bgd.created_at as createdAt',
+              'bgd.updated_at as updatedAt',
+          )
+          .orderBy('bgd.dateTime', 'asc');
+
+      if (glucoses.length) {
+        res.status(200).json(glucoses);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // GET GLUCOSE BY ID
+
+  /**
+   * Retrieves a glucose record by ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getGlucoseById = async (req, res) => {
-    let id = 0;
     try {
-      id = Number.parseInt(req.params.id);
-    } catch {
-      return res.status(404).json({message: Messages.NOTHING_FOUND});
-    }
+      const id = Number.parseInt(req.params.id);
 
-    await database('blood_glucose_diary as bgd')
-        .where('bgd.id', id)
-        .join('users', 'users.id', 'bgd.user_id')
-        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
-        .select(
-            'bgd.id',
-            'users.id as userId',
-            'users.name as userName',
-            'bgd.glucose',
-            'measurement_unity.description as unity',
-            'bgd.dateTime',
-            'marker_meal.description as markerMeal',
-            'bgd.created_at',
-            'bgd.updated_at',
-        )
-        .then((glucoses) => {
-          if (glucoses.length) {
-            res.status(200).json(glucoses[0]);
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+      const glucose = await database('blood_glucose_diary as bgd')
+          .where('bgd.id', id)
+          .join('users', 'users.id', 'bgd.user_id')
+          .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+          .join('measurement_unity', 'measurement_unity.id',
+              'bgd.glucose_unity_id')
+          .select(
+              'bgd.id',
+              'users.id as userId',
+              'users.name as userName',
+              'bgd.glucose',
+              'measurement_unity.description as unity',
+              'bgd.dateTime',
+              'marker_meal.description as markerMeal',
+              'bgd.created_at',
+              'bgd.updated_at',
+          )
+          .first();
+
+      if (glucose) {
+        res.status(200).json(glucose);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // GET GLUCOSE RECORDS BY MARKER MEAL ID
+
+  /**
+   * Retrieves glucose records by marker meal ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getGlucoseRecordsByMarkerMealId = async (req, res) => {
-    let markermealid = 0;
     try {
-      markermealid = Number.parseInt(req.params.markermealid);
-    } catch {
-      return res.status(404).json({message: Messages.NOTHING_FOUND});
-    }
+      const markerMealId = Number.parseInt(req.params.markermealid);
 
-    await database('blood_glucose_diary as bgd')
-        .where('bgd.markermeal_id', markermealid)
-        .join('users', 'users.id', 'bgd.user_id')
-        .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-        .join('measurement_unity', 'measurement_unity.id', 'bgd.glucose_unity_id')
-        .select(
-            'bgd.id',
-            'users.id as userId',
-            'users.name as userName',
-            'bgd.glucose',
-            'measurement_unity.description as unity',
-            'bgd.dateTime',
-            'marker_meal.description as markerMeal',
-            'bgd.created_at',
-            'bgd.updated_at',
-        )
-        .orderBy([
-          {column: 'bgd.dateTime', order: 'asc'},
-        ])
-        .then((glucoses) => {
-          if (glucoses.length) {
-            res.status(200).json(glucoses[0]);
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+      const glucoses = await database('blood_glucose_diary as bgd')
+          .where('bgd.markermeal_id', markerMealId)
+          .join('users', 'users.id', 'bgd.user_id')
+          .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
+          .join('measurement_unity', 'measurement_unity.id',
+              'bgd.glucose_unity_id')
+          .select(
+              'bgd.id',
+              'users.id as userId',
+              'users.name as userName',
+              'bgd.glucose',
+              'measurement_unity.description as unity',
+              'bgd.dateTime',
+              'marker_meal.description as markerMeal',
+              'bgd.created_at',
+              'bgd.updated_at',
+          )
+          .orderBy('bgd.dateTime', 'asc');
+
+      if (glucoses.length > 0) {
+        res.status(200).json(glucoses);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // CREATE NEW GLUCOSE RECORD
+  /**
+   * Creates a new glucose record.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static createNewGlucoseRecord = async (req, res) => {
-    await database('blood_glucose_diary')
-        .insert(
-            {
-              user_id: req.body.userId,
-              glucose: req.body.glucose,
-              glucose_unity_id: req.body.glucose_unity_id,
-              total_carbs: req.body.total_carbs,
-              dateTime: req.body.dateTime,
-              markermeal_id: req.body.markerMealId,
-            },
-            [
-              'id',
-              'user_id',
-              'glucose',
-              'glucose_unity_id',
-              'total_carbs',
-              'dateTime',
-              'markermeal_id',
-              'created_at',
-              'updated_at',
-            ],
-        )
-        .then((records) => {
-          const glucoseRecord = records[0];
-          res.json({glucoseRecord});
-        })
-        .catch((err) => res.status(500).json({err}));
+    try {
+      const {userId, glucose, glucose_unity_id,
+        total_carbs, dateTime, markerMealId} = req.body;
+
+      // Validate input data
+      if (!userId || !glucose || !glucose_unity_id ||
+        !dateTime || !markerMealId) {
+        res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
+        return;
+      }
+
+      const records = await database('blood_glucose_diary')
+          .insert({
+            user_id: userId,
+            glucose,
+            glucose_unity_id,
+            total_carbs,
+            dateTime,
+            markermeal_id: markerMealId,
+            created_at: DateTimeUtil.getCurrentDateTime(),
+            updated_at: DateTimeUtil.getCurrentDateTime(),
+          }, [
+            'id',
+            'user_id',
+            'glucose',
+            'glucose_unity_id',
+            'total_carbs',
+            'dateTime',
+            'markermeal_id',
+            'created_at',
+            'updated_at',
+          ]);
+
+      const glucoseRecord = records[0];
+      res.status(201).json({glucoseRecord});
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // UPDATE GLUCOSE RECORD BY ID
+  /**
+   * Updates a glucose record by ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static updateGlucoseRecordById = async (req, res) => {
-    let id = 0;
     try {
-      id = Number.parseInt(req.params.id);
-    } catch {
-      return res.status(404).json({message: Messages.NOTHING_FOUND});
-    }
+      let id = 0;
+      try {
+        id = Number.parseInt(req.params.id);
+      } catch {
+        return res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
 
-    const glucose = {
-      glucose: req.body.glucose,
-      glucose_unity_id: req.body.unityId,
-      total_carbs: req.body.total_carbs,
-      markermeal_id: req.body.markerMealId,
-      updated_at: DateTimeUtil.getCurrentDateTime(),
-    };
+      const {glucose, glucose_unity_id, total_carbs, markermeal_id} = req.body;
 
-    try {
-      await database('blood_glucose_diary')
+      // Validate input data
+      if (!glucose || !glucose_unity_id || !total_carbs || !markermeal_id) {
+        res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
+        return;
+      }
+
+      const glucoseRecord = {
+        glucose,
+        glucose_unity_id,
+        total_carbs,
+        markermeal_id,
+        updated_at: DateTimeUtil.getCurrentDateTime(),
+      };
+
+      const numAffectedRegisters = await database('blood_glucose_diary')
           .where('id', id)
-          .update({glucose})
-          .then((numAffectedRegisters) => {
-            if (numAffectedRegisters == 0) {
-              res.status(404).json({message: Messages.NOTHING_FOUND});
-            } else {
-              res.status(201).json({glucose});
-            }
-          });
-    } catch (err) {
-      return res.status(500).json({
-        message: Messages.ERROR_UPDATE_GLUCOSE,
-        details: `${err.message}`,
+          .update(glucoseRecord);
+
+      if (numAffectedRegisters === 0) {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      } else {
+        res.status(200).json(glucoseRecord);
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
       });
     }
   };
 
-  // DELETE GLUCOSE RECORD BY ID
+  /**
+   * Deletes a glucose record by ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static deleteGlucoseRecordById = async (req, res) => {
-    let id = 0;
     try {
-      id = Number.parseInt(req.params.id);
-    } catch {
-      return res.status(404).json({message: Messages.NOTHING_FOUND});
-    }
+      let id = 0;
+      try {
+        id = Number.parseInt(req.params.id);
+      } catch {
+        return res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
 
-    if (id > 0) {
-      database('blood_glucose_diary')
-          .where('id', id)
-          .del()
-          .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
-          .catch((err) =>
-            res
-                .status(500)
-                .json({
-                  message: Messages.ERROR_DELETE_GLUCOSE,
-                  error: err.message,
-                }),
-          );
-    } else {
-      res.status(404).json({
-        message: Messages.NOTHING_FOUND,
+      if (id > 0) {
+        const numAffectedRegisters = await database('blood_glucose_diary')
+            .where('id', id)
+            .del();
+
+        if (numAffectedRegisters === 0) {
+          res.status(404).json({message: Messages.NOTHING_FOUND});
+        } else {
+          res.status(200).json({message: Messages.REGISTER_DELETED});
+        }
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        error: error.message,
       });
     }
   };
 
-  // DELETE ALL GLUCOSE RECORDS OF A SPECIFIC USER.
-  static deleteGlucoseRecordsByUserId = async (req, res) => {
-    const userId = req.params.userId;
 
-    if (userId) {
-      database('blood_glucose_diary')
-          .where('user_id', userId)
-          .del()
-          .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
-          .catch((err) =>
-            res
-                .status(500)
-                .json({
-                  message: Messages.ERROR_DELETE_GLUCOSE,
-                  error: err.message,
-                }),
-          );
-    } else {
-      res.status(404).json({
-        message: Messages.NOTHING_FOUND,
+  /**
+   * Deletes all glucose records of a specific user.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
+  static deleteGlucoseRecordsByUserId = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+
+      if (userId) {
+        const numAffectedRegisters = await database('blood_glucose_diary')
+            .where('user_id', userId)
+            .del();
+
+        if (numAffectedRegisters === 0) {
+          res.status(404).json({message: Messages.NOTHING_FOUND});
+        } else {
+          res.status(200).json({message: Messages.REGISTER_DELETED});
+        }
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        error: error.message,
       });
     }
   };

@@ -7,54 +7,96 @@ const DateTimeUtil = require('../utils/dateTimeUtil');
  * Contains methods to deal with the marker meals.
  */
 class MarkerMealController {
-  // GET ALL MARKER MEALS
+  /**
+   * Retrieves all marker meals.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getAllMarkerMeals = async (req, res) => {
-    await database
-        .select('*')
-        .from('marker_meal')
-        .then((markers) => {
-          if (markers.length) {
-            res.status(200).json(markers);
-          } else {
-            res.status(200).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+    try {
+      const markers = await database.select('*').from('marker_meal');
+
+      if (markers.length) {
+        res.status(200).json(markers);
+      } else {
+        res.status(200).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // GET MARKER MEAL BY ID
+
+  /**
+   * Retrieves a marker meal by ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getMarkerMealById = async (req, res) => {
     const id = Number.parseInt(req.params.id);
-    await database('marker_meal')
-        .where('id', id)
-        .select('id', 'description')
-        .then((markers) => {
-          if (markers.length) {
-            res.status(200).json(markers);
-          } else {
-            res.status(200).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+
+    try {
+      const markers = await database('marker_meal')
+          .where('id', id)
+          .select('id', 'description');
+
+      if (markers.length) {
+        res.status(200).json(markers);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // CREATE NEW MARKER MEAL
+  /**
+   * Creates a new marker meal.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static createNewMarkerMeal = async (req, res) => {
-    await database('marker_meal')
-        .insert(
-            {
-              description: req.body.description,
-            },
-            ['id', 'description'],
-        )
-        .then((markers) => {
-          const marker = markers[0];
-          res.status(201).json({marker_meal: marker});
-        })
-        .catch((err) =>
-          res.status(500).json({message: Messages.ERROR_CREATE_MARKERMEAL}),
-        );
+    try {
+      const [marker] = await database('marker_meal')
+          .insert({description: req.body.description}, ['id', 'description']);
+
+      res.status(201).json({marker_meal: marker});
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // UPDATE MARKER MEAL BY ID
+
+  /**
+   * Updates a marker meal by ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static updateMarkerMealById = async (req, res) => {
     const id = Number.parseInt(req.params.id);
 
@@ -65,44 +107,49 @@ class MarkerMealController {
     };
 
     try {
-      await database('marker_meal')
+      const numAffectedRegisters = await database('marker_meal')
           .where('id', id)
-          .update(markerMeal)
-          .then((numAffectedRegisters) => {
-            if (numAffectedRegisters == 0) {
-              res.status(404).json({message: Messages.NOTHING_FOUND});
-            } else {
-              res.status(201).json({markerMeal});
-            }
-          });
-    } catch (err) {
-      return res.status(500).json({
-        message: Messages.ERROR_UPDATE_MARKERMEAL,
-        details: `${err.message}`,
+          .update(markerMeal);
+
+      if (numAffectedRegisters === 0) {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      } else {
+        res.status(200).json({markerMeal});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
       });
     }
   };
 
-  // DELETE BY ID
+  /**
+   * Deletes a marker meal by ID.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static deleteMarkerMealById = async (req, res) => {
     const id = Number.parseInt(req.params.id);
 
-    if (id > 0) {
-      await database('marker_meal')
+    try {
+      const numAffectedRegisters = await database('marker_meal')
           .where('id', id)
-          .del()
-          .then(res.status(200).json({message: Messages.REGISTER_DELETED}))
-          .catch((err) =>
-            res
-                .status(500)
-                .json({
-                  message: Messages.ERROR_DELETE_MARKERMEAL,
-                  error: err.message,
-                }),
-          );
-    } else {
-      res.status(404).json({
-        message: Messages.NOTHING_FOUND,
+          .del();
+
+      if (numAffectedRegisters === 0) {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      } else {
+        res.status(200).json({message: Messages.REGISTER_DELETED});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
       });
     }
   };

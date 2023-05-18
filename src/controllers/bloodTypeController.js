@@ -5,133 +5,162 @@ const DateTimeUtil = require('../utils/dateTimeUtil');
  * BloodTypeController.
  */
 class BloodTypeController {
-  // GET ALL TYPES
+  /**
+   * Retrieves all blood types from the database.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getAllTypes = async (req, res) => {
-    database('blood_type')
-        .select(
-            'blood_type.id',
-            'blood_type.description',
-            'blood_type.created_at',
-            'blood_type.updated_at',
-        )
-        .then((types) => {
-          if (types.length > 0) {
-            res.status(200).json(types);
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+    try {
+      const types = await database('blood_type')
+          .select(
+              'blood_type.id',
+              'blood_type.description',
+              'blood_type.created_at',
+              'blood_type.updated_at',
+          );
+
+      if (types.length > 0) {
+        res.status(200).json(types);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({message: Messages.ERROR});
+    }
   };
 
-  // CREATE NEW TYPE
+  /**
+   * Creates a new blood type in the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static createNewType = async (req, res) => {
-    await database('blood_type')
-        .insert(
-            {
-              description: req.body.description,
-            },
-            ['id', 'description', 'created_at', 'updated_at'],
-        )
-        .then((types) => {
-          res.status(201).json(types[0]);
-        })
-        .catch((err) =>
-          res.status(500).json({message: Messages.ERROR_CREATE_BLOOD_TYPE}),
-        );
+    try {
+      const type = await database('blood_type')
+          .insert({
+            description: req.body.description,
+          })
+          .returning(['id', 'description', 'created_at', 'updated_at']);
+
+      res.status(201).json(type[0]);
+    } catch (error) {
+      res.status(500).json({message: Messages.ERROR});
+    }
   };
 
-  // GET TYPE BY ID
+  /**
+   * Retrieves a blood type by its ID from the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getTypeById = async (req, res) => {
-    let id = 0;
     try {
-      id = Number.parseInt(req.params.id);
-    } catch {
-      return res.status(404).json({message: Messages.NOTHING_FOUND});
-    }
+      const bloodTypeId = Number.parseInt(req.params.id);
 
-    database('blood_type')
-        .where('blood_type.id', id)
-        .select(
-            'blood_type.id',
-            'blood_type.description',
-            'blood_type.created_at',
-            'blood_type.updated_at',
-        )
-        .then((types) => {
-          if (types.length > 0) {
-            res.status(200).json(types[0]);
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+      if (isNaN(bloodTypeId)) {
+        return res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+
+      const types = await database('blood_type')
+          .where('blood_type.id', bloodTypeId)
+          .select('blood_type.id', 'blood_type.description',
+              'blood_type.created_at', 'blood_type.updated_at');
+
+      if (types.length > 0) {
+        res.status(200).json(types[0]);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({message: Messages.ERROR});
+    }
   };
 
-  // UPDATE TYPE BY ID
+  /**
+   * Updates a blood type by its ID in the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static updateTypeById = async (req, res) => {
-    let id = 0;
     try {
-      id = Number.parseInt(req.params.id);
-    } catch {
-      return res.status(404).json({message: Messages.NOTHING_FOUND});
-    }
+      const bloodTypeId = Number.parseInt(req.params.id);
 
-    const newType = {
-      description: req.body.description,
-      updated_at: DateTimeUtil.getCurrentDateTime(),
-    };
+      if (isNaN(bloodTypeId)) {
+        return res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
 
-    try {
-      await database('blood_type')
-          .where('id', id)
-          .update(newType)
-          .then((numAffectedRegisters) => {
-            if (numAffectedRegisters == 0) {
-              res.status(404).json({message: Messages.NOTHING_FOUND});
-            } else {
-              res.status(201).json(newType);
-            }
-          });
-    } catch (err) {
-      return res.status(500).json({
-        message: Messages.ERROR_UPDATING_BLOOD_TYPE,
-        details: `${err.message}`,
+      const newType = {
+        description: req.body.description,
+        updated_at: DateTimeUtil.getCurrentDateTime(),
+      };
+
+      const numAffectedRegisters = await database('blood_type')
+          .where('id', bloodTypeId)
+          .update(newType);
+
+      if (numAffectedRegisters === 0) {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      } else {
+        res.status(200).json(newType);
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
       });
     }
   };
 
-  // DELETE TYPE BY ID
+  /**
+   * Deletes a blood type by its ID from the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static deleteTypeById = async (req, res) => {
-    let id = 0;
     try {
-      id = Number.parseInt(req.params.id);
-    } catch {
-      return res.status(404).json({message: Messages.NOTHING_FOUND});
-    }
+      const bloodTypeId = Number.parseInt(req.params.id);
+      if (isNaN(bloodTypeId)) {
+        return res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
 
-    database('blood_type')
-        .where('blood_type.id', id)
-        .select('blood_type.id')
-        .then((types) => {
-          if (types.length > 0) {
-            const type = types[0];
-            database('blood_type')
-                .where('id', type.id)
-                .del()
-                .then(res.status(200).json({
-                  message: Messages.BLOOD_TYPE_DELETED
-                }))
-                .catch((err) => {
-                  res
-                      .status(500)
-                      .json({
-                        message: Messages.ERROR_DELETE_BLOOD_TYPE,
-                        details: `${err.message}`,
-                      });
-                });
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+      const types = await database('blood_type')
+          .where('blood_type.id', bloodTypeId)
+          .select('blood_type.id');
+
+      if (types.length > 0) {
+        const type = types[0];
+        await database('blood_type')
+            .where('id', type.id)
+            .del();
+        res.status(200).json({message: Messages.BLOOD_TYPE_DELETED});
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 }
 

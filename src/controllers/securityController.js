@@ -12,110 +12,130 @@ const CryptoUtil = require('../utils/cryptoUtil');
 class SecurityController {
   static TOKEN_EXPIRING_TIME = '30m';
 
-  // NEW USER
+  /**
+   * Registers a new user.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static registerNewUser = async (req, res) => {
-    // Checks whether the email is already used.
-    await database('users')
-        .where('users.email', req.body.email)
-        .select('users.id')
-        .limit(1)
-        .then((users) => {
-          if (users.length > 0) {
-            // Return message email already used.
-            res.status(400).json({message: Messages.EMAIL_ALREADY_USED});
-            return;
-          } else {
-            // Register a new user.
-            try {
-              database('users')
-                  .insert(
-                      {
-                        id: CryptoUtil.createRandomToken(),
-                        name: req.body.name,
-                        email: req.body.email,
-                        picture: req.body.picture,
-                        password: SecurityUtils.generateHashValue(req.body.password),
-                        role_id: req.body.role_id,
-                      },
-                      ['id'],
-                  )
-                  .then(() => {
-                    res.status(201).json({message: Messages.NEW_USER_CREATED});
-                  });
-            } catch (err) {
-              return res.status(500).json({
-                message: Messages.ERROR_CREATE_USER,
-                error: err.message,
-              });
-            }
-          }
-        });
+    const {name, email, picture, password, role_id} = req.body;
+
+    try {
+      const existingUser = await database('users')
+          .where('users.email', email)
+          .select('users.id')
+          .limit(1);
+
+      if (existingUser.length > 0) {
+        res.status(400).json({message: Messages.EMAIL_ALREADY_USED});
+      } else {
+        const id = CryptoUtil.createRandomToken();
+        const hashedPassword = SecurityUtils.generateHashValue(password);
+
+        await database('users')
+            .insert(
+                {
+                  id,
+                  name,
+                  email,
+                  picture,
+                  password: hashedPassword,
+                  role_id,
+                },
+                ['id']
+            );
+
+        res.status(201).json({message: Messages.NEW_USER_CREATED});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // LOGIN
+  /**
+   * Logs in a user.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static doLogin = async (req, res) => {
-    await database
-        .select('*')
-        .from('users')
-        .where({email: req.body.email})
-        .then((users) => {
-          if (users.length) {
-            const user = users[0];
-            const isValidPassword = SecurityUtils.comparePassword(
-                req.body.password,
-                user.password,
-            );
+    const {email, password} = req.body;
 
-            if (isValidPassword) {
-              const tokenJWT = SecurityController.createTokenJWT(user);
-              res.set('Authorization', tokenJWT);
-              res.status(201).json({
-                user_id: user.id,
-                accessToken: tokenJWT,
-              });
-              return;
-            }
-          }
-          res.status(403).json({message: Messages.WRONG_CREDENTIALS});
-        })
-        .catch((err) => {
-          res.status(500).json({
-            message: Messages.ERROR_CHECKING_CREDENTIALS,
-            error: err.message,
+    try {
+      const users = await database
+          .select('*')
+          .from('users')
+          .where({email});
+
+      if (users.length) {
+        const user = users[0];
+        const isValidPassword = SecurityUtils
+            .comparePassword(password, user.password);
+
+        if (isValidPassword) {
+          const tokenJWT = SecurityController.createTokenJWT(user);
+          res.set('Authorization', tokenJWT);
+          res.status(200).json({
+            user_id: user.id,
+            accessToken: tokenJWT,
           });
-        });
+        } else {
+          res.status(401).json({message: Messages.WRONG_CREDENTIALS});
+        }
+      } else {
+        res.status(401).json({message: Messages.WRONG_CREDENTIALS});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // PASSWORD VALIDATION
+  /**
+   * Validates a user's password.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static passwordValidation = async (req, res) => {
-    await database
-        .select('password')
-        .from('users')
-        .where({id: req.body.userId})
-        .then((users) => {
-          if (users.length) {
-            const user = users[0];
-            const isValidPassword = SecurityUtils.comparePassword(
-                req.body.password,
-                user.password,
-            );
+    const {userId, password} = req.body;
 
-            if (isValidPassword) {
-              res.status(200).json({result: true});
-              return;
-            } else {
-              res.status(200).json({result: false});
-              return;
-            }
-          }
-          res.status(404).json({message: Messages.NOTHING_FOUND});
-        })
-        .catch((err) => {
-          res.status(500).json({
-            message: Messages.ERROR_CHECKING_CREDENTIALS,
-            error: err.message,
-          });
-        });
+    try {
+      const users = await database
+          .select('password')
+          .from('users')
+          .where({id: userId});
+
+      if (users.length) {
+        const user = users[0];
+        const isValidPassword = SecurityUtils
+            .comparePassword(password, user.password);
+
+        res.status(200).json({result: isValidPassword});
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
   /**

@@ -5,69 +5,106 @@ const DateTimeUtil = require('../utils/dateTimeUtil');
  * UserController.
  */
 class UserController {
-  // GET ALL USERS
+  /**
+   * Retrieves all users from the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getAllUsers = async (req, res) => {
-    database('users')
-        .join('role', 'users.role_id', 'role.id')
-        .select(
-            'users.id',
-            'users.name',
-            'users.email',
-            'users.birthdate',
-            'users.phone',
-            'users.gender_id',
-            'users.weight',
-            'users.height',
-            'users.health_id',
-            'role.description as role',
-            'users.created_at',
-            'users.updated_at',
-        )
-        .then((users) => {
-          if (users.length) {
-            res.status(200).json(users);
-          } else {
-            res.status(200).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+    try {
+      const users = await database('users')
+          .join('role', 'users.role_id', 'role.id')
+          .select(
+              'users.id',
+              'users.name',
+              'users.email',
+              'users.birthdate',
+              'users.phone',
+              'users.gender_id',
+              'users.weight',
+              'users.height',
+              'users.health_id',
+              'role.description as role',
+              'users.created_at',
+              'users.updated_at',
+          );
+
+      if (users.length > 0) {
+        res.status(200).json(users);
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // GET USER BY ID
+  /**
+   * Retrieves a user by their ID from the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static getUserById = async (req, res) => {
     const id = req.params.id;
-    database('users')
-        .where('users.id', id)
-        .join('role', 'users.role_id', 'role.id')
-        .select(
-            'users.id',
-            'users.name',
-            'users.email',
-            'users.birthdate',
-            'users.phone',
-            'users.gender_id',
-            'users.health_id',
-            'users.weight',
-            'users.height',
-            'users.picture',
-            'role.description as role',
-            'users.created_at',
-            'users.updated_at',
-        )
-        .then((users) => {
-          if (users.length) {
-            const user = users[0];
-            res.status(200).json({user});
-          } else {
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+
+    try {
+      const users = await database('users')
+          .where('users.id', id)
+          .join('role', 'users.role_id', 'role.id')
+          .select(
+              'users.id',
+              'users.name',
+              'users.email',
+              'users.birthdate',
+              'users.phone',
+              'users.gender_id',
+              'users.health_id',
+              'users.weight',
+              'users.height',
+              'users.picture',
+              'role.description as role',
+              'users.created_at',
+              'users.updated_at',
+          );
+
+      if (users.length > 0) {
+        const user = users[0];
+        res.status(200).json({user});
+      } else {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
-  // UPDATE USER BY ID
+  /**
+   * Updates a user by their ID in the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static updateUserById = async (req, res) => {
     const id = req.params.id;
 
-    const user = {
+    const updatedUser = {
       name: req.body.name,
       email: req.body.email,
       birthdate: req.body.birthdate,
@@ -81,50 +118,58 @@ class UserController {
     };
 
     try {
-      await database('users')
+      const numAffectedRegisters = await database('users')
           .where('id', id)
-          .update(user)
-          .then((numAffectedRegisters) => {
-            if (numAffectedRegisters == 0) {
-              res.status(404).json({message: Messages.NOTHING_FOUND});
-            } else {
-              res.status(201).json({user});
-            }
-          });
-    } catch (err) {
-      return res.status(500).json({
-        message: Messages.ERROR_UPDATING_USER,
-        details: `${err.message}`,
+          .update(updatedUser);
+
+      if (numAffectedRegisters === 0) {
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      } else {
+        res.status(201).json({user: updatedUser});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
       });
     }
   };
 
-  // DELETE USER BY ID
+  /**
+   * Deletes a user by their ID from the database.
+   *
+   * @async
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @return {Promise<void>} - A promise that resolves to void.
+   * @throws {Error} - If an error occurs during the process.
+   */
   static deleteUserById = async (req, res) => {
     const id = req.params.id;
-    database('users')
-        .where('users.id', id)
-        .select('users.id')
-        .then((users) => {
-          if (users.length > 0) {
-            const user = users[0];
-            database('users')
-                .where('id', user.id)
-                .del()
-                .then(res.status(200).json({message: Messages.USER_DELETED}))
-                .catch((err) => {
-                  res
-                      .status(500)
-                      .json({
-                        message: Messages.ERROR_DELETE_USER,
-                        details: `${err.message}`,
-                      });
-                });
-          } else {
-            // User not found to delete.
-            res.status(404).json({message: Messages.NOTHING_FOUND});
-          }
-        });
+
+    try {
+      const users = await database('users')
+          .where('users.id', id)
+          .select('users.id');
+
+      if (users.length === 0) {
+        // User not found to delete.
+        res.status(404).json({message: Messages.NOTHING_FOUND});
+      } else {
+        const user = users[0];
+
+        await database('users')
+            .where('id', user.id)
+            .del();
+
+        res.status(200).json({message: Messages.USER_DELETED});
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 }
 
