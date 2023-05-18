@@ -83,6 +83,9 @@ function loadFieldsWithUserData(data) {
   fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
   fieldWeight.value = data.user.weight ? data.user.weight : '';
   fieldHeight.value = data.user.height ? data.user.height : '';
+  setTimeout(() => {
+    fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
+  }, 20);
 }
 
 /**
@@ -340,4 +343,4 @@ function addSelectOptionElement(selectElement, html) {
 loadGenderList();
 loadDiabetesTypeList();
 loadBloodTypeList();
-setTimeout(loadUserInfos, 35);
+loadUserInfos();
