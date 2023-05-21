@@ -16,7 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">
-    <link href="./includes/styles/forms.css" rel="stylesheet">
+    <!-- <link href="./includes/styles/forms.css" rel="stylesheet"> -->
+    <link href="./includes/styles/settings.css" rel="stylesheet">
   </head>
 
   <body>    
@@ -91,10 +92,117 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left main-content">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
-                    <h1 class="h2">
+                    <h2>
                         <span data-feather="settings" class="align-middle pb-1"></span>
                         Settings
-                    </h1>
+                    </h2>
+                </div>
+
+                <div class="container">
+                    <div class="row mb-3">
+                        <div class="w-100 bg-white">                            
+                            <div class="shadow card mt-4">
+
+                                <!-- PANEL GLYCEMIA RANGE -->                                
+                                <div class="mt-5">
+                                    <h5 class="mb-4 fw-bold">Glycemia range</h5>
+                                    
+                                    <div id="panel-fields-glycemia-range">
+                                        <div>
+                                            <label for="field_Hypoglycemia" class="form-label text-muted">Hypoglycemia</label>
+                                            <input type="number" id="field_Hypoglycemia" class="form-control text-center">
+                                        </div>
+                                        
+                                        <div>
+                                            <label for="field_Hyperglycemia" class="form-label text-muted">Hyperglycemia</label>
+                                            <input type="number" id="field_Hyperglycemia" class="form-control text-center">
+                                        </div>
+                                    </div>
+                                </div>                                
+
+                                <!-- PANEL MEASUREMENT UNIT -->                                
+                                <div class="mt-5">
+                                    <h5 class="mb-4 fw-bold">Glycemia Measurement Unity</h5>
+                                    <div id="panel-fields-glycemia-measurement-unity">
+                                        <select id="field_MeasurementUnity" class="form-select">
+                                            <option selected>Select an option</option>
+                                            <option value="1">milligrams per decilitre (mg/dL)</option>
+                                            <option value="2">millimoles per litre (mmol/L)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- PANEL MEAL TIME -->                                
+                                <div class="mt-5">
+                                    <h5 class="mb-4 fw-bold">Meal time</h5>                                    
+                                    <div class="row">                                        
+                                        <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Breakfast</h5>
+                                                <div class="mb-3">
+                                                    <label for="field_breakfast_pre" class="form-label text-muted">Preprandial</label>
+                                                    <input type="time" id="field_breakfast_pre" class="form-control text-center">
+                                                </div>  
+
+                                                <div class="mb-3">
+                                                    <label for="field_breakfast_pos" class="form-label text-muted">Posprandial</label>
+                                                    <input type="time" id="field_breakfast_pos" class="form-control text-center">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Lunch</h5>
+                                                <div class="mb-3">
+                                                    <label for="field_lunch_pre" class="form-label text-muted">Preprandial</label>
+                                                    <input type="time" id="field_lunch_pre" class="form-control text-center">
+                                                </div>  
+
+                                                <div class="mb-3">
+                                                    <label for="field_lunch_pos" class="form-label text-muted">Posprandial</label>
+                                                    <input type="time" id="field_lunch_pos" class="form-control text-center">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Dinner</h5>
+                                                <div class="mb-3">
+                                                    <label for="field_dinner_pre" class="form-label text-muted">Preprandial</label>
+                                                    <input type="time" id="field_dinner_pre" class="form-control text-center">
+                                                </div>  
+
+                                                <div class="mb-3">
+                                                    <label for="field_dinner_pos" class="form-label text-muted">Posprandial</label>
+                                                    <input type="time" id="field_dinner_pos" class="form-control text-center">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Bed time</h5>
+                                                <div class="mb-3">
+                                                    <label for="field_dinner_pre" class="form-label text-muted">Preprandial</label>
+                                                    <input type="time" id="field_dinner_pre" class="form-control text-center">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PANEL BUTTONS -->
+                                <div class="mt-5 mb-3 panel-buttons">
+                                    <button type="submit" class="btn btn-primary" id="btnSaveSettings">
+                                        <span data-feather="save"></span>
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>

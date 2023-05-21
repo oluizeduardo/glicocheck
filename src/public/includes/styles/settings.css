@@ -1,0 +1,59 @@
+.card{
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.panel_glycemia_range{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#panel-fields-glycemia-range{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    width: auto;
+    margin-left: 20px;
+}
+
+#panel-fields-glycemia-measurement-unity{
+    margin-left: 20px;
+}
+
+#field_MeasurementUnity{
+    width: 25%;
+}
+
+.panel-buttons{
+    display: flex;
+}
+
+@media only screen and (max-width: 500px) {
+    #panel-fields-glycemia-range{
+        flex-direction: column;
+    }
+    #field_MeasurementUnity{
+        width: 100%;
+    }
+    #panel-fields-glycemia-range{
+        margin-left: 0px;
+    }    
+    #panel-fields-glycemia-measurement-unity{
+        margin-left: 0px;
+    }
+    .panel-buttons{
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-height: 575.98px) and (orientation: landscape) {
+    .glycemia-range{
+        flex-direction: row;
+        gap: 50px;
+    }
+    #field_MeasurementUnity{
+        width: 40%;
+    }  
+}
