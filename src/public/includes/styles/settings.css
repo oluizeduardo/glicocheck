@@ -23,11 +23,22 @@
 }
 
 #field_MeasurementUnity{
-    width: 25%;
+    width: 26%;
 }
 
 .panel-buttons{
     display: flex;
+}
+
+.panel-slider-range{
+    width: 25%;
+}
+
+.slider {
+    opacity: 0.7;
+}
+.slider:hover {
+    opacity: 1;
 }
 
 @media only screen and (max-width: 500px) {
@@ -42,6 +53,9 @@
     }    
     #panel-fields-glycemia-measurement-unity{
         margin-left: 0px;
+    }
+    .panel-slider-range{
+        width: 100%;
     }
     .panel-buttons{
         flex-direction: column;

@@ -102,33 +102,49 @@
                     <div class="row mb-3">
                         <div class="w-100 bg-white">                            
                             <div class="shadow card mt-4">
+                                <!-- PANEL MEASUREMENT UNIT -->                                
+                                <div class="mt-5">
+                                    <h5 class="mb-4 fw-bold">Glycemia Measurement Unity</h5>
+                                    <div id="panel-fields-glycemia-measurement-unity">
+                                        <select id="field_MeasurementUnity" class="form-select" onchange="updateGlycemiaValueLabel()">
+                                            <option value="1" selected>milligrams per decilitre (mg/dL)</option>
+                                            <option value="2">millimoles per litre (mmol/L)</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <!-- PANEL GLYCEMIA RANGE -->                                
                                 <div class="mt-5">
                                     <h5 class="mb-4 fw-bold">Glycemia range</h5>
                                     
+                                    <!-- HYPOGLYCEMIA VALUE -->
                                     <div id="panel-fields-glycemia-range">
-                                        <div>
-                                            <label for="field_Hypoglycemia" class="form-label text-muted">Hypoglycemia</label>
-                                            <input type="number" id="field_Hypoglycemia" class="form-control text-center">
+                                        <div class="panel-slider-range">
+                                            <label for="field_Hypoglycemia" class="form-label text-muted">
+                                                Hypoglycemia:
+                                            </label>
+                                            <span class="fw-bolder"> 
+                                                <span id="valueHypo">70</span> (<span id="measurement_unity_hypo">mg/dL</span>)
+                                            </span> 
+                                            <input type="range" id="hypoRange" class="form-range slider" min="60" max="80" value="70"
+                                            data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                                            title="Values lower than this will be considered hypoglycemia."
+                                            oninput="valueHypo.innerText = this.value">
                                         </div>
-                                        
-                                        <div>
-                                            <label for="field_Hyperglycemia" class="form-label text-muted">Hyperglycemia</label>
-                                            <input type="number" id="field_Hyperglycemia" class="form-control text-center">
-                                        </div>
-                                    </div>
-                                </div>                                
 
-                                <!-- PANEL MEASUREMENT UNIT -->                                
-                                <div class="mt-5">
-                                    <h5 class="mb-4 fw-bold">Glycemia Measurement Unity</h5>
-                                    <div id="panel-fields-glycemia-measurement-unity">
-                                        <select id="field_MeasurementUnity" class="form-select">
-                                            <option selected>Select an option</option>
-                                            <option value="1">milligrams per decilitre (mg/dL)</option>
-                                            <option value="2">millimoles per litre (mmol/L)</option>
-                                        </select>
+                                        <!-- HYPERGLYCEMIA VALUE -->
+                                        <div class="panel-slider-range">
+                                            <label for="field_Hyperglycemia" class="form-label text-muted">
+                                                Hyperglycemia:
+                                            </label>
+                                            <span class="fw-bolder"> 
+                                                <span id="valueHyper">160</span> (<span id="measurement_unity_hyper">mg/dL</span>)
+                                            </span> 
+                                            <input type="range" id="hyperRange" class="form-range slider" min="150" max="170" value="160"
+                                            data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                                            title="Values higher than this will be considered hyperglycemia."
+                                            oninput="valueHyper.innerText = this.value">
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -219,5 +235,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
     crossorigin="anonymous"></script>
+    <!-- SETTINGS -->
+    <script src="./includes/js/settings.js" defer></script>
   </body>
 </html>
