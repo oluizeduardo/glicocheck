@@ -76,5 +76,23 @@ function initializeTooltip() {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
 }
+/**
+ * Updates the time of the posprandial field
+ * based on the preprandial value by adding two hours.
+ *
+ * @param {HTMLInputElement} preElement - The input element
+ * containing the preprandial time value.
+ * @param {HTMLInputElement} posElement - The input element
+ * to update with the posprandial time value.
+ * @return {void}
+ */
+function updatePosprandial(preElement, posElement) {
+  const preValue = preElement.value;
+  const [hour, minute] = preValue.split(':').map(Number);
+  const plusTwoHours = (hour + 2) % 24;
+  const posprandialHour = `${String(plusTwoHours).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+
+  posElement.value = posprandialHour;
+}
 
 initializeTooltip();

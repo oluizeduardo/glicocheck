@@ -101,9 +101,9 @@
                 <div class="container">
                     <div class="row mb-3">
                         <div class="w-100 bg-white">                            
-                            <div class="shadow card mt-4">
+                            <div>
                                 <!-- PANEL MEASUREMENT UNIT -->                                
-                                <div class="mt-5">
+                                <div class="shadow card mt-5 p-4">
                                     <h5 class="mb-4 fw-bold">Glycemia Measurement Unity</h5>
                                     <div id="panel-fields-glycemia-measurement-unity">
                                         <select id="field_MeasurementUnity" class="form-select" onchange="updateGlycemiaValueLabel()">
@@ -114,7 +114,7 @@
                                 </div>
 
                                 <!-- PANEL GLYCEMIA RANGE -->                                
-                                <div class="mt-5">
+                                <div class="shadow card mt-4 p-4">
                                     <h5 class="mb-4 fw-bold">Glycemia range</h5>
                                     
                                     <!-- HYPOGLYCEMIA VALUE -->
@@ -149,7 +149,7 @@
                                 </div>
                                 
                                 <!-- PANEL MEAL TIME -->                                
-                                <div class="mt-5">
+                                <div class="shadow card mt-4 p-4">
                                     <h5 class="mb-4 fw-bold">Meal time</h5>                                    
                                     <div class="row">                                        
                                         <div class="card" style="width: 18rem;">
@@ -157,12 +157,13 @@
                                                 <h5 class="card-title">Breakfast</h5>
                                                 <div class="mb-3">
                                                     <label for="field_breakfast_pre" class="form-label text-muted">Preprandial</label>
-                                                    <input type="time" id="field_breakfast_pre" class="form-control text-center">
+                                                    <input type="time" id="field_breakfast_pre" class="form-control text-center" 
+                                                    value="06:00" onchange="updatePosprandial(this, field_breakfast_pos)" required>
                                                 </div>  
 
                                                 <div class="mb-3">
                                                     <label for="field_breakfast_pos" class="form-label text-muted">Posprandial</label>
-                                                    <input type="time" id="field_breakfast_pos" class="form-control text-center">
+                                                    <input type="time" id="field_breakfast_pos" class="form-control text-center" value="08:00" disabled>
                                                 </div>
                                             </div>
                                         </div>
@@ -172,12 +173,14 @@
                                                 <h5 class="card-title">Lunch</h5>
                                                 <div class="mb-3">
                                                     <label for="field_lunch_pre" class="form-label text-muted">Preprandial</label>
-                                                    <input type="time" id="field_lunch_pre" class="form-control text-center">
+                                                    <input type="time" id="field_lunch_pre" class="form-control text-center"
+                                                    value="12:00" onchange="updatePosprandial(this, field_lunch_pos)"
+                                                    min="09:00" max="18:00">
                                                 </div>  
 
                                                 <div class="mb-3">
                                                     <label for="field_lunch_pos" class="form-label text-muted">Posprandial</label>
-                                                    <input type="time" id="field_lunch_pos" class="form-control text-center">
+                                                    <input type="time" id="field_lunch_pos" class="form-control text-center" value="14:00" disabled>
                                                 </div>
                                             </div>
                                         </div>
@@ -187,12 +190,12 @@
                                                 <h5 class="card-title">Dinner</h5>
                                                 <div class="mb-3">
                                                     <label for="field_dinner_pre" class="form-label text-muted">Preprandial</label>
-                                                    <input type="time" id="field_dinner_pre" class="form-control text-center">
+                                                    <input type="time" id="field_dinner_pre" class="form-control text-center" value="19:00" onchange="updatePosprandial(this, field_dinner_pos)">
                                                 </div>  
 
                                                 <div class="mb-3">
                                                     <label for="field_dinner_pos" class="form-label text-muted">Posprandial</label>
-                                                    <input type="time" id="field_dinner_pos" class="form-control text-center">
+                                                    <input type="time" id="field_dinner_pos" class="form-control text-center" value="21:00" disabled>
                                                 </div>
                                             </div>
                                         </div>
@@ -202,7 +205,7 @@
                                                 <h5 class="card-title">Bed time</h5>
                                                 <div class="mb-3">
                                                     <label for="field_dinner_pre" class="form-label text-muted">Preprandial</label>
-                                                    <input type="time" id="field_dinner_pre" class="form-control text-center">
+                                                    <input type="time" id="field_dinner_pre" class="form-control text-center" value="23:00">
                                                 </div>
                                             </div>
                                         </div>
