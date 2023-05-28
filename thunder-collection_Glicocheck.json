@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Glicocheck",
-    "dateExported": "2023-05-18T02:36:30.724Z",
+    "dateExported": "2023-05-28T15:10:50.592Z",
     "version": "1.1",
     "folders": [
         {
@@ -17,6 +17,13 @@
             "containerId": "",
             "created": "2022-07-25T00:41:56.530Z",
             "sortNum": 20000
+        },
+        {
+            "_id": "34132dcd-b8f3-432e-904c-146aed7995da",
+            "name": "System Configuration",
+            "containerId": "",
+            "created": "2023-05-27T15:47:26.169Z",
+            "sortNum": 25000
         },
         {
             "_id": "fd9589d5-fe49-46fe-89c3-fd875295b932",
@@ -786,6 +793,65 @@
             "modified": "2023-05-16T12:22:07.799Z",
             "headers": [],
             "params": [],
+            "tests": []
+        },
+        {
+            "_id": "02629be0-b56d-4ed8-ba1b-56dc418e194b",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "34132dcd-b8f3-432e-904c-146aed7995da",
+            "name": "Add System Configuration",
+            "url": "{{LOCALHOST}}/api/systemconfiguration",
+            "method": "POST",
+            "sortNum": 300000,
+            "created": "2023-05-27T15:47:44.198Z",
+            "modified": "2023-05-28T14:12:38.841Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userId\": \"2b0be40d480cf7042cfb74190a1a7820bb6e2c4c\",\n  \"glucoseUnityId\": 1,\n  \"limitHypo\": 60,\n  \"limitHyper\": 165,\n  \"timeBreakfastPre\": \"05:30\",\n  \"timeBreakfastPos\": \"07:30\",\n  \"timeLunchPre\": \"11:30\",\n  \"timeLunchPos\": \"13:30\",\n  \"timeDinnerPre\": \"19:30\",\n  \"timeDinnerPos\": \"21:30\",\n  \"timeSleep\": \"22:30\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJiMGJlNDBkNDgwY2Y3MDQyY2ZiNzQxOTBhMWE3ODIwYmI2ZTJjNGMiLCJpYXQiOjE2ODUyODMwMjgsImV4cCI6MTY4NTI4NDgyOH0.M6K35hyp26ah73WP9XUq_pOxN_yJoADZdmakdf78WfU"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d687063c-3f29-48cc-b5d8-2aea67de951c",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "34132dcd-b8f3-432e-904c-146aed7995da",
+            "name": "Get all System configuration",
+            "url": "{{LOCALHOST}}/api/systemconfiguration",
+            "method": "GET",
+            "sortNum": 310000,
+            "created": "2023-05-27T15:54:38.070Z",
+            "modified": "2023-05-27T16:13:06.060Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQxNjIxMDE5OTJiNTM1YzM5ZWJjMmRhZTJmOTE1YjYxYWFlZWVmZjgiLCJpYXQiOjE2ODUyMDI3OTksImV4cCI6MTY4NTIwNDU5OX0.SjAMtfY5-zI_jxc3jWlsM0sBOhCVMXly-P4Uk0pyZaw"
+            },
+            "tests": []
+        },
+        {
+            "_id": "11ca0fe5-d782-4201-bbb1-ce723bdadb6c",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "34132dcd-b8f3-432e-904c-146aed7995da",
+            "name": "Get System configuration by user Id",
+            "url": "{{LOCALHOST}}/api/systemconfiguration/aaff9eaf7690b70f297894ecb16c420b4b33ce19",
+            "method": "GET",
+            "sortNum": 320000,
+            "created": "2023-05-27T16:19:37.425Z",
+            "modified": "2023-05-28T15:06:12.952Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFhZmY5ZWFmNzY5MGI3MGYyOTc4OTRlY2IxNmM0MjBiNGIzM2NlMTkiLCJpYXQiOjE2ODUyODYzMzcsImV4cCI6MTY4NTI4ODEzN30.bY0Fj3vO0N-FDMpLeurd4fNNvDoSd7b9YrNVNch4tzs"
+            },
             "tests": []
         }
     ],
