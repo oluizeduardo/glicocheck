@@ -3,6 +3,7 @@ const database = require('../db/dbconfig.js');
 const jwt = require('jsonwebtoken');
 const SecurityUtils = require('../utils/securityUtils');
 const CryptoUtil = require('../utils/cryptoUtil');
+const SystemConfigurationController = require('./systemConfigurationController');
 
 /**
  * SecurityController.
@@ -48,7 +49,9 @@ class SecurityController {
                 },
                 ['id']
             );
-
+        console.log('Saved new user.');
+        // Save default system configuration for the new user.
+        SystemConfigurationController.saveDefaultSystemConfiguration(id);
         res.status(201).json({message: Messages.NEW_USER_CREATED});
       }
     } catch (error) {

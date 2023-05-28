@@ -11,6 +11,7 @@ DELETE FROM health_info;
 DELETE FROM diabetes_type;
 DELETE FROM blood_type;
 DELETE FROM password_reset_tokens;
+DELETE FROM user_system_config;
 
 
 ------------- DROPS -------------
@@ -24,6 +25,7 @@ DROP TABLE IF EXISTS health_info;
 DROP TABLE IF EXISTS diabetes_type;
 DROP TABLE IF EXISTS blood_type;
 DROP TABLE IF EXISTS password_reset_tokens;
+DROP TABLE IF EXISTS user_system_config;
 
 
 ------------- ROLES -------------
@@ -64,6 +66,28 @@ CREATE TABLE users (
 );
 
 SELECT * FROM users;
+
+
+---- USER'S SYSTEM CONFIGURATION ----
+CREATE TABLE user_system_config (
+  id               INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id          varchar(50) NOT NULL,
+  glucose_unity_id INTEGER NOT NULL,
+  limit_hypo       INTEGER,
+  limit_hyper      INTEGER,
+  time_bf_pre      varchar(5),
+  time_bf_pos      varchar(5),
+  time_lunch_pre   varchar(5),
+  time_lunch_pos   varchar(5),
+  time_dinner_pre  varchar(5),
+  time_dinner_pos  varchar(5),
+  time_sleep       varchar(5),
+  created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+  updated_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
+
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (glucose_unity_id) REFERENCES measurement_unity(id)
+);
 
 
 ---- HEALTH INFO ----

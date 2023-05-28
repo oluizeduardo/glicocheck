@@ -16,7 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Pattaya&display=swap" rel="stylesheet">
     <!-- Custom style -->
     <link href="./includes/styles/dashboard.css" rel="stylesheet">
-    <!-- <link href="./includes/styles/forms.css" rel="stylesheet"> -->
     <link href="./includes/styles/settings.css" rel="stylesheet">
   </head>
 
@@ -105,7 +104,7 @@
                                 <!-- PANEL MEASUREMENT UNIT -->                                
                                 <div class="shadow card mt-5 p-4">
                                     <h5 class="mb-4 fw-bold">Glycemia Measurement Unity</h5>
-                                    <div id="panel-fields-glycemia-measurement-unity">
+                                    <div id="panel-fields-glycemia-measurement-unity" class="mb-2">
                                         <select id="field_MeasurementUnity" class="form-select" onchange="updateGlycemiaValueLabel()">
                                             <option value="1" selected>milligrams per decilitre (mg/dL)</option>
                                             <option value="2">millimoles per litre (mmol/L)</option>
@@ -152,60 +151,60 @@
                                 <div class="shadow card mt-4 p-4">
                                     <h5 class="mb-4 fw-bold">Meal time</h5>                                    
                                     <div class="row">                                        
-                                        <div class="card" style="width: 18rem;">
+                                        <div class="card card-meal-time">
                                             <div class="card-body">
                                                 <h5 class="card-title">Breakfast</h5>
                                                 <div class="mb-3">
                                                     <label for="field_breakfast_pre" class="form-label text-muted">Preprandial</label>
                                                     <input type="time" id="field_breakfast_pre" class="form-control text-center" 
-                                                    value="06:00" onchange="updatePosprandial(this, field_breakfast_pos)" required>
+                                                    onchange="updatePosprandial(this, field_breakfast_pos)" required>
                                                 </div>  
 
                                                 <div class="mb-3">
                                                     <label for="field_breakfast_pos" class="form-label text-muted">Posprandial</label>
-                                                    <input type="time" id="field_breakfast_pos" class="form-control text-center" value="08:00" disabled>
+                                                    <input type="time" id="field_breakfast_pos" class="form-control text-center" disabled>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="card" style="width: 18rem;">
+                                        <div class="card card-meal-time">
                                             <div class="card-body">
                                                 <h5 class="card-title">Lunch</h5>
                                                 <div class="mb-3">
                                                     <label for="field_lunch_pre" class="form-label text-muted">Preprandial</label>
                                                     <input type="time" id="field_lunch_pre" class="form-control text-center"
-                                                    value="12:00" onchange="updatePosprandial(this, field_lunch_pos)"
+                                                    onchange="updatePosprandial(this, field_lunch_pos)"
                                                     min="09:00" max="18:00">
                                                 </div>  
 
                                                 <div class="mb-3">
                                                     <label for="field_lunch_pos" class="form-label text-muted">Posprandial</label>
-                                                    <input type="time" id="field_lunch_pos" class="form-control text-center" value="14:00" disabled>
+                                                    <input type="time" id="field_lunch_pos" class="form-control text-center" disabled>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="card" style="width: 18rem;">
+                                        <div class="card card-meal-time">
                                             <div class="card-body">
                                                 <h5 class="card-title">Dinner</h5>
                                                 <div class="mb-3">
                                                     <label for="field_dinner_pre" class="form-label text-muted">Preprandial</label>
-                                                    <input type="time" id="field_dinner_pre" class="form-control text-center" value="19:00" onchange="updatePosprandial(this, field_dinner_pos)">
+                                                    <input type="time" id="field_dinner_pre" class="form-control text-center" onchange="updatePosprandial(this, field_dinner_pos)">
                                                 </div>  
 
                                                 <div class="mb-3">
                                                     <label for="field_dinner_pos" class="form-label text-muted">Posprandial</label>
-                                                    <input type="time" id="field_dinner_pos" class="form-control text-center" value="21:00" disabled>
+                                                    <input type="time" id="field_dinner_pos" class="form-control text-center" disabled>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="card" style="width: 18rem;">
+                                        <div class="card card-meal-time">
                                             <div class="card-body">
                                                 <h5 class="card-title">Bed time</h5>
                                                 <div class="mb-3">
-                                                    <label for="field_dinner_pre" class="form-label text-muted">Preprandial</label>
-                                                    <input type="time" id="field_dinner_pre" class="form-control text-center" value="23:00">
+                                                    <label for="field_sleep_time" class="form-label text-muted">Preprandial</label>
+                                                    <input type="time" id="field_sleep_time" class="form-control text-center">
                                                 </div>
                                             </div>
                                         </div>
@@ -237,6 +236,10 @@
     <!-- For toggle menu. -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
+    crossorigin="anonymous"></script>
+    <!-- SWEET ALERT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
+    integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
     crossorigin="anonymous"></script>
     <!-- SETTINGS -->
     <script src="./includes/js/settings.js" defer></script>

@@ -5,7 +5,7 @@ class Messages {
   static PONG = 'Pong';
 
   static ERROR = 'An error occurred.';
-  static INCOMPLETE_DATA_PROVIDED = 'An error occurred.';
+  static INCOMPLETE_DATA_PROVIDED = 'Incomplete data provided.';
 
   static NOTHING_FOUND = 'Nothing found';
   static TOKEN_REQUIRED = 'Access token required';
@@ -49,6 +49,8 @@ class Messages {
   static ERROR_DELETE_RESET_TOKEN = 'Error deleting reset token';
   static RESET_PASSWORD_PROCESS = 'Executing reset password process.';
   static PASSWORD_UPDATED = 'Password updated.';
+
+  static NEW_CONFIGURATION_CREATED = 'New system configuration created for the user ';
 }
 
 module.exports = Messages;

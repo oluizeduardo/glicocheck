@@ -5,6 +5,14 @@ const fieldValueHypo = document.getElementById('valueHypo');
 const fieldValueHyper = document.getElementById('valueHyper');
 const hypoRange = document.getElementById('hypoRange');
 const hyperRange = document.getElementById('hyperRange');
+// Meal time
+const fieldBreakfastPre = document.getElementById('field_breakfast_pre');
+const fieldBreakfastPos = document.getElementById('field_breakfast_pos');
+const fieldLunchPre = document.getElementById('field_lunch_pre');
+const fieldLunchPos = document.getElementById('field_lunch_pos');
+const fieldDinnerPre = document.getElementById('field_dinner_pre');
+const fieldDinnerPos = document.getElementById('field_dinner_pos');
+const fieldSleepTime = document.getElementById('field_sleep_time');
 
 const MG_DL = 'mg/dL';
 const MMOL_L = 'mmol/L';
@@ -95,4 +103,81 @@ function updatePosprandial(preElement, posElement) {
   posElement.value = posprandialHour;
 }
 
+/**
+ * Gets the JWT token from the session storage.
+ * @return {string} The JWT token.
+ */
+function getJwtToken() {
+  return sessionStorage.getItem('jwt');
+}
+/**
+ * Gets the user id saved in the session storage.
+ * @return {string} The user id.
+ */
+function getUserId() {
+  return sessionStorage.getItem('userId');
+}
+/**
+ * This function is a utility function that simplifies the process
+ * of sending HTTP requests to an API using the Fetch API.
+ * @param {string} url The url you want to reach.
+ * @return {Response}
+ */
+async function fetchData(url) {
+  const headers = new Headers({'Authorization': 'Bearer ' + getJwtToken()});
+  const myInit = {method: 'GET', headers: headers};
+  const response = await fetch(url, myInit);
+  return response;
+}
+/**
+ * Loads the default system configuration.
+ */
+async function loadSystemConfiguration() {
+  const response = await fetchData('/api/systemconfiguration/' + getUserId());
+  const {status} = response;
+
+  switch (status) {
+    case 200:
+      const data = await response.json();
+      data.forEach((item) => {
+        fillConfigurationFields(item);
+      });
+      break;
+
+    case 401:
+      handleSessionExpired();
+      break;
+
+    case 404:
+      swal('Error',
+          `No system configuration found for this user.
+          Please, contact an admin user.`,
+          'error');
+      break;
+  }
+}
+/**
+ * It fills the fields with the specific system configurations.
+ * @param {Object} item Item received from the data response.
+ */
+function fillConfigurationFields(item) {
+  fieldMeasurementUnity.value = item.glucose_unity_id;
+  hypoRange.value = item.limit_hypo;
+  hyperRange.value = item.limit_hyper;
+
+  measurementUnityHypo.value = getMeasurementUnity();
+  measurementUnityHyper.value = getMeasurementUnity();
+  fieldValueHypo.innerText = hypoRange.value;
+  fieldValueHyper.innerText = hyperRange.value;
+
+  fieldBreakfastPre.value = item.time_bf_pre;
+  fieldBreakfastPos.value = item.time_bf_pos;
+  fieldLunchPre.value = item.time_lunch_pre;
+  fieldLunchPos.value = item.time_lunch_pos;
+  fieldDinnerPre.value = item.time_dinner_pre;
+  fieldDinnerPos.value = item.time_dinner_pos;
+  fieldSleepTime.value = item.time_sleep;
+}
+
+loadSystemConfiguration();
 initializeTooltip();

@@ -4,6 +4,10 @@
     padding-right: 20px;
 }
 
+.card-meal-time{
+    width: 18rem;
+}
+
 .panel_glycemia_range{
     display: flex;
     flex-direction: row;
@@ -41,16 +45,20 @@
     opacity: 1;
 }
 
+@media (max-width: 1400px) {
+    .card-meal-time{
+        width: 15rem;
+    }
+}
+
 @media only screen and (max-width: 500px) {
     #panel-fields-glycemia-range{
         flex-direction: column;
+        margin-left: 0px;
     }
     #field_MeasurementUnity{
         width: 100%;
-    }
-    #panel-fields-glycemia-range{
-        margin-left: 0px;
-    }    
+    }   
     #panel-fields-glycemia-measurement-unity{
         margin-left: 0px;
     }
@@ -59,6 +67,9 @@
     }
     .panel-buttons{
         flex-direction: column;
+    }
+    .card-meal-time{
+        width: 18rem;
     }
 }
 
