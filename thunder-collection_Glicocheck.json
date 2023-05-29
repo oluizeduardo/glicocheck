@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Glicocheck",
-    "dateExported": "2023-05-28T15:10:50.592Z",
+    "dateExported": "2023-05-29T00:13:26.882Z",
     "version": "1.1",
     "folders": [
         {
@@ -804,12 +804,12 @@
             "method": "POST",
             "sortNum": 300000,
             "created": "2023-05-27T15:47:44.198Z",
-            "modified": "2023-05-28T14:12:38.841Z",
+            "modified": "2023-05-28T23:03:56.984Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"userId\": \"2b0be40d480cf7042cfb74190a1a7820bb6e2c4c\",\n  \"glucoseUnityId\": 1,\n  \"limitHypo\": 60,\n  \"limitHyper\": 165,\n  \"timeBreakfastPre\": \"05:30\",\n  \"timeBreakfastPos\": \"07:30\",\n  \"timeLunchPre\": \"11:30\",\n  \"timeLunchPos\": \"13:30\",\n  \"timeDinnerPre\": \"19:30\",\n  \"timeDinnerPos\": \"21:30\",\n  \"timeSleep\": \"22:30\"\n}",
+                "raw": "{\n  \"userId\": \"2b0be40d480cf7042cfb74190a1a7820bb6e2c4c\",\n  \"glucoseUnityId\": 1,\n  \"limitHypo\": 70,\n  \"limitHyper\": 160,\n  \"timeBreakfastPre\": \"05:00\",\n  \"timeBreakfastPos\": \"07:00\",\n  \"timeLunchPre\": \"11:00\",\n  \"timeLunchPos\": \"13:00\",\n  \"timeDinnerPre\": \"19:00\",\n  \"timeDinnerPos\": \"21:00\",\n  \"timeSleep\": \"22:00\"\n}",
                 "form": []
             },
             "auth": {
@@ -841,16 +841,57 @@
             "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
             "containerId": "34132dcd-b8f3-432e-904c-146aed7995da",
             "name": "Get System configuration by user Id",
-            "url": "{{LOCALHOST}}/api/systemconfiguration/aaff9eaf7690b70f297894ecb16c420b4b33ce19",
+            "url": "{{LOCALHOST}}/api/systemconfiguration/688d4a38ad63df65efbab3db8bee823ede55fa76",
             "method": "GET",
             "sortNum": 320000,
             "created": "2023-05-27T16:19:37.425Z",
-            "modified": "2023-05-28T15:06:12.952Z",
+            "modified": "2023-05-29T00:10:10.512Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFhZmY5ZWFmNzY5MGI3MGYyOTc4OTRlY2IxNmM0MjBiNGIzM2NlMTkiLCJpYXQiOjE2ODUyODYzMzcsImV4cCI6MTY4NTI4ODEzN30.bY0Fj3vO0N-FDMpLeurd4fNNvDoSd7b9YrNVNch4tzs"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGQ0YTM4YWQ2M2RmNjVlZmJhYjNkYjhiZWU4MjNlZGU1NWZhNzYiLCJpYXQiOjE2ODUzMTg5OTMsImV4cCI6MTY4NTMyMDc5M30.eaFmm2wJ-LkrUnLiuidUAfFV8eaRUwaj0udXbs3DdtQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "9e906528-398f-404d-a0bd-e84d5075fde0",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "34132dcd-b8f3-432e-904c-146aed7995da",
+            "name": "Update by user id",
+            "url": "{{LOCALHOST}}/api/systemconfiguration/688d4a38ad63df65efbab3db8bee823ede55fa76",
+            "method": "PUT",
+            "sortNum": 320000,
+            "created": "2023-05-28T23:02:08.904Z",
+            "modified": "2023-05-29T00:12:28.450Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"glucoseUnityId\": 1,\n  \"limitHypo\": 65,\n  \"limitHyper\": 150,\n  \"timeBreakfastPre\": \"05:30\",\n  \"timeBreakfastPos\": \"07:30\",\n  \"timeLunchPre\": \"11:30\",\n  \"timeLunchPos\": \"13:30\",\n  \"timeDinnerPre\": \"19:30\",\n  \"timeDinnerPos\": \"21:30\",\n  \"timeSleep\": \"22:30\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGQ0YTM4YWQ2M2RmNjVlZmJhYjNkYjhiZWU4MjNlZGU1NWZhNzYiLCJpYXQiOjE2ODUzMTg5OTMsImV4cCI6MTY4NTMyMDc5M30.eaFmm2wJ-LkrUnLiuidUAfFV8eaRUwaj0udXbs3DdtQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "284f5c21-b16e-48a4-bcd3-2775e4c23047",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "34132dcd-b8f3-432e-904c-146aed7995da",
+            "name": "Delete by user id",
+            "url": "{{LOCALHOST}}/api/systemconfiguration/user/688d4a38ad63df65efbab3db8bee823ede55fa76",
+            "method": "DELETE",
+            "sortNum": 330000,
+            "created": "2023-05-28T23:39:34.243Z",
+            "modified": "2023-05-29T00:13:03.678Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGQ0YTM4YWQ2M2RmNjVlZmJhYjNkYjhiZWU4MjNlZGU1NWZhNzYiLCJpYXQiOjE2ODUzMTg5OTMsImV4cCI6MTY4NTMyMDc5M30.eaFmm2wJ-LkrUnLiuidUAfFV8eaRUwaj0udXbs3DdtQ"
             },
             "tests": []
         }

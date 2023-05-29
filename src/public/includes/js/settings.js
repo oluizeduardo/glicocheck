@@ -13,9 +13,14 @@ const fieldLunchPos = document.getElementById('field_lunch_pos');
 const fieldDinnerPre = document.getElementById('field_dinner_pre');
 const fieldDinnerPos = document.getElementById('field_dinner_pos');
 const fieldSleepTime = document.getElementById('field_sleep_time');
+// Button
+const btnSaveSettings = document.getElementById('btnSaveSettings');
 
 const MG_DL = 'mg/dL';
 const MMOL_L = 'mmol/L';
+
+const SUCCESS = 201;
+const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 /**
  * Update the meaurement unity label.
@@ -133,15 +138,13 @@ async function fetchData(url) {
  * Loads the default system configuration.
  */
 async function loadSystemConfiguration() {
-  const response = await fetchData('/api/systemconfiguration/' + getUserId());
+  const response = await fetchData('/api/systemconfiguration/user/' + getUserId());
   const {status} = response;
 
   switch (status) {
     case 200:
       const data = await response.json();
-      data.forEach((item) => {
-        fillConfigurationFields(item);
-      });
+      fillConfigurationFields(data);
       break;
 
     case 401:
@@ -162,13 +165,22 @@ async function loadSystemConfiguration() {
  */
 function fillConfigurationFields(item) {
   fieldMeasurementUnity.value = item.glucose_unity_id;
+  const measurementUnity = getMeasurementUnity();
+
+  // Adjust min and max.
+  if (measurementUnity === MMOL_L) {
+    setRangePropertiesForMMOL();
+  } else {
+    setRangePropertiesForMGDL();
+  }
+
   hypoRange.value = item.limit_hypo;
   hyperRange.value = item.limit_hyper;
 
-  measurementUnityHypo.value = getMeasurementUnity();
-  measurementUnityHyper.value = getMeasurementUnity();
-  fieldValueHypo.innerText = hypoRange.value;
-  fieldValueHyper.innerText = hyperRange.value;
+  measurementUnityHypo.innerText = measurementUnity;
+  measurementUnityHyper.innerText = measurementUnityHypo.innerText;
+  fieldValueHypo.innerText = item.limit_hypo;
+  fieldValueHyper.innerText = item.limit_hyper;
 
   fieldBreakfastPre.value = item.time_bf_pre;
   fieldBreakfastPos.value = item.time_bf_pos;
@@ -177,6 +189,75 @@ function fillConfigurationFields(item) {
   fieldDinnerPre.value = item.time_dinner_pre;
   fieldDinnerPos.value = item.time_dinner_pos;
   fieldSleepTime.value = item.time_sleep;
+}
+
+// /////////////////////////
+// SAVE SYSTEM CONFIGURATION
+// /////////////////////////
+btnSaveSettings.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  if (isValidDataEntry()) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = () => {
+      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+        if (xmlhttp.status == SUCCESS) {
+          swal('Saved!', '', 'success');
+        } else {
+          swal(
+              'Error',
+              'Error trying to update the system configuration.',
+              'error');
+        }
+      }
+    };
+    sendRequestToUpdateSystemConfiguration(xmlhttp);
+  } else {
+    showAlertMessage();
+  }
+});
+/**
+ * Checks whether the fields are properly filled.
+ * The fields listed in this function are only the required fields.
+ * @return {boolean} true if all the fields are filled, false otherwise.
+ */
+function isValidDataEntry() {
+  return (fieldBreakfastPre.value && fieldBreakfastPos.value &&
+          fieldLunchPre.value && fieldLunchPos.value &&
+          fieldDinnerPre.value && fieldDinnerPos.value &&
+          fieldSleepTime.value);
+}
+/**
+ * Sends a request to update the system configuration.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
+function sendRequestToUpdateSystemConfiguration(xmlhttp) {
+  const token = getJwtToken();
+  const userId = getUserId();
+
+  const jsonUpdateUser = prepareJsonRequest();
+  xmlhttp.open('PUT', `/api/systemconfiguration/user/${userId}`);
+  xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
+  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xmlhttp.send(jsonUpdateUser);
+}
+/**
+ * Creates a JSON object with values to be updated.
+ * @return {JSON} A JSON object.
+ */
+function prepareJsonRequest() {
+  return JSON.stringify({
+    glucoseUnityId: fieldMeasurementUnity.value,
+    limitHypo: hypoRange.value,
+    limitHyper: hyperRange.value,
+    timeBreakfastPre: fieldBreakfastPre.value,
+    timeBreakfastPos: fieldBreakfastPos.value,
+    timeLunchPre: fieldLunchPre.value,
+    timeLunchPos: fieldLunchPos.value,
+    timeDinnerPre: fieldDinnerPre.value,
+    timeDinnerPos: fieldDinnerPos.value,
+    timeSleep: fieldSleepTime.value,
+  });
 }
 
 loadSystemConfiguration();

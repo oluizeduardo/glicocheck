@@ -51,6 +51,7 @@ class Messages {
   static PASSWORD_UPDATED = 'Password updated.';
 
   static NEW_CONFIGURATION_CREATED = 'New system configuration created for the user ';
+  static SYSTEM_CONFIGURATION_DELETED = 'System configuration deleted.';
 }
 
 module.exports = Messages;

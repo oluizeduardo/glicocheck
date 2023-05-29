@@ -6,6 +6,8 @@ const SystemConfigurationController = require('../controllers/systemConfiguratio
 systemConfigurationRouter
     .post('/', checkToken, isAdmin, express.json(), SystemConfigurationController.addSystemConfiguration)
     .get('/', checkToken, isAdmin, express.json(), SystemConfigurationController.getAllSystemConfiguration)
-    .get('/:userId', checkToken, isAdmin, express.json(), SystemConfigurationController.getConfigurationByUserId);
+    .get('/user/:userId', checkToken, isAdmin, express.json(), SystemConfigurationController.getConfigurationByUserId)
+    .put('/user/:userId', checkToken, isAdmin, express.json(), SystemConfigurationController.updateConfigurationByUserId)
+    .delete('/user/:userId', checkToken, isAdmin, express.json(), SystemConfigurationController.deleteConfigurationByUserId);
 
 module.exports = systemConfigurationRouter;

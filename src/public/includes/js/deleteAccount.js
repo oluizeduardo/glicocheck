@@ -2,6 +2,7 @@ const btnConfirmDeleteAccount = document.getElementById('btnConfirmDeleteAccount
 const fieldPassword = document.getElementById('field_delete_account_Password');
 
 const HTTP_SUCCESS = 200;
+const NOTHING_FOUND = 404;
 const HTTP_UNAUTHORIZED = 401;
 
 btnConfirmDeleteAccount.addEventListener('click', (event) => {
@@ -16,6 +17,8 @@ btnConfirmDeleteAccount.addEventListener('click', (event) => {
           if (xmlhttp.readyState == 4) {
             switch (xmlhttp.status) {
               case HTTP_SUCCESS:
+              case NOTHING_FOUND:
+                deleteUserSystemConfiguration();
                 deleteUserAccount();
                 break;
 
@@ -89,6 +92,18 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send();
 }
+/**
+ * Delete the user's specific system configuration.
+ */
+async function deleteUserSystemConfiguration() {
+  const token = getJwtToken();
+  const userId = getUserId();
+  const url = `/api/systemconfiguration/user/${userId}`;
+  const headers = new Headers({'Authorization': 'Bearer ' + token});
+  const myInit = {method: 'DELETE', headers: headers};
+  await fetch(url, myInit);
+}
+
 /**
  * Gets the user id saved in the session storage.
  * @return {string} The user id.

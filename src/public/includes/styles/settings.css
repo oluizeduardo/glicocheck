@@ -27,7 +27,7 @@
 }
 
 #field_MeasurementUnity{
-    width: 32%;
+    width: auto;
 }
 
 .panel-buttons{
@@ -79,6 +79,14 @@
         gap: 50px;
     }
     #field_MeasurementUnity{
-        width: 40%;
-    }  
+        width: 100%;
+    }
+    .panel-buttons{
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+    .panel-slider-range{
+        width: 50%;
+    }
 }

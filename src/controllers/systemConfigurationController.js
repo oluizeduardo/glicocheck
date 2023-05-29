@@ -1,5 +1,6 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
+const DateTimeUtil = require('../utils/dateTimeUtil');
 /**
  * SystemConfigurationController.
  */
@@ -14,14 +15,34 @@ class SystemConfigurationController {
    * @throws {Error} - If an error occurs during the process.
    */
   static addSystemConfiguration = async (req, res) => {
-    const {userId, glucoseUnityId, limitHypo, limitHyper, timeBreakfastPre,
-      timeBreakfastPos, timeLunchPre, timeLunchPos, timeDinnerPre,
-      timeDinnerPos, timeSleep} = req.body;
+    const {
+      userId,
+      glucoseUnityId,
+      limitHypo,
+      limitHyper,
+      timeBreakfastPre,
+      timeBreakfastPos,
+      timeLunchPre,
+      timeLunchPos,
+      timeDinnerPre,
+      timeDinnerPos,
+      timeSleep,
+    } = req.body;
 
     // Validate input data
-    if (!userId || !glucoseUnityId || !limitHypo || !limitHyper ||
-        !timeBreakfastPre || !timeBreakfastPos || !timeLunchPre ||
-        !timeLunchPos || !timeDinnerPre || !timeDinnerPos || !timeSleep) {
+    if (
+      !userId ||
+      !glucoseUnityId ||
+      !limitHypo ||
+      !limitHyper ||
+      !timeBreakfastPre ||
+      !timeBreakfastPos ||
+      !timeLunchPre ||
+      !timeLunchPos ||
+      !timeDinnerPre ||
+      !timeDinnerPos ||
+      !timeSleep
+    ) {
       res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
       return;
     }
@@ -44,9 +65,9 @@ class SystemConfigurationController {
       await database('user_system_config').insert(newConfiguration, ['id']);
 
       const successMessage = Messages.NEW_CONFIGURATION_CREATED + userId;
-      res.status(201).json({message: successMessage});
+      return res.status(201).json({message: successMessage});
     } catch (error) {
-      res.status(500).json({message: Messages.ERROR});
+      return res.status(500).json({message: Messages.ERROR});
     }
   };
 
@@ -86,19 +107,30 @@ class SystemConfigurationController {
   static getAllSystemConfiguration = async (req, res) => {
     try {
       const configurations = await database('user_system_config as sysconfig')
-          .select('sysconfig.id', 'sysconfig.user_id', 'sysconfig.glucose_unity_id',
-              'sysconfig.limit_hypo', 'sysconfig.limit_hyper', 'sysconfig.time_bf_pre',
-              'sysconfig.time_bf_pos', 'sysconfig.time_lunch_pre', 'sysconfig.time_lunch_pos',
-              'sysconfig.time_dinner_pre', 'sysconfig.time_dinner_pos', 'sysconfig.time_sleep',
-              'sysconfig.created_at', 'sysconfig.updated_at');
+          .select(
+              'sysconfig.id',
+              'sysconfig.user_id',
+              'sysconfig.glucose_unity_id',
+              'sysconfig.limit_hypo',
+              'sysconfig.limit_hyper',
+              'sysconfig.time_bf_pre',
+              'sysconfig.time_bf_pos',
+              'sysconfig.time_lunch_pre',
+              'sysconfig.time_lunch_pos',
+              'sysconfig.time_dinner_pre',
+              'sysconfig.time_dinner_pos',
+              'sysconfig.time_sleep',
+              'sysconfig.created_at',
+              'sysconfig.updated_at',
+          );
 
       if (configurations.length > 0) {
-        res.status(200).json(configurations);
-      } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        return res.status(200).json(configurations);
       }
+
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
     } catch (error) {
-      res.status(500).json({message: Messages.ERROR});
+      return res.status(500).json({message: Messages.ERROR});
     }
   };
 
@@ -117,19 +149,29 @@ class SystemConfigurationController {
     try {
       const configurations = await database('user_system_config as sysconfig')
           .where('user_id', userId)
-          .select('sysconfig.id', 'sysconfig.glucose_unity_id',
-              'sysconfig.limit_hypo', 'sysconfig.limit_hyper', 'sysconfig.time_bf_pre',
-              'sysconfig.time_bf_pos', 'sysconfig.time_lunch_pre', 'sysconfig.time_lunch_pos',
-              'sysconfig.time_dinner_pre', 'sysconfig.time_dinner_pos', 'sysconfig.time_sleep',
-              'sysconfig.created_at', 'sysconfig.updated_at');
+          .select(
+              'sysconfig.id',
+              'sysconfig.glucose_unity_id',
+              'sysconfig.limit_hypo',
+              'sysconfig.limit_hyper',
+              'sysconfig.time_bf_pre',
+              'sysconfig.time_bf_pos',
+              'sysconfig.time_lunch_pre',
+              'sysconfig.time_lunch_pos',
+              'sysconfig.time_dinner_pre',
+              'sysconfig.time_dinner_pos',
+              'sysconfig.time_sleep',
+              'sysconfig.created_at',
+              'sysconfig.updated_at',
+          );
 
       if (configurations.length > 0) {
-        res.status(200).json(configurations);
-      } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        return res.status(200).json(configurations[0]);
       }
+
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
     } catch (error) {
-      res.status(500).json({message: Messages.ERROR});
+      return res.status(500).json({message: Messages.ERROR});
     }
   };
 
@@ -143,8 +185,38 @@ class SystemConfigurationController {
    * @throws {Error} - If an error occurs during the process.
    */
   static updateConfigurationByUserId = async (req, res) => {
-    const id = req.params.id;
-    return null;
+    const {userId} = req.params;
+
+    const updatedConfiguration = {
+      glucose_unity_id: req.body.glucoseUnityId,
+      limit_hypo: req.body.limitHypo,
+      limit_hyper: req.body.limitHyper,
+      time_bf_pre: req.body.timeBreakfastPre,
+      time_bf_pos: req.body.timeBreakfastPos,
+      time_lunch_pre: req.body.timeLunchPre,
+      time_lunch_pos: req.body.timeLunchPos,
+      time_dinner_pre: req.body.timeDinnerPre,
+      time_dinner_pos: req.body.timeDinnerPos,
+      time_sleep: req.body.timeSleep,
+      updated_at: DateTimeUtil.getCurrentDateTime(),
+    };
+
+    try {
+      const numAffectedRegisters = await database('user_system_config')
+          .where('user_id', userId)
+          .update(updatedConfiguration);
+
+      if (numAffectedRegisters === 0) {
+        return res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+
+      return res.status(201).json(updatedConfiguration);
+    } catch (error) {
+      return res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 
   /**
@@ -156,9 +228,25 @@ class SystemConfigurationController {
    * @return {Promise<void>} - A promise that resolves to void.
    * @throws {Error} - If an error occurs during the process.
    */
-  static deleteUserById = async (req, res) => {
-    const id = req.params.id;
-    return null;
+  static deleteConfigurationByUserId = async (req, res) => {
+    const {userId} = req.params;
+    console.log('Executing delete system config by user id.');
+    try {
+      const numAffectedRegisters = await database('user_system_config')
+          .where('user_id', userId)
+          .del();
+
+      if (numAffectedRegisters === 0) {
+        return res.status(404).json({message: Messages.NOTHING_FOUND});
+      }
+
+      return res.status(200).json({message: Messages.SYSTEM_CONFIGURATION_DELETED});
+    } catch (error) {
+      return res.status(500).json({
+        message: Messages.ERROR,
+        details: error.message,
+      });
+    }
   };
 }
 
