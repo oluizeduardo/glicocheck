@@ -22,6 +22,8 @@ const MMOL_L = 'mmol/L';
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
+const SYSTEM_CONFIGURATION_LOCALSTORAGE = 'sysConfig';
+
 /**
  * Update the meaurement unity label.
  */
@@ -123,45 +125,34 @@ function getUserId() {
   return sessionStorage.getItem('userId');
 }
 /**
- * This function is a utility function that simplifies the process
- * of sending HTTP requests to an API using the Fetch API.
- * @param {string} url The url you want to reach.
- * @return {Response}
+ * Loads the user's system configuration.
  */
-async function fetchData(url) {
-  const headers = new Headers({'Authorization': 'Bearer ' + getJwtToken()});
-  const myInit = {method: 'GET', headers: headers};
-  const response = await fetch(url, myInit);
-  return response;
-}
-/**
- * Loads the default system configuration.
- */
-async function loadSystemConfiguration() {
-  const response = await fetchData('/api/systemconfiguration/user/' + getUserId());
-  const {status} = response;
-
-  switch (status) {
-    case 200:
-      const data = await response.json();
-      fillConfigurationFields(data);
-      break;
-
-    case 401:
-      handleSessionExpired();
-      break;
-
-    case 404:
-      swal('Error',
-          `No system configuration found for this user.
-          Please, contact an admin user.`,
-          'error');
-      break;
+function loadSystemConfiguration() {
+  const retrievedObjectString = sessionStorage.getItem(SYSTEM_CONFIGURATION_LOCALSTORAGE);
+  if (!retrievedObjectString) {
+    showErrorConfigurationNotFound();
+  } else {
+    const retrievedObject = JSON.parse(retrievedObjectString);
+    fillConfigurationFields(retrievedObject);
   }
 }
+
+/**
+ * Shows error message.
+ */
+function showErrorConfigurationNotFound() {
+  swal({
+    title: 'Error',
+    text: 'Error loading system configuration.\n Please, log in again.',
+    icon: 'error',
+  }).then(() => {
+    logOut();
+  });
+}
+
 /**
  * It fills the fields with the specific system configurations.
- * @param {Object} item Item received from the data response.
+ * @param {Object} item The object containing the configuration data.
  */
 function fillConfigurationFields(item) {
   fieldMeasurementUnity.value = item.glucose_unity_id;

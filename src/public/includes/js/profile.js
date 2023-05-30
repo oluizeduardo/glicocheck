@@ -39,7 +39,7 @@ function loadUserInfos() {
           break;
 
         case HTTP_UNAUTHORIZED:
-          handleSessionExpired();// security.js
+          handleSessionExpired();// sessionUtils.js
           break;
 
         default:
