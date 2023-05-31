@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "nodemon server.js",
-    "lint": "eslint cypress/integration/",
+    "lint": "eslint src/utils/messages.js",
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"

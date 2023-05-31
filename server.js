@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
 const usersRouter = require('./src/routes/usersRouter');
@@ -17,6 +18,19 @@ const systemHealthCheckRouter = require('./src/routes/systemHealthCheckRouter');
 const systemConfigurationRouter = require('./src/routes/systemConfigurationRouter');
 
 const app = express();
+
+// CORS configuration.
+app.use(cors());
+
+// Specific CORS configuration.
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000', // Domínio permitido
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
+//     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+//   })
+// );
+
 // Disclosing the fingerprinting of this web technology.
 app.disable('x-powered-by');
 
