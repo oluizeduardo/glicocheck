@@ -7,7 +7,6 @@ const confirmPassword = document.getElementById('field_ConfirmPassword');
 const SUCEESS = 201;
 const BAD_REQUEST = 400;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
-const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';
 
 btnRegister.addEventListener('click', (event) => {
   event.preventDefault();
@@ -78,7 +77,6 @@ function prepareJsonNewUser() {
     name: fieldName.value,
     email: fieldEmail.value,
     password: fieldPassword.value,
-    picture: DEFAULT_PROFILE_PICTURE,
     role_id: 1, // ADMIN
   });
 }
