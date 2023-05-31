@@ -100,7 +100,7 @@ class MarkerMealController {
   static updateMarkerMealById = async (req, res) => {
     const id = Number.parseInt(req.params.id);
 
-    const markerMeal = {
+    const updatedMarkerMeal = {
       id: id,
       description: req.body.description,
       updated_at: DateTimeUtil.getCurrentDateTime(),
@@ -109,12 +109,12 @@ class MarkerMealController {
     try {
       const numAffectedRegisters = await database('marker_meal')
           .where('id', id)
-          .update(markerMeal);
+          .update(updatedMarkerMeal);
 
       if (numAffectedRegisters === 0) {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       } else {
-        res.status(200).json({markerMeal});
+        res.status(200).json(updatedMarkerMeal);
       }
     } catch (error) {
       res.status(500).json({
