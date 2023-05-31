@@ -5,6 +5,7 @@ const SecurityUtils = require('../utils/securityUtils');
 const CryptoUtil = require('../utils/cryptoUtil');
 const SystemConfigurationController = require('./systemConfigurationController');
 
+const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';
 /**
  * SecurityController.
  *
@@ -23,7 +24,7 @@ class SecurityController {
    * @throws {Error} - If an error occurs during the process.
    */
   static registerNewUser = async (req, res) => {
-    const {name, email, picture, password, role_id} = req.body;
+    let {name, email, picture, password, role_id} = req.body;
 
     try {
       const existingUser = await database('users')
@@ -36,6 +37,10 @@ class SecurityController {
       } else {
         const id = CryptoUtil.createRandomToken();
         const hashedPassword = SecurityUtils.generateHashValue(password);
+
+        if (!picture) {
+          picture = DEFAULT_PROFILE_PICTURE;
+        }
 
         await database('users')
             .insert(

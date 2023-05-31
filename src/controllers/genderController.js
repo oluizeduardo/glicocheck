@@ -104,6 +104,7 @@ class GenderController {
       }
 
       const gender = {
+        id: id,
         description: req.body.description,
         updated_at: DateTimeUtil.getCurrentDateTime(),
       };
