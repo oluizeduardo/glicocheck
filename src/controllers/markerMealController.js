@@ -52,7 +52,7 @@ class MarkerMealController {
           .select('id', 'description');
 
       if (markers.length) {
-        res.status(200).json(markers);
+        res.status(200).json(markers[0]);
       } else {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
