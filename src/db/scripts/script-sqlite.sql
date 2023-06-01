@@ -65,6 +65,12 @@ CREATE TABLE users (
     FOREIGN KEY(gender_id) REFERENCES gender(id)
 );
 
+INSERT INTO users (id, name, email, password, role_id) 
+  VALUES ('fad3ce04-0078-11ee-be56-0242ac120002', 
+          'Glicocheck Admin',
+          'admin@glicocheck.com', 
+          '$2a$08$GxOOe6MbzAibaS6pToXsEuGMBdNWwrJWkUsB9PLR1qzeo65qW.Ffe', 1);
+
 SELECT * FROM users;
 
 
