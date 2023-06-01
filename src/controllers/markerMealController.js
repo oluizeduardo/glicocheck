@@ -75,10 +75,10 @@ class MarkerMealController {
    */
   static createNewMarkerMeal = async (req, res) => {
     try {
-      const [marker] = await database('marker_meal')
+      const marker = await database('marker_meal')
           .insert({description: req.body.description}, ['id', 'description']);
 
-      res.status(201).json({marker_meal: marker});
+      res.status(201).json(marker[0]);
     } catch (error) {
       res.status(500).json({
         message: Messages.ERROR,
