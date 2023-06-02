@@ -22,7 +22,7 @@ const MMOL_L = 'mmol/L';
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-const SYSTEM_CONFIGURATION_LOCALSTORAGE = 'sysConfig';
+const SYSTEM_CONFIGURATION_SESSIONSTORAGE = 'sysConfig';
 
 /**
  * Update the meaurement unity label.
@@ -128,7 +128,7 @@ function getUserId() {
  * Loads the user's system configuration.
  */
 function loadSystemConfiguration() {
-  const retrievedObjectString = sessionStorage.getItem(SYSTEM_CONFIGURATION_LOCALSTORAGE);
+  const retrievedObjectString = sessionStorage.getItem(SYSTEM_CONFIGURATION_SESSIONSTORAGE);
   if (!retrievedObjectString) {
     showErrorConfigurationNotFound();
   } else {
@@ -193,6 +193,7 @@ btnSaveSettings.addEventListener('click', (event) => {
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
         if (xmlhttp.status == SUCCESS) {
+          updateSessionStorage();
           swal('Saved!', '', 'success');
         } else {
           swal(
@@ -226,17 +227,17 @@ function sendRequestToUpdateSystemConfiguration(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
-  const jsonUpdateUser = prepareJsonRequest();
+  const jsonUpdate = prepareJsonUpdate();
   xmlhttp.open('PUT', `/api/systemconfiguration/user/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xmlhttp.send(jsonUpdateUser);
+  xmlhttp.send(jsonUpdate);
 }
 /**
  * Creates a JSON object with values to be updated.
  * @return {JSON} A JSON object.
  */
-function prepareJsonRequest() {
+function prepareJsonUpdate() {
   return JSON.stringify({
     glucoseUnityId: fieldMeasurementUnity.value,
     limitHypo: hypoRange.value,
@@ -249,6 +250,25 @@ function prepareJsonRequest() {
     timeDinnerPos: fieldDinnerPos.value,
     timeSleep: fieldSleepTime.value,
   });
+}
+/**
+ * Updates the session storage with the new system configuration.
+ * @param {*} configuration
+ */
+function updateSessionStorage() {
+  const updatedConfig = JSON.stringify({
+    glucose_unity_id: fieldMeasurementUnity.value,
+    limit_hypo: hypoRange.value,
+    limit_hyper: hyperRange.value,
+    time_bf_pre: fieldBreakfastPre.value,
+    time_bf_pos: fieldBreakfastPos.value,
+    time_lunch_pre: fieldLunchPre.value,
+    time_lunch_pos: fieldLunchPos.value,
+    time_dinner_pre: fieldDinnerPre.value,
+    time_dinner_pos: fieldDinnerPos.value,
+    time_sleep: fieldSleepTime.value,
+  });
+  sessionStorage.setItem(SYSTEM_CONFIGURATION_SESSIONSTORAGE, updatedConfig);
 }
 
 loadSystemConfiguration();
