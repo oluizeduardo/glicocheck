@@ -1,4 +1,4 @@
-name: Glicocheck - Github Actions - Continuos Integration
+name: Deploy to Render
 on: 
   push:
     branches: [main]
