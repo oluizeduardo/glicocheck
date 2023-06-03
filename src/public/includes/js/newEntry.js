@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const btnSave = document.getElementById('btnSave');
 const fieldGlucose = document.getElementById('field_Glucose');
 const fieldDate = document.getElementById('field_Date');

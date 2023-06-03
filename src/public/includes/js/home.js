@@ -2,10 +2,15 @@ const ctx = document.querySelector('#myChart');
 const panelChart = document.querySelector('#panel-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
 
+// eslint-disable-next-line no-var
 var glucoseReadingsChart;
+// eslint-disable-next-line prefer-const
 let glucoseValues = [];
+// eslint-disable-next-line prefer-const
 let glucoseReadingDateLabels = [];
+// eslint-disable-next-line prefer-const
 let hyperglycemiaValues = [];
+// eslint-disable-next-line prefer-const
 let hypoglycemiaValues = [];
 
 const HYPERGLYCEMIA = 160;

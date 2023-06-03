@@ -10,7 +10,7 @@ Web platform to manage diabetes.
 # Technologies applied
 - Backend
     - NodeJS
-    - Express
+    - [Express](https://expressjs.com/)
     - [Bcrypt](https://www.npmjs.com/package/bcrypt)
     - [Json Web Token](https://jwt.io/)
     - [Nodemailer](https://nodemailer.com/about/)
@@ -22,11 +22,12 @@ Web platform to manage diabetes.
     - [SweetAlert](https://sweetalert.js.org/)
 - Quality
     - Test
-        - [Jest](https://jestjs.io/)
-        - [Supertest](https://www.npmjs.com/package/supertest)
         - [Cypress](https://www.cypress.io/)
+        - [Mocha](https://mochajs.org/)
     - Static analysis
         - [ESLint](https://eslint.org/)
+- CICD
+    - [GitHub Actions](https://docs.github.com/en/actions)
 - Deploy
     - [Render](https://render.com/)
   

@@ -75,7 +75,8 @@ function showInvalidEmailMessage() {
 function showSuccessMessage() {
   swal({
     title: 'We sent a link to your email',
-    text: 'If you don\'t see the email in your inbox, please check your spam folder.',
+    text: 'If you don\'t see the email in your inbox, '+
+          'please check your spam folder.',
     icon: 'success',
   }).then(() => {
     location.href = './index.html';

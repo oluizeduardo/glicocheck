@@ -1,8 +1,10 @@
+/* eslint-disable camelcase */
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const jwt = require('jsonwebtoken');
 const SecurityUtils = require('../utils/securityUtils');
 const CryptoUtil = require('../utils/cryptoUtil');
+// eslint-disable-next-line max-len
 const SystemConfigurationController = require('./systemConfigurationController');
 
 const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';

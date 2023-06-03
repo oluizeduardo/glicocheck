@@ -1,4 +1,6 @@
+/* eslint-disable max-len */
 const express = require('express');
+// eslint-disable-next-line new-cap
 const glucoseRouter = express.Router();
 const GlucoseController = require('../controllers/glucoseController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');

@@ -10,14 +10,16 @@ const userProfilePicture = document.getElementById('userProfilePicture');
 const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 // HEALTH INFO
 const fieldDiabetesType = document.getElementById('field_DiabetesType');
-const fieldDateOfDiagnosis = document.getElementById('field_DateOfDiagnosis');
 const fieldBloodType = document.getElementById('field_BloodType');
-const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
+// const fieldDiagnosisDate = document.getElementById('field_DateOfDiagnosis');
+// const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
 
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
+
+const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';
 
 let profilePictureBase64 = '';
 
@@ -34,8 +36,8 @@ function loadUserInfos() {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
-          const data = JSON.parse(xmlhttp.responseText);
-          loadFieldsWithUserData(data);
+          const userData = JSON.parse(xmlhttp.responseText);
+          loadFieldsWithUserData(userData);
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -71,20 +73,22 @@ function sendGETToUserById(xmlhttp) {
 
 /**
  * Distributes the data response in the fields.
- * @param {Response} data The response data.
+ * @param {Response} object The response data.
  */
-function loadFieldsWithUserData(data) {
-  fieldName.value = data.user.name;
-  fieldEmail.value = data.user.email;
-  profilePictureBase64 = data.user.picture;
+function loadFieldsWithUserData(object) {
+  fieldName.value = object.name;
+  fieldEmail.value = object.email;
+  if (!object.picture) {
+    profilePictureBase64 = DEFAULT_PROFILE_PICTURE;
+  }
   userProfilePicture.src = profilePictureBase64;
-  fieldBirthdate.value = data.user.birthdate ? data.user.birthdate : '';
-  fieldPhone.value = data.user.phone ? data.user.phone : '';
-  fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
-  fieldWeight.value = data.user.weight ? data.user.weight : '';
-  fieldHeight.value = data.user.height ? data.user.height : '';
+  fieldBirthdate.value = object.birthdate ? object.birthdate : '';
+  fieldPhone.value = object.phone ? object.phone : '';
+  fieldGender.value = object.gender_id ? object.gender_id : 0;
+  fieldWeight.value = object.weight ? object.weight : '';
+  fieldHeight.value = object.height ? object.height : '';
   setTimeout(() => {
-    fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
+    fieldGender.value = object.gender_id ? object.gender_id : 0;
   }, 20);
 }
 

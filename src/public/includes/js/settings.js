@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 const fieldMeasurementUnity = document.getElementById('field_MeasurementUnity');
-const measurementUnityHypo = document.getElementById('measurement_unity_hypo');
-const measurementUnityHyper = document.getElementById('measurement_unity_hyper');
+const unityHypo = document.getElementById('measurement_unity_hypo');
+const unityHyper = document.getElementById('measurement_unity_hyper');
 const fieldValueHypo = document.getElementById('valueHypo');
 const fieldValueHyper = document.getElementById('valueHyper');
 const hypoRange = document.getElementById('hypoRange');
@@ -22,7 +23,7 @@ const MMOL_L = 'mmol/L';
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-const SYSTEM_CONFIGURATION_SESSIONSTORAGE = 'sysConfig';
+const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
 
 /**
  * Update the meaurement unity label.
@@ -30,8 +31,8 @@ const SYSTEM_CONFIGURATION_SESSIONSTORAGE = 'sysConfig';
 function updateGlycemiaValueLabel() {
   const unity = getMeasurementUnity();
   convertGlycemiaValues(unity);
-  measurementUnityHypo.innerText = unity;
-  measurementUnityHyper.innerText = unity;
+  unityHypo.innerText = unity;
+  unityHyper.innerText = unity;
 }
 /**
  * It converts the glycemia value depending on the measurement unity.
@@ -86,8 +87,9 @@ function setRangePropertiesForMMOL() {
  * Initialize tooltip.
  */
 function initializeTooltip() {
-  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-  const tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+  const element = '[data-bs-toggle="tooltip"]';
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll(element));
+  tooltipTriggerList.map(function(tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
 }
@@ -105,6 +107,7 @@ function updatePosprandial(preElement, posElement) {
   const preValue = preElement.value;
   const [hour, minute] = preValue.split(':').map(Number);
   const plusTwoHours = (hour + 2) % 24;
+  // eslint-disable-next-line max-len
   const posprandialHour = `${String(plusTwoHours).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 
   posElement.value = posprandialHour;
@@ -128,11 +131,11 @@ function getUserId() {
  * Loads the user's system configuration.
  */
 function loadSystemConfiguration() {
-  const retrievedObjectString = sessionStorage.getItem(SYSTEM_CONFIGURATION_SESSIONSTORAGE);
-  if (!retrievedObjectString) {
+  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  if (!objectString) {
     showErrorConfigurationNotFound();
   } else {
-    const retrievedObject = JSON.parse(retrievedObjectString);
+    const retrievedObject = JSON.parse(objectString);
     fillConfigurationFields(retrievedObject);
   }
 }
@@ -168,8 +171,8 @@ function fillConfigurationFields(item) {
   hypoRange.value = item.limit_hypo;
   hyperRange.value = item.limit_hyper;
 
-  measurementUnityHypo.innerText = measurementUnity;
-  measurementUnityHyper.innerText = measurementUnityHypo.innerText;
+  unityHypo.innerText = measurementUnity;
+  unityHyper.innerText = unityHypo.innerText;
   fieldValueHypo.innerText = item.limit_hypo;
   fieldValueHyper.innerText = item.limit_hyper;
 
@@ -268,7 +271,7 @@ function updateSessionStorage() {
     time_dinner_pos: fieldDinnerPos.value,
     time_sleep: fieldSleepTime.value,
   });
-  sessionStorage.setItem(SYSTEM_CONFIGURATION_SESSIONSTORAGE, updatedConfig);
+  sessionStorage.setItem(SYSTEM_CONFIG_SESSIONSTORAGE, updatedConfig);
 }
 
 loadSystemConfiguration();

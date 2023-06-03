@@ -79,8 +79,7 @@ class UserController {
           );
 
       if (users.length > 0) {
-        const user = users[0];
-        res.status(200).json({user});
+        res.status(200).json(users[0]);
       } else {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }

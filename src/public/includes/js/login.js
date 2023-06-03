@@ -67,6 +67,7 @@ function prepareJsonLogin() {
 function executeProcessToLogIn(xmlhttp) {
   const accessToken = getAuthorizationHeaderValue(xmlhttp);
   saveJwtToken(accessToken);
+  // eslint-disable-next-line camelcase
   const {user_id} = JSON.parse(xmlhttp.response);
   saveUserId(user_id);
   fetchSystemConfigurationAndRedirect(user_id, accessToken);

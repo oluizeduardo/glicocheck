@@ -31,7 +31,7 @@ class Messages {
   static NEW_DIABETES_TYPE_CREATED = 'New diabetes type created.';
   static DIABETES_TYPE_DELETED = 'Diabetes type deleted.';
   static ERROR_DELETE_DIABETES_TYPE = 'Error trying to delete diabetes type.';
-  static ERROR_CREATE_DIABETES_TYPE = 'Error trying to insert a new diabetes type.';
+  static ERROR_CREATE_DIABETES_TYPE = 'Error inserting a new diabetes type.';
   static ERROR_UPDATING_DIABETES_TYPE = 'Error updating diabetes type.';
 
   static NEW_BLOOD_TYPE_CREATED = 'New blood type created.';
@@ -43,14 +43,16 @@ class Messages {
   static ERROR_CHECKING_CREDENTIALS = 'Error checking credentials.';
 
   static RESET_PASSWORD_MESSAGE_SENT = 'Reset password message sent.';
-  static ERROR_SEND_RESET_PASSWORD_MESSAGE = 'Error sending reset password message.';
+  static ERROR_SEND_RESET_PASSWORD_MESSAGE =
+    'Error sending reset password message.';
 
   static RESET_TOKEN_DELETED = 'Token deleted.';
   static ERROR_DELETE_RESET_TOKEN = 'Error deleting reset token';
   static RESET_PASSWORD_PROCESS = 'Executing reset password process.';
   static PASSWORD_UPDATED = 'Password updated.';
 
-  static NEW_CONFIGURATION_CREATED = 'New system configuration created for the user ';
+  static NEW_CONFIGURATION_CREATED =
+    'New system configuration created for the user ';
   static SYSTEM_CONFIGURATION_DELETED = 'System configuration deleted.';
 }
 

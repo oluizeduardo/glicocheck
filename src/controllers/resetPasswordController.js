@@ -158,7 +158,9 @@ class ResetPasswordController {
    * @param {string} token The password reset token.
    * @param {string} email_owner The owner email address.
    */
+  // eslint-disable-next-line camelcase
   static saveResetToken = async (token, email_owner) => {
+    // eslint-disable-next-line camelcase
     await database('password_reset_tokens').insert({token, email_owner});
   };
   /**

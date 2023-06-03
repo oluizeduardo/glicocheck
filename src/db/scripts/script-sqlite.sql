@@ -65,6 +65,14 @@ CREATE TABLE users (
     FOREIGN KEY(gender_id) REFERENCES gender(id)
 );
 
+-- DEFAULT USER.
+INSERT INTO users (id, name, email, password, role_id) 
+  VALUES ('1111111-1111-1111-1111-111111111111', 
+          'Glicocheck Admin Test', 
+          'admin-test@glicocheck.com',
+          '$2a$12$xap4IdbMIp/WwdlvHXFAo.j8KLCerskmRo7incA71GGL3ThHp7Sjy',
+          1);
+
 SELECT * FROM users;
 
 
@@ -88,6 +96,16 @@ CREATE TABLE user_system_config (
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (glucose_unity_id) REFERENCES measurement_unity(id)
 );
+
+-- SYSTEM CONFIGURATION FOR THE DEFAULT USER.
+INSERT INTO user_system_config (
+  user_id, glucose_unity_id, 
+  limit_hypo, limit_hyper, 
+  time_bf_pre, time_bf_pos, 
+  time_lunch_pre, time_lunch_pos, 
+  time_dinner_pre, time_dinner_pos, time_sleep) 
+VALUES ('1111111-1111-1111-1111-111111111111', 1, 70, 160, 
+  '06:00', '08:00', '12:00', '14:00', '19:00', '21:00', '23:00');
 
 
 ---- HEALTH INFO ----

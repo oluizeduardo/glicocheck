@@ -1,4 +1,5 @@
 const express = require('express');
+// eslint-disable-next-line new-cap
 const markerMealRouter = express.Router();
 const MarkerMealController = require('../controllers/markerMealController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');
