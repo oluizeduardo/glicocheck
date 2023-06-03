@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Instala as dependencias
+      - name: Install the dependencies
         run: npm i
       - name: It runs the linter
         run: npm run lint
