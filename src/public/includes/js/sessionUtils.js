@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Checks if there is a JWT token.
  */

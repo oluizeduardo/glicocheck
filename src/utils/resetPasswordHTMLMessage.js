@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * Class to create the message sent
  */

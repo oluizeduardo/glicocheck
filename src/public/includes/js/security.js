@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * Check whether a password is used by a specific user.
  * @param {string} pass The user password.

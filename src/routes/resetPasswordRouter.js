@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 const express = require('express');
+// eslint-disable-next-line new-cap
 const resetPasswordRouter = express.Router();
-const ResetPasswordController =
-        require('../controllers/resetPasswordController');
+const ResetPasswordController = require('../controllers/resetPasswordController');
 
 resetPasswordRouter.use(express.json());
 

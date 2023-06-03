@@ -1,4 +1,5 @@
 const express = require('express');
+// eslint-disable-next-line new-cap
 const diabetesTypeRouter = express.Router();
 const DiabetesTypeController = require('../controllers/diabetesTypeController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');

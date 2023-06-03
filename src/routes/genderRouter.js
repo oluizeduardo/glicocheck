@@ -1,4 +1,5 @@
 const express = require('express');
+// eslint-disable-next-line new-cap
 const genderRouter = express.Router();
 const GenderController = require('../controllers/genderController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');

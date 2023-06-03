@@ -1,8 +1,9 @@
+/* eslint-disable max-len */
 const express = require('express');
+// eslint-disable-next-line new-cap
 const systemConfigurationRouter = express.Router();
 const {checkToken, isAdmin} = require('../utils/securityUtils');
-const SystemConfigurationController =
-    require('../controllers/systemConfigurationController');
+const SystemConfigurationController = require('../controllers/systemConfigurationController');
 
 systemConfigurationRouter.use(checkToken);
 systemConfigurationRouter.use(isAdmin);

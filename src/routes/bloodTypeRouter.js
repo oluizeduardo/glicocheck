@@ -1,4 +1,5 @@
 const express = require('express');
+// eslint-disable-next-line new-cap
 const bloodTypeRouter = express.Router();
 const BloodTypeController = require('../controllers/bloodTypeController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');

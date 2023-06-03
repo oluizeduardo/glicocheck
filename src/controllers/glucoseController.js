@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');

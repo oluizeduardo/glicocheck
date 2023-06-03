@@ -10,9 +10,9 @@ const userProfilePicture = document.getElementById('userProfilePicture');
 const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 // HEALTH INFO
 const fieldDiabetesType = document.getElementById('field_DiabetesType');
-const fieldDateOfDiagnosis = document.getElementById('field_DateOfDiagnosis');
 const fieldBloodType = document.getElementById('field_BloodType');
-const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
+// const fieldDiagnosisDate = document.getElementById('field_DateOfDiagnosis');
+// const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
 
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
@@ -73,22 +73,22 @@ function sendGETToUserById(xmlhttp) {
 
 /**
  * Distributes the data response in the fields.
- * @param {Response} data The response data.
+ * @param {Response} object The response data.
  */
-function loadFieldsWithUserData(user) {
-  fieldName.value = user.name;
-  fieldEmail.value = user.email;
-  if (!user.picture) {
+function loadFieldsWithUserData(object) {
+  fieldName.value = object.name;
+  fieldEmail.value = object.email;
+  if (!object.picture) {
     profilePictureBase64 = DEFAULT_PROFILE_PICTURE;
   }
   userProfilePicture.src = profilePictureBase64;
-  fieldBirthdate.value = user.birthdate ? user.birthdate : '';
-  fieldPhone.value = user.phone ? user.phone : '';
-  fieldGender.value = user.gender_id ? user.gender_id : 0;
-  fieldWeight.value = user.weight ? user.weight : '';
-  fieldHeight.value = user.height ? user.height : '';
+  fieldBirthdate.value = object.birthdate ? object.birthdate : '';
+  fieldPhone.value = object.phone ? object.phone : '';
+  fieldGender.value = object.gender_id ? object.gender_id : 0;
+  fieldWeight.value = object.weight ? object.weight : '';
+  fieldHeight.value = object.height ? object.height : '';
   setTimeout(() => {
-    fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
+    fieldGender.value = object.gender_id ? object.gender_id : 0;
   }, 20);
 }
 

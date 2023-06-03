@@ -439,6 +439,7 @@ function calculateStandardDeviation(glycemia) {
   const n = glycemia.length;
   if (n > 1) {
     const mean = glycemia.reduce((acc, val) => acc + val, 0) / n;
+    // eslint-disable-next-line max-len
     const squaredDifferencesSum = glycemia.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0);
     const standardDeviation = Math.sqrt(squaredDifferencesSum / (n - 1));
     return Math.round(standardDeviation);
@@ -459,6 +460,7 @@ function fillStatisticsTable() {
   // Number of tests
   statsGlicTests.innerText = getNumberOfRegisters();
   // Average
+  // eslint-disable-next-line max-len
   const average = Math.round(totalSumBloodGlucoseValues / getNumberOfRegisters());
   statsGlicAverage.innerText = ''.concat(average).concat(' mg/dL');
   // Standard deviation
@@ -477,7 +479,9 @@ function fillStatisticsTable() {
   const statsHyper = document.getElementById('stats_test_hyper');
 
   const percentHypo = Math.round(convertToPercentage(qtdRegistersHipoglycemia));
+  // eslint-disable-next-line max-len
   const percentNormal = Math.round(convertToPercentage(qtdRegistersNormalGlycemia));
+  // eslint-disable-next-line max-len
   const percentHyper = Math.round(convertToPercentage(qtdRegistersHyperglycemia));
 
   statsPercentHypo.innerText = adaptValueToPercentageText(percentHypo);

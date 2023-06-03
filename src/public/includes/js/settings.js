@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const fieldMeasurementUnity = document.getElementById('field_MeasurementUnity');
 const unityHypo = document.getElementById('measurement_unity_hypo');
 const unityHyper = document.getElementById('measurement_unity_hyper');
@@ -106,6 +107,7 @@ function updatePosprandial(preElement, posElement) {
   const preValue = preElement.value;
   const [hour, minute] = preValue.split(':').map(Number);
   const plusTwoHours = (hour + 2) % 24;
+  // eslint-disable-next-line max-len
   const posprandialHour = `${String(plusTwoHours).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 
   posElement.value = posprandialHour;
