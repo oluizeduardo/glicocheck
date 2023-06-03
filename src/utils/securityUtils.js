@@ -2,65 +2,78 @@ const Messages = require('../utils/messages');
 const jwt = require('jsonwebtoken');
 const database = require('../db/dbconfig.js');
 const bcrypt = require('bcryptjs');
+
+const ROLE_ADMIN = 1;
+
 /**
  * SecurityUtils.
  */
 class SecurityUtils {
   /**
-   * It checks whether the web token is valid.
-   * @param {XMLHttpRequest} req request object.
-   * @param {XMLHttpRequest} res response object.
-   * @param {Function} next The next function to be executed.
+   * Middleware function to check the validity of a
+   * token and extract the user ID.
+   *
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @param {Function} next - The next middleware function.
    * @return {void}
    */
   static checkToken = (req, res, next) => {
     const authToken = req.headers['authorization'];
     if (!authToken) {
-      res.status(401).json({message: Messages.TOKEN_REQUIRED});
-      return;
-    } else {
-      const token = authToken.split(' ')[1];
-      req.token = token;
+      return res.status(401).json({message: Messages.TOKEN_REQUIRED});
     }
 
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, decodeToken) => {
-      if (err) {
-        if (err.name === 'TokenExpiredError') {
-          res.status(401)
-              .json({message: Messages.TOKEN_EXPIRED,
-                expiredIn: err.expiredAt});
-          return;
-        }
-        res.status(401).json({message: Messages.REFUSED_ACCESS});
-        return;
-      }
+    const [, token] = authToken.split(' ');
+    req.token = token;
+
+    try {
+      const decodeToken = jwt.verify(req.token, process.env.SECRET_KEY);
       req.userId = decodeToken.id;
-      next();
-    });
+      return next();
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({
+          message: Messages.TOKEN_EXPIRED,
+          expiredIn: err.expiredAt,
+        });
+      }
+      return res.status(401).json({message: Messages.REFUSED_ACCESS});
+    }
   };
 
-  // CHECK USER ROLE.
+  /**
+   * Middleware function to check if the user is an admin.
+   *
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @param {Function} next - The next middleware function.
+   * @return {void}
+   */
   static isAdmin = (req, res, next) => {
-    database
-        .select('*').from('users').where({id: req.userId})
-        .then((users) => {
-          if (users.length) {
-            const user = users[0];
-            const role = user.role_id;
+    const userId = req.userId;
 
-            if (role === 1) {
+    database
+        .select('role_id')
+        .from('users')
+        .where({id: userId})
+        .first()
+        .then((user) => {
+          if (user) {
+            if (user.role_id === ROLE_ADMIN) {
               next();
-              return;
             } else {
               res.status(403).json({message: Messages.ROLE_ADMIN_REQUIRED});
-              return;
             }
+          } else {
+            res.status(404).json({message: Messages.USER_NOT_FOUND});
           }
         })
         .catch((err) => {
           res.status(500).json({
             message: Messages.ERROR_CHECKING_USER_ROLE,
-            error: err.message});
+            error: err.message,
+          });
         });
   };
 

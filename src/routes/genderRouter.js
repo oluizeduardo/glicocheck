@@ -3,11 +3,14 @@ const genderRouter = express.Router();
 const GenderController = require('../controllers/genderController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');
 
+genderRouter.use(checkToken);
+genderRouter.use(isAdmin);
+
 genderRouter
-    .get('/', checkToken, isAdmin, GenderController.getAllGenders)
-    .post('/', checkToken, isAdmin, GenderController.createNewGender)
-    .get('/:id', checkToken, isAdmin, GenderController.getGenderById)
-    .put('/:id', checkToken, isAdmin, express.json(), GenderController.updateGenderById)
-    .delete('/:id', checkToken, isAdmin, express.json(), GenderController.deleteGenderById);
+    .get('/', GenderController.getAllGenders)
+    .post('/', GenderController.createNewGender)
+    .get('/:id', GenderController.getGenderById)
+    .put('/:id', express.json(), GenderController.updateGenderById)
+    .delete('/:id', express.json(), GenderController.deleteGenderById);
 
 module.exports = genderRouter;

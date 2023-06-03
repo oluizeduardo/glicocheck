@@ -3,11 +3,14 @@ const bloodTypeRouter = express.Router();
 const BloodTypeController = require('../controllers/bloodTypeController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');
 
+bloodTypeRouter.use(checkToken);
+bloodTypeRouter.use(isAdmin);
+
 bloodTypeRouter
-    .get('/', checkToken, isAdmin, BloodTypeController.getAllTypes)
-    .post('/', checkToken, isAdmin, BloodTypeController.createNewType)
-    .get('/:id', checkToken, isAdmin, BloodTypeController.getTypeById)
-    .put('/:id', checkToken, isAdmin, express.json(), BloodTypeController.updateTypeById)
-    .delete('/:id', checkToken, isAdmin, express.json(), BloodTypeController.deleteTypeById);
+    .get('/', BloodTypeController.getAllTypes)
+    .post('/', BloodTypeController.createNewType)
+    .get('/:id', BloodTypeController.getTypeById)
+    .put('/:id', express.json(), BloodTypeController.updateTypeById)
+    .delete('/:id', express.json(), BloodTypeController.deleteTypeById);
 
 module.exports = bloodTypeRouter;

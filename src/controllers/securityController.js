@@ -52,7 +52,7 @@ class SecurityController {
                   password: hashedPassword,
                   role_id,
                 },
-                ['id']
+                ['id'],
             );
         console.log('Saved new user.');
         // Save default system configuration for the new user.

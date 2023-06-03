@@ -3,11 +3,14 @@ const markerMealRouter = express.Router();
 const MarkerMealController = require('../controllers/markerMealController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');
 
+markerMealRouter.use(checkToken);
+markerMealRouter.use(isAdmin);
+
 markerMealRouter
-    .post('/', checkToken, isAdmin, express.json(), MarkerMealController.createNewMarkerMeal)
-    .get('/', checkToken, MarkerMealController.getAllMarkerMeals)
-    .get('/:id', checkToken, MarkerMealController.getMarkerMealById)
-    .put('/:id', checkToken, isAdmin, express.json(), MarkerMealController.updateMarkerMealById)
-    .delete('/:id', checkToken, isAdmin, MarkerMealController.deleteMarkerMealById);
+    .post('/', express.json(), MarkerMealController.createNewMarkerMeal)
+    .get('/', MarkerMealController.getAllMarkerMeals)
+    .get('/:id', MarkerMealController.getMarkerMealById)
+    .put('/:id', express.json(), MarkerMealController.updateMarkerMealById)
+    .delete('/:id', MarkerMealController.deleteMarkerMealById);
 
 module.exports = markerMealRouter;

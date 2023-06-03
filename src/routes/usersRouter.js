@@ -3,10 +3,13 @@ const usersRouter = express.Router();
 const UserController = require('../controllers/userController');
 const {checkToken, isAdmin} = require('../utils/securityUtils');
 
+usersRouter.use(checkToken);
+usersRouter.use(isAdmin);
+
 usersRouter
-    .get('/', checkToken, isAdmin, UserController.getAllUsers)
-    .get('/:id', checkToken, isAdmin, UserController.getUserById)
-    .put('/:id', checkToken, isAdmin, express.json(), UserController.updateUserById)
-    .delete('/:id', checkToken, isAdmin, express.json(), UserController.deleteUserById);
+    .get('/', UserController.getAllUsers)
+    .get('/:id', UserController.getUserById)
+    .put('/:id', express.json(), UserController.updateUserById)
+    .delete('/:id', express.json(), UserController.deleteUserById);
 
 module.exports = usersRouter;

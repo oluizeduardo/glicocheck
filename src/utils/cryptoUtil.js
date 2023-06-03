@@ -9,7 +9,7 @@ class CryptoUtil {
      * @return {string} A new token.
      */
   static createRandomToken = () => {
-    return crypto.randomBytes(20).toString('hex');
+    return crypto.randomUUID();
   };
 }
 
