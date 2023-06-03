@@ -15,7 +15,7 @@ const genderRouter = require('./src/routes/genderRouter');
 const diabetesTypeRouter = require('./src/routes/diabetesTypeRouter');
 const bloodTypeRouter = require('./src/routes/bloodTypeRouter');
 const systemHealthCheckRouter = require('./src/routes/systemHealthCheckRouter');
-const systemConfigurationRouter = require('./src/routes/systemConfigurationRouter');
+const systemConfigRouter = require('./src/routes/systemConfigurationRouter');
 
 const app = express();
 
@@ -25,9 +25,9 @@ app.use(cors());
 // Specific CORS configuration.
 // app.use(
 //   cors({
-//     origin: 'http://localhost:3000', // Domínio permitido
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
-//     allowedHeaders: ['Content-Type', 'Authorization'], // Cabeçalhos permitidos
+//     origin: 'http://localhost:3000', // Aloowed domain.
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
 //   })
 // );
 
@@ -36,8 +36,7 @@ app.disable('x-powered-by');
 
 const port = process.env.PORT || 3000;
 
-// MORGAN is used to log requests.
-app.use(morgan('common'));
+app.use(morgan('common')); // Used to log requests.
 app.use(express.json({limit: '2mb'}));
 
 app.use('/api/users', usersRouter);
@@ -50,7 +49,7 @@ app.use('/api/gender', genderRouter);
 app.use('/api/diabetestype', diabetesTypeRouter);
 app.use('/api/bloodtype', bloodTypeRouter);
 app.use('/api/ping', systemHealthCheckRouter);
-app.use('/api/systemconfiguration', systemConfigurationRouter);
+app.use('/api/systemconfiguration', systemConfigRouter);
 
 app.use(express.urlencoded({extended: true}));
 app.use('/', express.static(path.join(__dirname, '/src/public')));

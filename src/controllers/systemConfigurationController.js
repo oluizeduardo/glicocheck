@@ -144,7 +144,7 @@ class SystemConfigurationController {
    * @return {Promise<void>} - A promise that resolves to void.
    * @throws {Error} - If an error occurs during the process.
    */
-  static getConfigurationByUserId = async (req, res) => {
+  static getByUserId = async (req, res) => {
     const {userId} = req.params;
     try {
       const configurations = await database('user_system_config as sysconfig')
@@ -184,7 +184,7 @@ class SystemConfigurationController {
    * @return {Promise<void>} - A promise that resolves to void.
    * @throws {Error} - If an error occurs during the process.
    */
-  static updateConfigurationByUserId = async (req, res) => {
+  static updateByUserId = async (req, res) => {
     const {userId} = req.params;
 
     const updatedConfiguration = {
@@ -228,7 +228,7 @@ class SystemConfigurationController {
    * @return {Promise<void>} - A promise that resolves to void.
    * @throws {Error} - If an error occurs during the process.
    */
-  static deleteConfigurationByUserId = async (req, res) => {
+  static deleteByUserId = async (req, res) => {
     const {userId} = req.params;
     console.log('Executing delete system config by user id.');
     try {
@@ -240,7 +240,9 @@ class SystemConfigurationController {
         return res.status(404).json({message: Messages.NOTHING_FOUND});
       }
 
-      return res.status(200).json({message: Messages.SYSTEM_CONFIGURATION_DELETED});
+      return res
+          .status(200)
+          .json({message: Messages.SYSTEM_CONFIGURATION_DELETED});
     } catch (error) {
       return res.status(500).json({
         message: Messages.ERROR,

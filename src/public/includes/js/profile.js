@@ -34,8 +34,8 @@ function loadUserInfos() {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
-          const data = JSON.parse(xmlhttp.responseText);
-          loadFieldsWithUserData(data);
+          const userData = JSON.parse(xmlhttp.responseText);
+          loadFieldsWithUserData(userData);
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -73,16 +73,16 @@ function sendGETToUserById(xmlhttp) {
  * Distributes the data response in the fields.
  * @param {Response} data The response data.
  */
-function loadFieldsWithUserData(data) {
-  fieldName.value = data.user.name;
-  fieldEmail.value = data.user.email;
-  profilePictureBase64 = data.user.picture;
+function loadFieldsWithUserData(user) {
+  fieldName.value = user.name;
+  fieldEmail.value = user.email;
+  profilePictureBase64 = user.picture;
   userProfilePicture.src = profilePictureBase64;
-  fieldBirthdate.value = data.user.birthdate ? data.user.birthdate : '';
-  fieldPhone.value = data.user.phone ? data.user.phone : '';
-  fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
-  fieldWeight.value = data.user.weight ? data.user.weight : '';
-  fieldHeight.value = data.user.height ? data.user.height : '';
+  fieldBirthdate.value = user.birthdate ? user.birthdate : '';
+  fieldPhone.value = user.phone ? user.phone : '';
+  fieldGender.value = user.gender_id ? user.gender_id : 0;
+  fieldWeight.value = user.weight ? user.weight : '';
+  fieldHeight.value = user.height ? user.height : '';
   setTimeout(() => {
     fieldGender.value = data.user.gender_id ? data.user.gender_id : 0;
   }, 20);

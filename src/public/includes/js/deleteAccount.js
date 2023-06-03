@@ -1,11 +1,11 @@
-const btnConfirmDeleteAccount = document.getElementById('btnConfirmDeleteAccount');
+const btnConfirmDelete = document.getElementById('btnConfirmDeleteAccount');
 const fieldPassword = document.getElementById('field_delete_account_Password');
 
 const HTTP_SUCCESS = 200;
 const NOTHING_FOUND = 404;
 const HTTP_UNAUTHORIZED = 401;
 
-btnConfirmDeleteAccount.addEventListener('click', (event) => {
+btnConfirmDelete.addEventListener('click', (event) => {
   event.preventDefault();
   const password = fieldPassword.value;
 
@@ -34,8 +34,9 @@ btnConfirmDeleteAccount.addEventListener('click', (event) => {
         };
         sendRequestToDeleteGlucoseReadings(xmlhttp);
       } else {
-        const text = 'Please, inform the correct password to delete your account.';
-        swal('Incorrect password', text, 'warning');
+        swal('Incorrect password',
+            'Please, inform the correct password to delete your account.',
+            'warning');
       }
     });
   } else {

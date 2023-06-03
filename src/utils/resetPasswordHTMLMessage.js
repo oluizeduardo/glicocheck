@@ -11,8 +11,10 @@ class ResetPasswordHTMLMessage {
    */
   static createHTMLMessage = (resetToken) => {
     const baseUrl = process.env.BASE_URL;
+    const utlImage = 'https://raw.githubusercontent.com/oluizeduardo/my-diabetes-js/'+
+                    'main/src/public/includes/imgs/glicocheck-logo-whitebg.png';
     return `
-    <img src="https://raw.githubusercontent.com/oluizeduardo/my-diabetes-js/main/src/public/includes/imgs/glicocheck-logo-whitebg.png" 
+    <img src="${utlImage}" 
     alt="Glicocheck logo" width="220" height="120">
     <h3 style="font-weight: normal;">
       Dear user.

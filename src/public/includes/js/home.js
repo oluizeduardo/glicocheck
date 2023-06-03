@@ -2,11 +2,11 @@ const ctx = document.querySelector('#myChart');
 const panelChart = document.querySelector('#panel-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
 
-var glucoseReadingsChart;
-let glucoseValues = [];
-let glucoseReadingDateLabels = [];
-let hyperglycemiaValues = [];
-let hypoglycemiaValues = [];
+let glucoseReadingsChart;
+const glucoseValues = [];
+const glucoseReadingDateLabels = [];
+const hyperglycemiaValues = [];
+const hypoglycemiaValues = [];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;

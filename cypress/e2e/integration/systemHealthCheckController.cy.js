@@ -1,5 +1,5 @@
 describe('System health check test', () => {
-  it('should return HTTP 200 and the message \"Pong\" informing that the system is running.', () => {
+  it('should return HTTP 200 informing that the system is running.', () => {
     cy.request({
       method: 'GET',
       url: 'http://localhost:4500/api/ping',
