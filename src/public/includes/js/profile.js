@@ -19,6 +19,8 @@ const HTTP_UNAUTHORIZED = 401;
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
+const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';
+
 let profilePictureBase64 = '';
 
 /**
@@ -76,7 +78,9 @@ function sendGETToUserById(xmlhttp) {
 function loadFieldsWithUserData(user) {
   fieldName.value = user.name;
   fieldEmail.value = user.email;
-  profilePictureBase64 = user.picture;
+  if (!user.picture) {
+    profilePictureBase64 = DEFAULT_PROFILE_PICTURE;
+  }
   userProfilePicture.src = profilePictureBase64;
   fieldBirthdate.value = user.birthdate ? user.birthdate : '';
   fieldPhone.value = user.phone ? user.phone : '';

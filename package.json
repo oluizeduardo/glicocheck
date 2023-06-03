@@ -10,8 +10,11 @@
     "dev": "nodemon server.js",
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
+    "lint--fix": "eslint src/test/ --fix",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "test:mocha": "mocha ./src/test/routes/*.test.js",
+    "test": "npm run test:mocha"
   },
   "repository": {
     "type": "git",
@@ -44,9 +47,12 @@
     "sqlite3": "^5.1.4"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
     "cypress": "^12.12.0",
     "eslint": "^8.35.0",
     "eslint-config-google": "^0.14.0",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.20"
   }
 }

@@ -58,3 +58,5 @@ app.use('/', express.static(path.join(__dirname, '/src/public')));
 app.listen(port, function() {
   console.log(`Server running on ${port}.`);
 });
+
+module.exports = app;
