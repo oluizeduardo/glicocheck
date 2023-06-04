@@ -73,6 +73,13 @@ INSERT INTO users (id, name, email, password, role_id)
           '$2a$12$xap4IdbMIp/WwdlvHXFAo.j8KLCerskmRo7incA71GGL3ThHp7Sjy',
           1);
 
+INSERT INTO users (id, name, email, password, role_id) 
+  VALUES ('1111111-0000-0000-0000-111111111111', 
+          'Glicocheck Admin', 
+          'admin@glicocheck.com',
+          '$2a$12$xap4IdbMIp/WwdlvHXFAo.j8KLCerskmRo7incA71GGL3ThHp7Sjy',
+          1);
+
 SELECT * FROM users;
 
 
