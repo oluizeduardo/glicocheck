@@ -80,6 +80,7 @@ describe('Marker meal router - Integration Tests', function() {
 
   describe('DELETE /api/markermeal/:id', function() {
     it('should delete a marker meal by its ID', function(done) {
+      const markerMealId = 1;
       chai
           .request(app)
           .delete(`/api/markermeal/${markerMealId}`)

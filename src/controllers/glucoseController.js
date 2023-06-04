@@ -236,8 +236,7 @@ class GlucoseController {
             'updated_at',
           ]);
 
-      const glucoseRecord = records[0];
-      res.status(201).json({glucoseRecord});
+      res.status(201).json(records[0]);
     } catch (error) {
       res.status(500).json({
         message: Messages.ERROR,
@@ -287,6 +286,7 @@ class GlucoseController {
       if (numAffectedRegisters === 0) {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       } else {
+        glucoseRecord.id = id;
         res.status(200).json(glucoseRecord);
       }
     } catch (error) {
