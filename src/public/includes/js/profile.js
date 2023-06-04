@@ -19,7 +19,7 @@ const HTTP_UNAUTHORIZED = 401;
 const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';
+const DEFAULT_PROFILE_PICTURE = '../includes/imgs/default-profile-picture.jpg';
 
 let profilePictureBase64 = '';
 
@@ -80,6 +80,8 @@ function loadFieldsWithUserData(object) {
   fieldEmail.value = object.email;
   if (!object.picture) {
     profilePictureBase64 = DEFAULT_PROFILE_PICTURE;
+  } else {
+    profilePictureBase64 = object.picture;
   }
   userProfilePicture.src = profilePictureBase64;
   fieldBirthdate.value = object.birthdate ? object.birthdate : '';

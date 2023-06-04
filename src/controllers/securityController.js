@@ -7,7 +7,7 @@ const CryptoUtil = require('../utils/cryptoUtil');
 // eslint-disable-next-line max-len
 const SystemConfigurationController = require('./systemConfigurationController');
 
-const DEFAULT_PROFILE_PICTURE = './includes/imgs/default-profile-picture.jpg';
+const DEFAULT_PROFILE_PICTURE = '../includes/imgs/default-profile-picture.jpg';
 /**
  * SecurityController.
  *

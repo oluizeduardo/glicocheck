@@ -10,7 +10,6 @@
     "dev": "nodemon server.js",
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
-    "lint--fix": "eslint src/test/ --fix",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "test:mocha": "mocha ./src/test/routes/*.test.js",
