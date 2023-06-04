@@ -54,4 +54,41 @@ describe('Marker meal router - Integration Tests', function() {
           });
     });
   });
+
+  describe('PUT /api/markermeal/:id', function() {
+    it('should update an existing marker meal', function(done) {
+      const markerMealId = 1;
+      const updatedMarkerMeal = {
+        description: 'Updated Snack',
+      };
+
+      chai
+          .request(app)
+          .put(`/api/markermeal/${markerMealId}`)
+          .set('Authorization', `Bearer ${accessToken}`)
+          .send(updatedMarkerMeal)
+          .end(function(err, res) {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.an('object');
+            expect(res.body).to.have.property('id');
+            expect(res.body).to.have.property('description');
+            expect(res.body).to.have.property('updated_at');
+            done();
+          });
+    });
+  });
+
+  describe('DELETE /api/markermeal/:id', function() {
+    it('should delete a marker meal by its ID', function(done) {
+      chai
+          .request(app)
+          .delete(`/api/markermeal/${markerMealId}`)
+          .set('Authorization', `Bearer ${accessToken}`)
+          .end(function(err, res) {
+            expect(res).to.have.status(200);
+            expect(res.body).to.have.property('message');
+            done();
+          });
+    });
+  });
 });
