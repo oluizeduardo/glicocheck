@@ -114,6 +114,15 @@ INSERT INTO user_system_config (
 VALUES ('1111111-1111-1111-1111-111111111111', 1, 70, 160, 
   '06:00', '08:00', '12:00', '14:00', '19:00', '21:00', '23:00');
 
+INSERT INTO user_system_config (
+  user_id, glucose_unity_id, 
+  limit_hypo, limit_hyper, 
+  time_bf_pre, time_bf_pos, 
+  time_lunch_pre, time_lunch_pos, 
+  time_dinner_pre, time_dinner_pos, time_sleep) 
+VALUES ('1111111-0000-0000-0000-111111111111', 1, 70, 160, 
+  '06:00', '08:00', '12:00', '14:00', '19:00', '21:00', '23:00');
+
 
 ---- HEALTH INFO ----
 CREATE TABLE health_info (
