@@ -207,14 +207,6 @@
                         <div class="form-floating">
                           <select class="form-select square-top-borders" id="field_Markermeal" aria-label="Floating label select example">
                             <option selected>SELECT...</option>
-                            <option value="1">Fasting</option>
-                            <option value="2">Before breakfast</option>
-                            <option value="3">After breakfast</option>
-                            <option value="4">Before lunch</option>
-                            <option value="5">After lunch</option>
-                            <option value="6">Before dinner</option>
-                            <option value="7">After dinner</option>
-                            <option value="8">Before sleeping</option>
                           </select>
                           <label for="field_Markermeal">Marker meal</label>
                         </div>
@@ -315,9 +307,11 @@
     integrity="sha384-9MhbyIRcBVQiiC7FSd7T38oJNj2Zh+EfxS7/vjhBi4OOT78NlHSnzM31EZRWR1LZ" 
     crossorigin="anonymous"></script>
     <!-- LOAD HOME -->
-    <script src="./includes/js/home.js"></script> 
+    <script src="./includes/js/home.js" defer></script>
+    <!-- LOADS THE MARKER MEAL LIST -->
+    <script src="./includes/js/markerMealList.js"></script>
     <!-- NEW ENTRY -->
-    <script src="./includes/js/newEntry.js"></script> 
+    <script src="./includes/js/newEntry.js" defer></script>
     <!-- SWEET ALERT (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
     integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
