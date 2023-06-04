@@ -56,7 +56,9 @@ function createNewSelectOptionHTML(value, description) {
  * @param {string} html The string HTML of the select option.
  */
 function addSelectOptionElement(selectElement, html) {
-  selectElement.innerHTML = selectElement.innerHTML.concat(html);
+  selectElement.insertAdjacentHTML('beforeend', html);
 }
 
-loadMarkerMealList();
+loadMarkerMealList().catch((error) => {
+  console.error('Error occurred while loading marker meal list:', error);
+});
