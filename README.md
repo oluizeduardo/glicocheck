@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://glicocheck.onrender.com/site/index.html" target="_blank">
-    <img src="https://github.com/oluizeduardo/my-diabetes-js/blob/main/src/public/includes/imgs/glicocheck-logo-whitebg.png">
+    <img src="https://github.com/oluizeduardo/my-diabetes-js/blob/main/src/public/includes/imgs/glicocheck-logo.png">
   </a>  
 </div align="center">
 
