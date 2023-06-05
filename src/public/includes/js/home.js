@@ -13,8 +13,8 @@ let hyperglycemiaValues = [];
 // eslint-disable-next-line prefer-const
 let hypoglycemiaValues = [];
 
-const HYPERGLYCEMIA = 160;
-const HYPOGLYCEMIA = 70;
+let HYPERGLYCEMIA = 160;
+let HYPOGLYCEMIA = 70;
 const COLOR_HYPERGLYCEMIA = 'rgba(5, 172, 228, 1)';
 const COLOR_MY_GLYCEMIA = 'rgba(7, 140, 38, 2)';
 const COLOR_HYPOGLYCEMIA = 'rgba(255, 99, 132, 1)';
@@ -32,6 +32,8 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 const CHART_LINE_TENSION = 0.3;
 const Y_MIN_SCALE = 20;
 const Y_MAX_SCALE = 220;
+
+const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
 
 /**
  * It loads the chart in the dashboard screen.
@@ -172,6 +174,7 @@ function getColor(chart) {
  * hypoglycemia with their initial values.
  */
 function fillHypoAndHyperValues() {
+  setGlycemiaRange();
   glucoseValues.forEach(() => {
     hyperglycemiaValues.push(HYPERGLYCEMIA);
     hypoglycemiaValues.push(HYPOGLYCEMIA);
@@ -265,6 +268,18 @@ function adaptLabelDate(value) {
 function makeChartPanelVisible() {
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
+}
+
+/**
+ * Sets the glycemia range: hypo and hyperglycemia values.
+ */
+function setGlycemiaRange() {
+  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  if (objectString) {
+    const retrievedConfig = JSON.parse(objectString);
+    HYPERGLYCEMIA = retrievedConfig.limit_hyper;
+    HYPOGLYCEMIA = retrievedConfig.limit_hypo;
+  }
 }
 
 loadGlucoseReadingsByUserId();
