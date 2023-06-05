@@ -3,12 +3,22 @@ const HTTP_UNAUTHORIZED = 401;
 const HTTP_NOT_FOUND = 404;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-const HYPOGLYCEMIA = 70;
-const HYPERGLYCEMIA = 160;
+let HYPOGLYCEMIA = 70;
+let HYPERGLYCEMIA = 160;
 
 const listOfGlucoseValues = [];
 let lowestGlucoseValue = 999;
 let highestGlucoseValue = 0;
+
+const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
+
+let defaultTimeBFpre = 6;
+let defaultTimeBFpos = 8;
+let defaultTimeLunchpre = 12;
+let defaultTimeLunchpos = 14;
+let defaultTimeDinnerpre = 19;
+let defaultTimeDinnerpos = 21;
+let defaultTimeSleep = 23;
 
 /**
  * Read from the database the list of glucose records of a specific user.
@@ -180,8 +190,6 @@ function createTR(specificData) {
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
   newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD(''));
-  newTR.appendChild(createTD(''));
   setGlucoseRegisterBasedOnTime(newTR, specificData);
   return newTR;
 }
@@ -312,11 +320,11 @@ function createDiv(glucoseValue) {
  * @return {Number} A number representing the index.
  */
 function getIndexCarbsTD(hour) {
-  if (hour >= 22) return 18;
-  if (hour >= 19 && hour < 21) return 13;
-  if (hour >= 12 && hour < 14) return 8;
-  if (hour >= 6 && hour < 8) return 3;
-  return -1;
+  if (hour >= defaultTimeSleep) return 18;
+  if (hour >= defaultTimeDinnerpre && hour < defaultTimeDinnerpos) return 13;
+  if (hour >= defaultTimeLunchpre && hour < defaultTimeLunchpos) return 8;
+  if (hour >= defaultTimeBFpre && hour < defaultTimeBFpos) return 3;
+  return 3;// late night snack
 }
 /**
  * Gets an index based on the informed hour.
@@ -324,14 +332,14 @@ function getIndexCarbsTD(hour) {
  * @return {Number} A number representing an index.
  */
 function getIndexGlycemiaTD(hour) {
-  if (hour >= 22) return 16;
-  if (hour >= 21) return 14;
-  if (hour >= 19) return 11;
-  if (hour >= 14) return 9;
-  if (hour >= 12) return 6;
-  if (hour >= 8) return 4;
-  if (hour >= 5) return 1;
-  return 19;
+  if (hour >= defaultTimeSleep) return 16;
+  if (hour >= defaultTimeDinnerpos) return 14;
+  if (hour >= defaultTimeDinnerpre) return 11;
+  if (hour >= defaultTimeLunchpos) return 9;
+  if (hour >= defaultTimeLunchpre) return 6;
+  if (hour >= defaultTimeBFpos) return 4;
+  if (hour >= defaultTimeBFpre) return 1;
+  return 1;// late night snack
 }
 
 let qtdRegistersHipoglycemia = 0;
@@ -493,4 +501,73 @@ function fillStatisticsTable() {
   statsHyper.innerText = qtdRegistersHyperglycemia;
 }
 
+/**
+ * Loads values from system configuration.
+ */
+function loadFromSystemConfiguration() {
+  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  if (objectString) {
+    const systemConfig = JSON.parse(objectString);
+    setGlyceliaRange(systemConfig.limit_hypo, systemConfig.limit_hyper);
+    setDefaultTimeInInt(systemConfig);
+    setTimeValuesOnTheTable(systemConfig);
+  }
+}
+/**
+ * Set the glycemia range: hypo and hyperglycemia limits.
+ * @param {Number} hypo
+ * @param {Number} hyper
+ */
+function setGlyceliaRange(hypo, hyper) {
+  HYPOGLYCEMIA = hypo;
+  HYPERGLYCEMIA = hyper;
+}
+
+/**
+ * Set the default time values in integer format.
+ * @param {Object} systemConfig
+ */
+function setDefaultTimeInInt(systemConfig) {
+  defaultTimeBFpre = extractHour(systemConfig.time_bf_pre);
+  defaultTimeBFpos = extractHour(systemConfig.time_bf_pos);
+  defaultTimeLunchpre = extractHour(systemConfig.time_lunch_pre);
+  defaultTimeLunchpos = extractHour(systemConfig.time_lunch_pos);
+  defaultTimeDinnerpre = extractHour(systemConfig.time_dinner_pre);
+  defaultTimeDinnerpos = extractHour(systemConfig.time_dinner_pos);
+  defaultTimeSleep = extractHour(systemConfig.time_sleep);
+}
+/**
+ * Extracts the integer part of the hour from a given
+ * hour string in the format "HH:MM".
+ * @param {string} hourString - The hour string in the format "HH:MM".
+ * @return {number} The integer part of the hour.
+ */
+function extractHour(hourString) {
+  return parseInt(hourString.split(':')[0], 10);
+}
+/**
+ * Set the time values on the table.
+ * @param {Object} systemConfig
+ */
+function setTimeValuesOnTheTable(systemConfig) {
+  if (systemConfig) {
+    const tbTimeBFpre = document.getElementById('time_bf_pre');
+    const tbTimeBFpos = document.getElementById('time_bf_pos');
+    const tbTimeLunchpre = document.getElementById('time_lunch_pre');
+    const tbTimeLunchpos = document.getElementById('time_lunch_pos');
+    const tbTimeDinnerpre = document.getElementById('time_dinner_pre');
+    const tbTimeDinnerpos = document.getElementById('time_dinner_pos');
+    const tbTimeSleep = document.getElementById('time_sleep');
+
+    tbTimeBFpre.innerText = systemConfig.time_bf_pre;
+    tbTimeBFpos.innerText = systemConfig.time_bf_pos;
+    tbTimeLunchpre.innerText = systemConfig.time_lunch_pre;
+    tbTimeLunchpos.innerText = systemConfig.time_lunch_pos;
+    tbTimeDinnerpre.innerText = systemConfig.time_dinner_pre;
+    tbTimeDinnerpos.innerText = systemConfig.time_dinner_pos;
+    tbTimeSleep.innerText = systemConfig.time_sleep;
+  }
+}
+
+loadFromSystemConfiguration();
 getGlucoseReadingsByUserId();
