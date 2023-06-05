@@ -1,6 +1,7 @@
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
+const logger = require('../loggerUtil/logger');
 /**
  * SystemConfigurationController.
  */
@@ -67,6 +68,7 @@ class SystemConfigurationController {
       const successMessage = Messages.NEW_CONFIGURATION_CREATED + userId;
       return res.status(201).json({message: successMessage});
     } catch (error) {
+      logger.error(`Error saving system configuration`);
       return res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -92,7 +94,7 @@ class SystemConfigurationController {
       time_sleep: '23:00',
     };
     await database('user_system_config').insert(defaultSystemConfig, ['id']);
-    console.log('Saved default system configuration.');
+    logger.info('Saved default system configuration.');
   };
 
   /**
@@ -130,6 +132,7 @@ class SystemConfigurationController {
 
       return res.status(404).json({message: Messages.NOTHING_FOUND});
     } catch (error) {
+      logger.error(`Error getting all the system configuration.`);
       return res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -171,6 +174,7 @@ class SystemConfigurationController {
 
       return res.status(404).json({message: Messages.NOTHING_FOUND});
     } catch (error) {
+      logger.error(`Error getting the system configuration by user id.`);
       return res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -212,6 +216,7 @@ class SystemConfigurationController {
 
       return res.status(201).json(updatedConfiguration);
     } catch (error) {
+      logger.error(`Error updating system configuration by user id.`);
       return res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -229,8 +234,8 @@ class SystemConfigurationController {
    * @throws {Error} - If an error occurs during the process.
    */
   static deleteByUserId = async (req, res) => {
+    logger.info('Deleting system configuration by user id.');
     const {userId} = req.params;
-    console.log('Executing delete system config by user id.');
     try {
       const numAffectedRegisters = await database('user_system_config')
           .where('user_id', userId)
@@ -244,6 +249,7 @@ class SystemConfigurationController {
           .status(200)
           .json({message: Messages.SYSTEM_CONFIGURATION_DELETED});
     } catch (error) {
+      logger.error(`Error deleting system configuration by user id.`);
       return res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

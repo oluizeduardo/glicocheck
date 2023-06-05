@@ -1,6 +1,7 @@
 // Necessary to work with .env files.
 require('dotenv').config();
 
+const logger = require('./src/loggerUtil/logger');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -56,7 +57,7 @@ app.use('/', express.static(path.join(__dirname, '/src/public')));
 
 // Inicialize the server.
 app.listen(port, function() {
-  console.log(`Server running on ${port}.`);
+  logger.info(`Server running on ${port}.`);
 });
 
 module.exports = app;
