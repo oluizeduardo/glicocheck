@@ -1,7 +1,7 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
-const logger = require('../loggerUtil/logger');
 /**
  * SystemConfigurationController.
  */
@@ -68,7 +68,8 @@ class SystemConfigurationController {
       const successMessage = Messages.NEW_CONFIGURATION_CREATED + userId;
       return res.status(201).json({message: successMessage});
     } catch (error) {
-      logger.error(`Error saving system configuration`);
+      // eslint-disable-next-line max-len
+      logger.error('Error SystemConfigurationController.addSystemConfiguration');
       return res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -132,7 +133,8 @@ class SystemConfigurationController {
 
       return res.status(404).json({message: Messages.NOTHING_FOUND});
     } catch (error) {
-      logger.error(`Error getting all the system configuration.`);
+      // eslint-disable-next-line max-len
+      logger.error('Error SystemConfigurationController.getAllSystemConfiguration');
       return res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -174,7 +176,7 @@ class SystemConfigurationController {
 
       return res.status(404).json({message: Messages.NOTHING_FOUND});
     } catch (error) {
-      logger.error(`Error getting the system configuration by user id.`);
+      logger.error('Error SystemConfigurationController.getByUserId');
       return res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -216,7 +218,7 @@ class SystemConfigurationController {
 
       return res.status(201).json(updatedConfiguration);
     } catch (error) {
-      logger.error(`Error updating system configuration by user id.`);
+      logger.error('Error SystemConfigurationController.updateByUserId');
       return res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -249,7 +251,7 @@ class SystemConfigurationController {
           .status(200)
           .json({message: Messages.SYSTEM_CONFIGURATION_DELETED});
     } catch (error) {
-      logger.error(`Error deleting system configuration by user id.`);
+      logger.error('Error SystemConfigurationController.deleteByUserId');
       return res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

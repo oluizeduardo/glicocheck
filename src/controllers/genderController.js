@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
@@ -26,6 +27,7 @@ class GenderController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GenderController.getAllGenders');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -50,6 +52,7 @@ class GenderController {
 
       res.status(201).json(createdGender[0]);
     } catch (error) {
+      logger.error('Error GenderController.createNewGender');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -82,6 +85,7 @@ class GenderController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GenderController.getGenderById');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -119,6 +123,7 @@ class GenderController {
         res.status(200).json(gender);
       }
     } catch (error) {
+      logger.error('Error GenderController.updateGenderById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -157,6 +162,7 @@ class GenderController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GenderController.deleteGenderById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

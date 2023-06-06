@@ -64,7 +64,7 @@ class SecurityController {
         res.status(201).json({message: Messages.NEW_USER_CREATED});
       }
     } catch (error) {
-      logger.error(`Error saving a new user.`);
+      logger.error('Error SecurityController.registerNewUser');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -110,7 +110,7 @@ class SecurityController {
         res.status(401).json({message: Messages.WRONG_CREDENTIALS});
       }
     } catch (error) {
-      logger.error(`Error during login.`);
+      logger.error('Error SecurityController.doLogin');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -147,7 +147,7 @@ class SecurityController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error(`Error during password validation.`);
+      logger.error('Error SecurityController.passwordValidation');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

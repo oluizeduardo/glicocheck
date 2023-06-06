@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
@@ -39,6 +40,7 @@ class UserController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error UserController.getAllUsers');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -84,6 +86,7 @@ class UserController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error UserController.getUserById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -127,6 +130,7 @@ class UserController {
         res.status(201).json({user: updatedUser});
       }
     } catch (error) {
+      logger.error('Error UserController.updateUserById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -164,6 +168,7 @@ class UserController {
         res.status(200).json({message: Messages.USER_DELETED});
       }
     } catch (error) {
+      logger.error('Error UserController.deleteUserById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

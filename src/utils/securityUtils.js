@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const jwt = require('jsonwebtoken');
 const database = require('../db/dbconfig.js');
@@ -32,6 +33,7 @@ class SecurityUtils {
       req.userId = decodeToken.id;
       return next();
     } catch (err) {
+      logger.error(`Error cheking JWT token - ${err.name}`);
       if (err.name === 'TokenExpiredError') {
         return res.status(401).json({
           message: Messages.TOKEN_EXPIRED,
@@ -70,6 +72,7 @@ class SecurityUtils {
           }
         })
         .catch((err) => {
+          logger.error(`Error executing SecurityUtils.isAdmin`);
           res.status(500).json({
             message: Messages.ERROR_CHECKING_USER_ROLE,
             error: err.message,

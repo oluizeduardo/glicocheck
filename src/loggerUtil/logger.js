@@ -14,7 +14,7 @@ const logger = createLogger({
     new transports.Console(),
     new transports.File({
       filename: `${DEFAULT_LOG_FOLDER}/logs.log`,
-      maxsize: 1 * 1024, // 100kb
+      maxsize: 1 * 1024 * 1024, // 1MB
       maxFiles: 2, // Number of backup files to keep
       tailable: true, // Enable file rotation
       zippedArchive: true,
