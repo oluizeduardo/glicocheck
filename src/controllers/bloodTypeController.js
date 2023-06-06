@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
@@ -28,6 +29,7 @@ class BloodTypeController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error BloodTypeController.getAllTypes');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -51,6 +53,7 @@ class BloodTypeController {
 
       res.status(201).json(type[0]);
     } catch (error) {
+      logger.error('Error BloodTypeController.createNewType');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -83,6 +86,7 @@ class BloodTypeController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error BloodTypeController.getTypeById');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -120,6 +124,7 @@ class BloodTypeController {
         res.status(200).json(newType);
       }
     } catch (error) {
+      logger.error('Error BloodTypeController.updateTypeById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -157,6 +162,7 @@ class BloodTypeController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error BloodTypeController.deleteTypeById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

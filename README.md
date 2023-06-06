@@ -5,7 +5,7 @@
 </div align="center">
 
 # Glicocheck
-Web platform to manage diabetes.
+Web platform for diabetes management.
 
 # Technologies applied
 - Backend

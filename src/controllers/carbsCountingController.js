@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const axios = require('axios');
 
@@ -15,7 +16,7 @@ class CarbsCountingController {
     const food = req.params.food;
 
     if (!food) {
-      res.status(404).json({message: Messages.NOTHING_FOUND});
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
     }
 
     const appId = process.env.EDAMAM_APP_ID;
@@ -24,6 +25,11 @@ class CarbsCountingController {
 
     const response = await axios.get(url);
     const data = await response.data;
+
+    if (!data) {
+      logger.warn('EDAMAM API returned empty response');
+      return res.status(404).json({message: Messages.NOTHING_FOUND});
+    }
 
     if (data.totalNutrients.CHOCDF && data.totalNutrients.ENERC_KCAL) {
       const carbohydrate = data.totalNutrients.CHOCDF.quantity;

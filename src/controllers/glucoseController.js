@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
@@ -46,6 +47,7 @@ class GlucoseController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GlucoseController.getAllGlucoseRecords');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -94,6 +96,7 @@ class GlucoseController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GlucoseController.getGlucoseRecordsByUserId');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -140,6 +143,7 @@ class GlucoseController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GlucoseController.getGlucoseById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -186,6 +190,7 @@ class GlucoseController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GlucoseController.getGlucoseRecordsByMarkerMealId');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -238,6 +243,7 @@ class GlucoseController {
 
       res.status(201).json(records[0]);
     } catch (error) {
+      logger.error('Error GlucoseController.createNewGlucoseRecord');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -290,6 +296,7 @@ class GlucoseController {
         res.status(200).json(glucoseRecord);
       }
     } catch (error) {
+      logger.error('Error GlucoseController.updateGlucoseRecordById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -329,6 +336,7 @@ class GlucoseController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GlucoseController.deleteGlucoseRecordById');
       res.status(500).json({
         message: Messages.ERROR,
         error: error.message,
@@ -364,6 +372,7 @@ class GlucoseController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error GlucoseController.deleteGlucoseRecordsByUserId');
       res.status(500).json({
         message: Messages.ERROR,
         error: error.message,

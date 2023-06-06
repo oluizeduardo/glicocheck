@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
@@ -70,6 +71,8 @@ class ResetPasswordController {
           return;
         })
         .catch((err) => {
+          // eslint-disable-next-line max-len
+          logger.error('Error ResetPasswordController.handleCancelResetRequest');
           res.status(INTERNAL_SERVER_ERROR);
           res.sendFile(PAGE_ERROR);
           return;

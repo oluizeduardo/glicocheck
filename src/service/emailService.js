@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const logger = require('../loggerUtil/logger');
 const ResetPasswordHTMLMessage = require('../utils/resetPasswordHTMLMessage');
 
 /**
@@ -32,10 +33,10 @@ class EmailService {
           subject: 'Reset password',
           html: ResetPasswordHTMLMessage.createHTMLMessage(resetToken),
         }).then(() => {
-          console.error(`${resource} - Email sent to ${destination}`);
+          logger.info(`${resource} - Email sent to the destination`);
         })
         .catch((error) => {
-          console.error(`${resource} - Error: ${error}`);
+          logger.error(`${resource} - Error: ${error}`);
         });
   }
 }

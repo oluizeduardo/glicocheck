@@ -1,6 +1,7 @@
 // Necessary to work with .env files.
 require('dotenv').config();
 
+const logger = require('./src/loggerUtil/logger');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -34,9 +35,18 @@ app.use(cors());
 // Disclosing the fingerprinting of this web technology.
 app.disable('x-powered-by');
 
-const port = process.env.PORT || 3000;
+// Custom logging middleware
+app.use((req, res, next) => {
+  // Excludes from log.
+  if (!req.originalUrl.startsWith('/includes') &&
+      !req.originalUrl.endsWith('.html')) {
+    logger.info(`[${req.method}] ${req.originalUrl}`);
+  }
+  next();
+});
 
-app.use(morgan('common')); // Used to log requests.
+// Log requests in the console.
+app.use(morgan('common'));
 app.use(express.json({limit: '2mb'}));
 
 app.use('/api/users', usersRouter);
@@ -54,9 +64,11 @@ app.use('/api/systemconfiguration', systemConfigRouter);
 app.use(express.urlencoded({extended: true}));
 app.use('/', express.static(path.join(__dirname, '/src/public')));
 
+const port = process.env.PORT || 3000;
+
 // Inicialize the server.
 app.listen(port, function() {
-  console.log(`Server running on ${port}.`);
+  logger.info(`Server running on ${port}.`);
 });
 
 module.exports = app;

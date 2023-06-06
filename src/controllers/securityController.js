@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const jwt = require('jsonwebtoken');
@@ -26,6 +27,7 @@ class SecurityController {
    * @throws {Error} - If an error occurs during the process.
    */
   static registerNewUser = async (req, res) => {
+    logger.info(`Executing SecurityController.registerNewUser`);
     let {name, email, picture, password, role_id} = req.body;
 
     try {
@@ -56,12 +58,13 @@ class SecurityController {
                 },
                 ['id'],
             );
-        console.log('Saved new user.');
+        logger.info('Saved new user.');
         // Save default system configuration for the new user.
         SystemConfigurationController.saveDefaultSystemConfiguration(id);
         res.status(201).json({message: Messages.NEW_USER_CREATED});
       }
     } catch (error) {
+      logger.error('Error SecurityController.registerNewUser');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -79,6 +82,7 @@ class SecurityController {
    * @throws {Error} - If an error occurs during the process.
    */
   static doLogin = async (req, res) => {
+    logger.info(`Executing SecurityController.doLogin`);
     const {email, password} = req.body;
 
     try {
@@ -106,6 +110,7 @@ class SecurityController {
         res.status(401).json({message: Messages.WRONG_CREDENTIALS});
       }
     } catch (error) {
+      logger.error('Error SecurityController.doLogin');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -123,6 +128,7 @@ class SecurityController {
    * @throws {Error} - If an error occurs during the process.
    */
   static passwordValidation = async (req, res) => {
+    logger.info(`Executing SecurityController.passwordValidation`);
     const {userId, password} = req.body;
 
     try {
@@ -141,6 +147,7 @@ class SecurityController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error SecurityController.passwordValidation');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

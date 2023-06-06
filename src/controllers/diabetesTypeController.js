@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
@@ -26,6 +27,7 @@ class DiabetesTypeController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error DiabetesTypeController.getAllTypes');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -52,6 +54,7 @@ class DiabetesTypeController {
 
       res.status(201).json(types[0]);
     } catch (error) {
+      logger.error('Error DiabetesTypeController.createNewType');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -84,6 +87,7 @@ class DiabetesTypeController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error DiabetesTypeController.getTypeById');
       res.status(500).json({message: Messages.ERROR});
     }
   };
@@ -120,6 +124,7 @@ class DiabetesTypeController {
 
       res.status(201).json(newType);
     } catch (error) {
+      logger.error('Error DiabetesTypeController.updateTypeById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -158,6 +163,7 @@ class DiabetesTypeController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error DiabetesTypeController.deleteTypeById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

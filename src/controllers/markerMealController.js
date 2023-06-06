@@ -1,3 +1,4 @@
+const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
@@ -26,6 +27,7 @@ class MarkerMealController {
         res.status(200).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error MarkerMealController.getAllMarkerMeals');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -57,6 +59,7 @@ class MarkerMealController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
+      logger.error('Error MarkerMealController.getMarkerMealById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -80,6 +83,7 @@ class MarkerMealController {
 
       res.status(201).json(marker[0]);
     } catch (error) {
+      logger.error('Error MarkerMealController.createNewMarkerMeal');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -117,6 +121,7 @@ class MarkerMealController {
         res.status(200).json(updatedMarkerMeal);
       }
     } catch (error) {
+      logger.error('Error MarkerMealController.updateMarkerMealById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -147,6 +152,7 @@ class MarkerMealController {
         res.status(200).json({message: Messages.REGISTER_DELETED});
       }
     } catch (error) {
+      logger.error('Error MarkerMealController.deleteMarkerMealById');
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
