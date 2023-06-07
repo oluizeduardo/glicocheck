@@ -6,6 +6,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const morgan = require('morgan');
+const helmet = require('helmet');
 const usersRouter = require('./src/routes/usersRouter');
 const glucoseRouter = require('./src/routes/glucoseRouter');
 const markerMealRouter = require('./src/routes/markerMealRouter');
@@ -20,17 +21,19 @@ const systemConfigRouter = require('./src/routes/systemConfigurationRouter');
 
 const app = express();
 
-// CORS configuration.
-app.use(cors());
+// Applies security headers.
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 
 // Specific CORS configuration.
-// app.use(
-//   cors({
-//     origin: 'http://localhost:3000', // Aloowed domain.
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-//   })
-// );
+app.use(
+    cors({
+      origin: 'https://glicocheck-admin.vercel.app/',
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    }),
+);
 
 // Disclosing the fingerprinting of this web technology.
 app.disable('x-powered-by');

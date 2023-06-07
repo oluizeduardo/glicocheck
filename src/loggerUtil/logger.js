@@ -11,7 +11,7 @@ const logger = createLogger({
       }),
   ),
   transports: [
-    new transports.Console(),
+    // new transports.Console(),
     new transports.File({
       filename: `${DEFAULT_LOG_FOLDER}/logs.log`,
       maxsize: 1 * 1024 * 1024, // 1MB
