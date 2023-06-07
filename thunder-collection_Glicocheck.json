@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Glicocheck",
-    "dateExported": "2023-06-04T17:08:11.281Z",
+    "dateExported": "2023-06-07T03:31:14.381Z",
     "version": "1.1",
     "folders": [
         {
@@ -80,6 +80,13 @@
             "containerId": "",
             "created": "2023-05-16T12:21:35.976Z",
             "sortNum": 100000
+        },
+        {
+            "_id": "71cfcd56-0f58-437d-80c1-5786a44b475f",
+            "name": "Health Info",
+            "containerId": "",
+            "created": "2023-06-07T02:23:40.650Z",
+            "sortNum": 110000
         }
     ],
     "requests": [
@@ -111,7 +118,7 @@
             "method": "POST",
             "sortNum": 5000,
             "created": "2022-07-28T01:20:44.893Z",
-            "modified": "2023-05-18T01:07:49.308Z",
+            "modified": "2023-06-07T00:49:46.588Z",
             "headers": [],
             "params": [],
             "body": {
@@ -130,17 +137,17 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2022-07-25T00:50:31.613Z",
-            "modified": "2023-05-18T01:52:15.323Z",
+            "modified": "2023-06-04T17:59:51.328Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n    \"userId\": \"2631da9bc62faef90959af98ed6946aa312d6f48\",\n    \"glucose\": 79,\n    \"glucose_unity_id\": 1,\n    \"total_carbs\": 40,\n    \"dateTime\": \"2023-04-09T00:54\",\n    \"markerMealId\": 3\n}",
+                "raw": "{\n    \"userId\": \"df42da17-7c7f-4d1d-8112-beced97a6e42\",\n    \"glucose\": 79,\n    \"glucose_unity_id\": 1,\n    \"total_carbs\": 40,\n    \"dateTime\": \"2023-04-09T00:54\",\n    \"markerMealId\": 3\n}",
                 "form": []
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI2MzFkYTliYzYyZmFlZjkwOTU5YWY5OGVkNjk0NmFhMzEyZDZmNDgiLCJpYXQiOjE2ODQzNzMyNjYsImV4cCI6MTY4NDM3NTA2Nn0.QuLON_0hMGv-sAxRpM0RttET9rcJhrEdl1T7u5FxZnw"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmNDJkYTE3LTdjN2YtNGQxZC04MTEyLWJlY2VkOTdhNmU0MiIsImlhdCI6MTY4NTkwMTUzMCwiZXhwIjoxNjg1OTAzMzMwfQ.0ti1O-WcFcthZLZAv0vdrUlFpdIoIYekvzYqjoimKRY"
             },
             "tests": []
         },
@@ -153,12 +160,12 @@
             "method": "GET",
             "sortNum": 12500,
             "created": "2022-07-25T00:42:42.924Z",
-            "modified": "2023-06-03T15:22:04.025Z",
+            "modified": "2023-06-07T03:30:11.497Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA0YzYzOGU3LWQ4YWQtNDAzNS05YTQ2LWZjZTQ5OGJhMjU3YiIsImlhdCI6MTY4NTgwNTY4NiwiZXhwIjoxNjg1ODA3NDg2fQ.haRlxdpVQjmoGl6b1RE_Vvp8GIBFZ9jPzBb7PCYuzbo"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiMWZiM2U0LWYwNWUtNDkzMC1hYjdkLTUwN2NkODg5NjEzNCIsImlhdCI6MTY4NjEwODU4MSwiZXhwIjoxNjg2MTEwMzgxfQ.bH24yDV-3Rg-6Kgd6B6JBw0Pk46lPu4lpXaZVH-uevc"
             },
             "tests": []
         },
@@ -325,7 +332,7 @@
             "method": "PUT",
             "sortNum": 65000,
             "created": "2022-07-25T02:17:27.604Z",
-            "modified": "2023-05-18T01:58:20.706Z",
+            "modified": "2023-06-04T17:59:23.115Z",
             "headers": [],
             "params": [],
             "body": {
@@ -335,7 +342,7 @@
             },
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI2MzFkYTliYzYyZmFlZjkwOTU5YWY5OGVkNjk0NmFhMzEyZDZmNDgiLCJpYXQiOjE2ODQzNzUwOTEsImV4cCI6MTY4NDM3Njg5MX0.6bKcH5k21aHnDdM4mKY80lcRGvxJYbSixjPfq36_Irs"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRmNDJkYTE3LTdjN2YtNGQxZC04MTEyLWJlY2VkOTdhNmU0MiIsImlhdCI6MTY4NTkwMTUzMCwiZXhwIjoxNjg1OTAzMzMwfQ.0ti1O-WcFcthZLZAv0vdrUlFpdIoIYekvzYqjoimKRY"
             },
             "tests": []
         },
@@ -544,12 +551,12 @@
             "method": "GET",
             "sortNum": 220000,
             "created": "2023-05-14T18:48:32.761Z",
-            "modified": "2023-05-31T14:42:53.619Z",
+            "modified": "2023-06-07T03:26:44.551Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI3MWE5ODEyNzEyYWQ3MzYwMWE4NjM5OGFkYjc0Yzc1NTliZGE2NTUiLCJpYXQiOjE2ODU1NDQxNjIsImV4cCI6MTY4NTU0NTk2Mn0.7dzmos7y13ybZjA1LUmOgwU51WueA4GK5gaB2hW4-oo"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjMDIzNWI4LTk4NTktNGIzZi04MmZiLWZlYTJkMzQxZGRhOSIsImlhdCI6MTY4NjEwODEzMCwiZXhwIjoxNjg2MTA5OTMwfQ.nBX8CI2323krZ3kHjK2QFsiyQP3goXJqDzqDdxYsNrg"
             },
             "tests": []
         },
@@ -580,12 +587,12 @@
             "method": "GET",
             "sortNum": 220000,
             "created": "2023-05-14T20:53:38.143Z",
-            "modified": "2023-06-03T02:25:27.175Z",
+            "modified": "2023-06-07T03:30:22.421Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyODJmM2VkLWE1ZGEtNGE5Ny04YmJlLTgyZWU5OTgyNDM3MSIsImlhdCI6MTY4NTc1OTA5MiwiZXhwIjoxNjg1NzYwODkyfQ.mVIGfPJyJnJ0OT8kgxu5_j2QFjAFjTz3kz5ckKyM-tw"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRiMWZiM2U0LWYwNWUtNDkzMC1hYjdkLTUwN2NkODg5NjEzNCIsImlhdCI6MTY4NjEwODU4MSwiZXhwIjoxNjg2MTEwMzgxfQ.bH24yDV-3Rg-6Kgd6B6JBw0Pk46lPu4lpXaZVH-uevc"
             },
             "tests": []
         },
@@ -827,12 +834,12 @@
             "method": "GET",
             "sortNum": 310000,
             "created": "2023-05-27T15:54:38.070Z",
-            "modified": "2023-06-03T15:23:57.827Z",
+            "modified": "2023-06-07T03:27:10.048Z",
             "headers": [],
             "params": [],
             "auth": {
                 "type": "bearer",
-                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA0YzYzOGU3LWQ4YWQtNDAzNS05YTQ2LWZjZTQ5OGJhMjU3YiIsImlhdCI6MTY4NTgwNTY4NiwiZXhwIjoxNjg1ODA3NDg2fQ.haRlxdpVQjmoGl6b1RE_Vvp8GIBFZ9jPzBb7PCYuzbo"
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjMDIzNWI4LTk4NTktNGIzZi04MmZiLWZlYTJkMzQxZGRhOSIsImlhdCI6MTY4NjEwODEzMCwiZXhwIjoxNjg2MTA5OTMwfQ.nBX8CI2323krZ3kHjK2QFsiyQP3goXJqDzqDdxYsNrg"
             },
             "tests": []
         },
@@ -892,6 +899,106 @@
             "auth": {
                 "type": "bearer",
                 "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4OGQ0YTM4YWQ2M2RmNjVlZmJhYjNkYjhiZWU4MjNlZGU1NWZhNzYiLCJpYXQiOjE2ODUzMTg5OTMsImV4cCI6MTY4NTMyMDc5M30.eaFmm2wJ-LkrUnLiuidUAfFV8eaRUwaj0udXbs3DdtQ"
+            },
+            "tests": []
+        },
+        {
+            "_id": "e3192164-d030-43c6-b26a-5b02ad80b94d",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "71cfcd56-0f58-437d-80c1-5786a44b475f",
+            "name": "Get all health info",
+            "url": "{{LOCALHOST}}/api/healthinfo",
+            "method": "GET",
+            "sortNum": 340000,
+            "created": "2023-06-07T02:23:53.097Z",
+            "modified": "2023-06-07T03:08:01.718Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAyYmQxOTA5LTk5OTctNDYzYy1iZTJkLTU3NDRkMjRjYTc2MSIsImlhdCI6MTY4NjEwNzI3MCwiZXhwIjoxNjg2MTA5MDcwfQ.WCm8lEv5K8GHrYv7VvNbqK766G2shDLRzVY0P2Sc-yk"
+            },
+            "tests": []
+        },
+        {
+            "_id": "d2e31dec-16dc-4813-a039-342036ca1f34",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "71cfcd56-0f58-437d-80c1-5786a44b475f",
+            "name": "Add Health info",
+            "url": "{{LOCALHOST}}/api/healthinfo",
+            "method": "POST",
+            "sortNum": 350000,
+            "created": "2023-06-07T02:33:33.889Z",
+            "modified": "2023-06-07T03:08:17.547Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userId\": \"02bd1909-9997-463c-be2d-5744d24ca761\",\n  \"diabetesType\": 1,\n  \"monthDiagnosis\": \"May 2021\",\n  \"bloodType\": 1\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAyYmQxOTA5LTk5OTctNDYzYy1iZTJkLTU3NDRkMjRjYTc2MSIsImlhdCI6MTY4NjEwNzI3MCwiZXhwIjoxNjg2MTA5MDcwfQ.WCm8lEv5K8GHrYv7VvNbqK766G2shDLRzVY0P2Sc-yk"
+            },
+            "tests": []
+        },
+        {
+            "_id": "c11c4f07-0031-4e32-be9d-102beda14f23",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "71cfcd56-0f58-437d-80c1-5786a44b475f",
+            "name": "Get by user id",
+            "url": "{{LOCALHOST}}/api/healthinfo/user/02bd1909-9997-463c-be2d-5744d24ca761",
+            "method": "GET",
+            "sortNum": 360000,
+            "created": "2023-06-07T02:39:46.325Z",
+            "modified": "2023-06-07T03:08:35.222Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAyYmQxOTA5LTk5OTctNDYzYy1iZTJkLTU3NDRkMjRjYTc2MSIsImlhdCI6MTY4NjEwNzI3MCwiZXhwIjoxNjg2MTA5MDcwfQ.WCm8lEv5K8GHrYv7VvNbqK766G2shDLRzVY0P2Sc-yk"
+            },
+            "tests": []
+        },
+        {
+            "_id": "6a1befbd-53e1-421b-8e10-a26fb82700a7",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "71cfcd56-0f58-437d-80c1-5786a44b475f",
+            "name": "Update by user id",
+            "url": "{{LOCALHOST}}/api/healthinfo/user/02bd1909-9997-463c-be2d-5744d24ca761",
+            "method": "PUT",
+            "sortNum": 365000,
+            "created": "2023-06-07T02:57:01.491Z",
+            "modified": "2023-06-07T03:10:13.235Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"diabetesType\": 1,\n  \"monthDiagnosis\": \"July 2021\",\n  \"bloodType\": 1\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAyYmQxOTA5LTk5OTctNDYzYy1iZTJkLTU3NDRkMjRjYTc2MSIsImlhdCI6MTY4NjEwNzI3MCwiZXhwIjoxNjg2MTA5MDcwfQ.WCm8lEv5K8GHrYv7VvNbqK766G2shDLRzVY0P2Sc-yk"
+            },
+            "tests": []
+        },
+        {
+            "_id": "f4a437ce-cf31-4df5-9c84-f7021491cff1",
+            "colId": "e10b9a7e-0bc9-49a5-8a6b-d0e541a837db",
+            "containerId": "71cfcd56-0f58-437d-80c1-5786a44b475f",
+            "name": "Delete by user id",
+            "url": "{{LOCALHOST}}/api/healthinfo/user/02bd1909-9997-463c-be2d-5744d24ca761",
+            "method": "DELETE",
+            "sortNum": 370000,
+            "created": "2023-06-07T02:51:38.553Z",
+            "modified": "2023-06-07T03:10:31.083Z",
+            "headers": [],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAyYmQxOTA5LTk5OTctNDYzYy1iZTJkLTU3NDRkMjRjYTc2MSIsImlhdCI6MTY4NjEwNzI3MCwiZXhwIjoxNjg2MTA5MDcwfQ.WCm8lEv5K8GHrYv7VvNbqK766G2shDLRzVY0P2Sc-yk"
             },
             "tests": []
         }

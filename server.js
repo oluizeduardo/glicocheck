@@ -18,6 +18,7 @@ const diabetesTypeRouter = require('./src/routes/diabetesTypeRouter');
 const bloodTypeRouter = require('./src/routes/bloodTypeRouter');
 const systemHealthCheckRouter = require('./src/routes/systemHealthCheckRouter');
 const systemConfigRouter = require('./src/routes/systemConfigurationRouter');
+const healthInfoRouter = require('./src/routes/healthInfoRouter');
 
 const app = express();
 
@@ -63,6 +64,7 @@ app.use('/api/diabetestype', diabetesTypeRouter);
 app.use('/api/bloodtype', bloodTypeRouter);
 app.use('/api/ping', systemHealthCheckRouter);
 app.use('/api/systemconfiguration', systemConfigRouter);
+app.use('/api/healthinfo', healthInfoRouter);
 
 app.use(express.urlencoded({extended: true}));
 app.use('/', express.static(path.join(__dirname, '/src/public')));

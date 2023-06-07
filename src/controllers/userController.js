@@ -28,12 +28,10 @@ class UserController {
               'users.gender_id',
               'users.weight',
               'users.height',
-              'users.health_id',
               'role.description as role',
               'users.created_at',
               'users.updated_at',
           );
-
       if (users.length > 0) {
         res.status(200).json(users);
       } else {
@@ -71,7 +69,6 @@ class UserController {
               'users.birthdate',
               'users.phone',
               'users.gender_id',
-              'users.health_id',
               'users.weight',
               'users.height',
               'users.picture',
