@@ -29,7 +29,7 @@ app.use(helmet({
 // Specific CORS configuration.
 app.use(
     cors({
-      origin: 'https://glicocheck-admin.vercel.app/',
+      origin: 'https://glicocheck-admin.vercel.app',
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       allowedHeaders: ['Content-Type', 'Authorization'],
     }),
