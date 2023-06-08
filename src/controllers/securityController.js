@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
@@ -5,7 +6,6 @@ const database = require('../db/dbconfig.js');
 const jwt = require('jsonwebtoken');
 const SecurityUtils = require('../utils/securityUtils');
 const CryptoUtil = require('../utils/cryptoUtil');
-// eslint-disable-next-line max-len
 const SystemConfigurationController = require('./systemConfigurationController');
 
 const DEFAULT_PROFILE_PICTURE = '../includes/imgs/default-profile-picture.jpg';
@@ -29,6 +29,10 @@ class SecurityController {
   static registerNewUser = async (req, res) => {
     logger.info(`Executing SecurityController.registerNewUser`);
     let {name, email, picture, password, role_id} = req.body;
+
+    if (!name || !email || !password || !role_id) {
+      return res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
+    }
 
     try {
       const existingUser = await database('users')
@@ -64,7 +68,7 @@ class SecurityController {
         res.status(201).json({message: Messages.NEW_USER_CREATED});
       }
     } catch (error) {
-      logger.error('Error SecurityController.registerNewUser');
+      logger.error(`Error SecurityController.registerNewUser-${error.message}`);
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -84,6 +88,10 @@ class SecurityController {
   static doLogin = async (req, res) => {
     logger.info(`Executing SecurityController.doLogin`);
     const {email, password} = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
+    }
 
     try {
       const users = await database
@@ -110,7 +118,7 @@ class SecurityController {
         res.status(401).json({message: Messages.WRONG_CREDENTIALS});
       }
     } catch (error) {
-      logger.error('Error SecurityController.doLogin');
+      logger.error(`Error SecurityController.doLogin - ${error.message}`);
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,
@@ -131,6 +139,10 @@ class SecurityController {
     logger.info(`Executing SecurityController.passwordValidation`);
     const {userId, password} = req.body;
 
+    if (!userId || !password) {
+      return res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
+    }
+
     try {
       const users = await database
           .select('password')
@@ -147,7 +159,7 @@ class SecurityController {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error('Error SecurityController.passwordValidation');
+      logger.error(`Error SecurityController.passwordValidation-${error.message}`);
       res.status(500).json({
         message: Messages.ERROR,
         details: error.message,

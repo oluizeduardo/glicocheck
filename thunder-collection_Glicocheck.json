@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "Glicocheck",
-    "dateExported": "2023-06-07T03:31:14.381Z",
+    "dateExported": "2023-06-08T03:07:44.856Z",
     "version": "1.1",
     "folders": [
         {
@@ -118,7 +118,7 @@
             "method": "POST",
             "sortNum": 5000,
             "created": "2022-07-28T01:20:44.893Z",
-            "modified": "2023-06-07T00:49:46.588Z",
+            "modified": "2023-06-08T02:52:14.947Z",
             "headers": [],
             "params": [],
             "body": {
