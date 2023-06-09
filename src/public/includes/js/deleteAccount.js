@@ -105,13 +105,13 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
  * Delete the user's specific system configuration.
  */
 function deleteUserSystemConfiguration() {
-  deleteFromUser('systemconfiguration');
+  deleteFromUser('systemconfiguration').catch((error) => console.error(error));
 }
 /**
  * Delete the user's health info.
  */
 function deleteUserHealthInfo() {
-  deleteFromUser('healthinfo');
+  deleteFromUser('healthinfo').catch((error) => console.error(error));
 }
 
 /**
