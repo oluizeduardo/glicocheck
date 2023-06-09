@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const btnConfirmDelete = document.getElementById('btnConfirmDeleteAccount');
 const fieldPassword = document.getElementById('field_delete_account_Password');
 
@@ -18,9 +19,9 @@ btnConfirmDelete.addEventListener('click', (event) => {
             switch (xmlhttp.status) {
               case HTTP_SUCCESS:
               case NOTHING_FOUND:
-                deleteUserHealthInfo();
-                deleteUserSystemConfiguration();
-                deleteUserAccount();
+                deleteUserHealthInfo().catch((error) => console.error(error));
+                deleteUserSystemConfiguration().catch((error) => console.error(error));
+                deleteUserAccount().catch((error) => console.error(error));
                 break;
 
               case HTTP_UNAUTHORIZED:
