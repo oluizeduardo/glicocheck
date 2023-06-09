@@ -125,7 +125,7 @@ VALUES ('1111111-0000-0000-0000-111111111111', 1, 70, 160,
 ---- HEALTH INFO ----
 CREATE TABLE health_info (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id         varchar(50) NOT NULL,
+  user_id         varchar(50) NOT NULL UNIQUE,
   diabetes_type   INTEGER,
   blood_type      INTEGER,  
   month_diagnosis varchar(15),
