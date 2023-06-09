@@ -2,6 +2,7 @@
 const btnConfirmDelete = document.getElementById('btnConfirmDeleteAccount');
 const fieldPassword = document.getElementById('field_delete_account_Password');
 
+const STATUS_DONE = 4;
 const HTTP_SUCCESS = 200;
 const NOTHING_FOUND = 404;
 const HTTP_UNAUTHORIZED = 401;
@@ -15,13 +16,13 @@ btnConfirmDelete.addEventListener('click', (event) => {
       if (isCorrectPassword) {
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = () => {
-          if (xmlhttp.readyState == 4) {
+          if (xmlhttp.readyState === STATUS_DONE) {
             switch (xmlhttp.status) {
               case HTTP_SUCCESS:
               case NOTHING_FOUND:
                 deleteUserHealthInfo().catch((error) => console.error(error));
                 deleteUserSystemConfiguration().catch((error) => console.error(error));
-                deleteUserAccount().catch((error) => console.error(error));
+                deleteUserAccount();
                 break;
 
               case HTTP_UNAUTHORIZED:
@@ -68,7 +69,8 @@ function sendRequestToDeleteGlucoseReadings(xmlhttp) {
 function deleteUserAccount() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    if (xmlhttp.readyState === STATUS_DONE &&
+        xmlhttp.status === HTTP_SUCCESS) {
       swal({
         title: 'Success!',
         text: 'Your account has been deleted.',
