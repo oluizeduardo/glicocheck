@@ -20,9 +20,13 @@ btnConfirmDelete.addEventListener('click', (event) => {
             switch (xmlhttp.status) {
               case HTTP_SUCCESS:
               case NOTHING_FOUND:
-                deleteUserHealthInfo().catch((error) => console.error(error));
-                deleteUserSystemConfiguration().catch((error) => console.error(error));
-                deleteUserAccount();
+                try {
+                  deleteUserHealthInfo();
+                  deleteUserSystemConfiguration();
+                  deleteUserAccount();
+                } catch (error) {
+                  console.error(error);
+                }
                 break;
 
               case HTTP_UNAUTHORIZED:
@@ -100,21 +104,24 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
 /**
  * Delete the user's specific system configuration.
  */
-async function deleteUserSystemConfiguration() {
-  const token = getJwtToken();
-  const userId = getUserId();
-  const url = `/api/systemconfiguration/user/${userId}`;
-  const headers = new Headers({'Authorization': 'Bearer ' + token});
-  const myInit = {method: 'DELETE', headers: headers};
-  await fetch(url, myInit);
+function deleteUserSystemConfiguration() {
+  deleteFromUser('systemconfiguration');
 }
 /**
  * Delete the user's health info.
  */
-async function deleteUserHealthInfo() {
+function deleteUserHealthInfo() {
+  deleteFromUser('healthinfo');
+}
+
+/**
+ * Request sent to: '/api/${resource}/user/${userId}'.
+ * @param {string} resource
+ */
+async function deleteFromUser(resource) {
   const token = getJwtToken();
   const userId = getUserId();
-  const url = `/api/healthinfo/user/${userId}`;
+  const url = `/api/${resource}/user/${userId}`;
   const headers = new Headers({'Authorization': 'Bearer ' + token});
   const myInit = {method: 'DELETE', headers: headers};
   await fetch(url, myInit);
