@@ -137,6 +137,9 @@ CREATE TABLE health_info (
   FOREIGN KEY (blood_type) REFERENCES blood_type(id)
 );
 
+INSERT INTO health_info (user_id, diabetes_type, blood_type, month_diagnosis) 
+VALUES ('1111111-0000-0000-0000-111111111111', 1, 1, 'May 2021');
+
 
 ---- DIABETES TYPE ----
 CREATE TABLE diabetes_type (
