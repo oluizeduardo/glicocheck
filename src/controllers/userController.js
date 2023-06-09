@@ -28,12 +28,10 @@ class UserController {
               'users.gender_id',
               'users.weight',
               'users.height',
-              'users.health_id',
               'role.description as role',
               'users.created_at',
               'users.updated_at',
           );
-
       if (users.length > 0) {
         res.status(200).json(users);
       } else {
@@ -71,7 +69,6 @@ class UserController {
               'users.birthdate',
               'users.phone',
               'users.gender_id',
-              'users.health_id',
               'users.weight',
               'users.height',
               'users.picture',
@@ -168,10 +165,9 @@ class UserController {
         res.status(200).json({message: Messages.USER_DELETED});
       }
     } catch (error) {
-      logger.error('Error UserController.deleteUserById');
+      logger.error(`Error UserController.deleteUserById - ${error.message}`);
       res.status(500).json({
         message: Messages.ERROR,
-        details: error.message,
       });
     }
   };

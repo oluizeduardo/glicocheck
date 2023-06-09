@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 const btnConfirmDelete = document.getElementById('btnConfirmDeleteAccount');
 const fieldPassword = document.getElementById('field_delete_account_Password');
 
+const STATUS_DONE = 4;
 const HTTP_SUCCESS = 200;
 const NOTHING_FOUND = 404;
 const HTTP_UNAUTHORIZED = 401;
@@ -14,12 +16,17 @@ btnConfirmDelete.addEventListener('click', (event) => {
       if (isCorrectPassword) {
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = () => {
-          if (xmlhttp.readyState == 4) {
+          if (xmlhttp.readyState === STATUS_DONE) {
             switch (xmlhttp.status) {
               case HTTP_SUCCESS:
               case NOTHING_FOUND:
-                deleteUserSystemConfiguration();
-                deleteUserAccount();
+                try {
+                  deleteUserHealthInfo();
+                  deleteUserSystemConfiguration();
+                  deleteUserAccount();
+                } catch (error) {
+                  console.error(error);
+                }
                 break;
 
               case HTTP_UNAUTHORIZED:
@@ -66,7 +73,8 @@ function sendRequestToDeleteGlucoseReadings(xmlhttp) {
 function deleteUserAccount() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    if (xmlhttp.readyState === STATUS_DONE &&
+        xmlhttp.status === HTTP_SUCCESS) {
       swal({
         title: 'Success!',
         text: 'Your account has been deleted.',
@@ -96,10 +104,24 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
 /**
  * Delete the user's specific system configuration.
  */
-async function deleteUserSystemConfiguration() {
+function deleteUserSystemConfiguration() {
+  deleteFromUser('systemconfiguration').catch((error) => console.error(error));
+}
+/**
+ * Delete the user's health info.
+ */
+function deleteUserHealthInfo() {
+  deleteFromUser('healthinfo').catch((error) => console.error(error));
+}
+
+/**
+ * Request sent to: '/api/${resource}/user/${userId}'.
+ * @param {string} resource
+ */
+async function deleteFromUser(resource) {
   const token = getJwtToken();
   const userId = getUserId();
-  const url = `/api/systemconfiguration/user/${userId}`;
+  const url = `/api/${resource}/user/${userId}`;
   const headers = new Headers({'Authorization': 'Bearer ' + token});
   const myInit = {method: 'DELETE', headers: headers};
   await fetch(url, myInit);

@@ -54,6 +54,8 @@ class Messages {
   static NEW_CONFIGURATION_CREATED =
     'New system configuration created for the user ';
   static SYSTEM_CONFIGURATION_DELETED = 'System configuration deleted.';
+
+  static HEALTH_INFO_DELETED = 'User\'s health info deleted.';
 }
 
 module.exports = Messages;

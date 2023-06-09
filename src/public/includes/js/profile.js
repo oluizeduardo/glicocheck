@@ -11,8 +11,8 @@ const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 // HEALTH INFO
 const fieldDiabetesType = document.getElementById('field_DiabetesType');
 const fieldBloodType = document.getElementById('field_BloodType');
-// const fieldDiagnosisDate = document.getElementById('field_DateOfDiagnosis');
-// const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
+const fieldDiagnosisDate = document.getElementById('field_DateOfDiagnosis');
+const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
 
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
@@ -22,6 +22,62 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 const DEFAULT_PROFILE_PICTURE = '../includes/imgs/default-profile-picture.jpg';
 
 let profilePictureBase64 = '';
+
+// /////////////////
+// SAVE USER DETAILS
+// /////////////////
+btnSaveUserDetails.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  if (isValidDataEntry()) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = () => {
+      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+        if (xmlhttp.status == SUCCESS) {
+          swal('Saved!', '', 'success');
+        } else {
+          swal('Error', 'Error updating user details.', 'error');
+        }
+      }
+    };
+    sendRequestToUserDetails(xmlhttp);
+  } else {
+    showAlertMessage();
+  }
+});
+
+// //////////////////
+// UPDATE HEALTH INFO
+// //////////////////
+btnUpdateHealthInfo.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  if (isValidHealthInfoDataEntry()) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = () => {
+      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+        if (xmlhttp.status == HTTP_OK) {
+          swal('Saved!', '', 'success');
+        } else {
+          swal('Error', 'Error updating health info.', 'error');
+        }
+      }
+    };
+    sendRequestToUpdateHealthInfo(xmlhttp);
+  } else {
+    showAlertMessage();
+  }
+});
+
+/**
+ * @return {boolean} If the health info is trully filled.
+ */
+function isValidHealthInfoDataEntry() {
+  return (fieldDiabetesType.selectedIndex > 0 &&
+    fieldBloodType.selectedIndex > 0 &&
+    fieldDiagnosisDate.value);
+}
+
 
 /**
  * Sends a request to get the user's infos.
@@ -50,19 +106,19 @@ function loadUserInfos() {
       }
     }
   };
-  sendGETToUserById(xmlhttp);
+  sendRequest(xmlhttp);
 }
 
 /**
- * Sends a request to get the user details.
+ * Sends a request to get the user's details and health information.
  * @param {XMLHttpRequest} xmlhttp The request object.
  */
-function sendGETToUserById(xmlhttp) {
+function sendRequest(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
   if (token && userId) {
-    xmlhttp.open('GET', `/api/users/${userId}`);
+    xmlhttp.open('GET', `/api/healthinfo/user/${userId}`);
     xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
@@ -76,21 +132,30 @@ function sendGETToUserById(xmlhttp) {
  * @param {Response} object The response data.
  */
 function loadFieldsWithUserData(object) {
-  fieldName.value = object.name;
-  fieldEmail.value = object.email;
-  if (!object.picture) {
+  // USER'S DETAILS
+  fieldName.value = object.user.name;
+  fieldEmail.value = object.user.email;
+  fieldBirthdate.value = object.user.birthdate ? object.user.birthdate : '';
+  fieldPhone.value = object.user.phone ? object.user.phone : '';
+  fieldGender.value = object.user.gender_id ? object.user.gender_id : 0;
+  fieldWeight.value = object.user.weight ? object.user.weight : '';
+  fieldHeight.value = object.user.height ? object.user.height : '';
+  fieldDiagnosisDate.value = object.month_diagnosis;
+  // PICTURE
+  if (!object.user.picture) {
     profilePictureBase64 = DEFAULT_PROFILE_PICTURE;
   } else {
-    profilePictureBase64 = object.picture;
+    profilePictureBase64 = object.user.picture;
   }
   userProfilePicture.src = profilePictureBase64;
-  fieldBirthdate.value = object.birthdate ? object.birthdate : '';
-  fieldPhone.value = object.phone ? object.phone : '';
-  fieldGender.value = object.gender_id ? object.gender_id : 0;
-  fieldWeight.value = object.weight ? object.weight : '';
-  fieldHeight.value = object.height ? object.height : '';
   setTimeout(() => {
-    fieldGender.value = object.gender_id ? object.gender_id : 0;
+    /* The SELECT element needs to be completly
+    filled with options from the database before
+    setting a value to it. That's why we're using
+    this setTimeout.*/
+    fieldGender.value = object.user.gender_id ? object.user.gender_id : 0;
+    fieldDiabetesType.value = object.diabetes_type ? object.diabetes_type : 0;
+    fieldBloodType.value = object.blood_type ? object.blood_type : 0;
   }, 20);
 }
 
@@ -109,29 +174,6 @@ function getJwtToken() {
 function getUserId() {
   return sessionStorage.getItem('userId');
 }
-
-// /////////////////
-// SAVE USER DETAILS
-// /////////////////
-btnSaveUserDetails.addEventListener('click', (event) => {
-  event.preventDefault();
-
-  if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCCESS) {
-          swal('Saved!', '', 'success');
-        } else {
-          swal('Error', 'Error trying to update user details.', 'error');
-        }
-      }
-    };
-    sendRequestToUserDetails(xmlhttp);
-  } else {
-    showAlertMessage();
-  }
-});
 
 /**
  * Checks whether the fields are properly filled.
@@ -159,7 +201,22 @@ function sendRequestToUserDetails(xmlhttp) {
 }
 
 /**
- * Creates a JSON object with values to be updated.
+ * Sends a request to update the user's health info.
+ * @param {XMLHttpRequest} xmlhttp The request object.
+ */
+function sendRequestToUpdateHealthInfo(xmlhttp) {
+  const token = getJwtToken();
+  const userId = getUserId();
+
+  const jsonUpdateUser = prepareJsonHealthInfo();
+  xmlhttp.open('PUT', `/api/healthinfo/user/${userId}`);
+  xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
+  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xmlhttp.send(jsonUpdateUser);
+}
+
+/**
+ * Creates a JSON object with the user's specific information.
  * @return {JSON} A JSON object.
  */
 function prepareJsonUser() {
@@ -173,6 +230,18 @@ function prepareJsonUser() {
     height: fieldHeight.value,
     picture: profilePictureBase64,
     role_id: 1,
+  });
+}
+
+/**
+ * Creates a JSON object with user's health info values.
+ * @return {JSON} A JSON object.
+ */
+function prepareJsonHealthInfo() {
+  return JSON.stringify({
+    diabetesType: fieldDiabetesType.selectedIndex,
+    monthDiagnosis: fieldDiagnosisDate.value,
+    bloodType: fieldBloodType.selectedIndex,
   });
 }
 

@@ -52,7 +52,6 @@ CREATE TABLE users (
     birthdate  varchar(8),
     phone      varchar(20),
     gender_id  INTEGER,
-    health_id  INTEGER,
     weight     FLOAT,
     height     FLOAT,
     role_id    INTEGER NOT NULL,
@@ -61,7 +60,6 @@ CREATE TABLE users (
     picture    TEXT,
 
     FOREIGN KEY(role_id) REFERENCES role(id),
-    FOREIGN KEY(health_id) REFERENCES health_info(id),
     FOREIGN KEY(gender_id) REFERENCES gender(id)
 );
 
@@ -127,7 +125,7 @@ VALUES ('1111111-0000-0000-0000-111111111111', 1, 70, 160,
 ---- HEALTH INFO ----
 CREATE TABLE health_info (
   id              INTEGER PRIMARY KEY AUTOINCREMENT,
-  user_id         varchar(50) NOT NULL,
+  user_id         varchar(50) NOT NULL UNIQUE,
   diabetes_type   INTEGER,
   blood_type      INTEGER,  
   month_diagnosis varchar(15),
@@ -135,7 +133,8 @@ CREATE TABLE health_info (
   updated_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
 
   FOREIGN KEY (user_id) REFERENCES user(id),
-  FOREIGN KEY (diabetes_type) REFERENCES diabetes_type(id)
+  FOREIGN KEY (diabetes_type) REFERENCES diabetes_type(id),
+  FOREIGN KEY (blood_type) REFERENCES blood_type(id)
 );
 
 
