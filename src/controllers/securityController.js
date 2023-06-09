@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const SecurityUtils = require('../utils/securityUtils');
 const CryptoUtil = require('../utils/cryptoUtil');
 const SystemConfigurationController = require('./systemConfigurationController');
+const HealthInfoController = require('./healthInfoController');
 
 const DEFAULT_PROFILE_PICTURE = '../includes/imgs/default-profile-picture.jpg';
 /**
@@ -35,13 +36,11 @@ class SecurityController {
     }
 
     try {
-      const existingUser = await database('users')
-          .where('users.email', email)
-          .select('users.id')
-          .limit(1);
+      const emailAlreadyUsed = await SecurityController.isEmailAlreadyUsed(email);
 
-      if (existingUser.length > 0) {
+      if (emailAlreadyUsed) {
         res.status(400).json({message: Messages.EMAIL_ALREADY_USED});
+        return;
       } else {
         const id = CryptoUtil.createRandomToken();
         const hashedPassword = SecurityUtils.generateHashValue(password);
@@ -62,9 +61,11 @@ class SecurityController {
                 },
                 ['id'],
             );
-        logger.info('Saved new user.');
+        logger.info('New user saved.');
+
         // Save default system configuration for the new user.
         SystemConfigurationController.saveDefaultSystemConfiguration(id);
+        HealthInfoController.saveNewHealthInfo({userId: id});
         res.status(201).json({message: Messages.NEW_USER_CREATED});
       }
     } catch (error) {
@@ -77,7 +78,20 @@ class SecurityController {
   };
 
   /**
-   * Logs in a user.
+   * @param {string} email
+   * @return {boolean} A boolean indicating whether the email
+   * is already used.
+   */
+  static isEmailAlreadyUsed = async (email) => {
+    const registers = await database('users')
+        .where('users.email', email)
+        .select('users.id')
+        .limit(1);
+    return (registers.length > 0);
+  };
+
+  /**
+   * Do the login of a user.
    *
    * @async
    * @param {Object} req - The request object.

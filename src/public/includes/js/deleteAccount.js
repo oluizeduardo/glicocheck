@@ -18,6 +18,7 @@ btnConfirmDelete.addEventListener('click', (event) => {
             switch (xmlhttp.status) {
               case HTTP_SUCCESS:
               case NOTHING_FOUND:
+                deleteUserHealthInfo();
                 deleteUserSystemConfiguration();
                 deleteUserAccount();
                 break;
@@ -100,6 +101,17 @@ async function deleteUserSystemConfiguration() {
   const token = getJwtToken();
   const userId = getUserId();
   const url = `/api/systemconfiguration/user/${userId}`;
+  const headers = new Headers({'Authorization': 'Bearer ' + token});
+  const myInit = {method: 'DELETE', headers: headers};
+  await fetch(url, myInit);
+}
+/**
+ * Delete the user's health info.
+ */
+async function deleteUserHealthInfo() {
+  const token = getJwtToken();
+  const userId = getUserId();
+  const url = `/api/healthinfo/user/${userId}`;
   const headers = new Headers({'Authorization': 'Bearer ' + token});
   const myInit = {method: 'DELETE', headers: headers};
   await fetch(url, myInit);

@@ -165,10 +165,9 @@ class UserController {
         res.status(200).json({message: Messages.USER_DELETED});
       }
     } catch (error) {
-      logger.error('Error UserController.deleteUserById');
+      logger.error(`Error UserController.deleteUserById - ${error.message}`);
       res.status(500).json({
         message: Messages.ERROR,
-        details: error.message,
       });
     }
   };

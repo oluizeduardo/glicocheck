@@ -26,7 +26,7 @@ describe('Health Info router - Integration Tests', function() {
   describe('POST /api/healthinfo', function() {
     it('should create a new health info register', function(done) {
       const newRegister = {
-        userId: '1111111-1111-1111-1111-111111111111',
+        userId: '22222222-1111-1111-1111-111111111111',
         diabetesType: 1,
         monthDiagnosis: 'May 2021',
         bloodType: 1,
@@ -39,6 +39,27 @@ describe('Health Info router - Integration Tests', function() {
           .send(newRegister)
           .end(function(err, res) {
             expect(res).to.have.status(201);
+            done();
+          });
+    });
+
+    it('should not create a new health info for the same user', function(done) {
+      const newRegister = {
+        userId: '22222222-1111-1111-1111-111111111111',
+        diabetesType: 1,
+        monthDiagnosis: 'May 2021',
+        bloodType: 1,
+      };
+
+      chai
+          .request(app)
+          .post('/api/healthinfo')
+          .set('Authorization', `Bearer ${accessToken}`)
+          .send(newRegister)
+          .end(function(err, res) {
+            expect(res).to.have.status(500);
+            expect(res.body).to.be.an('object');
+            expect(res.body).to.have.property('message');
             done();
           });
     });
