@@ -75,7 +75,6 @@ function prepareJsonNewEntry() {
   return JSON.stringify({
     userId: getUserId(),
     glucose: fieldGlucose.value,
-    glucose_unity_id: 1, // mg/dL
     total_carbs: getTotalCarbs(),
     dateTime: fieldDate.value,
     markerMealId: fieldMarkermeal.selectedIndex,
