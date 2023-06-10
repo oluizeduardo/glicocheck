@@ -1,9 +1,17 @@
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
 const WebToken = require('../utils/webToken');
+
+// HTTP status code
+const OK = 200;
+const CREATED = 201;
+const CLIENT_ERROR = 400;
+const NOT_FOUND = 404;
+const INTERNAL_SERVER_ERROR = 500;
 
 /**
  * GlucoseController.
@@ -24,15 +32,15 @@ class GlucoseController {
     try {
       const glucoses = await database('blood_glucose_diary as bgd')
           .join('users', 'users.id', 'bgd.user_id')
+          .join('user_system_config as config', 'config.user_id', 'users.id')
+          .join('measurement_unity as unity', 'unity.id', 'config.glucose_unity_id')
           .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-          .join('measurement_unity', 'measurement_unity.id',
-              'bgd.glucose_unity_id')
           .select(
               'bgd.id',
               'users.id as userId',
               'users.name as user',
               'bgd.glucose',
-              'measurement_unity.description as glucoseUnity',
+              'unity.description as unity',
               'bgd.total_carbs as totalCarbs',
               'bgd.dateTime',
               'marker_meal.description as markerMeal',
@@ -42,19 +50,15 @@ class GlucoseController {
           .orderBy('bgd.dateTime', 'asc');
 
       if (glucoses.length > 0) {
-        res.status(200).json(glucoses);
+        res.status(OK).json(glucoses);
       } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error('Error GlucoseController.getAllGlucoseRecords');
-      res.status(500).json({
-        message: Messages.ERROR,
-        details: error.message,
-      });
+      logger.error(`Error GlucoseController.getAllGlucoseRecords - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
-
 
   /**
    * Retrieves glucose records by user ID.
@@ -73,34 +77,31 @@ class GlucoseController {
       const glucoses = await database('blood_glucose_diary as bgd')
           .where('bgd.user_id', userId)
           .join('users', 'users.id', 'bgd.user_id')
+          .join('user_system_config as config', 'config.user_id', 'users.id')
+          .join('measurement_unity as unity', 'unity.id', 'config.glucose_unity_id')
           .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-          .join('measurement_unity', 'measurement_unity.id',
-              'bgd.glucose_unity_id')
           .select(
               'bgd.id',
               'users.id as userId',
               'users.name as user',
               'bgd.glucose',
-              'measurement_unity.description as unity',
+              'unity.description as unity',
               'bgd.total_carbs as totalCarbs',
               'bgd.dateTime',
               'marker_meal.description as markerMeal',
-              'bgd.created_at as createdAt',
-              'bgd.updated_at as updatedAt',
+              'bgd.created_at',
+              'bgd.updated_at',
           )
           .orderBy('bgd.dateTime', 'asc');
 
       if (glucoses.length) {
-        res.status(200).json(glucoses);
+        res.status(OK).json(glucoses);
       } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error('Error GlucoseController.getGlucoseRecordsByUserId');
-      res.status(500).json({
-        message: Messages.ERROR,
-        details: error.message,
-      });
+      logger.error(`Error GlucoseController.getGlucoseRecordsByUserId - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
 
@@ -121,15 +122,16 @@ class GlucoseController {
       const glucose = await database('blood_glucose_diary as bgd')
           .where('bgd.id', id)
           .join('users', 'users.id', 'bgd.user_id')
+          .join('user_system_config as config', 'config.user_id', 'users.id')
+          .join('measurement_unity as unity', 'unity.id', 'config.glucose_unity_id')
           .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-          .join('measurement_unity', 'measurement_unity.id',
-              'bgd.glucose_unity_id')
           .select(
               'bgd.id',
               'users.id as userId',
-              'users.name as userName',
+              'users.name as user',
               'bgd.glucose',
-              'measurement_unity.description as unity',
+              'unity.description as unity',
+              'bgd.total_carbs as totalCarbs',
               'bgd.dateTime',
               'marker_meal.description as markerMeal',
               'bgd.created_at',
@@ -138,16 +140,13 @@ class GlucoseController {
           .first();
 
       if (glucose) {
-        res.status(200).json(glucose);
+        res.status(OK).json(glucose);
       } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error('Error GlucoseController.getGlucoseById');
-      res.status(500).json({
-        message: Messages.ERROR,
-        details: error.message,
-      });
+      logger.error(`Error GlucoseController.getGlucoseById - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
 
@@ -168,15 +167,16 @@ class GlucoseController {
       const glucoses = await database('blood_glucose_diary as bgd')
           .where('bgd.markermeal_id', markerMealId)
           .join('users', 'users.id', 'bgd.user_id')
+          .join('user_system_config as config', 'config.user_id', 'users.id')
+          .join('measurement_unity as unity', 'unity.id', 'config.glucose_unity_id')
           .join('marker_meal', 'marker_meal.id', 'bgd.markermeal_id')
-          .join('measurement_unity', 'measurement_unity.id',
-              'bgd.glucose_unity_id')
           .select(
               'bgd.id',
               'users.id as userId',
-              'users.name as userName',
+              'users.name as user',
               'bgd.glucose',
-              'measurement_unity.description as unity',
+              'unity.description as unity',
+              'bgd.total_carbs as totalCarbs',
               'bgd.dateTime',
               'marker_meal.description as markerMeal',
               'bgd.created_at',
@@ -185,16 +185,13 @@ class GlucoseController {
           .orderBy('bgd.dateTime', 'asc');
 
       if (glucoses.length > 0) {
-        res.status(200).json(glucoses);
+        res.status(OK).json(glucoses);
       } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error('Error GlucoseController.getGlucoseRecordsByMarkerMealId');
-      res.status(500).json({
-        message: Messages.ERROR,
-        details: error.message,
-      });
+      logger.error(`Error GlucoseController.getGlucoseRecordsByMarkerMealId - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
 
@@ -209,13 +206,11 @@ class GlucoseController {
    */
   static createNewGlucoseRecord = async (req, res) => {
     try {
-      const {userId, glucose, glucose_unity_id,
-        total_carbs, dateTime, markerMealId} = req.body;
+      const {userId, glucose, total_carbs, dateTime, markerMealId} = req.body;
 
       // Validate input data
-      if (!userId || !glucose || !glucose_unity_id ||
-        !dateTime || !markerMealId) {
-        res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
+      if (!userId || !glucose || !dateTime || !markerMealId) {
+        res.status(CLIENT_ERROR).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
         return;
       }
 
@@ -223,7 +218,6 @@ class GlucoseController {
           .insert({
             user_id: userId,
             glucose,
-            glucose_unity_id,
             total_carbs,
             dateTime,
             markermeal_id: markerMealId,
@@ -233,7 +227,6 @@ class GlucoseController {
             'id',
             'user_id',
             'glucose',
-            'glucose_unity_id',
             'total_carbs',
             'dateTime',
             'markermeal_id',
@@ -241,13 +234,10 @@ class GlucoseController {
             'updated_at',
           ]);
 
-      res.status(201).json(records[0]);
+      res.status(CREATED).json(records[0]);
     } catch (error) {
-      logger.error('Error GlucoseController.createNewGlucoseRecord');
-      res.status(500).json({
-        message: Messages.ERROR,
-        details: error.message,
-      });
+      logger.error(`Error GlucoseController.createNewGlucoseRecord - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
 
@@ -266,20 +256,19 @@ class GlucoseController {
       try {
         id = Number.parseInt(req.params.id);
       } catch {
-        return res.status(404).json({message: Messages.NOTHING_FOUND});
+        return res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
 
-      const {glucose, glucose_unity_id, total_carbs, markermeal_id} = req.body;
+      const {glucose, total_carbs, markermeal_id} = req.body;
 
       // Validate input data
-      if (!glucose || !glucose_unity_id || !total_carbs || !markermeal_id) {
-        res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
+      if (!glucose || !total_carbs || !markermeal_id) {
+        res.status(CLIENT_ERROR).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
         return;
       }
 
       const glucoseRecord = {
         glucose,
-        glucose_unity_id,
         total_carbs,
         markermeal_id,
         updated_at: DateTimeUtil.getCurrentDateTime(),
@@ -290,17 +279,14 @@ class GlucoseController {
           .update(glucoseRecord);
 
       if (numAffectedRegisters === 0) {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       } else {
         glucoseRecord.id = id;
-        res.status(200).json(glucoseRecord);
+        res.status(OK).json(glucoseRecord);
       }
     } catch (error) {
-      logger.error('Error GlucoseController.updateGlucoseRecordById');
-      res.status(500).json({
-        message: Messages.ERROR,
-        details: error.message,
-      });
+      logger.error(`Error GlucoseController.updateGlucoseRecordById - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
 
@@ -319,7 +305,7 @@ class GlucoseController {
       try {
         id = Number.parseInt(req.params.id);
       } catch {
-        return res.status(404).json({message: Messages.NOTHING_FOUND});
+        return res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
 
       if (id > 0) {
@@ -328,19 +314,16 @@ class GlucoseController {
             .del();
 
         if (numAffectedRegisters === 0) {
-          res.status(404).json({message: Messages.NOTHING_FOUND});
+          res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
         } else {
-          res.status(200).json({message: Messages.REGISTER_DELETED});
+          res.status(OK).json({message: Messages.REGISTER_DELETED});
         }
       } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error('Error GlucoseController.deleteGlucoseRecordById');
-      res.status(500).json({
-        message: Messages.ERROR,
-        error: error.message,
-      });
+      logger.error(`Error GlucoseController.deleteGlucoseRecordById - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
 
@@ -364,19 +347,16 @@ class GlucoseController {
             .del();
 
         if (numAffectedRegisters === 0) {
-          res.status(404).json({message: Messages.NOTHING_FOUND});
+          res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
         } else {
-          res.status(200).json({message: Messages.REGISTER_DELETED});
+          res.status(OK).json({message: Messages.REGISTER_DELETED});
         }
       } else {
-        res.status(404).json({message: Messages.NOTHING_FOUND});
+        res.status(NOT_FOUND).json({message: Messages.NOTHING_FOUND});
       }
     } catch (error) {
-      logger.error('Error GlucoseController.deleteGlucoseRecordsByUserId');
-      res.status(500).json({
-        message: Messages.ERROR,
-        error: error.message,
-      });
+      logger.error(`Error GlucoseController.deleteGlucoseRecordsByUserId - ${error.message}`);
+      res.status(INTERNAL_SERVER_ERROR).json({message: Messages.ERROR});
     }
   };
 }

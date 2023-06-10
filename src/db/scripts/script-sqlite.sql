@@ -230,7 +230,6 @@ CREATE TABLE blood_glucose_diary (
   id               INTEGER PRIMARY KEY AUTOINCREMENT,
 	user_id          varchar(50) NOT NULL,
 	glucose          INTEGER NOT NULL,
-	glucose_unity_id INTEGER NOT NULL,
   total_carbs      INTEGER, -- optional
 	dateTime         varchar(20) NOT NULL,
 	markermeal_id    INTEGER NOT NULL,
@@ -238,7 +237,6 @@ CREATE TABLE blood_glucose_diary (
   updated_at       TIMESTAMP DEFAULT (datetime('now','localtime')),
 
   FOREIGN KEY(user_id) REFERENCES users(id),
-  FOREIGN KEY(glucose_unity_id) REFERENCES measurement_unity(id),
   FOREIGN KEY(markermeal_id) REFERENCES marker_meal(id)
 );
 

@@ -28,7 +28,6 @@ describe('Glucose router - Integration Tests', function() {
       const newGlucose = {
         userId: '1111111-1111-1111-1111-111111111111',
         glucose: 100,
-        glucose_unity_id: 1,
         total_carbs: 40,
         dateTime: new Date().toLocaleString('pt-BR'),
         markerMealId: 1,
@@ -45,7 +44,6 @@ describe('Glucose router - Integration Tests', function() {
             expect(res.body).to.have.property('id');
             expect(res.body).to.have.property('user_id');
             expect(res.body).to.have.property('glucose');
-            expect(res.body).to.have.property('glucose_unity_id');
             expect(res.body).to.have.property('total_carbs');
             expect(res.body).to.have.property('dateTime');
             expect(res.body).to.have.property('markermeal_id');
@@ -158,7 +156,6 @@ describe('Glucose router - Integration Tests', function() {
       const glucoseId = 1;
       const updatedGlucoseReading = {
         glucose: 130,
-        glucose_unity_id: 1,
         total_carbs: 70,
         markermeal_id: 3,
       };
@@ -173,7 +170,6 @@ describe('Glucose router - Integration Tests', function() {
             expect(res.body).to.be.an('object');
             expect(res.body).to.have.property('id');
             expect(res.body).to.have.property('glucose');
-            expect(res.body).to.have.property('glucose_unity_id');
             expect(res.body).to.have.property('total_carbs');
             expect(res.body).to.have.property('markermeal_id');
             expect(res.body).to.have.property('updated_at');
@@ -216,7 +212,6 @@ describe('Glucose router - Integration Tests', function() {
       const newGlucose = {
         userId: USER_ID,
         glucose: 100,
-        glucose_unity_id: 1,
         total_carbs: 40,
         dateTime: new Date().toLocaleString('pt-BR'),
         markerMealId: 1,
@@ -233,7 +228,6 @@ describe('Glucose router - Integration Tests', function() {
             expect(res.body).to.have.property('id');
             expect(res.body).to.have.property('user_id');
             expect(res.body).to.have.property('glucose');
-            expect(res.body).to.have.property('glucose_unity_id');
             expect(res.body).to.have.property('total_carbs');
             expect(res.body).to.have.property('dateTime');
             expect(res.body).to.have.property('markermeal_id');
