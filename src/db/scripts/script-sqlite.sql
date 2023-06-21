@@ -144,7 +144,7 @@ VALUES ('1111111-0000-0000-0000-111111111111', 1, 1, 'May 2021');
 ---- DIABETES TYPE ----
 CREATE TABLE diabetes_type (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
-  description VARCHAR(20),
+  description VARCHAR(100),
   created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
   updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
