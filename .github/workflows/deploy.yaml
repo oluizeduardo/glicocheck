@@ -21,7 +21,7 @@ jobs:
     needs: [build-node]
     steps:
       - name: Minify JavaScript
-        run: node src/service/minify.js
+        run: node minify.js
 
   deploy:
     name: Deploy to Render
