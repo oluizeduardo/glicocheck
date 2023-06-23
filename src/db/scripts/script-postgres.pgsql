@@ -146,7 +146,6 @@ CREATE TABLE measurement_unity (
 
 INSERT INTO measurement_unity (description) VALUES('mg/dL');
 INSERT INTO measurement_unity (description) VALUES('mmol/L');
-INSERT INTO measurement_unity (description) VALUES('g');
 
 
 
