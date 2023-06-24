@@ -23,15 +23,20 @@ const POINT_RADIUS_HYPERGLYCEMIA = 0;
 const POINT_RADIUS_HYPOGLYCEMIA = 0;
 const POINT_RADIUS_MY_GLICEMIA = 6;
 const POINT_HOVER_RADIUS = 13;
+const CHART_LINE_TENSION = 0.3;
+let Y_MIN_SCALE = 20;
+let Y_MAX_SCALE = 220;
+let STEP_SIZE = 20;
+
+const COD_UNITY_MGDL = 1;
+const LABEL_UNITY_MGDL = 'mg/dL';
+const LABEL_UNITY_MMOL = 'mmol/L';
+let UNITY = LABEL_UNITY_MGDL;
 
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
 const HTTP_NOT_FOUND = 404;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
-
-const CHART_LINE_TENSION = 0.3;
-const Y_MIN_SCALE = 20;
-const Y_MAX_SCALE = 220;
 
 const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
 
@@ -126,11 +131,11 @@ function getChartConfiguration() {
           min: Y_MIN_SCALE,
           max: Y_MAX_SCALE,
           ticks: {
-            stepSize: 20,
+            stepSize: STEP_SIZE,
           },
           title: {
             display: true,
-            text: 'Glycemia ( mg/dL )',
+            text: `Glycemia ( ${UNITY} )`,
           },
         },
         x: {
@@ -174,7 +179,7 @@ function getColor(chart) {
  * hypoglycemia with their initial values.
  */
 function fillHypoAndHyperValues() {
-  setGlycemiaRange();
+  fillVariablesFromSystemConfiguration();
   glucoseValues.forEach(() => {
     hyperglycemiaValues.push(HYPERGLYCEMIA);
     hypoglycemiaValues.push(HYPOGLYCEMIA);
@@ -271,14 +276,43 @@ function makeChartPanelVisible() {
 }
 
 /**
- * Sets the glycemia range: hypo and hyperglycemia values.
+ * Fill the variables with the system configuration values.
  */
-function setGlycemiaRange() {
+function fillVariablesFromSystemConfiguration() {
   const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
   if (objectString) {
     const retrievedConfig = JSON.parse(objectString);
+    const unity = retrievedConfig.glucose_unity_id;
     HYPERGLYCEMIA = retrievedConfig.limit_hyper;
     HYPOGLYCEMIA = retrievedConfig.limit_hypo;
+    UNITY = getMeasurementUnityLabel(unity);
+    setChartAxisYValues(unity);
+  }
+}
+
+/**
+ * Choose the correct measurement unity label.
+ * @param {number} unityId
+ * @return {string} The measurement unity label.
+ */
+function getMeasurementUnityLabel(unityId) {
+  return unityId == COD_UNITY_MGDL ? LABEL_UNITY_MGDL : LABEL_UNITY_MMOL;
+}
+/**
+ * Configure the values used in the axis Y on the chart panel.
+ * @param {number} unityId
+ */
+function setChartAxisYValues(unityId) {
+  if (unityId == COD_UNITY_MGDL) {
+    // mg/dL
+    Y_MAX_SCALE = 220;
+    Y_MIN_SCALE = 20;
+    STEP_SIZE = 20;
+  } else {
+    // mmol/L
+    Y_MAX_SCALE = 12;
+    Y_MIN_SCALE = 2;
+    STEP_SIZE = 1;
   }
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
 const HTTP_NOT_FOUND = 404;
@@ -19,6 +20,11 @@ let defaultTimeLunchpos = 14;
 let defaultTimeDinnerpre = 19;
 let defaultTimeDinnerpos = 21;
 let defaultTimeSleep = 23;
+
+const COD_UNITY_MGDL = 1;
+const LABEL_UNITY_MGDL = 'mg/dL';
+const LABEL_UNITY_MMOL = 'mmol/L';
+let UNITY_LABEL = '';
 
 /**
  * Read from the database the list of glucose records of a specific user.
@@ -470,13 +476,13 @@ function fillStatisticsTable() {
   // Average
   // eslint-disable-next-line max-len
   const average = Math.round(totalSumBloodGlucoseValues / getNumberOfRegisters());
-  statsGlicAverage.innerText = ''.concat(average).concat(' mg/dL');
+  statsGlicAverage.innerText = ''.concat(average).concat(` ${UNITY_LABEL}`);
   // Standard deviation
   const standardDeviation = calculateStandardDeviation(listOfGlucoseValues);
-  statsGlicStddev.innerText = ''.concat(standardDeviation).concat(' mg/dL');
+  statsGlicStddev.innerText = ''.concat(standardDeviation).concat(` ${UNITY_LABEL}`);
   // Lowest and Highest
-  statsGlicLowest.innerText = ''.concat(lowestGlucoseValue).concat(' mg/dL');
-  statsGlicHighest.innerText = ''.concat(highestGlucoseValue).concat(' mg/dL');
+  statsGlicLowest.innerText = ''.concat(lowestGlucoseValue).concat(` ${UNITY_LABEL}`);
+  statsGlicHighest.innerText = ''.concat(highestGlucoseValue).concat(` ${UNITY_LABEL}`);
 
   // TABLE 2
   const statsPercentHypo = document.getElementById('stats_percent_hypo');
@@ -511,6 +517,7 @@ function loadFromSystemConfiguration() {
     setGlyceliaRange(systemConfig.limit_hypo, systemConfig.limit_hyper);
     setDefaultTimeInInt(systemConfig);
     setTimeValuesOnTheTable(systemConfig);
+    setMeasurementUnityLabel(systemConfig);
   }
 }
 /**
@@ -567,6 +574,26 @@ function setTimeValuesOnTheTable(systemConfig) {
     tbTimeDinnerpos.innerText = systemConfig.time_dinner_pos;
     tbTimeSleep.innerText = systemConfig.time_sleep;
   }
+}
+
+/**
+ * Configures the correct measurement unity label for the diary table.
+ * @param {Object} config The system configuration object.
+ */
+function setMeasurementUnityLabel(config) {
+  const unityLabel = getMeasurementUnityLabel(config.glucose_unity_id);
+  const spans = document.querySelectorAll('span.label-measurement-unity');
+  spans.forEach((span) => (span.textContent = unityLabel));
+}
+
+/**
+ * Choose the correct measurement unity label.
+ * @param {number} unityId
+ * @return {string} The measurement unity label.
+ */
+function getMeasurementUnityLabel(unityId) {
+  UNITY_LABEL = unityId == COD_UNITY_MGDL ? LABEL_UNITY_MGDL : LABEL_UNITY_MMOL;
+  return UNITY_LABEL;
 }
 
 loadFromSystemConfiguration();
