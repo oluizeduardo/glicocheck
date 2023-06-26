@@ -5,6 +5,7 @@ const Messages = require('../utils/messages');
 const database = require('../db/dbconfig.js');
 const DateTimeUtil = require('../utils/dateTimeUtil');
 const WebToken = require('../utils/webToken');
+const moment = require('moment');
 
 // HTTP status code
 const OK = 200;
@@ -30,7 +31,9 @@ class GlucoseController {
    */
   static getAllGlucoseRecords = async (req, res) => {
     try {
-      const glucoses = await database('blood_glucose_diary as bgd')
+      const {start, end} = req.query;
+
+      let glucoses = await database('blood_glucose_diary as bgd')
           .join('users', 'users.id', 'bgd.user_id')
           .join('user_system_config as config', 'config.user_id', 'users.id')
           .join('measurement_unity as unity', 'unity.id', 'config.glucose_unity_id')
@@ -49,6 +52,12 @@ class GlucoseController {
           )
           .orderBy('bgd.dateTime', 'asc');
 
+      if (start && end) {
+        glucoses = glucoses.filter((record) => {
+          return GlucoseController.isDateBetween(start, end, record.dateTime);
+        });
+      }
+
       if (glucoses.length > 0) {
         res.status(OK).json(glucoses);
       } else {
@@ -61,6 +70,23 @@ class GlucoseController {
   };
 
   /**
+   * Checks if a date is between two given dates, inclusive of the boundaries.
+   * @param {string} start - The start date in the format 'YYYY-MM-DD'.
+   * @param {string} end - The end date in the format 'YYYY-MM-DD'.
+   * @param {string} dateToCheck - The date to be checked in the format 'YYYY-MM-DD'.
+   * @return {boolean} True if the date is between the start and end dates, inclusive; otherwise, false.
+   */
+  static isDateBetween(start, end, dateToCheck) {
+    const dateFormat = 'YYYY-MM-DD';
+    const inclusivity = '[]';
+    const startDate = moment(start, dateFormat);
+    const endDate = moment(end, dateFormat);
+    const date = moment(dateToCheck, dateFormat);
+    return date.isBetween(startDate, endDate, null, inclusivity);
+  }
+
+
+  /**
    * Retrieves glucose records by user ID.
    *
    * @async
@@ -71,10 +97,11 @@ class GlucoseController {
    */
   static getGlucoseRecordsByUserId = async (req, res) => {
     try {
+      const {start, end} = req.query;
       const token = req.headers['authorization'];
       const userId = WebToken.getUserIdFromWebToken(token);
 
-      const glucoses = await database('blood_glucose_diary as bgd')
+      let glucoses = await database('blood_glucose_diary as bgd')
           .where('bgd.user_id', userId)
           .join('users', 'users.id', 'bgd.user_id')
           .join('user_system_config as config', 'config.user_id', 'users.id')
@@ -93,6 +120,12 @@ class GlucoseController {
               'bgd.updated_at',
           )
           .orderBy('bgd.dateTime', 'asc');
+
+      if (start && end) {
+        glucoses = glucoses.filter((record) => {
+          return GlucoseController.isDateBetween(start, end, record.dateTime);
+        });
+      }
 
       if (glucoses.length) {
         res.status(OK).json(glucoses);

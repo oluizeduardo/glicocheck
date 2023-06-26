@@ -26,7 +26,7 @@ const POINT_HOVER_RADIUS = 13;
 const CHART_LINE_TENSION = 0.3;
 let Y_MIN_SCALE = 20;
 let Y_MAX_SCALE = 220;
-let STEP_SIZE = 20;
+let Y_STEP_SIZE = 20;
 
 const COD_UNITY_MGDL = 1;
 const LABEL_UNITY_MGDL = 'mg/dL';
@@ -131,7 +131,7 @@ function getChartConfiguration() {
           min: Y_MIN_SCALE,
           max: Y_MAX_SCALE,
           ticks: {
-            stepSize: STEP_SIZE,
+            stepSize: Y_STEP_SIZE,
           },
           title: {
             display: true,
@@ -189,8 +189,10 @@ function fillHypoAndHyperValues() {
 /**
  * Read from the database the list of glucose readings
  * os a specific user.
+ * @param {string} startDate - The start date for the glucose data.
+ * @param {string} endDate - The end date for the glucose data.
  */
-function loadGlucoseReadingsByUserId() {
+function loadGlucoseReadingsByUserId(startDate, endDate) {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
@@ -223,19 +225,26 @@ function loadGlucoseReadingsByUserId() {
       }
     }
   };
-  sendGETToGlucose(xmlhttp);
+  sendGETToGlucose(xmlhttp, startDate, endDate);
 }
 
 /**
  * Sends a GET request to recover the list of glucose readings
  * of the online user.
  * @param {XMLHttpRequest} xmlhttp The request object.
+ * @param {string} startDate - The start date for the glucose data.
+ * @param {string} endDate - The end date for the glucose data.
  */
-function sendGETToGlucose(xmlhttp) {
+function sendGETToGlucose(xmlhttp, startDate, endDate) {
   const token = getJwtToken();
+  let url = '/api/glucose/user/online';
+
+  if (startDate && endDate) {
+    url = url.concat(`?start=${startDate}&end=${endDate}`);
+  }
 
   if (token) {
-    xmlhttp.open('GET', '/api/glucose/user/online');
+    xmlhttp.open('GET', url);
     xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
@@ -307,12 +316,12 @@ function setChartAxisYValues(unityId) {
     // mg/dL
     Y_MAX_SCALE = 220;
     Y_MIN_SCALE = 20;
-    STEP_SIZE = 20;
+    Y_STEP_SIZE = 20;
   } else {
     // mmol/L
     Y_MAX_SCALE = 12;
     Y_MIN_SCALE = 2;
-    STEP_SIZE = 1;
+    Y_STEP_SIZE = 1;
   }
 }
 

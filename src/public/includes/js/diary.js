@@ -64,9 +64,16 @@ function getGlucoseReadingsByUserId() {
  */
 function sendGETToGlucose(xmlhttp) {
   const token = getJwtToken();
+  let url = '/api/glucose/user/online';
+  const dateRange = getDateRangeFromSession();
+
+  if (dateRange) {
+    url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
+    removeDateRangeFromSession();
+  }
 
   if (token) {
-    xmlhttp.open('GET', '/api/glucose/user/online');
+    xmlhttp.open('GET', url);
     xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
