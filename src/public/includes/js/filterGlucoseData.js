@@ -62,6 +62,81 @@ function updateChartDataByWeeks(numOfWeeks) {
   loadGlucoseReadingsByUserId(startDate, endDate);
 }
 
+// DATE RANGE FIELDS
+const fieldStartDate = document.getElementById('field_start_date');
+const fieldEndDate = document.getElementById('field_end_date');
+
+/**
+ * Clears the values of the given array of fields.
+ * @param {Array} fields - An array of field elements.
+ */
+function clearFields(fields) {
+  fields.forEach((field) => {
+    if (field && typeof field.value === 'string') {
+      field.value = '';
+    }
+  });
+}
+
+/**
+ * Updates chart data based on the selected date range.
+ */
+function updateChartDataByDateRange() {
+  const startDate = fieldStartDate.value;
+  const endDate = fieldEndDate.value;
+  if (startDate && endDate) {
+    if (isValidDateRange(startDate, endDate)) {
+      destroyChart();
+      loadGlucoseReadingsByUserId(startDate, endDate);
+    } else {
+      swal('Invalid Date',
+          'The start date must be less than end date.',
+          'warning');
+    }
+  } else {
+    swal('Invalid Date',
+        'Please, inform the start and end date.',
+        'warning');
+  }
+  clearFields([fieldStartDate, fieldEndDate]);
+}
+
+/**
+ * Updates the glucose diary table based on the selected date range.
+ */
+function updateDiaryTableByDateRange() {
+  const startDate = fieldStartDate.value;
+  const endDate = fieldEndDate.value;
+  if (startDate && endDate) {
+    if (isValidDateRange(startDate, endDate)) {
+      saveDateRangeInSession({startDate, endDate});
+      window.location.reload();
+    } else {
+      swal('Invalid Date',
+          'The start date must be less than end date.',
+          'warning');
+    }
+  } else {
+    swal('Invalid Date',
+        'Please, inform the start and end date.',
+        'warning');
+  }
+  clearFields([fieldStartDate, fieldEndDate]);
+}
+
+/**
+ * Checks if the first date is less than the second date,
+ * indicating a valid date range.
+ *
+ * @param {string} inputDate1 - The first date to compare.
+ * @param {string} inputDate2 - The second date to compare.
+ * @return {boolean} Returns true if the first date is less
+ * than the second date,indicating a valid date range. Otherwise, returns false.
+ */
+function isValidDateRange(inputDate1, inputDate2) {
+  return (new Date(inputDate1) < new Date(inputDate2));
+}
+
 /**
  * Updates the glucose diary table based on the specified number of weeks.
  * @param {number} numOfWeeks - The number of weeks to retrieve data for.

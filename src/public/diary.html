@@ -140,6 +140,7 @@
                       <li><a class="dropdown-item" onclick="updateDiaryTableByWeeks(4)">4 weeks</a></li>
                       <li><a class="dropdown-item" onclick="updateDiaryTableByWeeks(8)">8 weeks</a></li>
                       <li><a class="dropdown-item" onclick="updateDiaryTableByWeeks(12)">12 weeks</a></li>
+                      <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
                     </ul>
                   </div>
@@ -190,7 +191,7 @@
                             <td class="text-center" id="stats_glic_tests">0</td>
                           </tr>
                           <tr>
-                            <td>Average (Total)</td>
+                            <td>Average</td>
                             <td class="text-center" id="stats_glic_average">0 <span class="label-measurement-unity"></span></td>
                           </tr>
                           <tr>
@@ -434,12 +435,12 @@
                   <form>
 
                     <div class="form-floating">
-                      <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                      <input type="date" class="form-control square-borders" id="field_start_date" placeholder="Date" required>
                       <label for="field_start_date">Start</label>
                     </div>
 
                     <div class="form-floating">
-                      <input type="date" class="form-control square-borders" id="field_Date" placeholder="Date" required>
+                      <input type="date" class="form-control square-borders" id="field_end_date" placeholder="Date" required>
                       <label for="field_end_date">End</label>
                     </div>
 
@@ -451,7 +452,8 @@
               <div class="modal-footer text-center">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="btnCancelTimeIntervalModal">
                   <span data-feather="x" class="align-middle"></span>Cancel</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnSaveTimeIntervalModal">
+                <button type="button" class="btn btn-primary"
+                  data-bs-dismiss="modal" id="btnSaveTimeIntervalModal" onclick="updateDiaryTableByDateRange()">
                   <span data-feather="search" class="align-middle"></span>Search</button>
               </div>
 
