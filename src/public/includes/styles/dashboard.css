@@ -180,6 +180,10 @@ body {
   background: #dee2e6;
 }
 
+.dropdown-item {
+  cursor: pointer;
+}
+
 @media (max-width: 500px) {
   .header-visibility{
     display: flex;
