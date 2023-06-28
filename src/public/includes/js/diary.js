@@ -30,6 +30,7 @@ let UNITY_LABEL = '';
  * Read from the database the list of glucose records of a specific user.
  */
 function getGlucoseReadingsByUserId() {
+  const dateRange = getDateRangeFromSession();
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
@@ -42,7 +43,11 @@ function getGlucoseReadingsByUserId() {
           break;
 
         case HTTP_NOT_FOUND:
-          console.log('No registers found.');
+          if (dateRange) {
+            swal('Nothing found',
+                'No registers found for the informed date.',
+                'info');
+          }
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -55,17 +60,18 @@ function getGlucoseReadingsByUserId() {
       }
     }
   };
-  sendGETToGlucose(xmlhttp);
+  sendGETToGlucose(xmlhttp, dateRange);
 }
 /**
  * Sends a GET request to recover the list of glucose records
  * of the online user.
  * @param {XMLHttpRequest} xmlhttp The request object.
+ * @param {object} dateRange An object representing the data range
+ * to be used as parameters in the url search.
  */
-function sendGETToGlucose(xmlhttp) {
+function sendGETToGlucose(xmlhttp, dateRange) {
   const token = getJwtToken();
   let url = '/api/glucose/user/online';
-  const dateRange = getDateRangeFromSession();
 
   if (dateRange) {
     url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
@@ -88,6 +94,18 @@ function sendGETToGlucose(xmlhttp) {
       logOut();
     });
   }
+}
+/**
+ * Retrieves the date range from the session storage.
+ * @return {Object|null} The date range object retrieved
+ * from the session storage, or null if not found.
+ */
+function getDateRangeFromSession() {
+  const obj = sessionStorage.getItem(DATE_RANGE_SESSION_STORAGE);
+  if (obj) {
+    return JSON.parse(obj);
+  }
+  return null;
 }
 /**
  * Before printing values on the table, remove the
