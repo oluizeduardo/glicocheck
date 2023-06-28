@@ -1,0 +1,19 @@
+name: Pull Request Tests
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Check out code from GitHub
+
+      - run: npm install
+        name: Install NPM packages
+
+      - run: npm test
+        name: Run Integration tests
