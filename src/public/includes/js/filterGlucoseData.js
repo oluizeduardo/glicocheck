@@ -1,14 +1,19 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
-
+const fieldStartDate = document.getElementById('field_start_date');
+const fieldEndDate = document.getElementById('field_end_date');
+const MESSAGE_INFORM_DATES = 'Please, inform the correct start and end date.';
 const DATE_RANGE_SESSION_STORAGE = 'dairyDateRange';
+const NAME_ELEMENT_CHART = 'chart';
+const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
 
 /**
  * Get the start and end dates based on the number of weeks.
  * @param {number} numOfWeeks - The number of weeks.
  * @return {Date[]} An array with the start date and end date.
  */
-function getDateRange(numOfWeeks) {
-  const startDate = new Date();
+function getDateRangeByNumberOfWeeks(numOfWeeks) {
+  const startDate = new Date();// today
   startDate.setDate(startDate.getDate() - (numOfWeeks * 7));
   const endDate = new Date();
 
@@ -32,39 +37,11 @@ function saveDateRangeInSession(dateRangeObj) {
 }
 
 /**
- * Retrieves the date range from the session storage.
- * @return {Object|null} The date range object retrieved
- * from the session storage, or null if not found.
- */
-function getDateRangeFromSession() {
-  const obj = sessionStorage.getItem(DATE_RANGE_SESSION_STORAGE);
-  if (obj) {
-    return JSON.parse(obj);
-  }
-  return null;
-}
-
-/**
  * Removes date range from session storage.
  */
 function removeDateRangeFromSession() {
   sessionStorage.removeItem(DATE_RANGE_SESSION_STORAGE);
 }
-
-/**
- * Updates the chart data based on the specified number of weeks.
- * @param {number} numOfWeeks - The number of weeks to retrieve data for.
- * @return {void}
- */
-function updateChartDataByWeeks(numOfWeeks) {
-  const [startDate, endDate] = getDateRange(numOfWeeks);
-  destroyChart();
-  loadGlucoseReadingsByUserId(startDate, endDate);
-}
-
-// DATE RANGE FIELDS
-const fieldStartDate = document.getElementById('field_start_date');
-const fieldEndDate = document.getElementById('field_end_date');
 
 /**
  * Clears the values of the given array of fields.
@@ -79,49 +56,49 @@ function clearFields(fields) {
 }
 
 /**
- * Updates chart data based on the selected date range.
+ * Process the date range and perform actions based on the specified element.
+ * @param {string} element - An indicator of the element that wants to be updated.
+ * @return {void}
  */
-function updateChartDataByDateRange() {
-  const startDate = fieldStartDate.value;
-  const endDate = fieldEndDate.value;
-  if (startDate && endDate) {
-    if (isValidDateRange(startDate, endDate)) {
-      destroyChart();
+function processDateRange(element) {
+  const [startDate, endDate] = getDateRange();
+
+  if (isValidDateRange(startDate, endDate)) {
+    if (element === NAME_ELEMENT_CHART) {
       loadGlucoseReadingsByUserId(startDate, endDate);
-    } else {
-      swal('Invalid Date',
-          'The start date must be less than end date.',
-          'warning');
+    } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
+      saveDateRangeInSession({startDate, endDate});
+      window.location.reload();
     }
   } else {
-    swal('Invalid Date',
-        'Please, inform the start and end date.',
-        'warning');
+    showInvalidDateMessage(MESSAGE_INFORM_DATES);
   }
   clearFields([fieldStartDate, fieldEndDate]);
 }
 
 /**
- * Updates the glucose diary table based on the selected date range.
+ * Updates the chart or diary table based on the specified number of weeks.
+ * @param {string} element - An indicator of the element that wants to be updated.
+ * @param {number} numOfWeeks - The number of weeks to retrieve data for.
+ * @return {void}
  */
-function updateDiaryTableByDateRange() {
-  const startDate = fieldStartDate.value;
-  const endDate = fieldEndDate.value;
-  if (startDate && endDate) {
-    if (isValidDateRange(startDate, endDate)) {
-      saveDateRangeInSession({startDate, endDate});
-      window.location.reload();
-    } else {
-      swal('Invalid Date',
-          'The start date must be less than end date.',
-          'warning');
-    }
-  } else {
-    swal('Invalid Date',
-        'Please, inform the start and end date.',
-        'warning');
+function updateDataByWeeks(element, numOfWeeks) {
+  const [startDate, endDate] = getDateRangeByNumberOfWeeks(numOfWeeks);
+
+  if (element === NAME_ELEMENT_CHART) {
+    loadGlucoseReadingsByUserId(startDate, endDate);
+  } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
+    saveDateRangeInSession({startDate, endDate});
+    window.location.reload();
   }
-  clearFields([fieldStartDate, fieldEndDate]);
+}
+
+/**
+ * Show a warning message for invalid date.
+ * @param {string} message
+ */
+function showInvalidDateMessage(message) {
+  swal('Invalid Date', message, 'warning');
 }
 
 /**
@@ -134,16 +111,19 @@ function updateDiaryTableByDateRange() {
  * than the second date,indicating a valid date range. Otherwise, returns false.
  */
 function isValidDateRange(inputDate1, inputDate2) {
-  return (new Date(inputDate1) < new Date(inputDate2));
+  if (inputDate1 && inputDate2) {
+    return (new Date(inputDate1) < new Date(inputDate2));
+  }
+  return false;
 }
 
 /**
- * Updates the glucose diary table based on the specified number of weeks.
- * @param {number} numOfWeeks - The number of weeks to retrieve data for.
- * @return {void}
+ * Retrieves the start and end dates from the respective
+ * fields and returns them as an array.
+ * @return {Array} An array containing the start and end dates.
  */
-function updateDiaryTableByWeeks(numOfWeeks) {
-  const [startDate, endDate] = getDateRange(numOfWeeks);
-  saveDateRangeInSession({startDate, endDate});
-  window.location.reload();
+function getDateRange() {
+  const startDate = fieldStartDate.value;
+  const endDate = fieldEndDate.value;
+  return [startDate, endDate];
 }

@@ -198,6 +198,7 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
+          destroyChart();// Reset chart for new values.
           JSON.parse(xmlhttp.response, (key, value) => {
             if (key === 'glucose') glucoseValues.push(value);
             if (key === 'dateTime') {
@@ -207,7 +208,11 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
           break;
 
         case HTTP_NOT_FOUND:
-          console.log('No registers found.');
+          if (startDate && endDate) {
+            swal('Nothing found',
+                'No registers found for the informed date.',
+                'info');
+          }
           break;
 
         case HTTP_UNAUTHORIZED:
@@ -220,6 +225,9 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
       }
 
       if (glucoseValues.length > 0) {
+        if (glucoseReadingsChart != null) {
+          glucoseReadingsChart.destroy();
+        }
         makeChartPanelVisible();
         loadChart();
       }
@@ -250,6 +258,15 @@ function sendGETToGlucose(xmlhttp, startDate, endDate) {
     xmlhttp.send();
   } else {
     throw Error('Authentication token not found.');
+  }
+}
+
+/**
+ * Destroy the chart to run its update.
+ */
+function destroyChart() {
+  if (glucoseReadingsChart != null) {
+    glucoseReadingsChart.destroy();
   }
 }
 
