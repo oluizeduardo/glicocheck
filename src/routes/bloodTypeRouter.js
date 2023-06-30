@@ -1,17 +1,18 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-len */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const bloodTypeRouter = express.Router();
 const BloodTypeController = require('../controllers/bloodTypeController');
-const {checkToken, isAdmin} = require('../utils/securityUtils');
+const {checkToken} = require('../utils/securityUtils');
+const {isAdminUser} = require('../utils/role');
 
 bloodTypeRouter.use(checkToken);
-bloodTypeRouter.use(isAdmin);
 
 bloodTypeRouter
     .get('/', BloodTypeController.getAllTypes)
-    .post('/', BloodTypeController.createNewType)
+    .post('/', isAdminUser, BloodTypeController.createNewType)
     .get('/:id', BloodTypeController.getTypeById)
-    .put('/:id', express.json(), BloodTypeController.updateTypeById)
-    .delete('/:id', express.json(), BloodTypeController.deleteTypeById);
+    .put('/:id', isAdminUser, express.json(), BloodTypeController.updateTypeById)
+    .delete('/:id', isAdminUser, express.json(), BloodTypeController.deleteTypeById);
 
 module.exports = bloodTypeRouter;

@@ -1,17 +1,18 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-len */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const genderRouter = express.Router();
 const GenderController = require('../controllers/genderController');
-const {checkToken, isAdmin} = require('../utils/securityUtils');
+const {checkToken} = require('../utils/securityUtils');
+const {isAdminUser} = require('../utils/role');
 
 genderRouter.use(checkToken);
-genderRouter.use(isAdmin);
 
 genderRouter
     .get('/', GenderController.getAllGenders)
-    .post('/', GenderController.createNewGender)
+    .post('/', isAdminUser, GenderController.createNewGender)
     .get('/:id', GenderController.getGenderById)
-    .put('/:id', express.json(), GenderController.updateGenderById)
-    .delete('/:id', express.json(), GenderController.deleteGenderById);
+    .put('/:id', isAdminUser, express.json(), GenderController.updateGenderById)
+    .delete('/:id', isAdminUser, express.json(), GenderController.deleteGenderById);
 
 module.exports = genderRouter;

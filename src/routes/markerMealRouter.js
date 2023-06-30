@@ -1,17 +1,18 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-len */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const markerMealRouter = express.Router();
 const MarkerMealController = require('../controllers/markerMealController');
-const {checkToken, isAdmin} = require('../utils/securityUtils');
+const {checkToken} = require('../utils/securityUtils');
+const {isAdminUser} = require('../utils/role');
 
 markerMealRouter.use(checkToken);
-markerMealRouter.use(isAdmin);
 
 markerMealRouter
-    .post('/', express.json(), MarkerMealController.createNewMarkerMeal)
+    .post('/', isAdminUser, express.json(), MarkerMealController.createNewMarkerMeal)
     .get('/', MarkerMealController.getAllMarkerMeals)
     .get('/:id', MarkerMealController.getMarkerMealById)
-    .put('/:id', express.json(), MarkerMealController.updateMarkerMealById)
-    .delete('/:id', MarkerMealController.deleteMarkerMealById);
+    .put('/:id', isAdminUser, express.json(), MarkerMealController.updateMarkerMealById)
+    .delete('/:id', isAdminUser, MarkerMealController.deleteMarkerMealById);
 
 module.exports = markerMealRouter;

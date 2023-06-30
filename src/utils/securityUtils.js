@@ -1,10 +1,8 @@
+/* eslint-disable max-len */
 const logger = require('../loggerUtil/logger');
 const Messages = require('../utils/messages');
 const jwt = require('jsonwebtoken');
-const database = require('../db/dbconfig.js');
 const bcrypt = require('bcryptjs');
-
-const ROLE_ADMIN = 1;
 
 /**
  * SecurityUtils.
@@ -42,42 +40,6 @@ class SecurityUtils {
       }
       return res.status(401).json({message: Messages.REFUSED_ACCESS});
     }
-  };
-
-  /**
-   * Middleware function to check if the user is an admin.
-   *
-   * @param {Object} req - The request object.
-   * @param {Object} res - The response object.
-   * @param {Function} next - The next middleware function.
-   * @return {void}
-   */
-  static isAdmin = (req, res, next) => {
-    const userId = req.userId;
-
-    database
-        .select('role_id')
-        .from('users')
-        .where({id: userId})
-        .first()
-        .then((user) => {
-          if (user) {
-            if (user.role_id === ROLE_ADMIN) {
-              next();
-            } else {
-              res.status(403).json({message: Messages.ROLE_ADMIN_REQUIRED});
-            }
-          } else {
-            res.status(404).json({message: Messages.USER_NOT_FOUND});
-          }
-        })
-        .catch((err) => {
-          logger.error(`Error executing SecurityUtils.isAdmin`);
-          res.status(500).json({
-            message: Messages.ERROR_CHECKING_USER_ROLE,
-            error: err.message,
-          });
-        });
   };
 
   /**
