@@ -9,8 +9,8 @@ describe('User router - Integration Tests', function() {
   let accessToken;
 
   before(function(done) {
-    const email = process.env.TEST_USER_EMAIL;
-    const password = process.env.TEST_USER_PASSWORD;
+    const email = process.env.TEST_USER_ADMIN_EMAIL;
+    const password = process.env.TEST_USER_ADMIN_PASSWORD;
     chai
         .request(app)
         .post('/api/security/login')
@@ -29,7 +29,7 @@ describe('User router - Integration Tests', function() {
         name: 'John Doe',
         email: 'johndoe@example.com',
         password: 'password123',
-        role_id: 1,
+        cod_role: '98805e1e-4dbe-483d-8a78-5f1e7e4f72b3',
       };
 
       chai
