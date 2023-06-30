@@ -30,13 +30,14 @@ DROP TABLE IF EXISTS password_reset_tokens;
 ---------- ROLES
 CREATE TABLE role ( 
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    cod_role    varchar(50) NOT NULL,   
     description varchar(50) NOT NULL,
     created_at  TIMESTAMP DEFAULT (datetime('now','localtime')),
     updated_at  TIMESTAMP DEFAULT (datetime('now','localtime'))
 );
 
-INSERT INTO role (description) VALUES('ADMIN');
-INSERT INTO role (description) VALUES('USER');
+INSERT INTO role (cod_role, description) VALUES('98805e1e-4dbe-483d-8a78-5f1e7e4f72b3', 'USER_ADMIN');
+INSERT INTO role (cod_role, description) VALUES('42701b81-1120-4f7f-a0ae-1326e813cfcb', 'USER_REGULAR');
 
 SELECT * FROM role;
 
@@ -65,29 +66,36 @@ CREATE TABLE users (
     gender_id  INTEGER,
     weight     FLOAT,
     height     FLOAT,
-    role_id    INTEGER NOT NULL,
+    cod_role    varchar(50) NOT NULL,
     created_at TIMESTAMP DEFAULT (datetime('now','localtime')),
     updated_at TIMESTAMP DEFAULT (datetime('now','localtime')),
     picture    TEXT,
 
-    FOREIGN KEY(role_id) REFERENCES role(id),
+    FOREIGN KEY(cod_role) REFERENCES role(cod_role),
     FOREIGN KEY(gender_id) REFERENCES gender(id)
 );
 
 -- DEFAULT USER.
-INSERT INTO users (id, name, email, password, role_id) 
-  VALUES ('1111111-1111-1111-1111-111111111111', 
+INSERT INTO users (id, name, email, password, cod_role) 
+  VALUES ('1111111-1111-1111-1111-111111111111',
           'Glicocheck Admin Test', 
           'admin-test@glicocheck.com',
           '$2a$12$xap4IdbMIp/WwdlvHXFAo.j8KLCerskmRo7incA71GGL3ThHp7Sjy',
-          1);
+          '98805e1e-4dbe-483d-8a78-5f1e7e4f72b3');
 
-INSERT INTO users (id, name, email, password, role_id) 
+INSERT INTO users (id, name, email, password, cod_role) 
+  VALUES ('2222222-2222-2222-2222-222222222222',
+          'Glicocheck Regular User Test', 
+          'regular-test@glicocheck.com',
+          '$2a$12$xap4IdbMIp/WwdlvHXFAo.j8KLCerskmRo7incA71GGL3ThHp7Sjy',
+          '42701b81-1120-4f7f-a0ae-1326e813cfcb');
+
+INSERT INTO users (id, name, email, password, cod_role) 
   VALUES ('1111111-0000-0000-0000-111111111111', 
           'Glicocheck Admin', 
           'admin@glicocheck.com',
           '$2a$12$xap4IdbMIp/WwdlvHXFAo.j8KLCerskmRo7incA71GGL3ThHp7Sjy',
-          1);
+          '98805e1e-4dbe-483d-8a78-5f1e7e4f72b3');
 
 SELECT * FROM users;
 
@@ -225,6 +233,15 @@ INSERT INTO user_system_config (
   time_lunch_pre, time_lunch_pos, 
   time_dinner_pre, time_dinner_pos, time_sleep) 
 VALUES ('1111111-1111-1111-1111-111111111111', 1, 70, 160, 
+  '06:00', '08:00', '12:00', '14:00', '19:00', '21:00', '23:00');
+
+INSERT INTO user_system_config (
+  user_id, glucose_unity_id, 
+  limit_hypo, limit_hyper, 
+  time_bf_pre, time_bf_pos, 
+  time_lunch_pre, time_lunch_pos, 
+  time_dinner_pre, time_dinner_pos, time_sleep) 
+VALUES ('2222222-2222-2222-2222-222222222222', 1, 70, 160, 
   '06:00', '08:00', '12:00', '14:00', '19:00', '21:00', '23:00');
 
 INSERT INTO user_system_config (
