@@ -57,7 +57,7 @@ class Role {
     try {
       const roleCode = await Role._getRoleCode(userId);
 
-      if (roleCode === ROLE_USER_ADMIN) {
+      if (roleCode == ROLE_USER_ADMIN) {
         next();
       } else {
         logger.info(Messages.EXECUTION_NOT_ALLOWED);
@@ -85,7 +85,7 @@ class Role {
     try {
       const roleId = await Role._getRoleCode(userId);
 
-      if (roleId === ROLE_USER_REGULAR) {
+      if (roleId == ROLE_USER_REGULAR) {
         next();
       } else {
         logger.info(Messages.EXECUTION_NOT_ALLOWED);
