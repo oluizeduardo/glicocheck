@@ -9,8 +9,8 @@ describe('Blood type router - Integration Tests', function() {
   let accessToken;
 
   before(function(done) {
-    const email = process.env.TEST_USER_EMAIL;
-    const password = process.env.TEST_USER_PASSWORD;
+    const email = process.env.TEST_USER_ADMIN_EMAIL;
+    const password = process.env.TEST_USER_ADMIN_PASSWORD;
     chai
         .request(app)
         .post('/api/security/login')

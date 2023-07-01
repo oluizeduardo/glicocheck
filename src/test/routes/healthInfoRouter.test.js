@@ -9,8 +9,8 @@ describe('Health Info router - Integration Tests', function() {
   let accessToken;
 
   before(function(done) {
-    const email = process.env.TEST_USER_EMAIL;
-    const password = process.env.TEST_USER_PASSWORD;
+    const email = process.env.TEST_USER_REGULAR_EMAIL;
+    const password = process.env.TEST_USER_REGULAR_PASSWORD;
     chai
         .request(app)
         .post('/api/security/login')
@@ -26,7 +26,7 @@ describe('Health Info router - Integration Tests', function() {
   describe('POST /api/healthinfo', function() {
     it('should create a new health info register', function(done) {
       const newRegister = {
-        userId: '22222222-1111-1111-1111-111111111111',
+        userId: '22222222-2222-2222-2222-222222222222',
         diabetesType: 1,
         monthDiagnosis: 'May 2021',
         bloodType: 1,
@@ -45,7 +45,7 @@ describe('Health Info router - Integration Tests', function() {
 
     it('should not create a new health info for the same user', function(done) {
       const newRegister = {
-        userId: '22222222-1111-1111-1111-111111111111',
+        userId: '22222222-2222-2222-2222-222222222222',
         diabetesType: 1,
         monthDiagnosis: 'May 2021',
         bloodType: 1,

@@ -9,8 +9,8 @@ describe('Glucose router - Integration Tests', function() {
   let accessToken;
 
   before(function(done) {
-    const email = process.env.TEST_USER_EMAIL;
-    const password = process.env.TEST_USER_PASSWORD;
+    const email = process.env.TEST_USER_REGULAR_EMAIL;
+    const password = process.env.TEST_USER_REGULAR_PASSWORD;
     chai
         .request(app)
         .post('/api/security/login')
@@ -26,7 +26,7 @@ describe('Glucose router - Integration Tests', function() {
   describe('POST /api/glucose', function() {
     it('should create a new glucose reading.', function(done) {
       const newGlucose = {
-        userId: '1111111-1111-1111-1111-111111111111',
+        userId: '2222222-2222-2222-2222-222222222222',
         glucose: 100,
         total_carbs: 40,
         dateTime: new Date().toLocaleString('pt-BR'),
@@ -206,7 +206,7 @@ describe('Glucose router - Integration Tests', function() {
   });
 
   describe('DELETE /api/glucose/user/:id', function() {
-    const USER_ID = '1111111-1111-1111-1111-111111111111';
+    const USER_ID = '2222222-2222-2222-2222-222222222222';
 
     it('should create a new glucose reading.', function(done) {
       const newGlucose = {

@@ -1,5 +1,5 @@
+/* eslint-disable new-cap */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const securityRouter = express.Router();
 const SecurityController = require('../controllers/securityController');
 

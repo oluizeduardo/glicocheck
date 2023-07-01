@@ -29,9 +29,9 @@ class SecurityController {
    */
   static registerNewUser = async (req, res) => {
     logger.info(`Executing SecurityController.registerNewUser`);
-    let {name, email, picture, password, role_id} = req.body;
+    let {name, email, picture, password, cod_role} = req.body;
 
-    if (!name || !email || !password || !role_id) {
+    if (!name || !email || !password || !cod_role) {
       return res.status(400).json({message: Messages.INCOMPLETE_DATA_PROVIDED});
     }
 
@@ -57,7 +57,7 @@ class SecurityController {
                   email,
                   picture,
                   password: hashedPassword,
-                  role_id,
+                  cod_role,
                 },
                 ['id'],
             );

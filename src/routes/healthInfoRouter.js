@@ -1,12 +1,13 @@
+/* eslint-disable new-cap */
 /* eslint-disable max-len */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const healthInfoRouter = express.Router();
 const HealthInfoController = require('../controllers/healthInfoController');
-const {checkToken, isAdmin} = require('../utils/securityUtils');
+const {checkToken} = require('../utils/securityUtils');
+const {isRegularUser} = require('../utils/role');
 
 healthInfoRouter.use(checkToken);
-healthInfoRouter.use(isAdmin);
+healthInfoRouter.use(isRegularUser);
 
 healthInfoRouter
     .get('/', HealthInfoController.getAll)

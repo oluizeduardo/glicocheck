@@ -1,12 +1,13 @@
+/* eslint-disable new-cap */
 /* eslint-disable max-len */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const glucoseRouter = express.Router();
 const GlucoseController = require('../controllers/glucoseController');
-const {checkToken, isAdmin} = require('../utils/securityUtils');
+const {checkToken} = require('../utils/securityUtils');
+const {isRegularUser} = require('../utils/role');
 
 glucoseRouter.use(checkToken);
-glucoseRouter.use(isAdmin);
+glucoseRouter.use(isRegularUser);
 
 glucoseRouter
     .get('/', express.json(), GlucoseController.getAllGlucoseRecords)

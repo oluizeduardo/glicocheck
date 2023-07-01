@@ -1,17 +1,18 @@
+/* eslint-disable new-cap */
+/* eslint-disable max-len */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const diabetesTypeRouter = express.Router();
 const DiabetesTypeController = require('../controllers/diabetesTypeController');
-const {checkToken, isAdmin} = require('../utils/securityUtils');
+const {checkToken} = require('../utils/securityUtils');
+const {isAdminUser} = require('../utils/role');
 
 diabetesTypeRouter.use(checkToken);
-diabetesTypeRouter.use(isAdmin);
 
 diabetesTypeRouter
     .get('/', DiabetesTypeController.getAllTypes)
-    .post('/', DiabetesTypeController.createNewType)
+    .post('/', isAdminUser, DiabetesTypeController.createNewType)
     .get('/:id', DiabetesTypeController.getTypeById)
-    .put('/:id', express.json(), DiabetesTypeController.updateTypeById)
-    .delete('/:id', express.json(), DiabetesTypeController.deleteTypeById);
+    .put('/:id', isAdminUser, express.json(), DiabetesTypeController.updateTypeById)
+    .delete('/:id', isAdminUser, express.json(), DiabetesTypeController.deleteTypeById);
 
 module.exports = diabetesTypeRouter;

@@ -1,13 +1,14 @@
+/* eslint-disable new-cap */
 /* eslint-disable max-len */
 const express = require('express');
-// eslint-disable-next-line new-cap
 const systemConfigurationRouter = express.Router();
-const {checkToken, isAdmin} = require('../utils/securityUtils');
+const {checkToken} = require('../utils/securityUtils');
+const {isRegularUser} = require('../utils/role');
 const SystemConfigurationController = require('../controllers/systemConfigurationController');
 
-systemConfigurationRouter.use(checkToken);
-systemConfigurationRouter.use(isAdmin);
 systemConfigurationRouter.use(express.json());
+systemConfigurationRouter.use(checkToken);
+systemConfigurationRouter.use(isRegularUser);
 
 systemConfigurationRouter
     .post('/', SystemConfigurationController.addSystemConfiguration)

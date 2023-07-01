@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * Messages used in the system.
  */
@@ -11,7 +12,7 @@ class Messages {
   static TOKEN_REQUIRED = 'Access token required';
   static TOKEN_EXPIRED = 'Token expired';
   static REFUSED_ACCESS = 'Refused access';
-  static ROLE_ADMIN_REQUIRED = 'Role ADMIN is required';
+  static EXECUTION_NOT_ALLOWED = 'You\'re not allowed to execute this function.';
   static REGISTER_DELETED = 'The register has been deleted';
   static WRONG_CREDENTIALS = 'Wrong credentials';
 
@@ -20,6 +21,7 @@ class Messages {
 
   static NEW_USER_CREATED = 'New user created.';
   static USER_DELETED = 'User deleted.';
+  static USER_NOT_FOUND = 'User not found';
   static ERROR_DELETE_USER = 'Error trying to delete user.';
   static ERROR_CREATE_USER = 'Error trying to insert a new user.';
   static ERROR_UPDATING_USER = 'Error updating user.';
@@ -43,16 +45,14 @@ class Messages {
   static ERROR_CHECKING_CREDENTIALS = 'Error checking credentials.';
 
   static RESET_PASSWORD_MESSAGE_SENT = 'Reset password message sent.';
-  static ERROR_SEND_RESET_PASSWORD_MESSAGE =
-    'Error sending reset password message.';
+  static ERROR_SEND_RESET_PASSWORD_MESSAGE = 'Error sending reset password message.';
 
   static RESET_TOKEN_DELETED = 'Token deleted.';
   static ERROR_DELETE_RESET_TOKEN = 'Error deleting reset token';
   static RESET_PASSWORD_PROCESS = 'Executing reset password process.';
   static PASSWORD_UPDATED = 'Password updated.';
 
-  static NEW_CONFIGURATION_CREATED =
-    'New system configuration created for the user ';
+  static NEW_CONFIGURATION_CREATED = 'New system configuration created for the user ';
   static SYSTEM_CONFIGURATION_DELETED = 'System configuration deleted.';
 
   static HEALTH_INFO_DELETED = 'User\'s health info deleted.';

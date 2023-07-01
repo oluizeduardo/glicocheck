@@ -77,7 +77,7 @@ function prepareJsonNewUser() {
     name: fieldName.value,
     email: fieldEmail.value,
     password: fieldPassword.value,
-    role_id: 1, // ADMIN
+    cod_role: '42701b81-1120-4f7f-a0ae-1326e813cfcb',
   });
 }
 

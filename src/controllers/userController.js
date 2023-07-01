@@ -18,7 +18,7 @@ class UserController {
   static getAllUsers = async (req, res) => {
     try {
       const users = await database('users')
-          .join('role', 'users.role_id', 'role.id')
+          .join('role', 'users.cod_role', 'role.cod_role')
           .select(
               'users.id',
               'users.name',
@@ -61,7 +61,7 @@ class UserController {
     try {
       const users = await database('users')
           .where('users.id', id)
-          .join('role', 'users.role_id', 'role.id')
+          .join('role', 'users.cod_role', 'role.cod_role')
           .select(
               'users.id',
               'users.name',
@@ -112,7 +112,7 @@ class UserController {
       weight: req.body.weight,
       height: req.body.height,
       picture: req.body.picture,
-      role_id: req.body.role_id,
+      cod_role: req.body.cod_role,
       updated_at: DateTimeUtil.getCurrentDateTime(),
     };
 
@@ -124,13 +124,12 @@ class UserController {
       if (numAffectedRegisters === 0) {
         res.status(404).json({message: Messages.NOTHING_FOUND});
       } else {
-        res.status(201).json({user: updatedUser});
+        res.status(201).json(updatedUser);
       }
     } catch (error) {
-      logger.error('Error UserController.updateUserById');
+      logger.error('Error UserController.updateUserById - '+error.message);
       res.status(500).json({
         message: Messages.ERROR,
-        details: error.message,
       });
     }
   };

@@ -26,8 +26,8 @@ describe('Security router - Integration Tests', function() {
   describe('GET /api/users', function() {
     it('should return access token when the login is successfully made',
         function(done) {
-          const email = process.env.TEST_USER_EMAIL;
-          const password = process.env.TEST_USER_PASSWORD;
+          const email = process.env.TEST_USER_ADMIN_EMAIL;
+          const password = process.env.TEST_USER_ADMIN_PASSWORD;
           chai
               .request(app)
               .post('/api/security/login')
