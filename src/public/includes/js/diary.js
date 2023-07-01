@@ -355,7 +355,7 @@ function getIndexCarbsTD(hour) {
   if (hour >= defaultTimeDinnerpre && hour < defaultTimeDinnerpos) return 13;
   if (hour >= defaultTimeLunchpre && hour < defaultTimeLunchpos) return 8;
   if (hour >= defaultTimeBFpre && hour < defaultTimeBFpos) return 3;
-  return 3;// late night snack
+  return -1;// don't print.
 }
 /**
  * Gets an index based on the informed hour.
