@@ -1,6 +1,9 @@
+/* eslint-disable camelcase */
 const btnLogIn = document.getElementById('btnLogIn');
 const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
+
+const API_BASE_REQUEST = 'http://localhost:8001/api/';
 
 const SUCEESS = 200;
 const FORBIDDEN = 401;
@@ -43,7 +46,7 @@ function isValidDataEntry() {
  */
 function sendRequestToLogin(xmlhttp) {
   const jsonLogin = prepareJsonLogin();
-  xmlhttp.open('POST', '/api/security/login');
+  xmlhttp.open('POST', API_BASE_REQUEST+'/authentication/login');
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonLogin);
 }
@@ -65,21 +68,22 @@ function prepareJsonLogin() {
  * @param {XMLHttpRequest} xmlhttp The request object.
  */
 function executeProcessToLogIn(xmlhttp) {
-  const accessToken = getAuthorizationHeaderValue(xmlhttp);
+  const accessToken = getAccessTokenFromResponse(xmlhttp);
   saveJwtToken(accessToken);
   // eslint-disable-next-line camelcase
-  const {user_id} = JSON.parse(xmlhttp.response);
-  saveUserId(user_id);
-  fetchSystemConfigurationAndRedirect(user_id, accessToken);
+  const {cod_user} = JSON.parse(xmlhttp.response);
+  saveUserId(cod_user);
+  fetchSystemConfigurationAndRedirect(cod_user, accessToken);
 }
 
 /**
- * Returns the text in the authorization header.
+ * Returns the access token received in the response.
  * @param {XMLHttpRequest} xmlhttp The request object.
- * @return {string} The text in the authorization header.
+ * @return {string} The access token received in the response.
  */
-function getAuthorizationHeaderValue(xmlhttp) {
-  return xmlhttp.getResponseHeader('authorization');
+function getAccessTokenFromResponse(xmlhttp) {
+  const {access_token} = JSON.parse(xmlhttp.response);
+  return access_token;
 }
 
 /**
@@ -187,7 +191,7 @@ function showErrorConfigurationNotFound() {
     text: 'Error loading system configuration.\n Please, log in again.',
     icon: 'error',
   }).then(() => {
-    logOut();
+    // logOut();
   });
 }
 
@@ -199,7 +203,7 @@ function showErrorConfigurationNotFound() {
  * @return {Response}
  */
 async function fetchData(userId, accessToken) {
-  const url = `/api/systemconfiguration/user/${userId}`;
+  const url = API_BASE_REQUEST+`/systemconfiguration/user/${userId}`;
   const headers = new Headers({'Authorization': 'Bearer ' + accessToken});
   const myInit = {method: 'GET', headers: headers};
   const response = await fetch(url, myInit);

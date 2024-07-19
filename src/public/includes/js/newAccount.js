@@ -4,6 +4,8 @@ const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 const confirmPassword = document.getElementById('field_ConfirmPassword');
 
+const API_BASE_REQUEST = 'http://localhost:8001/api/';
+
 const SUCEESS = 201;
 const BAD_REQUEST = 400;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
@@ -63,7 +65,7 @@ function isPasswordMatch() {
  */
 function sendRequestToRegisterNewUser(xmlhttp) {
   const jsonNewUser = prepareJsonNewUser();
-  xmlhttp.open('POST', '/api/security/register');
+  xmlhttp.open('POST', API_BASE_REQUEST+'/users');
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonNewUser);
 }
@@ -77,7 +79,7 @@ function prepareJsonNewUser() {
     name: fieldName.value,
     email: fieldEmail.value,
     password: fieldPassword.value,
-    cod_role: '42701b81-1120-4f7f-a0ae-1326e813cfcb',
+    id_role: 2,
   });
 }
 

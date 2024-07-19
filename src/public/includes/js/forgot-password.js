@@ -1,6 +1,8 @@
 const btnResetPassword = document.getElementById('btnResetPassword');
 const fieldEmail = document.getElementById('field_Email');
 
+const API_BASE_REQUEST = 'http://localhost:8001/api/';
+
 const HTTP_SUCEESS = 200;
 const HTTP_NOT_FOUND = 404;
 const INTERNAL_SERVER_ERROR = 500;
@@ -25,7 +27,7 @@ btnResetPassword.addEventListener('click', (event) => {
             showErrorMessage();
             break;
         }
-        isDisabledButton(false);
+        // isDisabledButton(false);
       }
     };
     sendRequestToResetPassword(xmlhttp);
@@ -41,7 +43,7 @@ btnResetPassword.addEventListener('click', (event) => {
  */
 function sendRequestToResetPassword(xmlhttp) {
   const jsonResetPassword = prepareJsonForgotPassword();
-  xmlhttp.open('POST', '/api/reset/forgot-password');
+  xmlhttp.open('POST', API_BASE_REQUEST+'/reset-password/forgot-password');
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonResetPassword);
 }

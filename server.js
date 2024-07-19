@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const helmet = require('helmet');
 
@@ -10,15 +9,6 @@ const app = express();
 app.use(helmet({
   contentSecurityPolicy: false,
 }));
-
-// Specific CORS configuration.
-app.use(
-    cors({
-      origin: 'https://glicocheck-admin.vercel.app',
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      allowedHeaders: ['Content-Type', 'Authorization'],
-    }),
-);
 
 // Disclosing the fingerprinting of this web technology.
 app.disable('x-powered-by');
