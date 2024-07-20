@@ -61,7 +61,8 @@ function isValidDataEntry() {
 function sendPOSTToGlucose(xmlhttp) {
   const jsonNewEntry = prepareJsonNewEntry();
   const token = getJwtToken();
-  xmlhttp.open('POST', '/api/glucose');
+  const userId = getUserId();
+  xmlhttp.open('POST', API_BASE_REQUEST+`/diary/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonNewEntry);
@@ -73,11 +74,10 @@ function sendPOSTToGlucose(xmlhttp) {
  */
 function prepareJsonNewEntry() {
   return JSON.stringify({
-    userId: getUserId(),
     glucose: fieldGlucose.value,
     total_carbs: getTotalCarbs(),
     dateTime: fieldDate.value,
-    markerMealId: fieldMarkermeal.selectedIndex,
+    id_markermeal: fieldMarkermeal.selectedIndex,
   });
 }
 /**
@@ -170,7 +170,7 @@ fieldFood.addEventListener('keypress', (e) => {
  * e.g. "1 cup of milk", "2 slices of cheese".
  */
 async function addNewListItem(food) {
-  const url = `/api/carbscounting/${food}`;
+  const url = API_BASE_REQUEST+`/carbscounting/${food}`;
   const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
   const myInit = {method: 'GET', headers: myHeaders};
   const response = await fetch(url, myInit);

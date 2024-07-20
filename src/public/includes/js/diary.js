@@ -71,7 +71,8 @@ function getGlucoseReadingsByUserId() {
  */
 function sendGETToGlucose(xmlhttp, dateRange) {
   const token = getJwtToken();
-  let url = '/api/glucose/user/online';
+  const userId = getUserId();
+  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
 
   if (dateRange) {
     url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
@@ -94,6 +95,13 @@ function sendGETToGlucose(xmlhttp, dateRange) {
       logOut();
     });
   }
+}
+/**
+ * Gets the user id saved in the session storage.
+ * @return {string} The user id.
+ */
+function getUserId() {
+  return sessionStorage.getItem('userId');
 }
 /**
  * Retrieves the date range from the session storage.

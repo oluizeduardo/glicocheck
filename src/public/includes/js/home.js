@@ -245,7 +245,8 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
  */
 function sendGETToGlucose(xmlhttp, startDate, endDate) {
   const token = getJwtToken();
-  let url = '/api/glucose/user/online';
+  const userId = getUserId();
+  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
 
   if (startDate && endDate) {
     url = url.concat(`?start=${startDate}&end=${endDate}`);
@@ -259,6 +260,14 @@ function sendGETToGlucose(xmlhttp, startDate, endDate) {
   } else {
     throw Error('Authentication token not found.');
   }
+}
+
+/**
+ * Gets the user id saved in the session storage.
+ * @return {string} The user id.
+ */
+function getUserId() {
+  return sessionStorage.getItem('userId');
 }
 
 /**
@@ -308,7 +317,7 @@ function fillVariablesFromSystemConfiguration() {
   const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
   if (objectString) {
     const retrievedConfig = JSON.parse(objectString);
-    const unity = retrievedConfig.glucose_unity_id;
+    const unity = retrievedConfig.id_glucose_unity;
     HYPERGLYCEMIA = retrievedConfig.limit_hyper;
     HYPOGLYCEMIA = retrievedConfig.limit_hypo;
     UNITY = getMeasurementUnityLabel(unity);

@@ -6,6 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Glicocheck is a web platform to control your daily glucose level.">
+    <!-- API Base Request -->
+    <script src="./includes/js/apiBaseRequest.js"></script>
     <!-- CHECK AUTHENTICATION -->
     <script src="./includes/js/sessionUtils.js"></script>
     <!-- Bootstrap -->
@@ -103,7 +105,7 @@
                                 <div class="w-100">
                                     <img id="userProfilePicture"
                                     class="user-profile-picture rounded-circle" 
-                                    src="./includes/imgs/default-profile-picture.png" 
+                                    src="./includes/imgs/default-profile-picture.jpg" 
                                     alt="User profile picture">
                                 </div>                                                               
                             </div> 
@@ -125,7 +127,7 @@
                                         <div class="container-userdetails-small-fields">
                                             <div class="col-sm mb-3">
                                                 <label for="field_Birthdate" class="form-label">Date of birth<span class="required">*</span></label>
-                                                <input type="date" id="field_Birthdate" class="form-control text-center mr-2">
+                                                <input type="date" id="field_Birthdate" class="form-control text-center mr-2" placeholder="dd-MM-yyyy">
                                             </div>
 
                                             <div class="col-sm mb-3">
@@ -187,7 +189,7 @@
                                         </div>                                        
 
                                         <div class="mt-5 mb-3 panel-buttons">
-                                            <button type="submit" class="btn btn-primary" id="btnUpdateHealthInfo">
+                                            <button type="submit" class="btn btn-primary" id="btnSaveHealthInfo">
                                                 <span data-feather="save"></span>
                                                 Save Changes</button>
                                         </div>
@@ -204,6 +206,10 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
     integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" 
     crossorigin="anonymous"></script>
+    <!-- SWEET ALERT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
+    integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
+    crossorigin="anonymous"></script>
     <script>
         'use strict'
         feather.replace({ 'aria-hidden': 'true' })
@@ -213,11 +219,7 @@
     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
     crossorigin="anonymous"></script>
     <!-- LOAD PAGE ACTIONS -->
-    <script src="./includes/js/profile.js"></script>
-    <!-- SWEET ALERT -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
-    integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
-    crossorigin="anonymous"></script>
+    <script src="./includes/js/profile.js"></script>    
     <script src="./includes/js/calendarRange.js"></script>
   </body>
 </html>

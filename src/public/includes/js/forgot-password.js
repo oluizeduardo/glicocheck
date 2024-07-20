@@ -1,8 +1,6 @@
 const btnResetPassword = document.getElementById('btnResetPassword');
 const fieldEmail = document.getElementById('field_Email');
 
-const API_BASE_REQUEST = 'http://localhost:8001/api/';
-
 const HTTP_SUCEESS = 200;
 const HTTP_NOT_FOUND = 404;
 const INTERNAL_SERVER_ERROR = 500;
@@ -27,7 +25,6 @@ btnResetPassword.addEventListener('click', (event) => {
             showErrorMessage();
             break;
         }
-        // isDisabledButton(false);
       }
     };
     sendRequestToResetPassword(xmlhttp);
@@ -72,7 +69,7 @@ function showInvalidEmailMessage() {
   swal('Invalid email', message, 'warning');
 }
 /**
- * Shows success message confirming
+ * Shows success message.
  */
 function showSuccessMessage() {
   swal({

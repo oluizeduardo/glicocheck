@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const fieldMeasurementUnity = document.getElementById('field_MeasurementUnity');
 const unityHypo = document.getElementById('measurement_unity_hypo');
@@ -228,10 +229,8 @@ function isValidDataEntry() {
  */
 function sendRequestToUpdateSystemConfiguration(xmlhttp) {
   const token = getJwtToken();
-  const userId = getUserId();
-
   const jsonUpdate = prepareJsonUpdate();
-  xmlhttp.open('PUT', `/api/systemconfiguration/user/${userId}`);
+  xmlhttp.open('PUT', API_BASE_REQUEST+`/systemconfiguration/`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonUpdate);
@@ -242,16 +241,17 @@ function sendRequestToUpdateSystemConfiguration(xmlhttp) {
  */
 function prepareJsonUpdate() {
   return JSON.stringify({
-    glucoseUnityId: fieldMeasurementUnity.value,
-    limitHypo: hypoRange.value,
-    limitHyper: hyperRange.value,
-    timeBreakfastPre: fieldBreakfastPre.value,
-    timeBreakfastPos: fieldBreakfastPos.value,
-    timeLunchPre: fieldLunchPre.value,
-    timeLunchPos: fieldLunchPos.value,
-    timeDinnerPre: fieldDinnerPre.value,
-    timeDinnerPos: fieldDinnerPos.value,
-    timeSleep: fieldSleepTime.value,
+    cod_user: getUserId(),
+    id_glucose_unity: fieldMeasurementUnity.value,
+    limit_hypo: hypoRange.value,
+    limit_hyper: hyperRange.value,
+    time_breakfast_pre: fieldBreakfastPre.value,
+    time_breakfast_pos: fieldBreakfastPos.value,
+    time_lunch_pre: fieldLunchPre.value,
+    time_lunch_pos: fieldLunchPos.value,
+    time_dinner_pre: fieldDinnerPre.value,
+    time_dinner_pos: fieldDinnerPos.value,
+    time_sleep: fieldSleepTime.value,
   });
 }
 /**
@@ -260,7 +260,7 @@ function prepareJsonUpdate() {
  */
 function updateSessionStorage() {
   const updatedConfig = JSON.stringify({
-    glucose_unity_id: fieldMeasurementUnity.value,
+    id_glucose_unity: fieldMeasurementUnity.value,
     limit_hypo: hypoRange.value,
     limit_hyper: hyperRange.value,
     time_bf_pre: fieldBreakfastPre.value,

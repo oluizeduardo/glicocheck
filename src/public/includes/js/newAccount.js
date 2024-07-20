@@ -4,8 +4,6 @@ const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 const confirmPassword = document.getElementById('field_ConfirmPassword');
 
-const API_BASE_REQUEST = 'http://localhost:8001/api/';
-
 const SUCEESS = 201;
 const BAD_REQUEST = 400;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
@@ -20,7 +18,7 @@ btnRegister.addEventListener('click', (event) => {
         let message ='';
         switch (xmlhttp.status) {
           case SUCEESS:
-            handleLogin();
+            redirectToLoginPage();
             break;
 
           case BAD_REQUEST:
@@ -84,9 +82,9 @@ function prepareJsonNewUser() {
 }
 
 /**
- * Show the success message and redirect the user to the login page.
+ * Show the success message and redirect to the login page.
  */
-function handleLogin() {
+function redirectToLoginPage() {
   swal({
     title: 'Success',
     text: 'New user created! Now you can log in.',

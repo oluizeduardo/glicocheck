@@ -11,9 +11,7 @@
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "test:mocha": "mocha ./src/test/routes/*.test.js",
-    "test": "npm run test:mocha"
+    "cypress:run": "cypress run"
   },
   "repository": {
     "type": "git",

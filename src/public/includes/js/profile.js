@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // USER DETAILS
 const fieldName = document.getElementById('field_Name');
 const fieldEmail = document.getElementById('field_Email');
@@ -12,15 +13,13 @@ const btnSaveUserDetails = document.getElementById('btnSaveUserDetails');
 const fieldDiabetesType = document.getElementById('field_DiabetesType');
 const fieldBloodType = document.getElementById('field_BloodType');
 const fieldDiagnosisDate = document.getElementById('field_DateOfDiagnosis');
-const btnUpdateHealthInfo = document.getElementById('btnUpdateHealthInfo');
-
+const btnSaveHealthInfo = document.getElementById('btnSaveHealthInfo');
+// HTTP REQUEST
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
-const SUCCESS = 201;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
-
+// DEFAULT PICTURE
 const DEFAULT_PROFILE_PICTURE = '../includes/imgs/default-profile-picture.jpg';
-
 let profilePictureBase64 = '';
 
 // /////////////////
@@ -33,7 +32,7 @@ btnSaveUserDetails.addEventListener('click', (event) => {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCCESS) {
+        if (xmlhttp.status == HTTP_OK) {
           swal('Saved!', '', 'success');
         } else {
           swal('Error', 'Error updating user details.', 'error');
@@ -46,10 +45,10 @@ btnSaveUserDetails.addEventListener('click', (event) => {
   }
 });
 
-// //////////////////
-// UPDATE HEALTH INFO
-// //////////////////
-btnUpdateHealthInfo.addEventListener('click', (event) => {
+// ////////////////
+// SAVE HEALTH INFO
+// ////////////////
+btnSaveHealthInfo.addEventListener('click', (event) => {
   event.preventDefault();
 
   if (isValidHealthInfoDataEntry()) {
@@ -78,15 +77,14 @@ function isValidHealthInfoDataEntry() {
     fieldDiagnosisDate.value);
 }
 
-
 /**
- * Sends a request to get the user's infos.
+ * Sends a request to get the user's information.
  * If the request returns suceess, the data recovered
  * should be used to fill the fields on the screen.
  * In case the JWT token is expired, executes handleSessionExpired()
  * from security.js.
  */
-function loadUserInfos() {
+function loadUserInfo() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
@@ -118,12 +116,20 @@ function sendRequest(xmlhttp) {
   const userId = getUserId();
 
   if (token && userId) {
-    xmlhttp.open('GET', `/api/healthinfo/user/${userId}`);
+    xmlhttp.open('GET', API_BASE_REQUEST+`/users/${userId}`);
     xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
     xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xmlhttp.send();
   } else {
-    throw Error('Authentication token not found.');
+    swal({
+      title: 'Error accessing user\'s information',
+      text: 'Please, do the login again.',
+      icon: 'error',
+    }).then(() => {
+      // Log out.
+      sessionStorage.clear();
+      location.href = './index.html';
+    });
   }
 }
 
@@ -133,19 +139,18 @@ function sendRequest(xmlhttp) {
  */
 function loadFieldsWithUserData(object) {
   // USER'S DETAILS
-  fieldName.value = object.user.name;
-  fieldEmail.value = object.user.email;
-  fieldBirthdate.value = object.user.birthdate ? object.user.birthdate : '';
-  fieldPhone.value = object.user.phone ? object.user.phone : '';
-  fieldGender.value = object.user.gender_id ? object.user.gender_id : 0;
-  fieldWeight.value = object.user.weight ? object.user.weight : '';
-  fieldHeight.value = object.user.height ? object.user.height : '';
+  fieldName.value = object.name;
+  fieldEmail.value = object.email;
+  fieldBirthdate.value = object.birthdate ? object.birthdate : '';
+  fieldPhone.value = object.phone ? object.phone : '';
+  fieldWeight.value = object.weight ? object.weight : '';
+  fieldHeight.value = object.height ? object.height : '';
   fieldDiagnosisDate.value = object.month_diagnosis;
   // PICTURE
-  if (!object.user.picture) {
+  if (!object.picture) {
     profilePictureBase64 = DEFAULT_PROFILE_PICTURE;
   } else {
-    profilePictureBase64 = object.user.picture;
+    profilePictureBase64 = object.picture;
   }
   userProfilePicture.src = profilePictureBase64;
   setTimeout(() => {
@@ -153,9 +158,9 @@ function loadFieldsWithUserData(object) {
     filled with options from the database before
     setting a value to it. That's why we're using
     this setTimeout.*/
-    fieldGender.value = object.user.gender_id ? object.user.gender_id : 0;
-    fieldDiabetesType.value = object.diabetes_type ? object.diabetes_type : 0;
-    fieldBloodType.value = object.blood_type ? object.blood_type : 0;
+    fieldGender.value = object.id_gender ? object.id_gender : 0;
+    fieldDiabetesType.value = object.id_diabetes_type ? object.id_diabetes_type : 0;
+    fieldBloodType.value = object.id_blood_type ? object.id_blood_type : 0;
   }, 20);
 }
 
@@ -194,7 +199,7 @@ function sendRequestToUserDetails(xmlhttp) {
   const userId = getUserId();
 
   const jsonUpdateUser = prepareJsonUser();
-  xmlhttp.open('PUT', `/api/users/${userId}`);
+  xmlhttp.open('PUT', API_BASE_REQUEST+`/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonUpdateUser);
@@ -209,7 +214,7 @@ function sendRequestToUpdateHealthInfo(xmlhttp) {
   const userId = getUserId();
 
   const jsonUpdateUser = prepareJsonHealthInfo();
-  xmlhttp.open('PUT', `/api/healthinfo/user/${userId}`);
+  xmlhttp.open('PUT', API_BASE_REQUEST+`/healthinfo/user/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonUpdateUser);
@@ -223,13 +228,12 @@ function prepareJsonUser() {
   return JSON.stringify({
     name: fieldName.value,
     email: fieldEmail.value,
-    birthdate: fieldBirthdate.value,
+    // birthdate: fieldBirthdate.value,
     phone: fieldPhone.value,
-    gender_id: fieldGender.value,
+    id_gender: fieldGender.value,
     weight: fieldWeight.value,
     height: fieldHeight.value,
     picture: profilePictureBase64,
-    role_id: 1,
   });
 }
 
@@ -239,9 +243,9 @@ function prepareJsonUser() {
  */
 function prepareJsonHealthInfo() {
   return JSON.stringify({
-    diabetesType: fieldDiabetesType.selectedIndex,
-    monthDiagnosis: fieldDiagnosisDate.value,
-    bloodType: fieldBloodType.selectedIndex,
+    id_diabetes_type: fieldDiabetesType.selectedIndex,
+    month_diagnosis: fieldDiagnosisDate.value,
+    id_blood_type: fieldBloodType.selectedIndex,
   });
 }
 
@@ -322,7 +326,7 @@ async function fetchData(url) {
  * Loads the gender list.
  */
 async function loadGenderList() {
-  const response = await fetchData('/api/gender/');
+  const response = await fetchData(API_BASE_REQUEST+'/genders/');
   const {status} = response;
 
   switch (status) {
@@ -348,7 +352,7 @@ async function loadGenderList() {
  * Loads the diabetes type list.
  */
 async function loadDiabetesTypeList() {
-  const response = await fetchData('/api/diabetestype/');
+  const response = await fetchData(API_BASE_REQUEST+'/diabetestype/');
   const {status} = response;
 
   switch (status) {
@@ -374,7 +378,7 @@ async function loadDiabetesTypeList() {
  * Loads the blood type list.
  */
 async function loadBloodTypeList() {
-  const response = await fetchData('/api/bloodtype/');
+  const response = await fetchData(API_BASE_REQUEST+'/bloodtype/');
   const {status} = response;
 
   switch (status) {
@@ -418,4 +422,4 @@ function addSelectOptionElement(selectElement, html) {
 loadGenderList();
 loadDiabetesTypeList();
 loadBloodTypeList();
-loadUserInfos();
+loadUserInfo();

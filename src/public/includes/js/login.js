@@ -3,8 +3,6 @@ const btnLogIn = document.getElementById('btnLogIn');
 const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 
-const API_BASE_REQUEST = 'http://localhost:8001/api/';
-
 const SUCEESS = 200;
 const FORBIDDEN = 401;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
@@ -19,9 +17,7 @@ btnLogIn.addEventListener('click', (event) => {
         if (xmlhttp.status == SUCEESS) {
           executeProcessToLogIn(xmlhttp);
         } else if (xmlhttp.status == FORBIDDEN) {
-          const message = `Please try again by entering the same email 
-                                    and password used during account creation.`;
-          swal('Wrong credentials', message, 'error');
+          swal('Wrong credentials', `Please try again.`, 'error');
         }
       }
     };
@@ -68,22 +64,11 @@ function prepareJsonLogin() {
  * @param {XMLHttpRequest} xmlhttp The request object.
  */
 function executeProcessToLogIn(xmlhttp) {
-  const accessToken = getAccessTokenFromResponse(xmlhttp);
-  saveJwtToken(accessToken);
-  // eslint-disable-next-line camelcase
-  const {cod_user} = JSON.parse(xmlhttp.response);
-  saveUserId(cod_user);
-  fetchSystemConfigurationAndRedirect(cod_user, accessToken);
-}
-
-/**
- * Returns the access token received in the response.
- * @param {XMLHttpRequest} xmlhttp The request object.
- * @return {string} The access token received in the response.
- */
-function getAccessTokenFromResponse(xmlhttp) {
   const {access_token} = JSON.parse(xmlhttp.response);
-  return access_token;
+  const {cod_user} = JSON.parse(xmlhttp.response);
+  saveJwtToken(access_token);
+  saveUserId(cod_user);
+  fetchSystemConfigurationAndRedirect(cod_user, access_token);
 }
 
 /**
@@ -99,16 +84,6 @@ function saveJwtToken(token) {
  */
 function saveUserId(userId) {
   sessionStorage.setItem('userId', userId);
-}
-/**
- * Save the system configuration in the session storage.
- * @param {*} configuration
- */
-function saveSystemConfiguration(configuration) {
-  if (typeof configuration === 'object') {
-    configuration = JSON.stringify(configuration);
-  }
-  sessionStorage.setItem('sysConfig', configuration);
 }
 
 /**
@@ -182,6 +157,18 @@ function fetchSystemConfiguration(userId, accessToken) {
     }
   });
 }
+
+/**
+ * Save the system configuration in the session storage.
+ * @param {*} configuration
+ */
+function saveSystemConfiguration(configuration) {
+  if (typeof configuration === 'object') {
+    configuration = JSON.stringify(configuration);
+  }
+  sessionStorage.setItem('sysConfig', configuration);
+}
+
 /**
  * Shows error message.
  */
@@ -191,8 +178,17 @@ function showErrorConfigurationNotFound() {
     text: 'Error loading system configuration.\n Please, log in again.',
     icon: 'error',
   }).then(() => {
-    // logOut();
+    logOut();
   });
+}
+
+/**
+ * Utility function for the log out process.
+ * It cleans the session storage and redirect to the index page.
+ */
+function logOut() {
+  sessionStorage.clear();
+  location.href = './index.html';
 }
 
 /**

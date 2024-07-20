@@ -61,7 +61,7 @@ function sendRequestToDeleteGlucoseReadings(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
-  xmlhttp.open('DELETE', `/api/glucose/user/${userId}`);
+  xmlhttp.open('DELETE', API_BASE_REQUEST+`/diary/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send();
@@ -96,7 +96,7 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
-  xmlhttp.open('DELETE', `/api/users/${userId}`);
+  xmlhttp.open('DELETE', API_BASE_REQUEST+`/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send();
@@ -121,7 +121,7 @@ function deleteUserHealthInfo() {
 async function deleteFromUser(resource) {
   const token = getJwtToken();
   const userId = getUserId();
-  const url = `/api/${resource}/user/${userId}`;
+  const url = API_BASE_REQUEST+`/${resource}/user/${userId}`;
   const headers = new Headers({'Authorization': 'Bearer ' + token});
   const myInit = {method: 'DELETE', headers: headers};
   await fetch(url, myInit);

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 /**
  * Check whether a password is used by a specific user.
@@ -6,16 +7,16 @@
  * to be executed when the password checking is done.
  */
 function checkUserPassword(pass, callback) {
-  const userId = getUserId();
+  const cod_user = getUserId();
   const password = pass;
 
   const json = JSON.stringify({
-    userId: userId,
-    password: password,
+    cod_user,
+    password,
   });
 
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/api/security/password/validation');
+  xhr.open('POST', API_BASE_REQUEST+'/authentication/validate-password');
   xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xhr.send(json);
   xhr.onload = () => {
