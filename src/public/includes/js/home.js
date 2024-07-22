@@ -317,7 +317,7 @@ function fillVariablesFromSystemConfiguration() {
   const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
   if (objectString) {
     const retrievedConfig = JSON.parse(objectString);
-    const unity = retrievedConfig.id_glucose_unity;
+    const unity = retrievedConfig.id_measurement_unity;
     HYPERGLYCEMIA = retrievedConfig.limit_hyper;
     HYPOGLYCEMIA = retrievedConfig.limit_hypo;
     UNITY = getMeasurementUnityLabel(unity);

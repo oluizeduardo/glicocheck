@@ -67,7 +67,18 @@ function sendPOSTToGlucose(xmlhttp) {
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonNewEntry);
 }
-
+/**
+ * Loads the user's system configuration.
+ * @return {number} The measurement unity id.
+ */
+function getMeasurementUnity() {
+  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  if (!objectString) {
+    return 1;
+  } else {
+    return JSON.parse(objectString).id_measurement_unity;
+  }
+}
 /**
  * Creates a JSON object to be sent to register a new glucose reading.
  * @return {JSON} A JSON object.
@@ -78,6 +89,7 @@ function prepareJsonNewEntry() {
     total_carbs: getTotalCarbs(),
     dateTime: fieldDate.value,
     id_markermeal: fieldMarkermeal.selectedIndex,
+    id_measurement_unity: getMeasurementUnity(),
   });
 }
 /**

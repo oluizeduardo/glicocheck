@@ -178,7 +178,7 @@ function getSpecificData(register) {
   return {
     dateTime: register.dateTime,
     glucoseValue: register.glucose,
-    totalCarbs: register.totalCarbs,
+    totalCarbs: register.total_carbs,
   };
 }
 
@@ -614,7 +614,7 @@ function setTimeValuesOnTheTable(systemConfig) {
  * @param {Object} config The system configuration object.
  */
 function setMeasurementUnityLabel(config) {
-  const unityLabel = getMeasurementUnityLabel(config.glucose_unity_id);
+  const unityLabel = getMeasurementUnityLabel(config.id_glucose_unity);
   const spans = document.querySelectorAll('span.label-measurement-unity');
   spans.forEach((span) => (span.textContent = unityLabel));
 }

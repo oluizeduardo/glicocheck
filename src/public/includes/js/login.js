@@ -3,8 +3,9 @@ const btnLogIn = document.getElementById('btnLogIn');
 const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 
-const SUCEESS = 200;
+const SUCCESS = 200;
 const FORBIDDEN = 401;
+const NOT_FOUND = 404;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnLogIn.addEventListener('click', (event) => {
@@ -14,16 +15,18 @@ btnLogIn.addEventListener('click', (event) => {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCEESS) {
+        if (xmlhttp.status == SUCCESS) {
           executeProcessToLogIn(xmlhttp);
         } else if (xmlhttp.status == FORBIDDEN) {
           swal('Wrong credentials', `Please try again.`, 'error');
+        } else {
+          swal('Error', `Error connecting to the server.`, 'error');
         }
       }
     };
     sendRequestToLogin(xmlhttp);
   } else {
-    showLoginError();
+    showInvalidCredentialMessage();
   }
 });
 
@@ -94,9 +97,9 @@ function redirectToDashboard() {
 }
 
 /**
- * Shows the login error message.
+ * Shows invalid credential message.
  */
-function showLoginError() {
+function showInvalidCredentialMessage() {
   swal('Wrong credentials',
       'Please, inform the correct email and password.',
       'warning');
@@ -117,6 +120,7 @@ async function fetchSystemConfigurationAndRedirect(userId, accessToken) {
     redirectToDashboard();
   } catch (error) {
     console.error('An error occurred: ', error);
+    showErrorLoadingSystemConfiguration();
   }
 }
 
@@ -134,23 +138,22 @@ function fetchSystemConfiguration(userId, accessToken) {
       const {status} = response;
 
       switch (status) {
-        case 200:
+        case SUCCESS:
           const data = await response.json();
           saveSystemConfiguration(data);
           resolve();
           break;
 
-        case 401:
-          console.error('Session expired.');
+        case FORBIDDEN:
           reject(new Error('Session expired.'));
           break;
 
-        case 404:
-          showErrorConfigurationNotFound();
+        case NOT_FOUND:
+          reject(new Error('System configuration not found.'));
           break;
 
         default:
-          showErrorConfigurationNotFound();
+          reject(new Error('Error loading system configuration.'));
       }
     } catch (error) {
       reject(error);
@@ -159,20 +162,20 @@ function fetchSystemConfiguration(userId, accessToken) {
 }
 
 /**
- * Save the system configuration in the session storage.
- * @param {*} configuration
+ * Save the system configuration in the browser session storage.
+ * @param {JSON} data
  */
-function saveSystemConfiguration(configuration) {
-  if (typeof configuration === 'object') {
-    configuration = JSON.stringify(configuration);
+function saveSystemConfiguration(data) {
+  if (typeof data === 'object') {
+    data = JSON.stringify(data);
   }
-  sessionStorage.setItem('sysConfig', configuration);
+  sessionStorage.setItem('sysConfig', data);
 }
 
 /**
- * Shows error message.
+ * Shows message error loading system configuration.
  */
-function showErrorConfigurationNotFound() {
+function showErrorLoadingSystemConfiguration() {
   swal({
     title: 'Error',
     text: 'Error loading system configuration.\n Please, log in again.',

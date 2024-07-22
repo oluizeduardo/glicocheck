@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 const fieldStartDate = document.getElementById('field_start_date');
 const fieldEndDate = document.getElementById('field_end_date');
-const MESSAGE_INFORM_DATES = 'Please, inform the correct start and end date.';
 const DATE_RANGE_SESSION_STORAGE = 'dairyDateRange';
 const NAME_ELEMENT_CHART = 'chart';
 const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
@@ -71,7 +70,9 @@ function processDateRange(element) {
       window.location.reload();
     }
   } else {
-    showInvalidDateMessage(MESSAGE_INFORM_DATES);
+    swal('Invalid Date',
+        'Please, inform the correct start and end date.',
+        'warning');
   }
   clearFields([fieldStartDate, fieldEndDate]);
 }
@@ -91,14 +92,6 @@ function updateDataByWeeks(element, numOfWeeks) {
     saveDateRangeInSession({startDate, endDate});
     window.location.reload();
   }
-}
-
-/**
- * Show a warning message for invalid date.
- * @param {string} message
- */
-function showInvalidDateMessage(message) {
-  swal('Invalid Date', message, 'warning');
 }
 
 /**
