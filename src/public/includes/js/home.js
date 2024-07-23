@@ -108,6 +108,7 @@ function getChartConfiguration() {
           },
         },
         legend: {
+          display: !isMaxWidth500px(),
           labels: {
             font: {
               size: 15,
@@ -131,15 +132,17 @@ function getChartConfiguration() {
           min: Y_MIN_SCALE,
           max: Y_MAX_SCALE,
           ticks: {
+            display: !isMaxWidth500px(),
             stepSize: Y_STEP_SIZE,
           },
           title: {
-            display: true,
+            display: !isMaxWidth500px(),
             text: `Glycemia ( ${UNITY} )`,
           },
         },
         x: {
           ticks: {
+            display: !isMaxWidth500px(),
             callback: function(value) {
               let label = '';
               let previousLabel = '';
@@ -159,6 +162,14 @@ function getChartConfiguration() {
       },
     },
   };
+}
+
+/**
+ * Screen width is 500px or less.
+ * @return {boolean} true if the screen width is up to 500px.
+ */
+function isMaxWidth500px() {
+  return (window.matchMedia('(max-width: 500px)').matches);
 }
 
 /**
