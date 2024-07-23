@@ -228,7 +228,7 @@ function prepareJsonUser() {
   return JSON.stringify({
     name: fieldName.value,
     email: fieldEmail.value,
-    // birthdate: fieldBirthdate.value,
+    birthdate: fieldBirthdate.value,
     phone: fieldPhone.value,
     id_gender: fieldGender.value,
     weight: fieldWeight.value,
