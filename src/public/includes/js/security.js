@@ -20,7 +20,7 @@ function checkUserPassword(pass, callback) {
   xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xhr.send(json);
   xhr.onload = () => {
-    const passwordValidationResult = JSON.parse(xhr.response).result;
+    const passwordValidationResult = JSON.parse(xhr.response).is_valid;
     callback(passwordValidationResult);
   };
 }

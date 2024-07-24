@@ -1,1 +1,1 @@
-fetch('http://localhost:8001/api/ping');
+fetch(`${API_BASE_REQUEST}/ping`);
