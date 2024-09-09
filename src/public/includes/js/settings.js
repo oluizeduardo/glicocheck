@@ -21,7 +21,7 @@ const btnSaveSettings = document.getElementById('btnSaveSettings');
 const MG_DL = 'mg/dL';
 const MMOL_L = 'mmol/L';
 
-const SUCCESS = 201;
+const SUCCESS = 200;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
@@ -159,7 +159,7 @@ function showErrorConfigurationNotFound() {
  * @param {Object} item The object containing the configuration data.
  */
 function fillConfigurationFields(item) {
-  fieldMeasurementUnity.value = item.glucose_unity_id;
+  fieldMeasurementUnity.value = item.id_measurement_unity;
   const measurementUnity = getMeasurementUnity();
 
   // Adjust min and max.
@@ -195,8 +195,8 @@ btnSaveSettings.addEventListener('click', (event) => {
   if (isValidDataEntry()) {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCCESS) {
+      if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+        if (xmlhttp.status === SUCCESS) {
           updateSessionStorage();
           swal('Saved!', '', 'success');
         } else {
@@ -229,8 +229,9 @@ function isValidDataEntry() {
  */
 function sendRequestToUpdateSystemConfiguration(xmlhttp) {
   const token = getJwtToken();
+  const userId = getUserId();
   const jsonUpdate = prepareJsonUpdate();
-  xmlhttp.open('PUT', API_BASE_REQUEST+`/systemconfiguration/`);
+  xmlhttp.open('PUT', API_BASE_REQUEST+`/systemconfiguration/user/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonUpdate);
@@ -241,12 +242,11 @@ function sendRequestToUpdateSystemConfiguration(xmlhttp) {
  */
 function prepareJsonUpdate() {
   return JSON.stringify({
-    cod_user: getUserId(),
-    id_glucose_unity: fieldMeasurementUnity.value,
+    id_measurement_unity: fieldMeasurementUnity.value,
     limit_hypo: hypoRange.value,
     limit_hyper: hyperRange.value,
     time_breakfast_pre: fieldBreakfastPre.value,
-    time_breakfast_pos: fieldBreakfastPos.value,
+    time_Breakfast_pos: fieldBreakfastPos.value,
     time_lunch_pre: fieldLunchPre.value,
     time_lunch_pos: fieldLunchPos.value,
     time_dinner_pre: fieldDinnerPre.value,
@@ -260,7 +260,7 @@ function prepareJsonUpdate() {
  */
 function updateSessionStorage() {
   const updatedConfig = JSON.stringify({
-    id_glucose_unity: fieldMeasurementUnity.value,
+    id_measurement_unity: fieldMeasurementUnity.value,
     limit_hypo: hypoRange.value,
     limit_hyper: hyperRange.value,
     time_bf_pre: fieldBreakfastPre.value,
