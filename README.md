@@ -5,7 +5,7 @@
 # Glicocheck
 Web platform for diabetes management.
 
-# Technologies applied
+## 🛠 Technologies applied
 - Backend
     - [Glicocheck-API](https://github.com/oluizeduardo/glicocheck-api)
 - Frontend
@@ -20,23 +20,22 @@ Web platform for diabetes management.
     - [GitHub Actions](https://docs.github.com/en/actions)
 - Deploy
     - [Render](https://render.com/)
-  
 
-# Environment Variables
-A `.env` file is required on the root folder and must contain the following key and values:
-
-| Key           | Value         |
-| ------------- |:-------------|
-| `BASE_URL`    | The basic context of the application. Should contain the protocol + host + port.<br>Ex: `http://localhost:3000` |
-| `PORT`        | The port where the application is running.<br>Ex: `3000`      |
-
-# How to run locally
+## 🚀 How to run locally
 - Clone this project.
     - `git clone https://github.com/oluizeduardo/glicocheck.git`
+- Access the root folder.
+    - `cd glicocheck`
+- Configure the environment variables.
+    - `cp .env-example .env`
 - Install all the dependencies.
     - `npm install`
 - Run the server.
     - `npm run dev`
 
-# Code analysis
+## 🔗 Code analysis
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=oluizeduardo_glicocheck)
+
+## 💻 Related projects
+- [Glicocheck API](https://github.com/oluizeduardo/glicocheck-api)
+- [Glicocheck Admin](https://github.com/oluizeduardo/glicocheck-admin)
