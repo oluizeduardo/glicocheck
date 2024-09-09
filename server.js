@@ -1,15 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const helmet = require('helmet');
 const packageJson = require('./package.json');
 
 const app = express();
-
-// Applies security headers.
-app.use(helmet({
-  contentSecurityPolicy: false,
-}));
 
 // Disable X-Powered-By header.
 app.disable('x-powered-by');
