@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
+const packageJson = require('./package.json');
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(helmet({
   contentSecurityPolicy: false,
 }));
 
-// Disclosing the fingerprinting of this web technology.
+// Disable X-Powered-By header.
 app.disable('x-powered-by');
 
 // Custom logging middleware
@@ -23,15 +24,16 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json({limit: '2mb'}));
-
 app.use(express.urlencoded({extended: true}));
 app.use('/', express.static(path.join(__dirname, '/src/public')));
 
 const port = process.env.PORT || 3000;
 
+const appVersion = packageJson.version;
+
 // Inicialize the server.
 app.listen(port, function() {
-  console.log(`Server running on ${port}.`);
+  console.log(`Glicocheck v${appVersion} running on ${port}.`);
 });
 
 module.exports = app;
