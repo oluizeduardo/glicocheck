@@ -21,7 +21,7 @@ const btnSaveSettings = document.getElementById('btnSaveSettings');
 const MG_DL = 'mg/dL';
 const MMOL_L = 'mmol/L';
 
-const SUCCESS = 200;
+const OK = 200;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
@@ -196,7 +196,7 @@ btnSaveSettings.addEventListener('click', (event) => {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status === SUCCESS) {
+        if (xmlhttp.status === OK) {
           updateSessionStorage();
           swal('Saved!', '', 'success');
         } else {
