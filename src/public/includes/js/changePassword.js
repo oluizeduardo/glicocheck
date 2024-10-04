@@ -23,6 +23,10 @@ btnChangePassword.addEventListener('click', (event) => {
               case INTERNAL_SERVER_ERROR:
                 showInternalServerErrorMessage();
                 break;
+              default:
+                swal('Error', JSON.parse(xmlhttp.response).details, 'error');
+                clearPasswordFields();
+                break;
             }
           }
         };
@@ -96,7 +100,7 @@ function showSuccessMessage() {
 function showInternalServerErrorMessage() {
   const message = `Error trying to reset your password. Please try again.`;
   swal('Error', message, 'error');
-  cleanPasswordFields();
+  clearPasswordFields();
 }
 /**
  * Shows a message of invalid current password.
@@ -108,7 +112,7 @@ function showInvalidCurrentPasswordMessage() {
     icon: 'error',
     closeOnClickOutside: false,
   }).then(() => {
-    cleanPasswordFields();
+    clearPasswordFields();
   });
 }
 /**
@@ -127,9 +131,9 @@ function showWarningMessage() {
   }
 }
 /**
- * Clean the password fields.
+ * Clear the password fields.
  */
-function cleanPasswordFields() {
+function clearPasswordFields() {
   fieldOldPassword.value = '';
   fieldNewPassword.value = '';
   fieldConfirmPassword.value = '';
