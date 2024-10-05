@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -29,7 +30,7 @@ const appVersion = packageJson.version;
 
 // Inicialize the server.
 app.listen(port, function() {
-  console.log(`Glicocheck v${appVersion} running on ${port}.`);
+  console.log(`Glicocheck [v${appVersion}] running on port [${port}] with profile [${environment}].`);
 });
 
 module.exports = app;
