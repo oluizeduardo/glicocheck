@@ -8,8 +8,6 @@ Web platform for diabetes management.
 Check out the back-end project available in [Glicocheck-API](https://github.com/oluizeduardo/glicocheck-api) repository.
 
 ## 🛠 Technologies applied
-- Backend
-    - [Glicocheck-API](https://github.com/oluizeduardo/glicocheck-api)
 - Frontend
     - [Bootstrap](https://getbootstrap.com/)
     - [SweetAlert](https://sweetalert.js.org/)
