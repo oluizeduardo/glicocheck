@@ -8,14 +8,16 @@ const app = express();
 // Disable X-Powered-By header.
 app.disable('x-powered-by');
 
-// Custom logging middleware
-app.use((req, res, next) => {
-  // Excludes from log.
-  if (!req.originalUrl.startsWith('/includes')) {
-    console.log(`[${req.method}] ${req.originalUrl}`);
-  }
-  next();
-});
+const environment = process.env.ENVIRONMENT || 'dev';
+
+if (environment === 'dev') {
+  app.use((req, res, next) => {
+    if (!req.originalUrl.startsWith('/includes')) {
+      console.log(`[${req.method}] ${req.originalUrl}`);
+    }
+    next();
+  });
+}
 
 app.use(express.json({limit: '2mb'}));
 app.use(express.urlencoded({extended: true}));
