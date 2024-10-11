@@ -1,15 +1,20 @@
-# Description
+### Problem
+- _Describe the problem this PR solves_
 
-- Please include a summary of the changes and the related issue.
+### Solution
+- _Describe the solution this PR implements_
 
-Fixes # (issue)
+### How To Test
+- _Describe the steps required to test the changes_
 
-## Type of change
+### Fixes 
+- #(issue)
 
-Please delete options that are not relevant.
+### Type of change
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] This change requires a documentation update
+_Please delete options that are not relevant._
 
+- Bug fix (non-breaking change which fixes an issue)
+- New feature (non-breaking change which adds functionality)
+- Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- This change requires a documentation update
