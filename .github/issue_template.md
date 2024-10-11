@@ -1,18 +1,10 @@
-## I'm submitting a ...
+### Description
 
-- [ ] Bug report
-- [ ] Feature request
-- [ ] Documentation
-- [ ] Enhancement
+### Task Breakdown:
 
-### Expected behavior
-- Tell us what should happen.
+### Acceptance Criteria:
 
-### Actual behavior
-- Tell us what happens instead.
-
-### What is the motivation / use case for changing the behavior?
-- Describe the motivation for this issue.
+### Additional Notes:
 
 ### Priority
 - [ ] Low
