@@ -12,6 +12,8 @@ btnLogIn.addEventListener('click', (event) => {
   event.preventDefault();
 
   if (isValidDataEntry()) {
+    addDisabled(btnLogIn);
+
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
@@ -22,6 +24,7 @@ btnLogIn.addEventListener('click', (event) => {
         } else {
           swal('Error', `Error connecting to the server.`, 'error');
         }
+        removeDisabled(btnLogIn);
       }
     };
     sendRequestToLogin(xmlhttp);
@@ -29,6 +32,27 @@ btnLogIn.addEventListener('click', (event) => {
     showInvalidCredentialMessage();
   }
 });
+
+/**
+ * Adds disabled propoerty and prints "Loading..." with a spinner component.
+ * @param {HTMLButtonElement} btn The button where the property and
+ * the new message will be set.
+ */
+function addDisabled(btn) {
+  btn.disabled = true;
+  // eslint-disable-next-line max-len
+  btn.innerHTML = 'Loading... <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+}
+
+/**
+ * Remove disabled propoerty and set a new message.
+ * @param {HTMLButtonElement} btn The button where
+ * the adjustments will be applied.
+ */
+function removeDisabled(btn) {
+  btn.disabled = false;
+  btn.innerHTML = 'Log in';
+}
 
 /**
  * Checks whether the fields email and password are filled.
