@@ -20,9 +20,37 @@ function getJwtToken() {
  * Utility function for the log out process.
  * It cleans the session storage and redirect to the index page.
  */
-function logOut() {
-  sessionStorage.clear();
-  location.href = './index.html';
+async function logOut() {
+  try {
+    const response = await sendRequestToLogout();
+    if (response.status === SUCCESS) {
+      console.log('Logout succesfully!');
+    }
+  } catch (error) {
+    console.error('Erro Logout.');
+  } finally {
+    sessionStorage.clear();
+    location.href = './index.html';
+  }
+}
+
+/**
+ * Function to send logout request.
+ * @return {Promise}
+ */
+async function sendRequestToLogout() {
+  const url = API_BASE_REQUEST+'/authentication/logout';
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      access_token: getJwtToken(),
+    }),
+  };
+
+  return fetch(url, options);
 }
 
 /**
