@@ -4,52 +4,73 @@ const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 
 const SUCCESS = 200;
-const FORBIDDEN = 401;
+const UNAUTHORIZED = 401;
+const FORBIDDEN = 403;
 const NOT_FOUND = 404;
-const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-btnLogIn.addEventListener('click', (event) => {
+btnLogIn.addEventListener('click', async (event) => {
   event.preventDefault();
 
-  if (isValidDataEntry()) {
-    addDisabled(btnLogIn);
-
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCCESS) {
-          executeProcessToLogIn(xmlhttp);
-        } else if (xmlhttp.status == FORBIDDEN) {
-          swal('Wrong credentials', `Please try again.`, 'error');
-        } else {
-          swal('Error', `Error connecting to the server.`, 'error');
-        }
-        removeDisabled(btnLogIn);
-      }
-    };
-    sendRequestToLogin(xmlhttp);
-  } else {
+  if (!isValidDataEntry()) {
     showInvalidCredentialMessage();
+    return;
+  }
+
+  makeButtonDisabled(btnLogIn);
+
+  try {
+    const response = await sendRequestToLogin();
+
+    if (response.status === SUCCESS) {
+      executeProcessToLogIn(await response.json());
+    } else if (response.status === UNAUTHORIZED ||
+      response.status === FORBIDDEN || response.status === NOT_FOUND) {
+      swal('Wrong credentials', 'Please try again.', 'error');
+    } else {
+      swal('Error', 'Error connecting to the server.', 'error');
+    }
+  } catch (error) {
+    console.error('Request failed:', error);
+    swal('Error', 'An unexpected error occurred.', 'error');
+  } finally {
+    removeDisabledFromButton(btnLogIn);
   }
 });
 
 /**
- * Adds disabled propoerty and prints "Loading..." with a spinner component.
+ * Function to send login request.
+ * @return {Promise}
+ */
+async function sendRequestToLogin() {
+  const url = API_BASE_REQUEST+'/authentication/login';
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(getLoginData()),
+  };
+
+  return fetch(url, options);
+}
+
+/**
+ * Makes a button disabled and sets "Loading..." with a spinner component.
  * @param {HTMLButtonElement} btn The button where the property and
  * the new message will be set.
  */
-function addDisabled(btn) {
+function makeButtonDisabled(btn) {
   btn.disabled = true;
   // eslint-disable-next-line max-len
   btn.innerHTML = 'Loading... <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
 }
 
 /**
- * Remove disabled propoerty and set a new message.
+ * Remove disabled propoerty from a button and set a new message.
  * @param {HTMLButtonElement} btn The button where
  * the adjustments will be applied.
  */
-function removeDisabled(btn) {
+function removeDisabledFromButton(btn) {
   btn.disabled = false;
   btn.innerHTML = 'Log in';
 }
@@ -64,35 +85,24 @@ function isValidDataEntry() {
 }
 
 /**
- * Sends a request to the login endpoint.
- * @param {XMLHttpRequest} xmlhttp The request object.
- */
-function sendRequestToLogin(xmlhttp) {
-  const jsonLogin = prepareJsonLogin();
-  xmlhttp.open('POST', API_BASE_REQUEST+'/authentication/login');
-  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xmlhttp.send(jsonLogin);
-}
-
-/**
- * Create a JSON object for the login process.
+ * Create the login data.
  * @return {JSON} JSON object.
  */
-function prepareJsonLogin() {
-  return JSON.stringify({
+function getLoginData() {
+  return {
     email: fieldEmail.value,
     password: fieldPassword.value,
-  });
+  };
 }
 
 /**
  * Execute the process needed to log in the system
  * and redirect the user to the home page.
- * @param {XMLHttpRequest} xmlhttp The request object.
+ * @param {JSON} loginResponse The login response object.
  */
-function executeProcessToLogIn(xmlhttp) {
-  const {access_token} = JSON.parse(xmlhttp.response);
-  const {cod_user} = JSON.parse(xmlhttp.response);
+function executeProcessToLogIn(loginResponse) {
+  const access_token = loginResponse.access_token;
+  const cod_user = loginResponse.cod_user;
   saveJwtToken(access_token);
   saveUserId(cod_user);
   fetchSystemConfigurationAndRedirect(cod_user, access_token);
