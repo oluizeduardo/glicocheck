@@ -55,6 +55,17 @@ async function sendRequestToLogin() {
 }
 
 /**
+ * Create the login data.
+ * @return {JSON} JSON object.
+ */
+function getLoginData() {
+  return {
+    email: fieldEmail.value,
+    password: fieldPassword.value,
+  };
+}
+
+/**
  * Makes a button disabled and sets "Loading..." with a spinner component.
  * @param {HTMLButtonElement} btn The button where the property and
  * the new message will be set.
@@ -82,17 +93,6 @@ function removeDisabledFromButton(btn) {
  */
 function isValidDataEntry() {
   return (fieldEmail.value && fieldPassword.value);
-}
-
-/**
- * Create the login data.
- * @return {JSON} JSON object.
- */
-function getLoginData() {
-  return {
-    email: fieldEmail.value,
-    password: fieldPassword.value,
-  };
 }
 
 /**
