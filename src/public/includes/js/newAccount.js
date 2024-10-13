@@ -12,6 +12,8 @@ btnRegister.addEventListener('click', (event) => {
   event.preventDefault();
 
   if (isValidDataEntry()) {
+    makeButtonDisabled(btnRegister);
+
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
       if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
@@ -22,12 +24,14 @@ btnRegister.addEventListener('click', (event) => {
             break;
 
           case BAD_REQUEST:
+            removeDisabledFromButton(btnRegister);
             message = `This email is already used. Please, try another one.`;
             swal('Refused email', message, 'error');
             break;
 
           default:
-            message = `Error trying to create new account. 
+            removeDisabledFromButton(btnRegister);
+            message = `Error trying to create new account.
             Please try again.`;
             swal('Error', message, 'error');
             break;
@@ -39,6 +43,27 @@ btnRegister.addEventListener('click', (event) => {
     showAlertMessage();
   }
 });
+
+/**
+ * Makes a button disabled and sets "Creating..." with a spinner component.
+ * @param {HTMLButtonElement} btn The button where the property and
+ * the new message will be set.
+ */
+function makeButtonDisabled(btn) {
+  btn.disabled = true;
+  // eslint-disable-next-line max-len
+  btn.innerHTML = 'Creating... <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+}
+
+/**
+ * Remove disabled propoerty from a button and set a new message.
+ * @param {HTMLButtonElement} btn The button where
+ * the adjustments will be applied.
+ */
+function removeDisabledFromButton(btn) {
+  btn.disabled = false;
+  btn.innerHTML = 'Create account';
+}
 
 /**
  * Checks whether the fields are properly filled to register a new user.

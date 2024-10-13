@@ -220,15 +220,6 @@ function showErrorLoadingSystemConfiguration() {
 }
 
 /**
- * Utility function for the log out process.
- * It cleans the session storage and redirect to the index page.
- */
-function logOut() {
-  sessionStorage.clear();
-  location.href = './index.html';
-}
-
-/**
  * This function is a utility function that simplifies the process
  * of sending HTTP requests to an API using the Fetch API.
  * @param {*} userId
