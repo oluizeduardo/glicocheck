@@ -68,4 +68,20 @@ function handleSessionExpired() {
   });
 }
 
+/**
+ * Gets the user id saved in the session storage.
+ * @return {string} The user id.
+ */
+function getUserId() {
+  return sessionStorage.getItem('userId');
+}
+
+/**
+ * Gets the JWT token from the session storage.
+ * @return {string} The JWT token.
+ */
+function getJwtToken() {
+  return sessionStorage.getItem('jwt');
+}
+
 checkAuthToken();

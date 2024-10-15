@@ -70,13 +70,6 @@ function prepareJsonUpdateUserPassword() {
   return JSON.stringify({userId, password});
 }
 /**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
-}
-/**
  * Checks whether the passwords informed match.
  * @return {boolean} true if the passwords match, false otherwise.
  */
