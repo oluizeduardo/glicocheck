@@ -33,7 +33,7 @@ function getGlucoseReadingsByUserId() {
   const dateRange = getDateRangeFromSession();
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-    if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
           deleteFirstTableRow();
@@ -43,6 +43,7 @@ function getGlucoseReadingsByUserId() {
           break;
 
         case HTTP_NOT_FOUND:
+          document.getElementById('table_first_line_message').innerText = 'No records found';
           if (dateRange) {
             swal('Nothing found',
                 'No registers found for the informed date.',
@@ -97,13 +98,6 @@ function sendGETToGlucose(xmlhttp, dateRange) {
   }
 }
 /**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
-}
-/**
  * Retrieves the date range from the session storage.
  * @return {Object|null} The date range object retrieved
  * from the session storage, or null if not found.
@@ -121,13 +115,6 @@ function getDateRangeFromSession() {
  */
 function deleteFirstTableRow() {
   document.getElementById('diary-table-body').deleteRow(0);
-}
-/**
- * Retrives the JWT token in the session storage.
- * @return {string} The JWt token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
 }
 /**
  * Distributes on the table the values received from the API response.

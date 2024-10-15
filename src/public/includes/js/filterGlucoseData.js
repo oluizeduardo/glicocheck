@@ -36,13 +36,6 @@ function saveDateRangeInSession(dateRangeObj) {
 }
 
 /**
- * Removes date range from session storage.
- */
-function removeDateRangeFromSession() {
-  sessionStorage.removeItem(DATE_RANGE_SESSION_STORAGE);
-}
-
-/**
  * Clears the values of the given array of fields.
  * @param {Array} fields - An array of field elements.
  */

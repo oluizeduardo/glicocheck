@@ -84,4 +84,11 @@ function getJwtToken() {
   return sessionStorage.getItem('jwt');
 }
 
+/**
+ * Removes date range from session storage.
+ */
+function removeDateRangeFromSession() {
+  sessionStorage.removeItem('dairyDateRange');
+}
+
 checkAuthToken();
