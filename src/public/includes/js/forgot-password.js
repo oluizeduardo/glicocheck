@@ -8,30 +8,60 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnResetPassword.addEventListener('click', (event) => {
   event.preventDefault();
-  if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        switch (xmlhttp.status) {
-          case HTTP_SUCEESS:
-            showSuccessMessage();
-            break;
+  makeButtonDisabled(btnResetPassword);
 
-          case HTTP_NOT_FOUND:
-            showEmailNotFoundMessage();
-            break;
-
-          case INTERNAL_SERVER_ERROR:
-            showErrorMessage();
-            break;
-        }
-      }
-    };
-    sendRequestToResetPassword(xmlhttp);
-  } else {
+  if (!isValidDataEntry()) {
+    removeDisabledFromButton(btnResetPassword);
     showInvalidEmailMessage();
+    return;
   }
+
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+      switch (xmlhttp.status) {
+        case HTTP_SUCEESS:
+          showSuccessMessage();
+          break;
+
+        case HTTP_NOT_FOUND:
+          showEmailNotFoundMessage();
+          break;
+
+        case INTERNAL_SERVER_ERROR:
+          showErrorMessage();
+          break;
+
+        default:
+          showErrorMessage();
+          break;
+      }
+    }
+    removeDisabledFromButton(btnResetPassword);
+  };
+  sendRequestToResetPassword(xmlhttp);
 });
+
+/**
+ * Makes a button disabled and sets "Loading..." with a spinner component.
+ * @param {HTMLButtonElement} btn The button where the property and
+ * the new message will be set.
+ */
+function makeButtonDisabled(btn) {
+  btn.disabled = true;
+  // eslint-disable-next-line max-len
+  btn.innerHTML = 'Loading... <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+}
+
+/**
+ * Remove disabled propoerty from a button and set a new message.
+ * @param {HTMLButtonElement} btn The button where
+ * the adjustments will be applied.
+ */
+function removeDisabledFromButton(btn) {
+  btn.disabled = false;
+  btn.innerHTML = 'Reset password';
+}
 
 /**
  * This function prepares a JSON object and send the request
