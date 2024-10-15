@@ -9,35 +9,37 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnChangePassword.addEventListener('click', (event) => {
   event.preventDefault();
-  if (isValidDataEntry()) {
-    const password = fieldOldPassword.value;
-    checkUserPassword(password, (isCorrectPassword) => {
-      if (isCorrectPassword) {
-        const xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = () => {
-          if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
-            switch (xmlhttp.status) {
-              case HTTP_OK:
-                showSuccessMessage();
-                break;
-              case INTERNAL_SERVER_ERROR:
-                showInternalServerErrorMessage();
-                break;
-              default:
-                swal('Error', JSON.parse(xmlhttp.response).details, 'error');
-                clearPasswordFields();
-                break;
-            }
-          }
-        };
-        sendRequestToUpdatePassword(xmlhttp);
-      } else {
-        showInvalidCurrentPasswordMessage();
-      }
-    });
-  } else {
+
+  if (!isValidDataEntry()) {
     showWarningMessage();
+    return;
   }
+
+  const password = fieldOldPassword.value;
+  checkUserPassword(password, (isCorrectPassword) => {
+    if (!isCorrectPassword) {
+      showInvalidCurrentPasswordMessage();
+      return;
+    }
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = () => {
+      if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+        switch (xmlhttp.status) {
+          case HTTP_OK:
+            showSuccessMessage();
+            break;
+          case INTERNAL_SERVER_ERROR:
+            showInternalServerErrorMessage();
+            break;
+          default:
+            swal('Error', JSON.parse(xmlhttp.response).details, 'error');
+            clearPasswordFields();
+            break;
+        }
+      }
+    };
+    sendRequestToUpdatePassword(xmlhttp);
+  });
 });
 /**
  * Checks whether the field is properly filled with a valid email address.
@@ -87,10 +89,10 @@ function isPasswordMatch() {
 function showSuccessMessage() {
   swal({
     title: 'Success',
-    text: 'Your password has been updated. Please, log-in again.',
+    text: 'Your password has been updated.\nPlease, log-in again.',
     icon: 'success',
   }).then(() => {
-    location.href = './index.html';
+    logOut();
   });
 }
 /**
