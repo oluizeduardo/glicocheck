@@ -14,10 +14,13 @@ const fieldDiabetesType = document.getElementById('field_DiabetesType');
 const fieldBloodType = document.getElementById('field_BloodType');
 const fieldDiagnosisDate = document.getElementById('field_DateOfDiagnosis');
 const btnSaveHealthInfo = document.getElementById('btnSaveHealthInfo');
+
 // HTTP REQUEST
 const HTTP_OK = 200;
+const HTTP_CREATED = 201;
 const HTTP_UNAUTHORIZED = 401;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
+
 // DEFAULT PICTURE
 const DEFAULT_PROFILE_PICTURE = '../includes/imgs/default-profile-picture.jpg';
 let profilePictureBase64 = '';
@@ -28,21 +31,22 @@ let profilePictureBase64 = '';
 btnSaveUserDetails.addEventListener('click', (event) => {
   event.preventDefault();
 
-  if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == HTTP_OK) {
-          swal('Saved!', '', 'success');
-        } else {
-          swal('Error', 'Error updating user details.', 'error');
-        }
-      }
-    };
-    sendRequestToUserDetails(xmlhttp);
-  } else {
+  if (!isValidDataEntry()) {
     showAlertMessage();
+    return;
   }
+
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+      if (xmlhttp.status === HTTP_OK) {
+        swal('Saved!', '', 'success');
+      } else {
+        showErrorMessage('Error updating user details.');
+      }
+    }
+  };
+  sendRequestToUserDetails(xmlhttp);
 });
 
 // ////////////////
@@ -51,21 +55,22 @@ btnSaveUserDetails.addEventListener('click', (event) => {
 btnSaveHealthInfo.addEventListener('click', (event) => {
   event.preventDefault();
 
-  if (isValidHealthInfoDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == HTTP_OK) {
-          swal('Saved!', '', 'success');
-        } else {
-          swal('Error', 'Error updating health info.', 'error');
-        }
-      }
-    };
-    sendRequestToUpdateHealthInfo(xmlhttp);
-  } else {
+  if (!isValidHealthInfoDataEntry()) {
     showAlertMessage();
+    return;
   }
+
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+      if (xmlhttp.status === HTTP_OK || xmlhttp.status === HTTP_CREATED) {
+        swal('Saved!', '', 'success');
+      } else {
+        showErrorMessage('Error updating health info.');
+      }
+    }
+  };
+  sendRequestToUpdateHealthInfo(xmlhttp);
 });
 
 /**
@@ -87,7 +92,7 @@ function isValidHealthInfoDataEntry() {
 function loadUserInfo() {
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-    if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
           const userData = JSON.parse(xmlhttp.responseText);
@@ -99,7 +104,7 @@ function loadUserInfo() {
           break;
 
         default:
-          swal('Error', 'Please, try again', 'error');
+          showErrorMessage('Please, try again');
           break;
       }
     }
@@ -126,9 +131,7 @@ function sendRequest(xmlhttp) {
       text: 'Please, do the login again.',
       icon: 'error',
     }).then(() => {
-      // Log out.
-      sessionStorage.clear();
-      location.href = './index.html';
+      logOut();// sessionUtils.js
     });
   }
 }
@@ -162,22 +165,6 @@ function loadFieldsWithUserData(object) {
     fieldDiabetesType.value = object.id_diabetes_type ? object.id_diabetes_type : 0;
     fieldBloodType.value = object.id_blood_type ? object.id_blood_type : 0;
   }, 20);
-}
-
-/**
- * Gets the JWT token from the session storage.
- * @return {string} The JWT token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
-}
-
-/**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
 }
 
 /**
@@ -254,6 +241,14 @@ function prepareJsonHealthInfo() {
  */
 function showAlertMessage() {
   swal('', 'All the fields need to be filled.', 'warning');
+}
+
+/**
+ * Show error message.
+ * @param {string} message
+ */
+function showErrorMessage(message) {
+  swal('Error', message, 'error');
 }
 
 /**
