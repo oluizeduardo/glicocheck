@@ -255,9 +255,9 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
 function sendGETToGlucose(xmlhttp, startDate, endDate) {
   const token = getJwtToken();
   const userId = getUserId();
-  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
+  if (!token || !userId) logOut();
 
-  if (!token) logOut();
+  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
 
   if (startDate && endDate) {
     url = url.concat(`?start=${startDate}&end=${endDate}`);

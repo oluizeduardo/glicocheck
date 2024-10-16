@@ -63,6 +63,9 @@ function sendPOSTToGlucose(xmlhttp) {
   const jsonNewEntry = prepareJsonNewEntry();
   const token = getJwtToken();
   const userId = getUserId();
+
+  if (!token || !userId) logOut();
+
   xmlhttp.open('POST', API_BASE_REQUEST+`/diary/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -73,7 +76,7 @@ function sendPOSTToGlucose(xmlhttp) {
  * @return {number} The measurement unity id.
  */
 function getMeasurementUnity() {
-  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  const objectString = getSystemConfig();
   if (!objectString) {
     return 1;
   } else {

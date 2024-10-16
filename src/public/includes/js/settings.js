@@ -115,20 +115,6 @@ function updatePosprandial(preElement, posElement) {
 }
 
 /**
- * Gets the JWT token from the session storage.
- * @return {string} The JWT token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
-}
-/**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
-}
-/**
  * Loads the user's system configuration.
  */
 function loadSystemConfiguration() {
@@ -230,6 +216,9 @@ function isValidDataEntry() {
 function sendRequestToUpdateSystemConfiguration(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
+
+  if (!token || !userId) logOut();
+
   const jsonUpdate = prepareJsonUpdate();
   xmlhttp.open('PUT', API_BASE_REQUEST+`/systemconfiguration/user/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);

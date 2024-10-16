@@ -185,6 +185,8 @@ function sendRequestToUserDetails(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
+  if (!token || !userId) logOut();
+
   const jsonUpdateUser = prepareJsonUser();
   xmlhttp.open('PUT', API_BASE_REQUEST+`/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
@@ -199,6 +201,8 @@ function sendRequestToUserDetails(xmlhttp) {
 function sendRequestToUpdateHealthInfo(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
+
+  if (!token || !userId) logOut();
 
   const jsonUpdateUser = prepareJsonHealthInfo();
   xmlhttp.open('PUT', API_BASE_REQUEST+`/healthinfo/user/${userId}`);

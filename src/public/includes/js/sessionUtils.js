@@ -9,19 +9,14 @@ const SESSIONSTORAGE_DAIRY_DATE_RANGE = 'dairyDateRange';
  * Checks if there is a JWT token.
  */
 function checkAuthToken() {
-  const jwtToken = getJwtToken();
-  if (!jwtToken) {
-    logOut();
+  if (window.location.pathname !== '/index.html') {
+    const jwtToken = getJwtToken();
+    if (!jwtToken) {
+      logOut();
+    }
   }
 }
 
-/**
- * Gets the JWT token from Local Storage.
- * @return {string} The JWT token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem(SESSIONSTORAGE_JWT);
-}
 /**
  * Utility function for the log out process.
  * It cleans the session storage and redirect to the index page.
@@ -83,19 +78,59 @@ function getUserId() {
 }
 
 /**
+ * Save the user id in the session storage.
+ * @param {string} userId The user id.
+ */
+function saveUserId(userId) {
+  sessionStorage.setItem(SESSIONSTORAGE_USER_ID, userId);
+}
+
+/**
  * Gets the JWT token from the session storage.
- * @return {string} The JWT token.
+ * @return {string}
  */
 function getJwtToken() {
   return sessionStorage.getItem(SESSIONSTORAGE_JWT);
 }
 
 /**
+ * Save JWT token in the session storage.
+ * @param {string} token
+ */
+function saveJwtToken(token) {
+  sessionStorage.setItem(SESSIONSTORAGE_JWT, token);
+}
+
+/**
  * Gets system config from the session storage.
- * @return {string} The system config object.
+ * @return {string}
  */
 function getSystemConfig() {
-  return sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  return sessionStorage.getItem(SESSIONSTORAGE_SYSTEM_CONFIG);
+}
+
+/**
+ * Save system configuration in the session storage.
+ * @param {string} systemConfig
+ */
+function saveSystemConfig(systemConfig) {
+  sessionStorage.setItem(SESSIONSTORAGE_SYSTEM_CONFIG, systemConfig);
+}
+
+/**
+ * Gets date range from the session storage.
+ * @return {string}
+ */
+function getDateRangeSessionStorage() {
+  return sessionStorage.getItem(SESSIONSTORAGE_DAIRY_DATE_RANGE);
+}
+
+/**
+ * Sets date range in the session storage.
+ * @param {string} objectString
+ */
+function setDateRangeSessionStorage(objectString) {
+  sessionStorage.setItem(SESSIONSTORAGE_DAIRY_DATE_RANGE, objectString);
 }
 
 /**

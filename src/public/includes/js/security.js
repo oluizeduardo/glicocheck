@@ -10,6 +10,8 @@ function checkUserPassword(pass, callback) {
   const cod_user = getUserId();
   const password = pass;
 
+  if (!cod_user || !password) logOut();
+
   const json = JSON.stringify({
     cod_user,
     password,

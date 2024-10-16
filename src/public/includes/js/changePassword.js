@@ -56,6 +56,8 @@ function isValidDataEntry() {
  */
 function sendRequestToUpdatePassword(xmlhttp) {
   const jsonUpdatePassword = prepareJsonUpdateUserPassword();
+  if (jsonUpdatePassword == null) logOut();
+
   xmlhttp.open('PUT', API_BASE_REQUEST+'/reset-password');
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonUpdatePassword);
@@ -67,6 +69,7 @@ function sendRequestToUpdatePassword(xmlhttp) {
 function prepareJsonUpdateUserPassword() {
   const userId = getUserId();
   const password = fieldNewPassword.value;
+  if (!userId || !password) return null;
   return JSON.stringify({userId, password});
 }
 /**

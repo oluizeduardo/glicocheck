@@ -71,6 +71,8 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
+  if (!token || !userId) logOut();
+
   xmlhttp.open('DELETE', API_BASE_REQUEST+`/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');

@@ -11,8 +11,6 @@ const listOfGlucoseValues = [];
 let lowestGlucoseValue = 999;
 let highestGlucoseValue = 0;
 
-const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
-
 let defaultTimeBFpre = 6;
 let defaultTimeBFpos = 8;
 let defaultTimeLunchpre = 12;
@@ -73,19 +71,12 @@ function getGlucoseReadingsByUserId() {
 function sendGETToGlucose(xmlhttp, dateRange) {
   const token = getJwtToken();
   const userId = getUserId();
+
+  if (!token || !userId) logOut();
+
   let url = API_BASE_REQUEST+`/diary/users/${userId}`;
 
-  if (dateRange) {
-    url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
-    removeDateRangeFromSession();
-  }
-
-  if (token) {
-    xmlhttp.open('GET', url);
-    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
-    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xmlhttp.send();
-  } else {
+  if (!token) {
     const message = `Error consulting blood glucose diary data. 
     Please do the login again.`;
     swal({
@@ -96,6 +87,15 @@ function sendGETToGlucose(xmlhttp, dateRange) {
       logOut();
     });
   }
+
+  if (dateRange) {
+    url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
+    removeDateRangeFromSession();
+  }
+  xmlhttp.open('GET', url);
+  xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xmlhttp.send();
 }
 /**
  * Retrieves the date range from the session storage.
@@ -103,7 +103,7 @@ function sendGETToGlucose(xmlhttp, dateRange) {
  * from the session storage, or null if not found.
  */
 function getDateRangeFromSession() {
-  const obj = sessionStorage.getItem(DATE_RANGE_SESSION_STORAGE);
+  const obj = getDateRangeSessionStorage();
   if (obj) {
     return JSON.parse(obj);
   }
@@ -531,14 +531,15 @@ function fillStatisticsTable() {
  * Loads values from system configuration.
  */
 function loadFromSystemConfiguration() {
-  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
-  if (objectString) {
-    const systemConfig = JSON.parse(objectString);
-    setGlyceliaRange(systemConfig.limit_hypo, systemConfig.limit_hyper);
-    setDefaultTimeInInt(systemConfig);
-    setTimeValuesOnTheTable(systemConfig);
-    setMeasurementUnityLabel(systemConfig);
-  }
+  const objectString = getSystemConfig();
+
+  if (!objectString) logOut();
+
+  const systemConfig = JSON.parse(objectString);
+  setGlyceliaRange(systemConfig.limit_hypo, systemConfig.limit_hyper);
+  setDefaultTimeInInt(systemConfig);
+  setTimeValuesOnTheTable(systemConfig);
+  setMeasurementUnityLabel(systemConfig);
 }
 /**
  * Set the glycemia range: hypo and hyperglycemia limits.

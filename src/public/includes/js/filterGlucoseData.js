@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 const fieldStartDate = document.getElementById('field_start_date');
 const fieldEndDate = document.getElementById('field_end_date');
-const DATE_RANGE_SESSION_STORAGE = 'dairyDateRange';
 const NAME_ELEMENT_CHART = 'chart';
 const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
 
@@ -28,11 +27,9 @@ function getDateRangeByNumberOfWeeks(numOfWeeks) {
 /**
  * Saves the given date range object in the sessionStorage.
  * @param {Object} dateRangeObj - The date range object to be saved.
- * @return {void}
  */
 function saveDateRangeInSession(dateRangeObj) {
-  const objectString = JSON.stringify(dateRangeObj);
-  sessionStorage.setItem(DATE_RANGE_SESSION_STORAGE, objectString);
+  setDateRangeSessionStorage(JSON.stringify(dateRangeObj));
 }
 
 /**

@@ -109,21 +109,6 @@ function executeProcessToLogIn(loginResponse) {
 }
 
 /**
- * Save the JWT token in the session storage.
- * @param {string} token The JWT token.
- */
-function saveJwtToken(token) {
-  sessionStorage.setItem('jwt', token);
-}
-/**
- * Save the user id in the session storage.
- * @param {string} userId The user id.
- */
-function saveUserId(userId) {
-  sessionStorage.setItem('userId', userId);
-}
-
-/**
  * Redirects the user to the dashboard page.
  */
 function redirectToDashboard() {
@@ -203,7 +188,7 @@ function saveSystemConfiguration(data) {
   if (typeof data === 'object') {
     data = JSON.stringify(data);
   }
-  sessionStorage.setItem('sysConfig', data);
+  saveSystemConfig(data);
 }
 
 /**
