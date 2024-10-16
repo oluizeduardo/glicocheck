@@ -38,8 +38,6 @@ const HTTP_UNAUTHORIZED = 401;
 const HTTP_NOT_FOUND = 404;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
-
 /**
  * It loads the chart in the dashboard screen.
  */
@@ -259,26 +257,16 @@ function sendGETToGlucose(xmlhttp, startDate, endDate) {
   const userId = getUserId();
   let url = API_BASE_REQUEST+`/diary/users/${userId}`;
 
+  if (!token) logOut();
+
   if (startDate && endDate) {
     url = url.concat(`?start=${startDate}&end=${endDate}`);
   }
 
-  if (token) {
-    xmlhttp.open('GET', url);
-    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
-    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xmlhttp.send();
-  } else {
-    throw Error('Authentication token not found.');
-  }
-}
-
-/**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
+  xmlhttp.open('GET', url);
+  xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xmlhttp.send();
 }
 
 /**
@@ -288,14 +276,6 @@ function destroyChart() {
   if (glucoseReadingsChart != null) {
     glucoseReadingsChart.destroy();
   }
-}
-
-/**
- * Retrives the JWT token in the session storage.
- * @return {string} The JWt token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
 }
 
 /**
@@ -325,7 +305,7 @@ function makeChartPanelVisible() {
  * Fill the variables with the system configuration values.
  */
 function fillVariablesFromSystemConfiguration() {
-  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  const objectString = getSystemConfig();
   if (objectString) {
     const retrievedConfig = JSON.parse(objectString);
     const unity = retrievedConfig.id_measurement_unity;

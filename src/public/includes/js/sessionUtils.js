@@ -1,4 +1,10 @@
 /* eslint-disable no-unused-vars */
+
+const SESSIONSTORAGE_SYSTEM_CONFIG = 'sysConfig';
+const SESSIONSTORAGE_JWT = 'jwt';
+const SESSIONSTORAGE_USER_ID = 'userId';
+const SESSIONSTORAGE_DAIRY_DATE_RANGE = 'dairyDateRange';
+
 /**
  * Checks if there is a JWT token.
  */
@@ -14,7 +20,7 @@ function checkAuthToken() {
  * @return {string} The JWT token.
  */
 function getJwtToken() {
-  return sessionStorage.getItem('jwt');
+  return sessionStorage.getItem(SESSIONSTORAGE_JWT);
 }
 /**
  * Utility function for the log out process.
@@ -73,7 +79,7 @@ function handleSessionExpired() {
  * @return {string} The user id.
  */
 function getUserId() {
-  return sessionStorage.getItem('userId');
+  return sessionStorage.getItem(SESSIONSTORAGE_USER_ID);
 }
 
 /**
@@ -81,14 +87,22 @@ function getUserId() {
  * @return {string} The JWT token.
  */
 function getJwtToken() {
-  return sessionStorage.getItem('jwt');
+  return sessionStorage.getItem(SESSIONSTORAGE_JWT);
+}
+
+/**
+ * Gets system config from the session storage.
+ * @return {string} The system config object.
+ */
+function getSystemConfig() {
+  return sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
 }
 
 /**
  * Removes date range from session storage.
  */
 function removeDateRangeFromSession() {
-  sessionStorage.removeItem('dairyDateRange');
+  sessionStorage.removeItem(SESSIONSTORAGE_DAIRY_DATE_RANGE);
 }
 
 checkAuthToken();
