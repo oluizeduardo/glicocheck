@@ -6,6 +6,9 @@ const STATUS_DONE = 4;
 
 btnConfirmDelete.addEventListener('click', (event) => {
   event.preventDefault();
+
+  makeButtonDisabled(btnConfirmDelete);
+
   const password = fieldPassword.value;
   if (!password) {
     swal('Password needed',
@@ -45,6 +48,7 @@ function deleteUserAccount() {
             icon: 'success',
             closeOnClickOutside: false,
           }).then(() => {
+            removeDisabledFromButton(btnConfirmDelete);
             logOut();
           });
           break;
@@ -71,4 +75,25 @@ function sendRequestToDeleteUserAccount(xmlhttp) {
   xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send();
+}
+
+/**
+ * Makes a button disabled and sets "Deleting..." with a spinner component.
+ * @param {HTMLButtonElement} btn The button where the property and
+ * the new message will be set.
+ */
+function makeButtonDisabled(btn) {
+  btn.disabled = true;
+  // eslint-disable-next-line max-len
+  btn.innerHTML = 'Deleting... <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+}
+
+/**
+ * Remove disabled propoerty from a button and set a new message.
+ * @param {HTMLButtonElement} btn The button where
+ * the adjustments will be applied.
+ */
+function removeDisabledFromButton(btn) {
+  btn.disabled = false;
+  btn.innerHTML = 'Delete account';
 }
