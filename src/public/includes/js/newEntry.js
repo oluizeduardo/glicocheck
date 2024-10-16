@@ -15,34 +15,35 @@ const NAME_PAGE_DAIRY = 'diary.html';
 btnSave.addEventListener('click', function(event) {
   event.preventDefault();
 
-  if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        switch (xmlhttp.status) {
-          case HTTP_CREATED:
-            if (location.href.endsWith(NAME_PAGE_DAIRY)) {
-              window.location.reload();
-            } else {
-              resetFields();
-              resetChart();
-            }
-            break;
-
-          case HTTP_UNAUTHORIZED:
-            handleSessionExpired();
-            break;
-
-          default:
-            swal('Error', 'Please, try again', 'error');
-            break;
-        }
-      }
-    };
-    sendPOSTToGlucose(xmlhttp);
-  } else {
+  if (!isValidDataEntry()) {
     showWarningMessage();
+    return;
   }
+
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+      switch (xmlhttp.status) {
+        case HTTP_CREATED:
+          if (location.href.endsWith(NAME_PAGE_DAIRY)) {
+            window.location.reload();
+          } else {
+            resetFields();
+            resetChart();
+          }
+          break;
+
+        case HTTP_UNAUTHORIZED:
+          handleSessionExpired();
+          break;
+
+        default:
+          swal('Error', 'Please, try again', 'error');
+          break;
+      }
+    }
+  };
+  sendPOSTToGlucose(xmlhttp);
 });
 
 /**
@@ -107,22 +108,6 @@ function getTotalCarbs() {
  */
 function showWarningMessage() {
   swal('', 'All the fields need to be filled.', 'warning');
-}
-
-/**
- * Gets the JWT token from the session storage.
- * @return {string} The JWT token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
-}
-
-/**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
 }
 
 /**

@@ -40,14 +40,6 @@ async function fetchData(url) {
 }
 
 /**
- * Gets the JWT token from Local Storage.
- * @return {string} The JWT token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
-}
-
-/**
  * Create a new HTML element to be a select option.
  * @param {Number} value The return value for this option.
  * @param {string} description The string that will be printed.

@@ -132,7 +132,7 @@ function getUserId() {
  * Loads the user's system configuration.
  */
 function loadSystemConfiguration() {
-  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  const objectString = getSystemConfig();
   if (!objectString) {
     showErrorConfigurationNotFound();
   } else {

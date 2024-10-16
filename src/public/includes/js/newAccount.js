@@ -11,37 +11,38 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 btnRegister.addEventListener('click', (event) => {
   event.preventDefault();
 
-  if (isValidDataEntry()) {
-    makeButtonDisabled(btnRegister);
-
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
-        let message ='';
-        switch (xmlhttp.status) {
-          case SUCEESS:
-            redirectToLoginPage();
-            break;
-
-          case BAD_REQUEST:
-            removeDisabledFromButton(btnRegister);
-            message = `This email is already used. Please, try another one.`;
-            swal('Refused email', message, 'error');
-            break;
-
-          default:
-            removeDisabledFromButton(btnRegister);
-            message = `Error trying to create new account.
-            Please try again.`;
-            swal('Error', message, 'error');
-            break;
-        }
-      }
-    };
-    sendRequestToRegisterNewUser(xmlhttp);
-  } else {
+  if (!isValidDataEntry()) {
     showAlertMessage();
+    return;
   }
+
+  makeButtonDisabled(btnRegister);
+
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+      let message ='';
+      switch (xmlhttp.status) {
+        case SUCEESS:
+          redirectToLoginPage();
+          break;
+
+        case BAD_REQUEST:
+          removeDisabledFromButton(btnRegister);
+          message = `This email is already used. Please, try another one.`;
+          swal('Refused email', message, 'error');
+          break;
+
+        default:
+          removeDisabledFromButton(btnRegister);
+          message = `Error trying to create new account.
+            Please try again.`;
+          swal('Error', message, 'error');
+          break;
+      }
+    }
+  };
+  sendRequestToRegisterNewUser(xmlhttp);
 });
 
 /**
@@ -120,7 +121,7 @@ function redirectToLoginPage() {
 }
 
 /**
- * Shows the alert message
+ * Shows an alert message.
  */
 function showAlertMessage() {
   let message;
