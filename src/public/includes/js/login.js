@@ -4,7 +4,6 @@ const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 
 const SUCCESS = 200;
-const UNAUTHORIZED = 401;
 const FORBIDDEN = 403;
 const NOT_FOUND = 404;
 
@@ -21,13 +20,23 @@ btnLogIn.addEventListener('click', async (event) => {
   try {
     const response = await sendRequestToLogin();
 
-    if (response.status === SUCCESS) {
-      executeProcessToLogIn(await response.json());
-    } else if (response.status === UNAUTHORIZED ||
-      response.status === FORBIDDEN || response.status === NOT_FOUND) {
-      swal('Wrong credentials', 'Please try again.', 'error');
-    } else {
-      swal('Error', 'Error connecting to the server.', 'error');
+    switch (response.status) {
+      case SUCCESS:
+        executeProcessToLogIn(await response.json());
+        break;
+
+      case 400:
+      case 401:
+        swal('Wrong credentials', 'Please try again.', 'error');
+        break;
+
+      case NOT_FOUND:
+        swal('Account not found', 'Please, check your credentials.', 'warning');
+        break;
+      default:
+        swal('Error', 'Error connecting to the server.', 'error');
+        clearPasswordFields();
+        break;
     }
   } catch (error) {
     console.error('Request failed:', error);
