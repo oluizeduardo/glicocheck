@@ -15,10 +15,11 @@ const fieldBloodType = document.getElementById('field_BloodType');
 const fieldDiagnosisDate = document.getElementById('field_DateOfDiagnosis');
 const btnSaveHealthInfo = document.getElementById('btnSaveHealthInfo');
 
-// HTTP REQUEST
+// HTTP STATUS CODE
 const HTTP_OK = 200;
 const HTTP_CREATED = 201;
 const HTTP_UNAUTHORIZED = 401;
+const HTTP_NOT_FOUND = 404;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 // DEFAULT PICTURE
@@ -234,9 +235,9 @@ function prepareJsonUser() {
  */
 function prepareJsonHealthInfo() {
   return JSON.stringify({
-    id_diabetes_type: fieldDiabetesType.selectedIndex,
+    id_diabetes_type: fieldDiabetesType.value,
     month_diagnosis: fieldDiagnosisDate.value,
-    id_blood_type: fieldBloodType.selectedIndex,
+    id_blood_type: fieldBloodType.value,
   });
 }
 
@@ -329,7 +330,7 @@ async function loadGenderList() {
   const {status} = response;
 
   switch (status) {
-    case 200:
+    case HTTP_OK:
       const data = await response.json();
       data.forEach((item) => {
         const html = createNewSelectOptionHTML(item.id, item.description);
@@ -337,11 +338,11 @@ async function loadGenderList() {
       });
       break;
 
-    case 401:
-      console.log('Session expired.');
+    case HTTP_UNAUTHORIZED:
+      handleSessionExpired();
       break;
 
-    case 404:
+    case HTTP_NOT_FOUND:
       console.log('No itens for gender list.');
       break;
   }
@@ -355,7 +356,7 @@ async function loadDiabetesTypeList() {
   const {status} = response;
 
   switch (status) {
-    case 200:
+    case HTTP_OK:
       const data = await response.json();
       data.forEach((item) => {
         const html = createNewSelectOptionHTML(item.id, item.description);
@@ -363,11 +364,11 @@ async function loadDiabetesTypeList() {
       });
       break;
 
-    case 401:
-      console.log('Session expired.');
+    case HTTP_UNAUTHORIZED:
+      handleSessionExpired();
       break;
 
-    case 404:
+    case HTTP_NOT_FOUND:
       console.log('No itens for diabetes type list.');
       break;
   }
@@ -381,7 +382,7 @@ async function loadBloodTypeList() {
   const {status} = response;
 
   switch (status) {
-    case 200:
+    case HTTP_OK:
       const data = await response.json();
       data.forEach((item) => {
         const html = createNewSelectOptionHTML(item.id, item.description);
@@ -389,11 +390,11 @@ async function loadBloodTypeList() {
       });
       break;
 
-    case 401:
-      console.log('Session expired.');
+    case HTTP_UNAUTHORIZED:
+      handleSessionExpired();
       break;
 
-    case 404:
+    case HTTP_NOT_FOUND:
       console.log('No itens for blood type list.');
       break;
   }
