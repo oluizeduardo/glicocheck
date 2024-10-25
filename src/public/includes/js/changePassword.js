@@ -9,31 +9,37 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 btnChangePassword.addEventListener('click', (event) => {
   event.preventDefault();
-  if (isValidDataEntry()) {
-    const password = fieldOldPassword.value;
-    checkUserPassword(password, (isCorrectPassword) => {
-      if (isCorrectPassword) {
-        const xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = () => {
-          if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
-            switch (xmlhttp.status) {
-              case HTTP_OK:
-                showSuccessMessage();
-                break;
-              case INTERNAL_SERVER_ERROR:
-                showInternalServerErrorMessage();
-                break;
-            }
-          }
-        };
-        sendRequestToUpdatePassword(xmlhttp);
-      } else {
-        showInvalidCurrentPasswordMessage();
-      }
-    });
-  } else {
+
+  if (!isValidDataEntry()) {
     showWarningMessage();
+    return;
   }
+
+  const password = fieldOldPassword.value;
+  checkUserPassword(password, (isCorrectPassword) => {
+    if (!isCorrectPassword) {
+      showInvalidCurrentPasswordMessage();
+      return;
+    }
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = () => {
+      if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+        switch (xmlhttp.status) {
+          case HTTP_OK:
+            showSuccessMessage();
+            break;
+          case INTERNAL_SERVER_ERROR:
+            showInternalServerErrorMessage();
+            break;
+          default:
+            swal('Error', JSON.parse(xmlhttp.response).details, 'error');
+            clearPasswordFields();
+            break;
+        }
+      }
+    };
+    sendRequestToUpdatePassword(xmlhttp);
+  });
 });
 /**
  * Checks whether the field is properly filled with a valid email address.
@@ -50,7 +56,9 @@ function isValidDataEntry() {
  */
 function sendRequestToUpdatePassword(xmlhttp) {
   const jsonUpdatePassword = prepareJsonUpdateUserPassword();
-  xmlhttp.open('PUT', '/api/reset/password');
+  if (jsonUpdatePassword == null) logOut();
+
+  xmlhttp.open('PUT', API_BASE_REQUEST+'/reset-password');
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonUpdatePassword);
 }
@@ -61,14 +69,8 @@ function sendRequestToUpdatePassword(xmlhttp) {
 function prepareJsonUpdateUserPassword() {
   const userId = getUserId();
   const password = fieldNewPassword.value;
+  if (!userId || !password) return null;
   return JSON.stringify({userId, password});
-}
-/**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
 }
 /**
  * Checks whether the passwords informed match.
@@ -83,10 +85,10 @@ function isPasswordMatch() {
 function showSuccessMessage() {
   swal({
     title: 'Success',
-    text: 'Your password has been updated. Please, log-in again.',
+    text: 'Your password has been updated.\nPlease, log-in again.',
     icon: 'success',
   }).then(() => {
-    location.href = './index.html';
+    logOut();
   });
 }
 /**
@@ -96,7 +98,7 @@ function showSuccessMessage() {
 function showInternalServerErrorMessage() {
   const message = `Error trying to reset your password. Please try again.`;
   swal('Error', message, 'error');
-  cleanPasswordFields();
+  clearPasswordFields();
 }
 /**
  * Shows a message of invalid current password.
@@ -108,7 +110,7 @@ function showInvalidCurrentPasswordMessage() {
     icon: 'error',
     closeOnClickOutside: false,
   }).then(() => {
-    cleanPasswordFields();
+    clearPasswordFields();
   });
 }
 /**
@@ -127,9 +129,9 @@ function showWarningMessage() {
   }
 }
 /**
- * Clean the password fields.
+ * Clear the password fields.
  */
-function cleanPasswordFields() {
+function clearPasswordFields() {
   fieldOldPassword.value = '';
   fieldNewPassword.value = '';
   fieldConfirmPassword.value = '';

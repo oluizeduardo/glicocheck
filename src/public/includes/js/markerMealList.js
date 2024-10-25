@@ -4,7 +4,7 @@ const selectMarkermeal = document.getElementById('field_Markermeal');
  * Loads the marker meal list.
  */
 async function loadMarkerMealList() {
-  const response = await fetchData('/api/markermeal/');
+  const response = await fetchData(API_BASE_REQUEST+'/markermeal/');
   const {status} = response;
 
   switch (status) {

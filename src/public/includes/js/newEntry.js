@@ -15,34 +15,35 @@ const NAME_PAGE_DAIRY = 'diary.html';
 btnSave.addEventListener('click', function(event) {
   event.preventDefault();
 
-  if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        switch (xmlhttp.status) {
-          case HTTP_CREATED:
-            if (location.href.endsWith(NAME_PAGE_DAIRY)) {
-              window.location.reload();
-            } else {
-              resetFields();
-              resetChart();
-            }
-            break;
-
-          case HTTP_UNAUTHORIZED:
-            handleSessionExpired();
-            break;
-
-          default:
-            swal('Error', 'Please, try again', 'error');
-            break;
-        }
-      }
-    };
-    sendPOSTToGlucose(xmlhttp);
-  } else {
+  if (!isValidDataEntry()) {
     showWarningMessage();
+    return;
   }
+
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+      switch (xmlhttp.status) {
+        case HTTP_CREATED:
+          if (location.href.endsWith(NAME_PAGE_DAIRY)) {
+            window.location.reload();
+          } else {
+            resetFields();
+            resetChart();
+          }
+          break;
+
+        case HTTP_UNAUTHORIZED:
+          handleSessionExpired();
+          break;
+
+        default:
+          swal('Error', 'Please, try again', 'error');
+          break;
+      }
+    }
+  };
+  sendPOSTToGlucose(xmlhttp);
 });
 
 /**
@@ -61,23 +62,38 @@ function isValidDataEntry() {
 function sendPOSTToGlucose(xmlhttp) {
   const jsonNewEntry = prepareJsonNewEntry();
   const token = getJwtToken();
-  xmlhttp.open('POST', '/api/glucose');
+  const userId = getUserId();
+
+  if (!token || !userId) logOut();
+
+  xmlhttp.open('POST', API_BASE_REQUEST+`/diary/users/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonNewEntry);
 }
-
+/**
+ * Loads the user's system configuration.
+ * @return {number} The measurement unity id.
+ */
+function getMeasurementUnity() {
+  const objectString = getSystemConfig();
+  if (!objectString) {
+    return 1;
+  } else {
+    return JSON.parse(objectString).id_measurement_unity;
+  }
+}
 /**
  * Creates a JSON object to be sent to register a new glucose reading.
  * @return {JSON} A JSON object.
  */
 function prepareJsonNewEntry() {
   return JSON.stringify({
-    userId: getUserId(),
     glucose: fieldGlucose.value,
     total_carbs: getTotalCarbs(),
     dateTime: fieldDate.value,
-    markerMealId: fieldMarkermeal.selectedIndex,
+    id_markermeal: fieldMarkermeal.selectedIndex,
+    id_measurement_unity: getMeasurementUnity(),
   });
 }
 /**
@@ -95,22 +111,6 @@ function getTotalCarbs() {
  */
 function showWarningMessage() {
   swal('', 'All the fields need to be filled.', 'warning');
-}
-
-/**
- * Gets the JWT token from the session storage.
- * @return {string} The JWT token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
-}
-
-/**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
 }
 
 /**
@@ -170,7 +170,7 @@ fieldFood.addEventListener('keypress', (e) => {
  * e.g. "1 cup of milk", "2 slices of cheese".
  */
 async function addNewListItem(food) {
-  const url = `/api/carbscounting/${food}`;
+  const url = API_BASE_REQUEST+`/carbscounting/${food}`;
   const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
   const myInit = {method: 'GET', headers: myHeaders};
   const response = await fetch(url, myInit);

@@ -11,34 +11,60 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
 btnRegister.addEventListener('click', (event) => {
   event.preventDefault();
 
-  if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
-        let message ='';
-        switch (xmlhttp.status) {
-          case SUCEESS:
-            handleLogin();
-            break;
-
-          case BAD_REQUEST:
-            message = `This email is already used. Please, try another one.`;
-            swal('Refused email', message, 'error');
-            break;
-
-          default:
-            message = `Error trying to create new account. 
-            Please try again.`;
-            swal('Error', message, 'error');
-            break;
-        }
-      }
-    };
-    sendRequestToRegisterNewUser(xmlhttp);
-  } else {
+  if (!isValidDataEntry()) {
     showAlertMessage();
+    return;
   }
+
+  makeButtonDisabled(btnRegister);
+
+  const xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = () => {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+      let message ='';
+      switch (xmlhttp.status) {
+        case SUCEESS:
+          redirectToLoginPage();
+          break;
+
+        case BAD_REQUEST:
+          removeDisabledFromButton(btnRegister);
+          message = `This email is already used. Please, try another one.`;
+          swal('Refused email', message, 'error');
+          break;
+
+        default:
+          removeDisabledFromButton(btnRegister);
+          message = `Error trying to create new account.
+            Please try again.`;
+          swal('Error', message, 'error');
+          break;
+      }
+    }
+  };
+  sendRequestToRegisterNewUser(xmlhttp);
 });
+
+/**
+ * Makes a button disabled and sets "Creating..." with a spinner component.
+ * @param {HTMLButtonElement} btn The button where the property and
+ * the new message will be set.
+ */
+function makeButtonDisabled(btn) {
+  btn.disabled = true;
+  // eslint-disable-next-line max-len
+  btn.innerHTML = 'Creating... <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+}
+
+/**
+ * Remove disabled propoerty from a button and set a new message.
+ * @param {HTMLButtonElement} btn The button where
+ * the adjustments will be applied.
+ */
+function removeDisabledFromButton(btn) {
+  btn.disabled = false;
+  btn.innerHTML = 'Create account';
+}
 
 /**
  * Checks whether the fields are properly filled to register a new user.
@@ -63,7 +89,7 @@ function isPasswordMatch() {
  */
 function sendRequestToRegisterNewUser(xmlhttp) {
   const jsonNewUser = prepareJsonNewUser();
-  xmlhttp.open('POST', '/api/security/register');
+  xmlhttp.open('POST', API_BASE_REQUEST+'/users');
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonNewUser);
 }
@@ -77,14 +103,14 @@ function prepareJsonNewUser() {
     name: fieldName.value,
     email: fieldEmail.value,
     password: fieldPassword.value,
-    cod_role: '42701b81-1120-4f7f-a0ae-1326e813cfcb',
+    id_role: 2,
   });
 }
 
 /**
- * Show the success message and redirect the user to the login page.
+ * Show the success message and redirect to the login page.
  */
-function handleLogin() {
+function redirectToLoginPage() {
   swal({
     title: 'Success',
     text: 'New user created! Now you can log in.',
@@ -95,7 +121,7 @@ function handleLogin() {
 }
 
 /**
- * Shows the alert message
+ * Shows an alert message.
  */
 function showAlertMessage() {
   let message;

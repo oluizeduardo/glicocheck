@@ -11,8 +11,6 @@ const listOfGlucoseValues = [];
 let lowestGlucoseValue = 999;
 let highestGlucoseValue = 0;
 
-const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
-
 let defaultTimeBFpre = 6;
 let defaultTimeBFpos = 8;
 let defaultTimeLunchpre = 12;
@@ -33,7 +31,7 @@ function getGlucoseReadingsByUserId() {
   const dateRange = getDateRangeFromSession();
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
-    if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
+    if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
           deleteFirstTableRow();
@@ -43,6 +41,7 @@ function getGlucoseReadingsByUserId() {
           break;
 
         case HTTP_NOT_FOUND:
+          document.getElementById('table_first_line_message').innerText = 'No records found';
           if (dateRange) {
             swal('Nothing found',
                 'No registers found for the informed date.',
@@ -71,19 +70,13 @@ function getGlucoseReadingsByUserId() {
  */
 function sendGETToGlucose(xmlhttp, dateRange) {
   const token = getJwtToken();
-  let url = '/api/glucose/user/online';
+  const userId = getUserId();
 
-  if (dateRange) {
-    url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
-    removeDateRangeFromSession();
-  }
+  if (!token || !userId) logOut();
 
-  if (token) {
-    xmlhttp.open('GET', url);
-    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
-    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xmlhttp.send();
-  } else {
+  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
+
+  if (!token) {
     const message = `Error consulting blood glucose diary data. 
     Please do the login again.`;
     swal({
@@ -94,6 +87,15 @@ function sendGETToGlucose(xmlhttp, dateRange) {
       logOut();
     });
   }
+
+  if (dateRange) {
+    url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
+    removeDateRangeFromSession();
+  }
+  xmlhttp.open('GET', url);
+  xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xmlhttp.send();
 }
 /**
  * Retrieves the date range from the session storage.
@@ -101,7 +103,7 @@ function sendGETToGlucose(xmlhttp, dateRange) {
  * from the session storage, or null if not found.
  */
 function getDateRangeFromSession() {
-  const obj = sessionStorage.getItem(DATE_RANGE_SESSION_STORAGE);
+  const obj = getDateRangeSessionStorage();
   if (obj) {
     return JSON.parse(obj);
   }
@@ -113,13 +115,6 @@ function getDateRangeFromSession() {
  */
 function deleteFirstTableRow() {
   document.getElementById('diary-table-body').deleteRow(0);
-}
-/**
- * Retrives the JWT token in the session storage.
- * @return {string} The JWt token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
 }
 /**
  * Distributes on the table the values received from the API response.
@@ -170,7 +165,7 @@ function getSpecificData(register) {
   return {
     dateTime: register.dateTime,
     glucoseValue: register.glucose,
-    totalCarbs: register.totalCarbs,
+    totalCarbs: register.total_carbs,
   };
 }
 
@@ -536,14 +531,15 @@ function fillStatisticsTable() {
  * Loads values from system configuration.
  */
 function loadFromSystemConfiguration() {
-  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
-  if (objectString) {
-    const systemConfig = JSON.parse(objectString);
-    setGlyceliaRange(systemConfig.limit_hypo, systemConfig.limit_hyper);
-    setDefaultTimeInInt(systemConfig);
-    setTimeValuesOnTheTable(systemConfig);
-    setMeasurementUnityLabel(systemConfig);
-  }
+  const objectString = getSystemConfig();
+
+  if (!objectString) logOut();
+
+  const systemConfig = JSON.parse(objectString);
+  setGlyceliaRange(systemConfig.limit_hypo, systemConfig.limit_hyper);
+  setDefaultTimeInInt(systemConfig);
+  setTimeValuesOnTheTable(systemConfig);
+  setMeasurementUnityLabel(systemConfig);
 }
 /**
  * Set the glycemia range: hypo and hyperglycemia limits.
@@ -606,7 +602,7 @@ function setTimeValuesOnTheTable(systemConfig) {
  * @param {Object} config The system configuration object.
  */
 function setMeasurementUnityLabel(config) {
-  const unityLabel = getMeasurementUnityLabel(config.glucose_unity_id);
+  const unityLabel = getMeasurementUnityLabel(config.id_glucose_unity);
   const spans = document.querySelectorAll('span.label-measurement-unity');
   spans.forEach((span) => (span.textContent = unityLabel));
 }

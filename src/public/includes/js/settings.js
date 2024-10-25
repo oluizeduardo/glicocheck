@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const fieldMeasurementUnity = document.getElementById('field_MeasurementUnity');
 const unityHypo = document.getElementById('measurement_unity_hypo');
@@ -20,7 +21,7 @@ const btnSaveSettings = document.getElementById('btnSaveSettings');
 const MG_DL = 'mg/dL';
 const MMOL_L = 'mmol/L';
 
-const SUCCESS = 201;
+const OK = 200;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
 const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
@@ -114,24 +115,10 @@ function updatePosprandial(preElement, posElement) {
 }
 
 /**
- * Gets the JWT token from the session storage.
- * @return {string} The JWT token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
-}
-/**
- * Gets the user id saved in the session storage.
- * @return {string} The user id.
- */
-function getUserId() {
-  return sessionStorage.getItem('userId');
-}
-/**
  * Loads the user's system configuration.
  */
 function loadSystemConfiguration() {
-  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  const objectString = getSystemConfig();
   if (!objectString) {
     showErrorConfigurationNotFound();
   } else {
@@ -158,7 +145,7 @@ function showErrorConfigurationNotFound() {
  * @param {Object} item The object containing the configuration data.
  */
 function fillConfigurationFields(item) {
-  fieldMeasurementUnity.value = item.glucose_unity_id;
+  fieldMeasurementUnity.value = item.id_measurement_unity;
   const measurementUnity = getMeasurementUnity();
 
   // Adjust min and max.
@@ -194,8 +181,8 @@ btnSaveSettings.addEventListener('click', (event) => {
   if (isValidDataEntry()) {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCCESS) {
+      if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
+        if (xmlhttp.status === OK) {
           updateSessionStorage();
           swal('Saved!', '', 'success');
         } else {
@@ -230,8 +217,10 @@ function sendRequestToUpdateSystemConfiguration(xmlhttp) {
   const token = getJwtToken();
   const userId = getUserId();
 
+  if (!token || !userId) logOut();
+
   const jsonUpdate = prepareJsonUpdate();
-  xmlhttp.open('PUT', `/api/systemconfiguration/user/${userId}`);
+  xmlhttp.open('PUT', API_BASE_REQUEST+`/systemconfiguration/user/${userId}`);
   xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonUpdate);
@@ -242,16 +231,16 @@ function sendRequestToUpdateSystemConfiguration(xmlhttp) {
  */
 function prepareJsonUpdate() {
   return JSON.stringify({
-    glucoseUnityId: fieldMeasurementUnity.value,
-    limitHypo: hypoRange.value,
-    limitHyper: hyperRange.value,
-    timeBreakfastPre: fieldBreakfastPre.value,
-    timeBreakfastPos: fieldBreakfastPos.value,
-    timeLunchPre: fieldLunchPre.value,
-    timeLunchPos: fieldLunchPos.value,
-    timeDinnerPre: fieldDinnerPre.value,
-    timeDinnerPos: fieldDinnerPos.value,
-    timeSleep: fieldSleepTime.value,
+    id_measurement_unity: fieldMeasurementUnity.value,
+    limit_hypo: hypoRange.value,
+    limit_hyper: hyperRange.value,
+    time_breakfast_pre: fieldBreakfastPre.value,
+    time_Breakfast_pos: fieldBreakfastPos.value,
+    time_lunch_pre: fieldLunchPre.value,
+    time_lunch_pos: fieldLunchPos.value,
+    time_dinner_pre: fieldDinnerPre.value,
+    time_dinner_pos: fieldDinnerPos.value,
+    time_sleep: fieldSleepTime.value,
   });
 }
 /**
@@ -260,7 +249,7 @@ function prepareJsonUpdate() {
  */
 function updateSessionStorage() {
   const updatedConfig = JSON.stringify({
-    glucose_unity_id: fieldMeasurementUnity.value,
+    id_measurement_unity: fieldMeasurementUnity.value,
     limit_hypo: hypoRange.value,
     limit_hyper: hyperRange.value,
     time_bf_pre: fieldBreakfastPre.value,

@@ -38,8 +38,6 @@ const HTTP_UNAUTHORIZED = 401;
 const HTTP_NOT_FOUND = 404;
 const XMLHTTPREQUEST_STATUS_DONE = 4;
 
-const SYSTEM_CONFIG_SESSIONSTORAGE = 'sysConfig';
-
 /**
  * It loads the chart in the dashboard screen.
  */
@@ -108,6 +106,7 @@ function getChartConfiguration() {
           },
         },
         legend: {
+          display: !isMaxWidth500px(),
           labels: {
             font: {
               size: 15,
@@ -131,15 +130,17 @@ function getChartConfiguration() {
           min: Y_MIN_SCALE,
           max: Y_MAX_SCALE,
           ticks: {
+            display: !isMaxWidth500px(),
             stepSize: Y_STEP_SIZE,
           },
           title: {
-            display: true,
+            display: !isMaxWidth500px(),
             text: `Glycemia ( ${UNITY} )`,
           },
         },
         x: {
           ticks: {
+            display: !isMaxWidth500px(),
             callback: function(value) {
               let label = '';
               let previousLabel = '';
@@ -159,6 +160,14 @@ function getChartConfiguration() {
       },
     },
   };
+}
+
+/**
+ * Screen width is 500px or less.
+ * @return {boolean} true if the screen width is up to 500px.
+ */
+function isMaxWidth500px() {
+  return (window.matchMedia('(max-width: 500px)').matches);
 }
 
 /**
@@ -245,20 +254,19 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
  */
 function sendGETToGlucose(xmlhttp, startDate, endDate) {
   const token = getJwtToken();
-  let url = '/api/glucose/user/online';
+  const userId = getUserId();
+  if (!token || !userId) logOut();
+
+  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
 
   if (startDate && endDate) {
     url = url.concat(`?start=${startDate}&end=${endDate}`);
   }
 
-  if (token) {
-    xmlhttp.open('GET', url);
-    xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
-    xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xmlhttp.send();
-  } else {
-    throw Error('Authentication token not found.');
-  }
+  xmlhttp.open('GET', url);
+  xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+  xmlhttp.send();
 }
 
 /**
@@ -268,14 +276,6 @@ function destroyChart() {
   if (glucoseReadingsChart != null) {
     glucoseReadingsChart.destroy();
   }
-}
-
-/**
- * Retrives the JWT token in the session storage.
- * @return {string} The JWt token.
- */
-function getJwtToken() {
-  return sessionStorage.getItem('jwt');
 }
 
 /**
@@ -305,10 +305,10 @@ function makeChartPanelVisible() {
  * Fill the variables with the system configuration values.
  */
 function fillVariablesFromSystemConfiguration() {
-  const objectString = sessionStorage.getItem(SYSTEM_CONFIG_SESSIONSTORAGE);
+  const objectString = getSystemConfig();
   if (objectString) {
     const retrievedConfig = JSON.parse(objectString);
-    const unity = retrievedConfig.glucose_unity_id;
+    const unity = retrievedConfig.id_measurement_unity;
     HYPERGLYCEMIA = retrievedConfig.limit_hyper;
     HYPOGLYCEMIA = retrievedConfig.limit_hypo;
     UNITY = getMeasurementUnityLabel(unity);

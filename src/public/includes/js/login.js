@@ -1,32 +1,99 @@
+/* eslint-disable camelcase */
 const btnLogIn = document.getElementById('btnLogIn');
 const fieldEmail = document.getElementById('field_Email');
 const fieldPassword = document.getElementById('field_Password');
 
-const SUCEESS = 200;
-const FORBIDDEN = 401;
-const XMLHTTPREQUEST_STATUS_DONE = 4;
+const SUCCESS = 200;
+const FORBIDDEN = 403;
+const NOT_FOUND = 404;
 
-btnLogIn.addEventListener('click', (event) => {
+btnLogIn.addEventListener('click', async (event) => {
   event.preventDefault();
 
-  if (isValidDataEntry()) {
-    const xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = () => {
-      if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
-        if (xmlhttp.status == SUCEESS) {
-          executeProcessToLogIn(xmlhttp);
-        } else if (xmlhttp.status == FORBIDDEN) {
-          const message = `Please try again by entering the same email 
-                                    and password used during account creation.`;
-          swal('Wrong credentials', message, 'error');
-        }
-      }
-    };
-    sendRequestToLogin(xmlhttp);
-  } else {
-    showLoginError();
+  if (!isValidDataEntry()) {
+    showInvalidCredentialMessage();
+    return;
+  }
+
+  makeButtonDisabled(btnLogIn);
+
+  try {
+    const response = await sendRequestToLogin();
+
+    switch (response.status) {
+      case SUCCESS:
+        executeProcessToLogIn(await response.json());
+        break;
+
+      case 400:
+      case 401:
+        swal('Wrong credentials', 'Please try again.', 'error');
+        break;
+
+      case NOT_FOUND:
+        swal('Account not found', 'Please, check your credentials.', 'warning');
+        break;
+      default:
+        clearPasswordFields();
+        swal('Error', 'Error connecting to the server.', 'error');
+        break;
+    }
+  } catch (error) {
+    console.error(`Request failed. - Details: ${error}`);
+    swal('Error', 'An unexpected error occurred.', 'error');
+  } finally {
+    removeDisabledFromButton(btnLogIn);
   }
 });
+
+/**
+ * Function to send login request.
+ * @return {Promise}
+ */
+async function sendRequestToLogin() {
+  const url = API_BASE_REQUEST+'/authentication/login';
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(getLoginData()),
+  };
+
+  return fetch(url, options);
+}
+
+/**
+ * Create the login data.
+ * @return {JSON} JSON object.
+ */
+function getLoginData() {
+  return {
+    email: fieldEmail.value,
+    password: fieldPassword.value,
+  };
+}
+
+/**
+ * Makes a button disabled and sets "Loading..." with a spinner component.
+ * @param {HTMLButtonElement} btn The button where the property and
+ * the new message will be set.
+ */
+function makeButtonDisabled(btn) {
+  btn.disabled = true;
+  // eslint-disable-next-line max-len
+  btn.innerHTML = 'Loading... <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+}
+
+/**
+ * Remove disabled propoerty from a button and set a new message.
+ * @param {HTMLButtonElement} btn The button where
+ * the adjustments will be applied.
+ */
+function removeDisabledFromButton(btn) {
+  btn.disabled = false;
+  btn.innerHTML = 'Log in';
+}
 
 /**
  * Checks whether the fields email and password are filled.
@@ -38,73 +105,16 @@ function isValidDataEntry() {
 }
 
 /**
- * Sends a request to the login endpoint.
- * @param {XMLHttpRequest} xmlhttp The request object.
- */
-function sendRequestToLogin(xmlhttp) {
-  const jsonLogin = prepareJsonLogin();
-  xmlhttp.open('POST', '/api/security/login');
-  xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-  xmlhttp.send(jsonLogin);
-}
-
-/**
- * Create a JSON object for the login process.
- * @return {JSON} JSON object.
- */
-function prepareJsonLogin() {
-  return JSON.stringify({
-    email: fieldEmail.value,
-    password: fieldPassword.value,
-  });
-}
-
-/**
  * Execute the process needed to log in the system
  * and redirect the user to the home page.
- * @param {XMLHttpRequest} xmlhttp The request object.
+ * @param {JSON} loginResponse The login response object.
  */
-function executeProcessToLogIn(xmlhttp) {
-  const accessToken = getAuthorizationHeaderValue(xmlhttp);
-  saveJwtToken(accessToken);
-  // eslint-disable-next-line camelcase
-  const {user_id} = JSON.parse(xmlhttp.response);
-  saveUserId(user_id);
-  fetchSystemConfigurationAndRedirect(user_id, accessToken);
-}
-
-/**
- * Returns the text in the authorization header.
- * @param {XMLHttpRequest} xmlhttp The request object.
- * @return {string} The text in the authorization header.
- */
-function getAuthorizationHeaderValue(xmlhttp) {
-  return xmlhttp.getResponseHeader('authorization');
-}
-
-/**
- * Save the JWT token in the session storage.
- * @param {string} token The JWT token.
- */
-function saveJwtToken(token) {
-  sessionStorage.setItem('jwt', token);
-}
-/**
- * Save the user id in the session storage.
- * @param {string} userId The user id.
- */
-function saveUserId(userId) {
-  sessionStorage.setItem('userId', userId);
-}
-/**
- * Save the system configuration in the session storage.
- * @param {*} configuration
- */
-function saveSystemConfiguration(configuration) {
-  if (typeof configuration === 'object') {
-    configuration = JSON.stringify(configuration);
-  }
-  sessionStorage.setItem('sysConfig', configuration);
+function executeProcessToLogIn(loginResponse) {
+  const access_token = loginResponse.access_token;
+  const cod_user = loginResponse.cod_user;
+  saveJwtToken(access_token);
+  saveUserId(cod_user);
+  fetchSystemConfigurationAndRedirect(cod_user, access_token);
 }
 
 /**
@@ -115,9 +125,9 @@ function redirectToDashboard() {
 }
 
 /**
- * Shows the login error message.
+ * Shows invalid credential message.
  */
-function showLoginError() {
+function showInvalidCredentialMessage() {
   swal('Wrong credentials',
       'Please, inform the correct email and password.',
       'warning');
@@ -137,7 +147,8 @@ async function fetchSystemConfigurationAndRedirect(userId, accessToken) {
     await fetchSystemConfiguration(userId, accessToken);
     redirectToDashboard();
   } catch (error) {
-    console.error('An error occurred: ', error);
+    console.error(`An error occurred. Details: ${error}`);
+    showErrorLoadingSystemConfiguration();
   }
 }
 
@@ -155,33 +166,44 @@ function fetchSystemConfiguration(userId, accessToken) {
       const {status} = response;
 
       switch (status) {
-        case 200:
+        case SUCCESS:
           const data = await response.json();
           saveSystemConfiguration(data);
           resolve();
           break;
 
-        case 401:
-          console.error('Session expired.');
+        case FORBIDDEN:
           reject(new Error('Session expired.'));
           break;
 
-        case 404:
-          showErrorConfigurationNotFound();
+        case NOT_FOUND:
+          reject(new Error('System configuration not found.'));
           break;
 
         default:
-          showErrorConfigurationNotFound();
+          reject(new Error('Error loading system configuration.'));
       }
     } catch (error) {
       reject(error);
     }
   });
 }
+
 /**
- * Shows error message.
+ * Save the system configuration in the browser session storage.
+ * @param {JSON} data
  */
-function showErrorConfigurationNotFound() {
+function saveSystemConfiguration(data) {
+  if (typeof data === 'object') {
+    data = JSON.stringify(data);
+  }
+  saveSystemConfig(data);
+}
+
+/**
+ * Shows message error loading system configuration.
+ */
+function showErrorLoadingSystemConfiguration() {
   swal({
     title: 'Error',
     text: 'Error loading system configuration.\n Please, log in again.',
@@ -199,7 +221,7 @@ function showErrorConfigurationNotFound() {
  * @return {Response}
  */
 async function fetchData(userId, accessToken) {
-  const url = `/api/systemconfiguration/user/${userId}`;
+  const url = API_BASE_REQUEST+`/systemconfiguration/user/${userId}`;
   const headers = new Headers({'Authorization': 'Bearer ' + accessToken});
   const myInit = {method: 'GET', headers: headers};
   const response = await fetch(url, myInit);
