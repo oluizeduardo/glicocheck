@@ -11,6 +11,7 @@ btnConfirmDelete.addEventListener('click', (event) => {
 
   const password = fieldPassword.value;
   if (!password) {
+    removeDisabledFromButton(btnConfirmDelete);
     swal('Password needed',
         'Please, inform your password to delete your account.',
         'warning');
@@ -25,6 +26,7 @@ btnConfirmDelete.addEventListener('click', (event) => {
  */
 function processDeleteUserAccount(isCorrectPassword) {
   if (!isCorrectPassword) {
+    removeDisabledFromButton(btnConfirmDelete);
     swal('Incorrect password',
         'Please, inform the correct password to delete your account.',
         'warning');
