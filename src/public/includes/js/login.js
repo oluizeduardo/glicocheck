@@ -34,12 +34,12 @@ btnLogIn.addEventListener('click', async (event) => {
         swal('Account not found', 'Please, check your credentials.', 'warning');
         break;
       default:
-        swal('Error', 'Error connecting to the server.', 'error');
         clearPasswordFields();
+        swal('Error', 'Error connecting to the server.', 'error');
         break;
     }
   } catch (error) {
-    console.error('Request failed:', error);
+    console.error(`Request failed. - Details: ${error}`);
     swal('Error', 'An unexpected error occurred.', 'error');
   } finally {
     removeDisabledFromButton(btnLogIn);
@@ -147,7 +147,7 @@ async function fetchSystemConfigurationAndRedirect(userId, accessToken) {
     await fetchSystemConfiguration(userId, accessToken);
     redirectToDashboard();
   } catch (error) {
-    console.error('An error occurred: ', error);
+    console.error(`An error occurred. Details: ${error}`);
     showErrorLoadingSystemConfiguration();
   }
 }

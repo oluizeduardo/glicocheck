@@ -54,8 +54,13 @@ function deleteUserAccount() {
           break;
 
         default:
-          swal('Error', 'Error deleting user account.', 'error');
-          logOut();
+          swal({
+            title: 'Error',
+            text: 'Error deleting user account.',
+            icon: 'error',
+          }).then(() => {
+            logOut();
+          });
           break;
       }
     }
