@@ -614,7 +614,7 @@ function setMeasurementUnityLabel(config) {
  */
 function getMeasurementUnityLabel(unityId) {
   UNITY_LABEL = unityId == COD_UNITY_MGDL ? LABEL_UNITY_MGDL : LABEL_UNITY_MMOL;
-  return UNITY_LABEL;
+  return LABEL_UNITY_MGDL;
 }
 
 loadFromSystemConfiguration();
