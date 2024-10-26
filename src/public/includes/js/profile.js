@@ -42,6 +42,8 @@ btnSaveUserDetails.addEventListener('click', (event) => {
     if (xmlhttp.readyState === XMLHTTPREQUEST_STATUS_DONE) {
       if (xmlhttp.status === HTTP_OK) {
         swal('Saved!', '', 'success');
+      } else if (xmlhttp.status === 413) {
+        swal('Too Large Request', 'The request was too large.', 'error');
       } else {
         showErrorMessage('Error updating user details.');
       }
@@ -256,6 +258,8 @@ function showErrorMessage(message) {
   swal('Error', message, 'error');
 }
 
+const profilePictureMaximumSizeInMB = 1.5;
+
 /**
  * Add click event listener to open a file selector
  * to let the user upload a profile picture.
@@ -271,12 +275,29 @@ userProfilePicture.addEventListener('click', (event) => {
     fileSelector.click();
   }).then((file) => {
     if (file && file.name) {
-      fileURL = URL.createObjectURL(file);
-      userProfilePicture.src = fileURL;
-      generateDataURL(file);
+      if (isFileSizeValid(file, profilePictureMaximumSizeInMB)) {
+        userProfilePicture.src = URL.createObjectURL(file);
+        generateDataURL(file);
+      } else {
+        swal('File too Large',
+            `The file must be a maximum of ${profilePictureMaximumSizeInMB}MB.`,
+            'warning');
+      }
     }
   });
 });
+
+/**
+ * Checks if the file size is within the specified maximum size in MB.
+ * @param {File} file - The file to be checked.
+ * @param {number} fileMaximumSizeInMB - The maximum allowed file size in megabytes.
+ * @return {boolean} - Returns true if the file size is within the limit, otherwise false.
+ */
+function isFileSizeValid(file, fileMaximumSizeInMB) {
+  if (fileMaximumSizeInMB <= 0) return false;
+  const maxSizeInBytes = fileMaximumSizeInMB * 1048576; // 1MB = 1048576 bytes
+  return file.size <= maxSizeInBytes;
+}
 
 /**
  * Creates a new file selector.
