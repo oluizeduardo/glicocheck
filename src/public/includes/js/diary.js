@@ -602,7 +602,7 @@ function setTimeValuesOnTheTable(systemConfig) {
  * @param {Object} config The system configuration object.
  */
 function setMeasurementUnityLabel(config) {
-  const unityLabel = getMeasurementUnityLabel(config.id_glucose_unity);
+  const unityLabel = getMeasurementUnityLabel(config.id_measurement_unity);
   const spans = document.querySelectorAll('span.label-measurement-unity');
   spans.forEach((span) => (span.textContent = unityLabel));
 }
@@ -613,8 +613,9 @@ function setMeasurementUnityLabel(config) {
  * @return {string} The measurement unity label.
  */
 function getMeasurementUnityLabel(unityId) {
+  console.log(unityId);
   UNITY_LABEL = unityId == COD_UNITY_MGDL ? LABEL_UNITY_MGDL : LABEL_UNITY_MMOL;
-  return LABEL_UNITY_MGDL;
+  return UNITY_LABEL;
 }
 
 loadFromSystemConfiguration();
