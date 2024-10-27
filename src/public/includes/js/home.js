@@ -257,10 +257,10 @@ function sendGETToGlucose(xmlhttp, startDate, endDate) {
   const userId = getUserId();
   if (!token || !userId) logOut();
 
-  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
+  let url = API_BASE_REQUEST+`/diary/users/${userId}?sort=asc`;
 
   if (startDate && endDate) {
-    url = url.concat(`?start=${startDate}&end=${endDate}`);
+    url = url.concat(`&start=${startDate}&end=${endDate}`);
   }
 
   xmlhttp.open('GET', url);

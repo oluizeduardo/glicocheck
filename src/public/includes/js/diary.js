@@ -74,10 +74,10 @@ function sendGETToGlucose(xmlhttp, dateRange) {
 
   if (!token || !userId) logOut();
 
-  let url = API_BASE_REQUEST+`/diary/users/${userId}`;
+  let url = API_BASE_REQUEST+`/diary/users/${userId}?sort=desc`;
 
   if (!token) {
-    const message = `Error consulting blood glucose diary data. 
+    const message = `Error consulting diary data. 
     Please do the login again.`;
     swal({
       title: 'Error',
@@ -89,7 +89,7 @@ function sendGETToGlucose(xmlhttp, dateRange) {
   }
 
   if (dateRange) {
-    url = url.concat(`?start=${dateRange.startDate}&end=${dateRange.endDate}`);
+    url = url.concat(`&start=${dateRange.startDate}&end=${dateRange.endDate}`);
     removeDateRangeFromSession();
   }
   xmlhttp.open('GET', url);
