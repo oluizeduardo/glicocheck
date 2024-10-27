@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const ctx = document.querySelector('#myChart');
 const panelChart = document.querySelector('#panel-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
@@ -21,8 +22,12 @@ const COLOR_HYPOGLYCEMIA = 'rgba(255, 99, 132, 1)';
 const BORDER_WIDTH = 2;
 const POINT_RADIUS_HYPERGLYCEMIA = 0;
 const POINT_RADIUS_HYPOGLYCEMIA = 0;
-const POINT_RADIUS_MY_GLICEMIA = 6;
-const POINT_HOVER_RADIUS = 13;
+
+const POINT_RADIUS_MY_GLICEMIA_BROWSER = 6;
+const POINT_HOVER_RADIUS_BROWSER = POINT_RADIUS_MY_GLICEMIA_BROWSER * 2;
+const POINT_RADIUS_MY_GLICEMIA_MOBILE = POINT_RADIUS_MY_GLICEMIA_BROWSER / 2;
+const POINT_HOVER_RADIUS_MOBILE = POINT_RADIUS_MY_GLICEMIA_MOBILE * 2;
+
 const CHART_LINE_TENSION = 0.3;
 let Y_MIN_SCALE = 20;
 let Y_MAX_SCALE = 220;
@@ -64,6 +69,7 @@ function getChartConfiguration() {
           backgroundColor: [COLOR_HYPERGLYCEMIA],
           borderWidth: BORDER_WIDTH,
           pointRadius: POINT_RADIUS_HYPERGLYCEMIA,
+          pointHoverRadius: 0,
         },
         {
           label: 'My glycemia',
@@ -71,8 +77,8 @@ function getChartConfiguration() {
           borderColor: (chart) => getColor(chart),
           backgroundColor: (chart) => getColor(chart),
           borderWidth: BORDER_WIDTH,
-          pointRadius: POINT_RADIUS_MY_GLICEMIA,
-          pointHoverRadius: POINT_HOVER_RADIUS,
+          pointRadius: isMaxWidth500px() ? POINT_RADIUS_MY_GLICEMIA_MOBILE : POINT_RADIUS_MY_GLICEMIA_BROWSER,
+          pointHoverRadius: isMaxWidth500px() ? POINT_HOVER_RADIUS_MOBILE : POINT_HOVER_RADIUS_BROWSER,
         },
         {
           label: 'Hypoglycemia',
@@ -81,6 +87,7 @@ function getChartConfiguration() {
           backgroundColor: [COLOR_HYPOGLYCEMIA],
           borderWidth: BORDER_WIDTH,
           pointRadius: POINT_RADIUS_HYPOGLYCEMIA,
+          pointHoverRadius: 0,
         },
       ],
     },
@@ -139,6 +146,7 @@ function getChartConfiguration() {
           },
         },
         x: {
+          display: !isMaxWidth500px(),
           ticks: {
             display: !isMaxWidth500px(),
             callback: function(value) {
