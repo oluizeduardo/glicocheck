@@ -184,6 +184,10 @@ body {
   cursor: pointer;
 }
 
+.nav-item{
+  padding: 1px;
+}
+
 @media (max-width: 500px) {
   .header-visibility{
     display: flex;
@@ -197,7 +201,6 @@ body {
   }
   .nav-item{
     font-size: 5vw;
-    padding-top: 10px;
   }
   .container-chart{
     height: 60vh;

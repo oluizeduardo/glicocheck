@@ -28,7 +28,7 @@ body{
 
 @media (max-width: 500px) {     
     .card_form_input{
-        width: 21rem;
+        width: 18rem;
         margin-top: 50px;
     }
     .footer{
