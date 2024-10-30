@@ -101,20 +101,20 @@
 
           <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
             <div class="btn-toolbar mb-2 mb-md-0">
-              <!-- ADD GLYCEMIA LOG -->
-              <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalNewEntry">
-                  <span data-feather="plus" class="align-text-bottom"></span>
-                  <span >Add log</span>
-                </button>
-              </div>
+
+              <!-- ADD GLYCEMIA LOG -->              
+              <button type="button" class="me-2 btn btn-sm btn-primary add-entry" 
+                data-bs-toggle="modal" data-bs-target="#modalNewEntry">
+                <span data-feather="plus" class="align-text-bottom"></span>
+                <span class="menu_button-text">Add log</span>
+              </button>
+
               <!-- EXPORT -->
-              <div class="btn-group me-2">
-                <button id="btnExport" type="button" class="btn btn-sm btn-outline-secondary">
-                  <span data-feather="download" class="align-text-bottom"></span>
-                  <span class="menu_button-text">Export</span>
-                </button>
-              </div>
+              <button id="btnExport" type="button" class="me-2 btn btn-sm btn-outline-secondary">
+                <span data-feather="download" class="align-text-bottom"></span>
+                <span class="menu_button-text">Export</span>
+              </button>
+
               <!-- CALENDAR -->
               <div class="dropdown">
                 <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
@@ -130,7 +130,7 @@
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
                 </ul>
-              </div>
+              </div>              
             </div>
           </div>
           <!-- WELCOME PANEL -->
@@ -146,7 +146,7 @@
 
           <!-- CHART -->
           <div class="container-chart bg-white p-3 invisible" id="panel-chart">
-            <canvas class="my-4 w-100" id="myChart"></canvas>
+            <canvas class="w-100" id="myChart"></canvas>
           </div>
         </main>
 
