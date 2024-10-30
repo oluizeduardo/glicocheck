@@ -99,24 +99,24 @@
             </h1>
           </div>
 
-          <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
-            <div class="btn-toolbar mb-2 mb-md-0">
+          <!-- <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
+            <div class="btn-toolbar mb-2 mb-md-0"> -->
 
               <!-- ADD GLYCEMIA LOG -->              
-              <button type="button" class="me-2 btn btn-sm btn-primary add-entry" 
+              <!-- <button type="button" class="me-2 btn btn-sm btn-primary add-entry" 
                 data-bs-toggle="modal" data-bs-target="#modalNewEntry">
                 <span data-feather="plus" class="align-text-bottom"></span>
                 <span class="menu_button-text">Add log</span>
-              </button>
+              </button> -->
 
               <!-- EXPORT -->
-              <button id="btnExport" type="button" class="me-2 btn btn-sm btn-outline-secondary">
+              <!-- <button id="btnExport" type="button" class="me-2 btn btn-sm btn-outline-secondary">
                 <span data-feather="download" class="align-text-bottom"></span>
                 <span class="menu_button-text">Export</span>
-              </button>
+              </button> -->
 
               <!-- CALENDAR -->
-              <div class="dropdown">
+              <!-- <div class="dropdown">
                 <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
                   <span data-feather="calendar" class="caret"></span>
                   <span class="menu_button-text">Time interval</span>              
@@ -131,8 +131,9 @@
                   <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
                 </ul>
               </div>              
-            </div>
-          </div>
+            </div> 
+          </div>-->
+          
           <!-- WELCOME PANEL -->
           <span id="panel-welcome-center">
             <div id="welcome-center">
@@ -145,9 +146,94 @@
           </span>
 
           <!-- CHART -->
-          <div class="container-chart bg-white p-3 invisible" id="panel-chart">
+          <!-- <div class="container-chart bg-white p-3 invisible" id="panel-chart">
             <canvas class="w-100" id="myChart"></canvas>
-          </div>
+          </div> -->
+          <div id="panel-chart">
+            <div class="card">
+
+              <div class="filter me-3">
+                <a class="icon" href="#" data-bs-toggle="dropdown">
+                  
+                  <button type="button" class="me-2 btn btn-sm btn-outline-secondary">
+                    <span data-feather="calendar" class="align-text-bottom"></span>
+                  </button>
+
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 1)">1 week</a></li>
+                    <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 2)">2 weeks</a></li>
+                    <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 4)">4 weeks</a></li>
+                    <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 8)">8 weeks</a></li>
+                    <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 12)">12 weeks</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
+                  </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Reports <span>/Today</span></h5>
+
+                <!-- Line Chart -->
+                <div id="reportsChart"></div>
+
+                <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                    new ApexCharts(document.querySelector("#reportsChart"), {
+                      series: [{
+                        name: 'Hyper',
+                        data: [160, 160, 160, 160, 160, 160, 160],
+                      }, {
+                        name: 'Glycemia',
+                        data: [110, 58, 123, 76, 145, 58, 141]
+                      }, {
+                        name: 'Hypo',
+                        data: [60, 60, 60, 60, 60, 60, 60]
+                      }],
+                      chart: {
+                        height: 350,
+                        type: 'area',
+                        toolbar: {
+                          show: false
+                        },
+                      },
+                      markers: {
+                        size: 4
+                      },
+                      colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                      fill: {
+                        type: "gradient",
+                        gradient: {
+                          shadeIntensity: 1,
+                          opacityFrom: 0.3,
+                          opacityTo: 0.4,
+                          stops: [0, 90, 100]
+                        }
+                      },
+                      dataLabels: {
+                        enabled: false
+                      },
+                      stroke: {
+                        curve: 'smooth',
+                        width: 2
+                      },
+                      xaxis: {
+                        type: 'datetime',
+                        categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                      },
+                      tooltip: {
+                        x: {
+                          format: 'dd/MM/yy HH:mm'
+                        },
+                      }
+                    }).render();
+                  });
+                </script>
+                <!-- End Line Chart -->
+
+              </div>
+
+            </div>
+          </div><!-- End Reports -->
         </main>
 
         <!-- MODAL NEW ENTRY LOG -->
@@ -331,5 +417,6 @@
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- PRINT REPORT -->
     <script src="./includes/js/printReport.js"></script>
+    <script src="./includes/assets/apexcharts/apexcharts.min.js"></script>
   </body>
 </html>

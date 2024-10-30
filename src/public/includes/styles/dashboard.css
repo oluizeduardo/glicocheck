@@ -256,3 +256,51 @@ body {
 
 /* It makes the page in landscape orientation for printing. */
 @media print{@page {size: landscape}}
+
+
+.filter {
+  position: absolute;
+  right: 0px;
+  top: 15px;
+}
+
+.filter .icon {
+  color: #aab7cf;
+  /* padding-right: 20px; */
+  /* padding-bottom: 5px; */
+  transition: 0.3s;
+  /* font-size: 16px; */
+}
+
+.filter .icon:hover,
+.filter .icon:focus {
+  color: #4154f1;
+}
+
+/* .filter .dropdown-header {
+  padding: 8px 15px;
+} */
+
+.filter .dropdown-header h6 {
+  /* text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #e45310; */
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.card-title {
+  padding: 20px 0 15px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
+}
+
+.card-title span {
+  color: #899bbd;
+  font-size: 14px;
+  font-weight: 400;
+}
