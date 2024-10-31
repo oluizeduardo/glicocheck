@@ -45,7 +45,7 @@ function getChartConfiguration() {
     chart: {
       height: 400,
       type: 'area',
-      toolbar: {show: true},
+      toolbar: {show: !isMaxWidth500px()},
     },
     annotations: {
       yaxis: [
@@ -83,6 +83,14 @@ function getChartConfiguration() {
       enabled: true,
     },
   };
+}
+
+/**
+ * Screen width is 500px or less.
+ * @return {boolean} true if the screen width is up to 500px.
+ */
+function isMaxWidth500px() {
+  return (window.matchMedia('(max-width: 500px)').matches);
 }
 
 /**
