@@ -12,6 +12,8 @@ let totalCarbs = 0;
 const HTTP_CREATED = 201;
 const NAME_PAGE_DAIRY = 'diary.html';
 
+fieldDate.value = getLocalDateTime();
+
 btnSave.addEventListener('click', function(event) {
   event.preventDefault();
 
@@ -248,4 +250,21 @@ function removeItem(buttom, carbohydrate) {
   totalCarbs -= carbohydrate;
   labelTotalCarbs.textContent = totalCarbs;
   fieldTotalCarbs.value = totalCarbs;
+}
+
+/**
+ * Gets the current date and time in the local timezone
+ * and formats it as a string in the `YYYY-MM-DDTHH:MM` format,
+ * suitable for input elements of type `datetime-local`.
+ *
+ * @return {string} - The formatted date and time string in
+ * `YYYY-MM-DDTHH:MM` format.
+ */
+function getLocalDateTime() {
+  const now = new Date();
+  return now.getFullYear() + '-' +
+         String(now.getMonth() + 1).padStart(2, '0') + '-' +
+         String(now.getDate()).padStart(2, '0') + 'T' +
+         String(now.getHours()).padStart(2, '0') + ':' +
+         String(now.getMinutes()).padStart(2, '0');
 }

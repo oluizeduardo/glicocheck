@@ -93,46 +93,12 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 default-panel-color round-border-top-left main-content">
           
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ms-3 border-bottom">
-            <h1 class="h2">
+            <h1 class="h2 pagetitle">
               <span data-feather="home" class="align-middle pb-1"></span>
               Home
             </h1>
           </div>
 
-          <div class="d-flex justify-content flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">              
-            <div class="btn-toolbar mb-2 mb-md-0">
-
-              <!-- ADD GLYCEMIA LOG -->              
-              <button type="button" class="me-2 btn btn-sm btn-primary add-entry" 
-                data-bs-toggle="modal" data-bs-target="#modalNewEntry">
-                <span data-feather="plus" class="align-text-bottom"></span>
-                <span class="menu_button-text">Add log</span>
-              </button>
-
-              <!-- EXPORT -->
-              <button id="btnExport" type="button" class="me-2 btn btn-sm btn-outline-secondary">
-                <span data-feather="download" class="align-text-bottom"></span>
-                <span class="menu_button-text">Export</span>
-              </button>
-
-              <!-- CALENDAR -->
-              <div class="dropdown">
-                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">
-                  <span data-feather="calendar" class="caret"></span>
-                  <span class="menu_button-text">Time interval</span>              
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 1)">1 week</a></li>
-                  <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 2)">2 weeks</a></li>
-                  <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 4)">4 weeks</a></li>
-                  <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 8)">8 weeks</a></li>
-                  <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 12)">12 weeks</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
-                </ul>
-              </div>              
-            </div>
-          </div>
           <!-- WELCOME PANEL -->
           <span id="panel-welcome-center">
             <div id="welcome-center">
@@ -144,10 +110,45 @@
             </div>
           </span>
 
-          <!-- CHART -->
-          <div class="container-chart bg-white p-3 invisible" id="panel-chart">
-            <canvas class="w-100" id="myChart"></canvas>
+          <div id="panel-chart" class="invisible">
+            <div class="card ">
+              <div class="card-body">                
+                <div class="justify-content">
+                  <h5 class="card-title">Report <span class="ms-2" id="search_date_range"></span></h5>
+
+                  <div class="filter me-3">
+                    <!-- BUTTON FILTER -->
+                    <a class="icon" href="#" data-bs-toggle="dropdown">                      
+                    <button type="button" class="me-2 btn btn-sm btn-outline-secondary">
+                      <span data-feather="calendar" class="align-text-bottom"></span>
+                    </button>
+  
+                    <!-- FILTER BY WEEKS -->
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 0)">Today</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 1)">1 week</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 2)">2 weeks</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 4)">4 weeks</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 8)">8 weeks</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 12)">12 weeks</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- LINE CHART -->
+                <div id="reports-chart"></div>
+              </div>
+            </div>
           </div>
+          <!-- End Reports -->
+
+          <!-- ADD GLYCEMIA LOG -->
+          <button type="button" class="mb-2 me-2 btn btn-sm btn-primary add-entry" 
+            data-bs-toggle="modal" data-bs-target="#modalNewEntry">
+            <span data-feather="plus" class="align-text-bottom"></span>
+          </button>
         </main>
 
         <!-- MODAL NEW ENTRY LOG -->
@@ -203,6 +204,7 @@
                                 placeholder="Glucose" min="1" max="999" autocomplete="off" required>
                           <label for="field_Glucose">Glucose level</label>
                         </div>
+                        <!-- DATE AND TIME -->
                         <div class="form-floating">
                           <input type="datetime-local" class="form-control square-borders" id="field_Date" placeholder="Date" required>
                           <label for="field_Date">Date and time</label>
@@ -324,12 +326,8 @@
     <!-- SWEET ALERT (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" 
     integrity="sha384-RIQuldGV8mnjGdob13cay/K1AJa+LR7VKHqSXrrB5DPGryn4pMUXRLh92Ev8KlGF" 
-    crossorigin="anonymous"></script>  
-    <!-- HTML2PDF (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" 
-    integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- PRINT REPORT -->
-    <script src="./includes/js/printReport.js"></script>
+    crossorigin="anonymous"></script> 
+    <!-- APEX CHARTS --> 
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts@4.0.0/dist/apexcharts.min.js"></script>
   </body>
 </html>

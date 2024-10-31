@@ -6,21 +6,43 @@ const NAME_ELEMENT_CHART = 'chart';
 const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
 
 /**
- * Get the start and end dates based on the number of weeks.
- * @param {number} numOfWeeks - The number of weeks.
- * @return {Date[]} An array with the start date and end date.
+ * Updates the chart or diary table based on the specified number of weeks.
+ * @param {string} element - An indicator of the element that wants to be updated.
+ * @param {number} numOfWeeks - The number of weeks to retrieve data for.
+ * @return {void}
+ */
+function updateDataByWeeks(element, numOfWeeks) {
+  const [startDate, endDate] = getDateRangeByNumberOfWeeks(numOfWeeks);
+
+  if (element === NAME_ELEMENT_CHART) {
+    loadGlucoseReadingsByUserId(startDate, endDate);
+  } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
+    saveDateRangeInSession({startDate, endDate});
+    window.location.reload();
+  }
+}
+
+/**
+ * Gets a date range based on the specified number of weeks.
+ *
+ * @param {number} numOfWeeks - The number of weeks to go back from the current date.
+ * A positive value will set the start date to the calculated weeks before the current date.
+ * If 0 or negative, the start date will be the same as the end date (today).
+ *
+ * @return {string[]} An array with two formatted date strings [startDate, endDate] in the format `YYYY-MM-DD`.
+ * The end date is always the current date, and the start date is calculated based on `numOfWeeks`.
  */
 function getDateRangeByNumberOfWeeks(numOfWeeks) {
-  const startDate = new Date();// today
-  startDate.setDate(startDate.getDate() - (numOfWeeks * 7));
-  const endDate = new Date();
+  if (typeof numOfWeeks !== 'number' || numOfWeeks < 0) {
+    throw new TypeError('numOfWeeks must be a non-negative number');
+  }
 
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(endDate.getDate() - numOfWeeks * 7);
+
+  const formatDate = (date) => date.toISOString().slice(0, 10);
+
   return [formatDate(startDate), formatDate(endDate)];
 }
 
@@ -60,28 +82,13 @@ function processDateRange(element) {
       window.location.reload();
     }
   } else {
-    swal('Invalid Date',
+    swal(
+        'Invalid Date',
         'Please, inform the correct start and end date.',
-        'warning');
+        'warning',
+    );
   }
   clearFields([fieldStartDate, fieldEndDate]);
-}
-
-/**
- * Updates the chart or diary table based on the specified number of weeks.
- * @param {string} element - An indicator of the element that wants to be updated.
- * @param {number} numOfWeeks - The number of weeks to retrieve data for.
- * @return {void}
- */
-function updateDataByWeeks(element, numOfWeeks) {
-  const [startDate, endDate] = getDateRangeByNumberOfWeeks(numOfWeeks);
-
-  if (element === NAME_ELEMENT_CHART) {
-    loadGlucoseReadingsByUserId(startDate, endDate);
-  } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
-    saveDateRangeInSession({startDate, endDate});
-    window.location.reload();
-  }
 }
 
 /**
@@ -95,7 +102,7 @@ function updateDataByWeeks(element, numOfWeeks) {
  */
 function isValidDateRange(inputDate1, inputDate2) {
   if (inputDate1 && inputDate2) {
-    return (new Date(inputDate1) < new Date(inputDate2));
+    return new Date(inputDate1) < new Date(inputDate2);
   }
   return false;
 }

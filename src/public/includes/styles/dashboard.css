@@ -1,25 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-:root{
+:root {
   --sidebar-primary-color: #1195fe;
   --sidebar-secondary-color: #80c3ef;
-  --white-background-color: #FFFFFF;
+  --default-background-color: #f6f9ff;
   --menuitem-background-color: #f6f6f6;
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
-  font-size: .875rem;
-  background-color: var(--white-background-color);
+  font-size: 0.875rem;
+  background-color: var(--default-background-color);
 }
 
-.main-content{
+.main-content {
   min-height: 100vh;
 }
 
@@ -28,10 +28,10 @@ body {
 }
 
 .default-panel-color {
-  background-color: var(--white-background-color);
+  background-color: var(--default-background-color);
 }
 
-.round-border-top-left{
+.round-border-top-left {
   border-top-left-radius: 3rem;
 }
 
@@ -40,7 +40,7 @@ body {
   height: 25px;
 }
 
-.glicocheck-icon{
+.glicocheck-icon {
   width: 1rem;
   height: 1rem;
   margin-left: 3px;
@@ -57,14 +57,22 @@ body {
   left: 0;
   z-index: 100; /* Behind the navbar */
   padding: 48px 0 0; /* Height of navbar */
-  background: linear-gradient(to top, var(--sidebar-secondary-color), transparent);
+  background: linear-gradient(
+    to top,
+    var(--sidebar-secondary-color),
+    transparent
+  );
 }
 
 .sidebar-sticky {
   height: calc(100vh - 48px);
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  background: linear-gradient(to top, var(--sidebar-secondary-color), transparent);
+  background: linear-gradient(
+    to top,
+    var(--sidebar-secondary-color),
+    transparent
+  );
 }
 
 .sidebar .nav-link {
@@ -82,101 +90,99 @@ body {
  */
 
 .navbar-brand {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .navbar .navbar-toggler {
-  top: .25rem;
+  top: 0.25rem;
   right: 1rem;
 }
 
 .navbar .form-control {
-  padding: .75rem 1rem;
+  padding: 0.75rem 1rem;
 }
 
-.btn-add{
+.btn-add {
   width: 70%;
   margin-top: 100px;
 }
 
-.item-sidemenu{
+.item-sidemenu {
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-.item-sidemenu:hover{
-  background: linear-gradient(to right, var(--sidebar-secondary-color), transparent);
+.item-sidemenu:hover {
+  background: linear-gradient(
+    to right,
+    var(--sidebar-secondary-color),
+    transparent
+  );
   border-radius: 20px;
 }
 
-.justify-content{
+.justify-content {
   justify-content: flex-end;
 }
 
 /*
  * Chart
  */
-.container-chart{
-  width: 100%;
-  height: 70vh;
-}
-
-.visible{
+.visible {
   display: block;
 }
 
-.invisible{
+.invisible {
   display: none;
 }
 
-.header-visibility{
+.header-visibility {
   display: none;
 }
 
 /*
 * Welcome center
 */
-#welcome-center{
+#welcome-center {
   display: block;
-  font-size: 3vw;
-  padding-top: 20vh;
+  padding-top: 25vh;
   text-align: center;
 }
 
-.logo{
+.logo {
   width: 28rem;
   height: 16rem;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
-.logo-sidebar-panel{
+.logo-sidebar-panel {
   width: 100%;
   display: block;
   text-align: center;
 }
 
-.logo-sidebar{
+.logo-sidebar {
   width: 15rem;
   height: 8.5rem;
 }
 
-.logo-welcome-center{  
+.logo-welcome-center {
   width: 100%;
   height: auto;
 }
 
-.scrollablePanel{
+.scrollablePanel {
   max-height: 200px;
   overflow: auto;
 }
 
-.btn-highlight:hover{
+.btn-highlight:hover {
   background: rgb(245, 223, 223);
 }
 
-.total-carbs-background{
-  color: red; 
+.total-carbs-background {
+  color: red;
   background: #dee2e6;
 }
 
@@ -184,58 +190,92 @@ body {
   cursor: pointer;
 }
 
-.nav-item{
+.nav-item {
   padding: 1px;
 }
 
+.filter {
+  position: absolute;
+  padding: 10px 0 0 0;
+  right: 0px;
+  top: 15px;
+}
+
+.filter .icon {
+  color: #aab7cf;
+  transition: 0.3s;
+}
+
+.card-title {
+  padding: 20px 0 15px 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #012970;
+  font-family: "Poppins", sans-serif;
+}
+
+.card-title span {
+  color: #899bbd;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.pagetitle {
+  font-size: 24px;
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #012970;
+}
+
+.add-entry {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 3;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+}
+
 @media (max-width: 500px) {
-  .header-visibility{
+  .header-visibility {
     display: flex;
   }
-  .logo{
+  .logo {
     width: 16rem;
     height: 9rem;
   }
-  .justify-content{
+  .justify-content {
     justify-content: center;
   }
-  .nav-item{
+  .nav-item {
     font-size: 5vw;
   }
-  .container-chart{
+  .container-chart {
     height: 60vh;
   }
-  .round-border-top-left{
+  .round-border-top-left {
     border-top-left-radius: 0rem;
   }
-  .menu_button-text{
+  .menu_button-text {
     display: none;
   }
   .sidebar {
     background: var(--sidebar-secondary-color);
   }
-  .scrollablePanel{
+  .scrollablePanel {
     max-height: 150px;
-  }
-  .add-entry {
-    position: fixed;
-    right: 25px;
-    bottom: 25px;
-    z-index: 3;
-    width: 60px;
-    height: 60px;
-    border-radius: 50px;
   }
 }
 
-@media screen and (min-width: 760px) and (max-width: 1410px){
-  .logo-sidebar{
+@media screen and (min-width: 760px) and (max-width: 1410px) {
+  .logo-sidebar {
     width: 11rem;
     height: 6rem;
   }
-  .logo{
+  .logo {
     width: 24rem;
-    height: 13rem;    
+    height: 13rem;
   }
 }
 
@@ -246,13 +286,17 @@ body {
   .main-content {
     width: 100%;
   }
-  .round-border-top-left{
+  .round-border-top-left {
     border-top-left-radius: 0rem;
   }
-  .container-chart{
+  .container-chart {
     height: 105vh;
   }
 }
 
 /* It makes the page in landscape orientation for printing. */
-@media print{@page {size: landscape}}
+@media print {
+  @page {
+    size: landscape;
+  }
+}
