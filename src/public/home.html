@@ -98,7 +98,7 @@
               Home
             </h1>
           </div>
-      
+
           <!-- WELCOME PANEL -->
           <span id="panel-welcome-center">
             <div id="welcome-center">
@@ -110,45 +110,45 @@
             </div>
           </span>
 
-          <!-- ADD GLYCEMIA LOG -->
-          <div class="mb-2">                          
-            <button type="button" class="me-2 btn btn-sm btn-primary add-entry" 
-              data-bs-toggle="modal" data-bs-target="#modalNewEntry">
-              <span data-feather="plus" class="align-text-bottom"></span>
-            </button>       
-          </div>
-
-          <div id="panel-chart">
-            <div class="card">
+          <div id="panel-chart" class="invisible">
+            <div class="card ">
               <div class="card-body">                
                 <div class="justify-content">
                   <h5 class="card-title">Report <span class="ms-2" id="search_date_range"></span></h5>
 
                   <div class="filter me-3">
-                    <a class="icon" href="#" data-bs-toggle="dropdown">
-                      
-                      <button type="button" class="me-2 btn btn-sm btn-outline-secondary">
-                        <span data-feather="calendar" class="align-text-bottom"></span>
-                      </button>
-    
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 1)">1 week</a></li>
-                        <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 2)">2 weeks</a></li>
-                        <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 4)">4 weeks</a></li>
-                        <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 8)">8 weeks</a></li>
-                        <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 12)">12 weeks</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
-                      </ul>
+                    <!-- BUTTON FILTER -->
+                    <a class="icon" href="#" data-bs-toggle="dropdown">                      
+                    <button type="button" class="me-2 btn btn-sm btn-outline-secondary">
+                      <span data-feather="calendar" class="align-text-bottom"></span>
+                    </button>
+  
+                    <!-- FILTER BY WEEKS -->
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 0)">Today</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 1)">1 week</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 2)">2 weeks</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 4)">4 weeks</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 8)">8 weeks</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 12)">12 weeks</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
+                    </ul>
                   </div>
                 </div>
-
-                <!-- Line Chart -->
-                <div id="reportsChart"></div>
-
+                
+                <!-- LINE CHART -->
+                <div id="reports-chart"></div>
               </div>
             </div>
-          </div><!-- End Reports -->
+          </div>
+          <!-- End Reports -->
+
+          <!-- ADD GLYCEMIA LOG -->
+          <button type="button" class="mb-2 me-2 btn btn-sm btn-primary add-entry" 
+            data-bs-toggle="modal" data-bs-target="#modalNewEntry">
+            <span data-feather="plus" class="align-text-bottom"></span>
+          </button>
         </main>
 
         <!-- MODAL NEW ENTRY LOG -->

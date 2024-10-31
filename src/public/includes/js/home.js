@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-const ctx = document.querySelector('#reportsChart');
-const panelChart = document.querySelector('#panel-chart');
+const panelChart = document.getElementById('panel-chart');
+const chartContext = document.getElementById('reports-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
 const searchDateRange = document.getElementById('search_date_range');
 
@@ -13,7 +13,7 @@ let glucoseReadingDateLabels = [];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
-const COLOR_HYPERGLYCEMIA = '#4154f1';
+const COLOR_MY_GLYCEMIA = '#4154f1';
 const COLOR_IDEAL_GLYCEMIA_RANGE = '#2eca6a';
 
 const HTTP_OK = 200;
@@ -26,7 +26,7 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
  */
 function loadChart() {
   const chartConfiguration = getChartConfiguration();
-  this.glucoseReadingsChart = new ApexCharts(ctx, chartConfiguration);
+  this.glucoseReadingsChart = new ApexCharts(chartContext, chartConfiguration);
   this.glucoseReadingsChart.render();
 }
 
@@ -52,15 +52,15 @@ function getChartConfiguration() {
         {
           y: HYPERGLYCEMIA,
           y2: HYPOGLYCEMIA,
-          strokeDashArray: 1,
           borderColor: COLOR_IDEAL_GLYCEMIA_RANGE,
           fillColor: COLOR_IDEAL_GLYCEMIA_RANGE,
-          opacity: 0.13,
+          opacity: 0.14,
+          width: '100%',
         },
       ],
     },
     markers: {size: 4},
-    colors: [COLOR_HYPERGLYCEMIA],
+    colors: [COLOR_MY_GLYCEMIA],
     fill: {
       type: 'gradient',
       gradient: {
@@ -178,18 +178,23 @@ function sendGETToGlucose(xmlhttp, startDate, endDate) {
 }
 
 /**
- * This function adapts the string showed in the X axe of the chart.
- * @param {string} value The string in the date and time format.
- * @return {string} The date in simplified text.
+ * Adapts a date string from `YYYY-MM-DDTHH:MM:SS` format to `DD/MM/YY HH:MM`.
+ *
+ * @param {string} value - The date string in ISO format.
+ * @return {string} The adapted date string in `DD/MM/YY HH:MM` format.
+ * @throws {Error} If the input date string format is invalid.
  */
 function adaptLabelDate(value) {
-  const fullDate = value.slice(0, 10);
-  const arrayDate = fullDate.split('-');
-  const day = arrayDate[2];
-  const month = arrayDate[1];
-  const year = arrayDate[0];
-  const time = value.slice(-5);
-  return `${day}/${month}/${year.slice(-2)} ${time}`;
+  if (typeof value !== 'string' || value.length < 16) {
+    throw new Error('Invalid date format. Expected format: YYYY-MM-DDTHH:MM:SS');
+  }
+
+  const day = value.substring(8, 10);
+  const month = value.substring(5, 7);
+  const year = value.substring(2, 4);
+  const time = value.substring(11, 16);
+
+  return `${day}/${month}/${year} ${time}`;
 }
 
 /**

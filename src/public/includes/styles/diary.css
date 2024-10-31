@@ -1,40 +1,40 @@
 .panel-progressbar {
-    width: 25%;
+  width: 25%;
 }
-@media screen and (max-width: 600px) {
-    .panel-progressbar {
-        width: 100%;
-    }
-    #legend-panel  {
-        display: none;
-    }
-    .add-entry {
-        position: fixed;
-        right: 25px;
-        bottom: 25px;
-        z-index: 3;
-        width: 60px;
-        height: 60px;
-        border-radius: 50px;
-    }
+@media (max-width: 500px) {
+  .panel-progressbar {
+    width: 100%;
+  }
+  #legend-panel {
+    display: none;
+  }
+  .add-entry {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 3;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+  }
 }
 @media screen and (min-width: 601px) {
-    .panel-progressbar {
-        width: 50%;
-    }   
+  .panel-progressbar {
+    width: 50%;
+  }
 }
 @media screen and (min-width: 1000px) {
-    .panel-progressbar {
-        width: 35%;
-    }   
+  .panel-progressbar {
+    width: 35%;
+  }
 }
 @media screen and (min-width: 1200px) {
-    .panel-progressbar {
-        width: 25%;
-    }   
+  .panel-progressbar {
+    width: 25%;
+  }
 }
 @media (max-width: 830px) and (orientation: landscape) {
-    .panel-progressbar {
-        width: 100%;
-    } 
+  .panel-progressbar {
+    width: 100%;
+  }
 }

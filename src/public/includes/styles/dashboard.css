@@ -3,7 +3,7 @@
 :root {
   --sidebar-primary-color: #1195fe;
   --sidebar-secondary-color: #80c3ef;
-  --white-background-color: #f6f9ff;
+  --default-background-color: #f6f9ff;
   --menuitem-background-color: #f6f6f6;
 }
 
@@ -16,7 +16,7 @@
 
 body {
   font-size: 0.875rem;
-  background-color: var(--white-background-color);
+  background-color: var(--default-background-color);
 }
 
 .main-content {
@@ -28,7 +28,7 @@ body {
 }
 
 .default-panel-color {
-  background-color: var(--white-background-color);
+  background-color: var(--default-background-color);
 }
 
 .round-border-top-left {

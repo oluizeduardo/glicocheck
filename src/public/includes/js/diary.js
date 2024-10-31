@@ -613,7 +613,6 @@ function setMeasurementUnityLabel(config) {
  * @return {string} The measurement unity label.
  */
 function getMeasurementUnityLabel(unityId) {
-  console.log(unityId);
   UNITY_LABEL = unityId == COD_UNITY_MGDL ? LABEL_UNITY_MGDL : LABEL_UNITY_MMOL;
   return UNITY_LABEL;
 }

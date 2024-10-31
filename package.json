@@ -1,6 +1,6 @@
 {
   "name": "glicocheck",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "NodeJS web platform for diabetes management.",
   "main": "index.js",
   "engines": {
