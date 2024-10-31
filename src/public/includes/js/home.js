@@ -1,7 +1,8 @@
 /* eslint-disable max-len */
-const ctx = document.querySelector('#myChart');
+const ctx = document.querySelector('#reportsChart');
 const panelChart = document.querySelector('#panel-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
+const searchDateRange = document.getElementById('search_date_range');
 
 // eslint-disable-next-line no-var
 var glucoseReadingsChart;
@@ -9,34 +10,11 @@ var glucoseReadingsChart;
 let glucoseValues = [];
 // eslint-disable-next-line prefer-const
 let glucoseReadingDateLabels = [];
-// eslint-disable-next-line prefer-const
-let hyperglycemiaValues = [];
-// eslint-disable-next-line prefer-const
-let hypoglycemiaValues = [];
 
-let HYPERGLYCEMIA = 160;
-let HYPOGLYCEMIA = 70;
-const COLOR_HYPERGLYCEMIA = 'rgba(5, 172, 228, 1)';
-const COLOR_MY_GLYCEMIA = 'rgba(7, 140, 38, 2)';
-const COLOR_HYPOGLYCEMIA = 'rgba(255, 99, 132, 1)';
-const BORDER_WIDTH = 2;
-const POINT_RADIUS_HYPERGLYCEMIA = 0;
-const POINT_RADIUS_HYPOGLYCEMIA = 0;
-
-const POINT_RADIUS_MY_GLICEMIA_BROWSER = 6;
-const POINT_HOVER_RADIUS_BROWSER = POINT_RADIUS_MY_GLICEMIA_BROWSER * 2;
-const POINT_RADIUS_MY_GLICEMIA_MOBILE = POINT_RADIUS_MY_GLICEMIA_BROWSER / 2;
-const POINT_HOVER_RADIUS_MOBILE = POINT_RADIUS_MY_GLICEMIA_MOBILE * 2;
-
-const CHART_LINE_TENSION = 0.3;
-let Y_MIN_SCALE = 20;
-let Y_MAX_SCALE = 220;
-let Y_STEP_SIZE = 20;
-
-const COD_UNITY_MGDL = 1;
-const LABEL_UNITY_MGDL = 'mg/dL';
-const LABEL_UNITY_MMOL = 'mmol/L';
-let UNITY = LABEL_UNITY_MGDL;
+const HYPERGLYCEMIA = 160;
+const HYPOGLYCEMIA = 70;
+const COLOR_HYPERGLYCEMIA = '#4154f1';
+const COLOR_IDEAL_GLYCEMIA_RANGE = '#2eca6a';
 
 const HTTP_OK = 200;
 const HTTP_UNAUTHORIZED = 401;
@@ -47,9 +25,9 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
  * It loads the chart in the dashboard screen.
  */
 function loadChart() {
-  fillHypoAndHyperValues();
-  this.glucoseReadingsChart = new Chart(ctx, getChartConfiguration());
-  glucoseReadingsChart.update();
+  const chartConfiguration = getChartConfiguration();
+  this.glucoseReadingsChart = new ApexCharts(ctx, chartConfiguration);
+  this.glucoseReadingsChart.render();
 }
 
 /**
@@ -58,149 +36,53 @@ function loadChart() {
  */
 function getChartConfiguration() {
   return {
-    type: 'line',
-    data: {
-      labels: glucoseReadingDateLabels,
-      datasets: [
+    series: [
+      {
+        name: 'Glycemia',
+        data: glucoseValues,
+      },
+    ],
+    chart: {
+      height: 400,
+      type: 'area',
+      toolbar: {show: true},
+    },
+    annotations: {
+      yaxis: [
         {
-          label: 'Hyperglycemia',
-          data: hyperglycemiaValues,
-          borderColor: [COLOR_HYPERGLYCEMIA],
-          backgroundColor: [COLOR_HYPERGLYCEMIA],
-          borderWidth: BORDER_WIDTH,
-          pointRadius: POINT_RADIUS_HYPERGLYCEMIA,
-          pointHoverRadius: 0,
-        },
-        {
-          label: 'My glycemia',
-          data: glucoseValues,
-          borderColor: (chart) => getColor(chart),
-          backgroundColor: (chart) => getColor(chart),
-          borderWidth: BORDER_WIDTH,
-          pointRadius: isMaxWidth500px() ? POINT_RADIUS_MY_GLICEMIA_MOBILE : POINT_RADIUS_MY_GLICEMIA_BROWSER,
-          pointHoverRadius: isMaxWidth500px() ? POINT_HOVER_RADIUS_MOBILE : POINT_HOVER_RADIUS_BROWSER,
-        },
-        {
-          label: 'Hypoglycemia',
-          data: hypoglycemiaValues,
-          borderColor: [COLOR_HYPOGLYCEMIA],
-          backgroundColor: [COLOR_HYPOGLYCEMIA],
-          borderWidth: BORDER_WIDTH,
-          pointRadius: POINT_RADIUS_HYPOGLYCEMIA,
-          pointHoverRadius: 0,
+          y: HYPERGLYCEMIA,
+          y2: HYPOGLYCEMIA,
+          strokeDashArray: 1,
+          borderColor: COLOR_IDEAL_GLYCEMIA_RANGE,
+          fillColor: COLOR_IDEAL_GLYCEMIA_RANGE,
+          opacity: 0.13,
         },
       ],
     },
-    options: {
-      interaction: {
-        intersect: false,
-        mode: 'nearest',
-        axis: 'xy',
-      },
-      plugins: {
-        tooltip: {
-          titleAlign: 'center',
-          callbacks: {
-            footer: function(tooltipItems) {
-              let status = 0;
-              tooltipItems.forEach((tooltipItem) => {
-                const value = tooltipItem.parsed.y;
-                status = value <= HYPOGLYCEMIA ? 'Low' :
-                value >= HYPERGLYCEMIA ? 'High' : 'Normal';
-              });
-              return '\nStatus: ' + status;
-            },
-          },
-        },
-        legend: {
-          display: !isMaxWidth500px(),
-          labels: {
-            font: {
-              size: 15,
-            },
-          },
-        },
-      },
-      animations: {
-        tension: {
-          duration: 1000,
-          easing: 'easeOutQuart',
-          from: 1,
-          to: CHART_LINE_TENSION,
-        },
-      },
-      reposive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          type: 'linear',
-          min: Y_MIN_SCALE,
-          max: Y_MAX_SCALE,
-          ticks: {
-            display: !isMaxWidth500px(),
-            stepSize: Y_STEP_SIZE,
-          },
-          title: {
-            display: !isMaxWidth500px(),
-            text: `Glycemia ( ${UNITY} )`,
-          },
-        },
-        x: {
-          display: !isMaxWidth500px(),
-          ticks: {
-            display: !isMaxWidth500px(),
-            callback: function(value) {
-              let label = '';
-              let previousLabel = '';
-              const currentLabel = this.getLabelForValue(value);
-              if (value > 0) {// at least two registers.
-                previousLabel = this.getLabelForValue(value-1);
-              }
-              if (currentLabel.split(' ')[0] === previousLabel.split(' ')[0]) {
-                label = '';
-              } else {
-                label = currentLabel.split(' ');
-              }
-              return label;
-            },
-          },
-        },
+    markers: {size: 4},
+    colors: [COLOR_HYPERGLYCEMIA],
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.3,
+        opacityTo: 0.4,
+        stops: [0, 90, 100],
       },
     },
+    dataLabels: {enabled: false},
+    stroke: {curve: 'smooth', width: 2},
+    xaxis: {
+      type: 'string',
+      categories: glucoseReadingDateLabels,
+      labels: {
+        show: false,
+      },
+    },
+    tooltip: {
+      enabled: true,
+    },
   };
-}
-
-/**
- * Screen width is 500px or less.
- * @return {boolean} true if the screen width is up to 500px.
- */
-function isMaxWidth500px() {
-  return (window.matchMedia('(max-width: 500px)').matches);
-}
-
-/**
- * Chooses a color depending on the glucose level.
- * @param {Chart} chart The chart object.
- * @return {string} The right color depending on the glucose level.
- */
-function getColor(chart) {
-  const index = chart.dataIndex;
-  const value = chart.dataset.data[index];
-  return value <= HYPOGLYCEMIA ? COLOR_HYPOGLYCEMIA :
-    value >= HYPERGLYCEMIA ? COLOR_HYPERGLYCEMIA :
-    COLOR_MY_GLYCEMIA;
-}
-
-/**
- * It fills the list of hyperglycemia and
- * hypoglycemia with their initial values.
- */
-function fillHypoAndHyperValues() {
-  fillVariablesFromSystemConfiguration();
-  glucoseValues.forEach(() => {
-    hyperglycemiaValues.push(HYPERGLYCEMIA);
-    hypoglycemiaValues.push(HYPOGLYCEMIA);
-  });
 }
 
 /**
@@ -210,25 +92,30 @@ function fillHypoAndHyperValues() {
  * @param {string} endDate - The end date for the glucose data.
  */
 function loadGlucoseReadingsByUserId(startDate, endDate) {
+  glucoseValues = [];
+  glucoseReadingDateLabels = [];
+
   const xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
     if (xmlhttp.readyState == XMLHTTPREQUEST_STATUS_DONE) {
       switch (xmlhttp.status) {
         case HTTP_OK:
-          destroyChart();// Reset chart for new values.
           JSON.parse(xmlhttp.response, (key, value) => {
             if (key === 'glucose') glucoseValues.push(value);
             if (key === 'dateTime') {
               glucoseReadingDateLabels.push(adaptLabelDate(value));
             }
           });
+          updateSearchDateRange(glucoseReadingDateLabels);
           break;
 
         case HTTP_NOT_FOUND:
           if (startDate && endDate) {
-            swal('Nothing found',
+            swal(
+                'Nothing found',
                 'No registers found for the informed date.',
-                'info');
+                'info',
+            );
           }
           break;
 
@@ -254,6 +141,19 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
 }
 
 /**
+ * Updates the displayed date range in the format "dd/mm/yyyy-dd/mm/yyyy".
+ *
+ * @param {Array} glucoseReadingDateLabels - An array containing the start and end date.
+ * @return {void} This function does not return a value; it updates the inner text
+ *                 of the `searchDateRange` element directly.
+ */
+function updateSearchDateRange(glucoseReadingDateLabels) {
+  startDate = glucoseReadingDateLabels[0].split(' ')[0];
+  endDate = glucoseReadingDateLabels[glucoseReadingDateLabels.length - 1].split(' ')[0];
+  searchDateRange.innerText = `${startDate}-${endDate}`;
+}
+
+/**
  * Sends a GET request to recover the list of glucose readings
  * of the online user.
  * @param {XMLHttpRequest} xmlhttp The request object.
@@ -265,7 +165,7 @@ function sendGETToGlucose(xmlhttp, startDate, endDate) {
   const userId = getUserId();
   if (!token || !userId) logOut();
 
-  let url = API_BASE_REQUEST+`/diary/users/${userId}?sort=asc`;
+  let url = API_BASE_REQUEST + `/diary/users/${userId}?sort=asc`;
 
   if (startDate && endDate) {
     url = url.concat(`&start=${startDate}&end=${endDate}`);
@@ -275,15 +175,6 @@ function sendGETToGlucose(xmlhttp, startDate, endDate) {
   xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send();
-}
-
-/**
- * Destroy the chart to run its update.
- */
-function destroyChart() {
-  if (glucoseReadingsChart != null) {
-    glucoseReadingsChart.destroy();
-  }
 }
 
 /**
@@ -307,47 +198,6 @@ function adaptLabelDate(value) {
 function makeChartPanelVisible() {
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
-}
-
-/**
- * Fill the variables with the system configuration values.
- */
-function fillVariablesFromSystemConfiguration() {
-  const objectString = getSystemConfig();
-  if (objectString) {
-    const retrievedConfig = JSON.parse(objectString);
-    const unity = retrievedConfig.id_measurement_unity;
-    HYPERGLYCEMIA = retrievedConfig.limit_hyper;
-    HYPOGLYCEMIA = retrievedConfig.limit_hypo;
-    UNITY = getMeasurementUnityLabel(unity);
-    setChartAxisYValues(unity);
-  }
-}
-
-/**
- * Choose the correct measurement unity label.
- * @param {number} unityId
- * @return {string} The measurement unity label.
- */
-function getMeasurementUnityLabel(unityId) {
-  return unityId == COD_UNITY_MGDL ? LABEL_UNITY_MGDL : LABEL_UNITY_MMOL;
-}
-/**
- * Configure the values used in the axis Y on the chart panel.
- * @param {number} unityId
- */
-function setChartAxisYValues(unityId) {
-  if (unityId == COD_UNITY_MGDL) {
-    // mg/dL
-    Y_MAX_SCALE = 220;
-    Y_MIN_SCALE = 20;
-    Y_STEP_SIZE = 20;
-  } else {
-    // mmol/L
-    Y_MAX_SCALE = 12;
-    Y_MIN_SCALE = 2;
-    Y_STEP_SIZE = 1;
-  }
 }
 
 loadGlucoseReadingsByUserId();

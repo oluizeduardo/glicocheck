@@ -6,13 +6,30 @@ const NAME_ELEMENT_CHART = 'chart';
 const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
 
 /**
+ * Updates the chart or diary table based on the specified number of weeks.
+ * @param {string} element - An indicator of the element that wants to be updated.
+ * @param {number} numOfWeeks - The number of weeks to retrieve data for.
+ * @return {void}
+ */
+function updateDataByWeeks(element, numOfWeeks) {
+  const [startDate, endDate] = getDateRangeByNumberOfWeeks(numOfWeeks);
+
+  if (element === NAME_ELEMENT_CHART) {
+    loadGlucoseReadingsByUserId(startDate, endDate);
+  } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
+    saveDateRangeInSession({startDate, endDate});
+    window.location.reload();
+  }
+}
+
+/**
  * Get the start and end dates based on the number of weeks.
  * @param {number} numOfWeeks - The number of weeks.
  * @return {Date[]} An array with the start date and end date.
  */
 function getDateRangeByNumberOfWeeks(numOfWeeks) {
-  const startDate = new Date();// today
-  startDate.setDate(startDate.getDate() - (numOfWeeks * 7));
+  const startDate = new Date(); // today
+  startDate.setDate(startDate.getDate() - numOfWeeks * 7);
   const endDate = new Date();
 
   const formatDate = (date) => {
@@ -60,28 +77,13 @@ function processDateRange(element) {
       window.location.reload();
     }
   } else {
-    swal('Invalid Date',
+    swal(
+        'Invalid Date',
         'Please, inform the correct start and end date.',
-        'warning');
+        'warning',
+    );
   }
   clearFields([fieldStartDate, fieldEndDate]);
-}
-
-/**
- * Updates the chart or diary table based on the specified number of weeks.
- * @param {string} element - An indicator of the element that wants to be updated.
- * @param {number} numOfWeeks - The number of weeks to retrieve data for.
- * @return {void}
- */
-function updateDataByWeeks(element, numOfWeeks) {
-  const [startDate, endDate] = getDateRangeByNumberOfWeeks(numOfWeeks);
-
-  if (element === NAME_ELEMENT_CHART) {
-    loadGlucoseReadingsByUserId(startDate, endDate);
-  } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
-    saveDateRangeInSession({startDate, endDate});
-    window.location.reload();
-  }
 }
 
 /**
@@ -95,7 +97,7 @@ function updateDataByWeeks(element, numOfWeeks) {
  */
 function isValidDateRange(inputDate1, inputDate2) {
   if (inputDate1 && inputDate2) {
-    return (new Date(inputDate1) < new Date(inputDate2));
+    return new Date(inputDate1) < new Date(inputDate2);
   }
   return false;
 }
