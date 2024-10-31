@@ -146,15 +146,14 @@ body {
 */
 #welcome-center {
   display: block;
-  font-size: 3vw;
-  padding-top: 20vh;
+  padding-top: 25vh;
   text-align: center;
 }
 
 .logo {
   width: 28rem;
   height: 16rem;
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .logo-sidebar-panel {
