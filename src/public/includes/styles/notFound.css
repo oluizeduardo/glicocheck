@@ -1,0 +1,32 @@
+h1, h2, h3, h4, h5, h6, a{
+  font-family: "Nunito", sans-serif;
+}
+
+main {
+  background-color: #f6f9ff;
+}
+
+.error-404 {
+  padding: 30px;
+}
+
+.error-404 h1 {
+  font-size: 180px;
+  font-weight: 700;
+  color: #4154f1;
+  margin-bottom: 0;
+  line-height: 150px;
+}
+
+.error-404 h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #012970;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 992px) {
+  .error-404 img {
+    max-width: 50%;
+  }
+}

@@ -30,6 +30,10 @@ app.use(express.json({limit: '2mb'}));
 app.use(express.urlencoded({extended: true}));
 app.use('/', express.static(path.join(__dirname, '/src/public')));
 
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '/src/public/404.html'));
+});
+
 const port = process.env.PORT || 3000;
 
 const appVersion = packageJson.version;
