@@ -108,7 +108,7 @@
                 
                 <!-- ADD GLYCEMIA LOG -->
                 <button type="button" class="mb-2 me-2 btn btn-sm btn-primary add-entry" 
-                  data-bs-toggle="modal" data-bs-target="#modalNewEntry">
+                  data-bs-toggle="modal" data-bs-target="#modalNewEntry" id="btnAddGlycemiaLog">
                   <span data-feather="plus" class="align-text-bottom"></span>
                 </button>
 
@@ -131,13 +131,14 @@
                     <span class="menu_button-text">Time interval</span>               
                   </button>
                   <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="updateDataByWeeks('table', 0)">Today</a></li>
                     <li><a class="dropdown-item" onclick="updateDataByWeeks('table', 1)">1 week</a></li>
                     <li><a class="dropdown-item" onclick="updateDataByWeeks('table', 2)">2 weeks</a></li>
                     <li><a class="dropdown-item" onclick="updateDataByWeeks('table', 4)">4 weeks</a></li>
                     <li><a class="dropdown-item" onclick="updateDataByWeeks('table', 8)">8 weeks</a></li>
                     <li><a class="dropdown-item" onclick="updateDataByWeeks('table', 12)">12 weeks</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Personalize</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Custom</a></li>
                   </ul>
                 </div>
               </div>
@@ -421,7 +422,7 @@
 
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title" title="Tooltip">Time Interval</h4>
+                <h4 class="modal-title" title="Tooltip">Set custom period</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>            
               </div>          
 

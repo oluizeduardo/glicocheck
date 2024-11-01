@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const btnSave = document.getElementById('btnSave');
+const btnAddGlycemiaLog = document.getElementById('btnAddGlycemiaLog');
 const fieldGlucose = document.getElementById('field_Glucose');
 const fieldDate = document.getElementById('field_Date');
 const fieldMarkermeal = document.getElementById('field_Markermeal');
@@ -12,7 +13,9 @@ let totalCarbs = 0;
 const HTTP_CREATED = 201;
 const NAME_PAGE_DAIRY = 'diary.html';
 
-fieldDate.value = getLocalDateTime();
+btnAddGlycemiaLog.addEventListener('click', function(event) {
+  fieldDate.value = getLocalDateTime();
+});
 
 btnSave.addEventListener('click', function(event) {
   event.preventDefault();
