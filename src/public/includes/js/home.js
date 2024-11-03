@@ -9,7 +9,7 @@ const deviationValue = document.getElementById('deviation-value');
 const hyposValue = document.getElementById('hypos-value');
 const hypersValue = document.getElementById('hypers-value');
 
-// eslint-disable-next-line no-var
+// eslint-disable-next-line no-var, no-unused-vars
 var glucoseReadingsChart;
 // eslint-disable-next-line prefer-const
 let glucoseValues = [];
@@ -31,8 +31,23 @@ const XMLHTTPREQUEST_STATUS_DONE = 4;
  */
 function loadChart() {
   const chartConfiguration = getChartConfiguration();
+
+  // Validate chart context and configuration
+  if (!chartContext || !chartConfiguration) {
+    console.error('Chart context or configuration is missing. Cannot render the chart.');
+    return;
+  }
+
+  // Destroy existing chart if it exists to avoid memory leaks
+  if (this.glucoseReadingsChart) {
+    this.glucoseReadingsChart.destroy();
+  }
+
+  // Create and render the new chart
   this.glucoseReadingsChart = new ApexCharts(chartContext, chartConfiguration);
-  this.glucoseReadingsChart.render();
+  this.glucoseReadingsChart.render().catch((error) => {
+    console.error('Failed to render chart:', error);
+  });
 }
 
 /**
@@ -43,7 +58,6 @@ function getChartConfiguration() {
   return {
     series: [
       {
-        name: 'Glycemia',
         data: glucoseValues,
       },
     ],
@@ -174,9 +188,13 @@ function updateStatisticsPanel(glucoseValues) {
  *                 of the `searchDateRange` element directly.
  */
 function updateSearchDateRange(glucoseReadingDateLabels) {
+  if (!glucoseReadingDateLabels || glucoseReadingDateLabels.length === 0) {
+    searchDateRange.innerText = ' ';
+    return;
+  }
   startDate = glucoseReadingDateLabels[0].split(' ')[0];
   endDate = glucoseReadingDateLabels[glucoseReadingDateLabels.length - 1].split(' ')[0];
-  searchDateRange.innerText = `${startDate}-${endDate}`;
+  searchDateRange.innerText = startDate === endDate ? startDate : `${startDate} - ${endDate}`;
 }
 
 /**
@@ -227,6 +245,11 @@ function adaptLabelDate(value) {
  * It makes the chart panel visible at the center of the screen.
  */
 function makeChartPanelVisible() {
+  // Validate chart context and configuration
+  if (!chartContext || !getChartConfiguration()) {
+    console.error('Chart context or configuration is missing. Cannot render the chart.');
+    return;
+  }
   panelWelcomeCenter.classList.add('invisible');
   panelChart.classList.remove('invisible');
 }
