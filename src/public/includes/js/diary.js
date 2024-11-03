@@ -8,8 +8,6 @@ let HYPOGLYCEMIA = 70;
 let HYPERGLYCEMIA = 160;
 
 const listOfGlucoseValues = [];
-let lowestGlucoseValue = 999;
-let highestGlucoseValue = 0;
 
 let defaultTimeBFpre = 6;
 let defaultTimeBFpos = 8;
@@ -37,7 +35,7 @@ function getGlucoseReadingsByUserId() {
           deleteFirstTableRow();
           fillGlucoseDiaryTable(xmlhttp.responseText);
           fillProrgessBarGlucoseDistribution();
-          fillStatisticsTable();
+          updateStatisticsPanel();
           break;
 
         case HTTP_NOT_FOUND:
@@ -72,11 +70,7 @@ function sendGETToGlucose(xmlhttp, dateRange) {
   const token = getJwtToken();
   const userId = getUserId();
 
-  if (!token || !userId) logOut();
-
-  let url = API_BASE_REQUEST+`/diary/users/${userId}?sort=desc`;
-
-  if (!token) {
+  if (!token || !userId) {
     const message = `Error consulting diary data. 
     Please do the login again.`;
     swal({
@@ -87,6 +81,8 @@ function sendGETToGlucose(xmlhttp, dateRange) {
       logOut();
     });
   }
+
+  let url = API_BASE_REQUEST+`/diary/users/${userId}?sort=desc`;
 
   if (dateRange) {
     url = url.concat(`&start=${dateRange.startDate}&end=${dateRange.endDate}`);
@@ -104,9 +100,7 @@ function sendGETToGlucose(xmlhttp, dateRange) {
  */
 function getDateRangeFromSession() {
   const obj = getDateRangeSessionStorage();
-  if (obj) {
-    return JSON.parse(obj);
-  }
+  if (obj) return JSON.parse(obj);
   return null;
 }
 /**
@@ -124,37 +118,18 @@ function fillGlucoseDiaryTable(responseText) {
   const registers = JSON.parse(responseText);
   const diaryTable = getDiaryTable();
 
-  for (i=0; i < registers.length; i++) {
-    const specificData = getSpecificData(registers[i]);
+  registers.forEach((register) => {
+    const specificData = getSpecificData(register);
     addNewRegisterIntoTheTable(diaryTable, specificData);
-    updateGlucoseIndicators(registers[i].glucose);
-  }
-}
-/**
- * Update the glucose indicators such as: the list of
- * glucose values, the highest and lowest values.
- * @param {Number} glucoseValue
- */
-function updateGlucoseIndicators(glucoseValue) {
-  listOfGlucoseValues.push(glucoseValue);
-  if (listOfGlucoseValues.length === 1) {
-    lowestGlucoseValue = glucoseValue;
-    highestGlucoseValue = glucoseValue;
-  } else {
-    if (glucoseValue < lowestGlucoseValue) {
-      lowestGlucoseValue = glucoseValue;
-    } else if (glucoseValue > highestGlucoseValue) {
-      highestGlucoseValue = glucoseValue;
-    }
-  }
+    listOfGlucoseValues.push(register.glucose);
+  });
 }
 
 /**
  * @return {HTMLElement} The glucose diary table body element.
  */
 function getDiaryTable() {
-  return document.getElementById('glucoseDiary')
-      .getElementsByTagName('tbody')[0];
+  return document.getElementById('glucoseDiary').getElementsByTagName('tbody')[0];
 }
 /**
  * Gets in JSON format the specific data to be printed on the diary table.
@@ -275,8 +250,6 @@ function fillColumnDate(element, dateTime) {
   element.appendChild(createSmall(dateTime));
 }
 
-let totalSumBloodGlucoseValues = 0;
-
 /**
  * Fill the column glycemia.
  * @param {Array} tdElements List of table TDs.
@@ -286,7 +259,6 @@ let totalSumBloodGlucoseValues = 0;
 function fillColumnGlycemia(tdElements, hour, glucoseValue) {
   const element = tdElements[getIndexGlycemiaTD(hour)];
   element.appendChild(createDiv(glucoseValue));
-  totalSumBloodGlucoseValues += glucoseValue;
 }
 /**
  * Fill the column with the total amount of carbohydrate.
@@ -368,30 +340,23 @@ function getIndexGlycemiaTD(hour) {
   return 1;// late night snack
 }
 
-let qtdRegistersHipoglycemia = 0;
-let qtdRegistersHyperglycemia = 0;
-let qtdRegistersNormalGlycemia = 0;
+const glucoseLevelCounts = {
+  hypoglycemia: 0,
+  hyperglycemia: 0,
+  normalGlycemia: 0,
+};
 
 /**
- * Gets the number of registers found.
- * @return {Number} The number of registers found.
- */
-function getNumberOfRegisters() {
-  return (
-    qtdRegistersHipoglycemia +
-    qtdRegistersHyperglycemia +
-    qtdRegistersNormalGlycemia
-  );
-}
-
-/**
- * Applies style classes depending on the glucose value.
- * There are two different set of style classes: for hypoglycemia
- * and hyperglycemia.
- * @param {HTMLElement} element The element which will receive the style.
- * @param {Number} glucoseValue A number representing the glucose value.
+ * Applies style classes to an element based on the glucose value.
+ * @param {HTMLElement} element - The element which will receive the style.
+ * @param {number} glucoseValue - A number representing the glucose value.
  */
 function applyStyle(element, glucoseValue) {
+  if (!(element instanceof HTMLElement) || typeof glucoseValue !== 'number') {
+    console.warn('Invalid element or glucoseValue');
+    return;
+  }
+
   const styleClasses = [
     'badge',
     'text-light',
@@ -401,16 +366,17 @@ function applyStyle(element, glucoseValue) {
   ];
   if (glucoseValue <= HYPOGLYCEMIA) {
     styleClasses.push('bg-danger');
-    qtdRegistersHipoglycemia++;
+    glucoseLevelCounts.hypoglycemia++;
   } else if (glucoseValue >= HYPERGLYCEMIA) {
     styleClasses.push('bg-primary');
-    qtdRegistersHyperglycemia++;
+    glucoseLevelCounts.hyperglycemia++;
   } else {
     styleClasses.push('bg-success');
-    qtdRegistersNormalGlycemia++;
+    glucoseLevelCounts.normalGlycemia++;
   }
-  styleClasses.forEach((style) => element.classList.add(style));
+  element.classList.add(...styleClasses);
 }
+
 /**
  * Fill the progressbar about the distribution of glucose values.
  */
@@ -419,13 +385,13 @@ function fillProrgessBarGlucoseDistribution() {
   const pbNormal = document.getElementById('pbNormal');
   const pbHyper = document.getElementById('pbHyper');
 
-  const percentHypo = convertToPercentage(qtdRegistersHipoglycemia);
-  const percentNormal = convertToPercentage(qtdRegistersNormalGlycemia);
-  const percentHyper = convertToPercentage(qtdRegistersHyperglycemia);
+  pbHypo.innerText = glucoseLevelCounts.hypoglycemia;
+  pbNormal.innerText = glucoseLevelCounts.normalGlycemia;
+  pbHyper.innerText = glucoseLevelCounts.hyperglycemia;
 
-  pbHypo.innerText = qtdRegistersHipoglycemia;
-  pbNormal.innerText = qtdRegistersNormalGlycemia;
-  pbHyper.innerText = qtdRegistersHyperglycemia;
+  const percentHypo = calculateHypoglycemiaPercentage(listOfGlucoseValues, HYPOGLYCEMIA);
+  const percentNormal = calculateNormalGlycemiaPercentage(listOfGlucoseValues, HYPOGLYCEMIA, HYPERGLYCEMIA);
+  const percentHyper = calculateHyperglycemiaPercentage(listOfGlucoseValues, HYPERGLYCEMIA);
 
   pbHypo.style.width = adaptValueToPercentageText(percentHypo);
   pbNormal.style.width = adaptValueToPercentageText(percentNormal);
@@ -438,15 +404,6 @@ function fillProrgessBarGlucoseDistribution() {
  */
 function adaptValueToPercentageText(value) {
   return ''.concat(value).concat('%');
-}
-/**
- * Converts a number to percentage according to the total number
- * of registers of glucose readings.
- * @param {Number} value The number to be converted in percentage.
- * @return {Number}
- */
-function convertToPercentage(value) {
-  return (value / getNumberOfRegisters()) * 100;
 }
 
 // /////////////
@@ -464,27 +421,9 @@ document.getElementById('btnExport').addEventListener('click', () => {
 });
 
 /**
- * The function calculates he standard deviation of a given
- * array of blood glucose numbers.
- * @param {Array} glycemia An array of blood glucose numbers.
- * @return {Number} The standard deviation value.
- */
-function calculateStandardDeviation(glycemia) {
-  const n = glycemia.length;
-  if (n > 1) {
-    const mean = glycemia.reduce((acc, val) => acc + val, 0) / n;
-    // eslint-disable-next-line max-len
-    const squaredDifferencesSum = glycemia.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0);
-    const standardDeviation = Math.sqrt(squaredDifferencesSum / (n - 1));
-    return Math.round(standardDeviation);
-  }
-  return 0;
-}
-
-/**
  * It fills the statistics table.
  */
-function fillStatisticsTable() {
+function updateStatisticsPanel() {
   // TABLE 1
   const statsGlicTests = document.getElementById('stats_glic_tests');
   const statsGlicAverage = document.getElementById('stats_glic_average');
@@ -492,17 +431,16 @@ function fillStatisticsTable() {
   const statsGlicLowest = document.getElementById('stats_glic_lowest');
   const statsGlicHighest = document.getElementById('stats_glic_highest');
   // Number of tests
-  statsGlicTests.innerText = getNumberOfRegisters();
+  statsGlicTests.innerText = listOfGlucoseValues.length;
   // Average
-  // eslint-disable-next-line max-len
-  const average = (totalSumBloodGlucoseValues / getNumberOfRegisters());
+  const average = calculateAverage(listOfGlucoseValues);
   statsGlicAverage.innerText = ''.concat(average).concat(` ${UNITY_LABEL}`);
   // Standard deviation
   const standardDeviation = calculateStandardDeviation(listOfGlucoseValues);
   statsGlicStddev.innerText = ''.concat(standardDeviation).concat(` ${UNITY_LABEL}`);
   // Lowest and Highest
-  statsGlicLowest.innerText = ''.concat(lowestGlucoseValue).concat(` ${UNITY_LABEL}`);
-  statsGlicHighest.innerText = ''.concat(highestGlucoseValue).concat(` ${UNITY_LABEL}`);
+  statsGlicLowest.innerText = ''.concat(Math.min(...listOfGlucoseValues)).concat(` ${UNITY_LABEL}`);
+  statsGlicHighest.innerText = ''.concat(Math.max(...listOfGlucoseValues)).concat(` ${UNITY_LABEL}`);
 
   // TABLE 2
   const statsPercentHypo = document.getElementById('stats_percent_hypo');
@@ -512,19 +450,17 @@ function fillStatisticsTable() {
   const statsNormal = document.getElementById('stats_test_normal');
   const statsHyper = document.getElementById('stats_test_hyper');
 
-  const percentHypo = Math.round(convertToPercentage(qtdRegistersHipoglycemia));
-  // eslint-disable-next-line max-len
-  const percentNormal = Math.round(convertToPercentage(qtdRegistersNormalGlycemia));
-  // eslint-disable-next-line max-len
-  const percentHyper = Math.round(convertToPercentage(qtdRegistersHyperglycemia));
+  const percentHypo = calculateHypoglycemiaPercentage(listOfGlucoseValues, HYPOGLYCEMIA);
+  const percentNormal = calculateNormalGlycemiaPercentage(listOfGlucoseValues, HYPOGLYCEMIA, HYPERGLYCEMIA);
+  const percentHyper = calculateHyperglycemiaPercentage(listOfGlucoseValues, HYPERGLYCEMIA);
 
   statsPercentHypo.innerText = adaptValueToPercentageText(percentHypo);
   statsPercentNormal.innerText = adaptValueToPercentageText(percentNormal);
   statsPercentHyper.innerText = adaptValueToPercentageText(percentHyper);
 
-  statsHypo.innerText = qtdRegistersHipoglycemia;
-  statsNormal.innerText = qtdRegistersNormalGlycemia;
-  statsHyper.innerText = qtdRegistersHyperglycemia;
+  statsHypo.innerText = glucoseLevelCounts.hypoglycemia;
+  statsNormal.innerText = glucoseLevelCounts.normalGlycemia;
+  statsHyper.innerText = glucoseLevelCounts.hyperglycemia;
 }
 
 /**
