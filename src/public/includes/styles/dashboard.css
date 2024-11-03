@@ -237,6 +237,85 @@ body {
   border-radius: 50px;
 }
 
+/************************* 
+ Panel Statistics
+ *************************/
+.statistics-panel{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 0 10px 30px 0;
+}
+.statistics-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1 1 20%;
+  font-family: "Poppins", sans-serif;
+}
+.statistics-card-header {
+  display: flex;
+  align-items: center;
+  color: #7a7a7a;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.statistics-card-icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+.statistics-card-title {
+  font-weight: 600;
+  color: #012970;
+}
+.statistics-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-size: 26px;
+  color: #333;
+}
+.statistics-card-dot {
+  width: 8px;
+  height: 8px;
+  background-color: green;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.statistics-card-value {
+  font-weight: bold;
+}
+.statistics-card-unit {
+  font-size: 14px;
+  color: #7a7a7a;
+  margin-left: 4px;
+}
+.statistics-card-footer {
+  display: flex;
+  font-size: 14px;
+  color: #7a7a7a;
+  margin-top: 8px;
+  justify-content: end;
+}
+.statistics-card-footer-text {
+  margin-right: 4px;
+}
+.statistics-card-footer-value {
+  color: green;
+  font-weight: bold;
+}
+
+@media (max-width: 500px) {
+  .statistics-panel {
+    flex-direction: column;
+  }
+  .statistics-card{
+    flex: 1 1 100%;
+  }
+}
+/**********************************/
+
 @media (max-width: 500px) {
   .header-visibility {
     display: flex;

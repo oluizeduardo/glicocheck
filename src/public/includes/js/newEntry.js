@@ -71,8 +71,8 @@ function sendPOSTToGlucose(xmlhttp) {
 
   if (!token || !userId) logOut();
 
-  xmlhttp.open('POST', API_BASE_REQUEST+`/diary/users/${userId}`);
-  xmlhttp.setRequestHeader('Authorization', 'Bearer '+token);
+  xmlhttp.open('POST', API_BASE_REQUEST + `/diary/users/${userId}`);
+  xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send(jsonNewEntry);
 }
@@ -97,7 +97,7 @@ function prepareJsonNewEntry() {
     glucose: fieldGlucose.value,
     total_carbs: getTotalCarbs(),
     dateTime: fieldDate.value,
-    id_markermeal: fieldMarkermeal.selectedIndex,
+    id_markermeal: fieldMarkermeal.value,
     id_measurement_unity: getMeasurementUnity(),
   });
 }
@@ -143,12 +143,11 @@ function resetChart() {
 }
 
 /**
- * Destroy the chart to run its update.
+ * Destroys the glucose readings chart if it exists and
+ * clears all associated data arrays.
  */
 function destroyChart() {
-  if (glucoseReadingsChart != null) {
-    glucoseReadingsChart.destroy();
-  }
+  if (glucoseReadingsChart) glucoseReadingsChart.destroy();
   glucoseValues = [];
   glucoseReadingDateLabels = [];
   hyperglycemiaValues = [];
@@ -175,8 +174,8 @@ fieldFood.addEventListener('keypress', (e) => {
  * e.g. "1 cup of milk", "2 slices of cheese".
  */
 async function addNewListItem(food) {
-  const url = API_BASE_REQUEST+`/carbscounting/${food}`;
-  const myHeaders = new Headers({'Authorization': 'Bearer '+getJwtToken()});
+  const url = API_BASE_REQUEST + `/carbscounting/${food}`;
+  const myHeaders = new Headers({Authorization: 'Bearer ' + getJwtToken()});
   const myInit = {method: 'GET', headers: myHeaders};
   const response = await fetch(url, myInit);
 
