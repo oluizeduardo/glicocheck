@@ -3,6 +3,11 @@ const panelChart = document.getElementById('panel-chart');
 const chartContext = document.getElementById('reports-chart');
 const panelWelcomeCenter = document.getElementById('panel-welcome-center');
 const searchDateRange = document.getElementById('search_date_range');
+// Statistics
+const averageValue = document.getElementById('average-value');
+const deviationValue = document.getElementById('deviation-value');
+const hyposValue = document.getElementById('hypos-value');
+const hypersValue = document.getElementById('hypers-value');
 
 // eslint-disable-next-line no-var
 var glucoseReadingsChart;
@@ -43,7 +48,7 @@ function getChartConfiguration() {
       },
     ],
     chart: {
-      height: 400,
+      height: 330,
       type: 'area',
       toolbar: {show: !isMaxWidth500px()},
     },
@@ -115,6 +120,7 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
             }
           });
           updateSearchDateRange(glucoseReadingDateLabels);
+          updateStatisticsPanel(glucoseValues);
           break;
 
         case HTTP_NOT_FOUND:
@@ -146,6 +152,56 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
     }
   };
   sendGETToGlucose(xmlhttp, startDate, endDate);
+}
+
+/**
+ * Update Statistics panel.
+ * @param {Array} glucoseValues
+ * @param {Array} glucoseReadingDateLabels
+ */
+function updateStatisticsPanel(glucoseValues) {
+  averageValue.innerText = calcAverage(glucoseValues);
+  deviationValue.innerText = calculateStandardDeviation(glucoseValues);
+
+  const {hypo, hyper} = countHypoAndHyper(glucoseValues);
+  hyposValue.innerText = hypo;
+  hypersValue.innerText = hyper;
+}
+
+/**
+ * @param {Array} values
+ * @return {object}
+ */
+function countHypoAndHyper(values) {
+  const hypo = values.filter((valor) => valor <= HYPOGLYCEMIA).length;
+  const hyper = values.filter((valor) => valor >= HYPERGLYCEMIA).length;
+  return {hypo, hyper};
+}
+
+/**
+ * @param {Array} values
+ * @return {Number} The average.
+ */
+function calcAverage(values) {
+  const sum = values.reduce((acc, valor) => acc + valor, 0);
+  const average = sum / values.length;
+  return Math.round(average);
+}
+
+/**
+ * The function calculates he standard deviation of a given array of numbers.
+ * @param {Array} values An array of blood glucose numbers.
+ * @return {Number} The standard deviation value.
+ */
+function calculateStandardDeviation(values) {
+  const n = values.length;
+  if (n > 1) {
+    const mean = values.reduce((acc, val) => acc + val, 0) / n;
+    const squaredDifferencesSum = values.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0);
+    const standardDeviation = Math.sqrt(squaredDifferencesSum / (n - 1));
+    return Math.round(standardDeviation);
+  }
+  return 0;
 }
 
 /**

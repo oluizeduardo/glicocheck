@@ -111,7 +111,7 @@
           </span>
 
           <div id="panel-chart" class="invisible">
-            <div class="card ">
+            <div class="card mb-3">
               <div class="card-body">                
                 <div class="justify-content">
                   <h5 class="card-title">Report <span class="ms-2" id="search_date_range"></span></h5>
@@ -141,6 +141,89 @@
                 <div id="reports-chart"></div>
               </div>
             </div>
+            
+            <!-- STATISTICS -->
+            <div class="mb-5">                
+              <div class="justify-content">
+                <h5 class="card-title">Statistics</h5>
+              </div>
+
+              <!-- STATISTICS PANEL -->
+              <div class="statistics-panel">              
+  
+                <!-- AVERAGE BLOOD SUGAR -->
+                <div class="statistics-card">
+                  <div class="statistics-card-header">                  
+                    <span class="statistics-card-title">
+                      <span data-feather="droplet" class="statistics-card-icon"></span>Average Blood sugar
+                    </span>
+                  </div>
+                  <div class="statistics-card-content">
+                    <!-- <span class="statistics-card-dot"></span> -->
+                    <span class="statistics-card-value" id="average-value">--</span>
+                    <span class="statistics-card-unit">mg/dL</span>
+                  </div>
+                  <!-- <div class="statistics-card-footer">
+                    <span class="statistics-card-footer-text">Previous month</span>
+                    <span class="statistics-card-footer-value" id="average-previous-month-value">--</span>
+                  </div> -->
+                </div>
+
+                <!-- BLOOD SUGAR DEVIATION -->
+                <div class="statistics-card">
+                  <div class="statistics-card-header">                  
+                    <span class="statistics-card-title">
+                      <span data-feather="droplet" class="statistics-card-icon"></span>Blood sugar deviation
+                    </span>
+                  </div>
+                  <div class="statistics-card-content">
+                    <!-- <span class="statistics-card-dot"></span> -->
+                    <span class="statistics-card-value" id="deviation-value">--</span>
+                    <span class="statistics-card-unit">mg/dL</span>
+                  </div>
+                  <!-- <div class="statistics-card-footer">
+                    <span class="statistics-card-footer-text">Previous month</span>
+                    <span class="statistics-card-footer-value">38</span>
+                  </div> -->
+                </div>
+
+                <!-- TOTAL HYPOS -->
+                <div class="statistics-card">
+                  <div class="statistics-card-header">                  
+                    <span class="statistics-card-title">
+                      <span data-feather="droplet" class="statistics-card-icon"></span>Total Hypos
+                    </span>
+                  </div>
+                  <div class="statistics-card-content">
+                    <!-- <span class="statistics-card-dot"></span> -->
+                    <span class="statistics-card-value" id="hypos-value">--</span>
+                    <span class="statistics-card-unit">hypos</span>
+                  </div>
+                  <!-- <div class="statistics-card-footer">
+                    <span class="statistics-card-footer-text">Previous month</span>
+                    <span class="statistics-card-footer-value">--</span>
+                  </div> -->
+                </div>
+
+                <!-- TOTAL HYPERS -->
+                <div class="statistics-card">
+                  <div class="statistics-card-header">                  
+                    <span class="statistics-card-title">
+                      <span data-feather="droplet" class="statistics-card-icon"></span>Total Hypers
+                    </span>
+                  </div>
+                  <div class="statistics-card-content">
+                    <!-- <span class="statistics-card-dot"></span> -->
+                    <span class="statistics-card-value" id="hypers-value">--</span>
+                    <span class="statistics-card-unit">hypers</span>
+                  </div>
+                  <!-- <div class="statistics-card-footer">
+                    <span class="statistics-card-footer-text">Previous month</span>
+                    <span class="statistics-card-footer-value">--</span>
+                  </div> -->
+                </div>
+              </div> 
+            </div>            
           </div>
           <!-- End Reports -->
 

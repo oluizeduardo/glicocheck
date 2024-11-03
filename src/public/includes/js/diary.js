@@ -495,7 +495,7 @@ function fillStatisticsTable() {
   statsGlicTests.innerText = getNumberOfRegisters();
   // Average
   // eslint-disable-next-line max-len
-  const average = Math.round(totalSumBloodGlucoseValues / getNumberOfRegisters());
+  const average = (totalSumBloodGlucoseValues / getNumberOfRegisters());
   statsGlicAverage.innerText = ''.concat(average).concat(` ${UNITY_LABEL}`);
   // Standard deviation
   const standardDeviation = calculateStandardDeviation(listOfGlucoseValues);

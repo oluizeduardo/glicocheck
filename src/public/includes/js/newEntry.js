@@ -97,7 +97,7 @@ function prepareJsonNewEntry() {
     glucose: fieldGlucose.value,
     total_carbs: getTotalCarbs(),
     dateTime: fieldDate.value,
-    id_markermeal: fieldMarkermeal.selectedIndex,
+    id_markermeal: fieldMarkermeal.value,
     id_measurement_unity: getMeasurementUnity(),
   });
 }
