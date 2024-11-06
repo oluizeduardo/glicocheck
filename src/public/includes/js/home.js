@@ -15,6 +15,8 @@ var glucoseReadingsChart;
 let glucoseValues = [];
 // eslint-disable-next-line prefer-const
 let glucoseReadingDateLabels = [];
+// eslint-disable-next-line prefer-const
+let tempGlucoseReadingDateLabels = [];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
@@ -58,6 +60,7 @@ function getChartConfiguration() {
   return {
     series: [
       {
+        name: 'Glycemia',
         data: glucoseValues,
       },
     ],
@@ -65,6 +68,16 @@ function getChartConfiguration() {
       height: 330,
       type: 'area',
       toolbar: {show: !isMaxWidth500px()},
+      events: {
+        zoomed: function(chartContext, {xaxis, yaxis}) {
+          tempGlucoseReadingDateLabels = [];
+          tempGlucoseReadingDateLabels.push(glucoseReadingDateLabels[xaxis.min-1]);
+          tempGlucoseReadingDateLabels.push(glucoseReadingDateLabels[xaxis.max-1]);
+
+          updateSearchDateRange(tempGlucoseReadingDateLabels);
+          updateStatisticsPanel(glucoseValues.slice(xaxis.min-1, xaxis.max));
+        },
+      },
     },
     annotations: {
       yaxis: [
@@ -100,6 +113,9 @@ function getChartConfiguration() {
     },
     tooltip: {
       enabled: true,
+      x: {
+        show: false,
+      },
     },
   };
 }
