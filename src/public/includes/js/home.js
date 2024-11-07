@@ -15,8 +15,6 @@ var glucoseReadingsChart;
 let glucoseValues = [];
 // eslint-disable-next-line prefer-const
 let glucoseReadingDateLabels = [];
-// eslint-disable-next-line prefer-const
-let tempGlucoseReadingDateLabels = [];
 
 const HYPERGLYCEMIA = 160;
 const HYPOGLYCEMIA = 70;
@@ -67,15 +65,49 @@ function getChartConfiguration() {
     chart: {
       height: 330,
       type: 'area',
-      toolbar: {show: !isMaxWidth500px()},
+      toolbar: {
+        show: true,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: false,
+          reset: true,
+        },
+        export: {
+          csv: {
+            filename: 'Glicocheck',
+            columnDelimiter: ',',
+            headerCategory: 'Date',
+            headerValue: 'Glycemia',
+          },
+          svg: {
+            filename: 'Glicocheck',
+          },
+          png: {
+            filename: 'Glicocheck',
+          },
+        },
+      },
       events: {
         zoomed: function(chartContext, {xaxis, yaxis}) {
-          tempGlucoseReadingDateLabels = [];
-          tempGlucoseReadingDateLabels.push(glucoseReadingDateLabels[xaxis.min-1]);
-          tempGlucoseReadingDateLabels.push(glucoseReadingDateLabels[xaxis.max-1]);
-
-          updateSearchDateRange(tempGlucoseReadingDateLabels);
-          updateStatisticsPanel(glucoseValues.slice(xaxis.min-1, xaxis.max));
+          if (xaxis && yaxis) {
+            const startDate = glucoseReadingDateLabels[xaxis.min-1];
+            const endDate = glucoseReadingDateLabels[xaxis.max-1];
+            updateSearchDateRange([startDate, endDate]);
+            updateStatisticsPanel(glucoseValues.slice(xaxis.min-1, xaxis.max));
+          }
+        },
+        beforeResetZoom: function(chartContext) {
+          chartContext.updateOptions({
+            xaxis: {
+              categories: glucoseReadingDateLabels,
+            },
+          });
+          updateSearchDateRange(glucoseReadingDateLabels);
+          updateStatisticsPanel(glucoseValues);
         },
       },
     },
@@ -118,14 +150,6 @@ function getChartConfiguration() {
       },
     },
   };
-}
-
-/**
- * Screen width is 500px or less.
- * @return {boolean} true if the screen width is up to 500px.
- */
-function isMaxWidth500px() {
-  return (window.matchMedia('(max-width: 500px)').matches);
 }
 
 /**
