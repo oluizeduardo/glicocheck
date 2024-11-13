@@ -6,6 +6,7 @@ const searchDateRange = document.getElementById('search_date_range');
 // Statistics
 const averageValue = document.getElementById('average-value');
 const deviationValue = document.getElementById('deviation-value');
+const glycatedHemoValue = document.getElementById('glycated-hemo-value');
 const hyposValue = document.getElementById('hypos-value');
 const hypersValue = document.getElementById('hypers-value');
 
@@ -216,6 +217,7 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
 function updateStatisticsPanel(glucoseValues) {
   averageValue.innerText = calculateAverage(glucoseValues);
   deviationValue.innerText = calculateStandardDeviation(glucoseValues);
+  glycatedHemoValue.innerText = calculateHbA1c(glucoseValues);
   hyposValue.innerText = getHypoglycemiaCount(glucoseValues, HYPOGLYCEMIA);
   hypersValue.innerText = getHyperglycemiaCount(glucoseValues, HYPERGLYCEMIA);
 }

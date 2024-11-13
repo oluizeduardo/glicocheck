@@ -29,6 +29,22 @@ function calculateStandardDeviation(values) {
 }
 
 /**
+ * Calculates the estimated Glycated Hemoglobin (HbA1c) from an array of glucose values.
+ *
+ * The HbA1c is calculated using the formula:
+ * HbA1c = (Average Glucose (mg/dL) + 46.7) / 28.7
+ *
+ * @param {number[]} glucoseValues - An array of blood glucose values in mg/dL.
+ * @return {string} The estimated HbA1c value rounded to two decimal places.
+ * @throws {Error} Throws an error if the input is not an array or is an empty array.
+ */
+function calculateHbA1c(glucoseValues) {
+  const averageGlucose = calculateAverage(glucoseValues);
+  const hba1c = (averageGlucose + 46.7) / 28.7;
+  return hba1c.toFixed(2);
+}
+
+/**
  * Calculate the number of hypoglycemic values in the array.
  * @param {Array<number>} values - An array of numeric glucose values.
  * @param {number} hypoglycemiaThreshold - The threshold value for hypoglycemia.
