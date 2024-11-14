@@ -296,4 +296,34 @@ function makeChartPanelVisible() {
   panelChart.classList.remove('invisible');
 }
 
-loadGlucoseReadingsByUserId();
+/**
+ * Gets a date range based on the specified number of weeks.
+ *
+ * @param {number} numOfWeeks - The number of weeks to go back from the current date.
+ * A positive value will set the start date to the calculated weeks before the current date.
+ * If 0 or negative, the start date will be the same as the end date (today).
+ *
+ * @return {string[]} An array with two formatted date strings [startDate, endDate] in the format `YYYY-MM-DD`.
+ * The end date is always the current date, and the start date is calculated based on `numOfWeeks`.
+ */
+function getDateRangeByNumberOfWeeks(numOfWeeks) {
+  if (typeof numOfWeeks !== 'number' || numOfWeeks < 0) {
+    throw new TypeError('numOfWeeks must be a non-negative number');
+  }
+
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(endDate.getDate() - numOfWeeks * 7);
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  return [formatDate(startDate), formatDate(endDate)];
+}
+
+const [start, end] = getDateRangeByNumberOfWeeks(1);
+loadGlucoseReadingsByUserId(start, end);
