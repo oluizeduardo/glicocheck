@@ -156,10 +156,10 @@ function getChartConfiguration() {
 /**
  * Read from the database the list of glucose readings
  * os a specific user.
- * @param {string} startDate - The start date for the glucose data.
- * @param {string} endDate - The end date for the glucose data.
+ * @param {string} dateContext - An object containing the date
+ * context for filtering diary entries.
  */
-function loadGlucoseReadingsByUserId(startDate, endDate) {
+function loadGlucoseReadingsByUserId(dateContext) {
   glucoseValues = [];
   glucoseReadingDateLabels = [];
 
@@ -170,16 +170,14 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
         case HTTP_OK:
           JSON.parse(xmlhttp.response, (key, value) => {
             if (key === 'glucose') glucoseValues.push(value);
-            if (key === 'dateTime') {
-              glucoseReadingDateLabels.push(adaptLabelDate(value));
-            }
+            if (key === 'dateTime') glucoseReadingDateLabels.push(adaptLabelDate(value));
           });
           updateSearchDateRange(glucoseReadingDateLabels);
           updateStatisticsPanel(glucoseValues);
           break;
 
         case HTTP_NOT_FOUND:
-          if (startDate && endDate) {
+          if (dateContext.source === 'FILTER') {
             swal(
                 'Nothing found',
                 'No registers found for the informed date.',
@@ -206,7 +204,7 @@ function loadGlucoseReadingsByUserId(startDate, endDate) {
       }
     }
   };
-  sendGETToGlucose(xmlhttp, startDate, endDate);
+  sendGETToGlucose(xmlhttp, dateContext);
 }
 
 /**
@@ -240,25 +238,31 @@ function updateSearchDateRange(glucoseReadingDateLabels) {
 }
 
 /**
- * Sends a GET request to recover the list of glucose readings
- * of the online user.
- * @param {XMLHttpRequest} xmlhttp The request object.
- * @param {string} startDate - The start date for the glucose data.
- * @param {string} endDate - The end date for the glucose data.
+ * Sends a GET request to the glucose diary endpoint for a specific user within a date range.
+ * If no valid token or user ID is found, it logs the user out.
+ *
+ * @param {XMLHttpRequest} xmlhttp - The XMLHttpRequest instance used to send the GET request.
+ * @param {{startDate: string, endDate: string}} dateContext - An object containing the start
+ * and end date for filtering diary entries.
  */
-function sendGETToGlucose(xmlhttp, startDate, endDate) {
+function sendGETToGlucose(xmlhttp, dateContext) {
   const token = getJwtToken();
   const userId = getUserId();
-  if (!token || !userId) logOut();
+  if (!token || !userId) {
+    logOut();
+    return;
+  }
 
   let url = API_BASE_REQUEST + `/diary/users/${userId}?sort=asc`;
+
+  const {startDate, endDate} = dateContext;
 
   if (startDate && endDate) {
     url = url.concat(`&start=${startDate}&end=${endDate}`);
   }
 
   xmlhttp.open('GET', url);
-  xmlhttp.setRequestHeader('Authorization', 'Bearer ' + token);
+  xmlhttp.setRequestHeader('Authorization', `Bearer ${token}`);
   xmlhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
   xmlhttp.send();
 }
@@ -287,7 +291,6 @@ function adaptLabelDate(value) {
  * It makes the chart panel visible at the center of the screen.
  */
 function makeChartPanelVisible() {
-  // Validate chart context and configuration
   if (!chartContext || !getChartConfiguration()) {
     console.error('Chart context or configuration is missing. Cannot render the chart.');
     return;
@@ -326,4 +329,8 @@ function getDateRangeByNumberOfWeeks(numOfWeeks) {
 }
 
 const [start, end] = getDateRangeByNumberOfWeeks(1);
-loadGlucoseReadingsByUserId(start, end);
+dateContext ={
+  startDate: start,
+  endDate: end,
+};
+loadGlucoseReadingsByUserId(dateContext);

@@ -139,8 +139,8 @@ function resetFields() {
  */
 function resetChart() {
   destroyChart();
-  const [start, end] = getDateRangeByNumberOfWeeks(1);
-  loadGlucoseReadingsByUserId(start, end);
+  const [startDate, endDate] = getDateRangeByNumberOfWeeks(1);
+  loadGlucoseReadingsByUserId({startDate, endDate});
 }
 
 /**

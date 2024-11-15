@@ -4,6 +4,7 @@ const fieldStartDate = document.getElementById('field_start_date');
 const fieldEndDate = document.getElementById('field_end_date');
 const NAME_ELEMENT_CHART = 'chart';
 const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
+const FILTER_FLAG = 'FILTER';
 
 /**
  * Updates the chart or diary table based on the specified number of weeks.
@@ -14,11 +15,24 @@ const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
 function updateDataByWeeks(element, numOfWeeks) {
   const [startDate, endDate] = getDateRangeByNumberOfWeeks(numOfWeeks);
 
-  if (element === NAME_ELEMENT_CHART) {
-    loadGlucoseReadingsByUserId(startDate, endDate);
-  } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
-    saveDateRangeInSession({startDate, endDate});
-    window.location.reload();
+  dateContext ={
+    startDate,
+    endDate,
+    source: FILTER_FLAG,
+  };
+
+  switch (element) {
+    case NAME_ELEMENT_CHART:
+      loadGlucoseReadingsByUserId(dateContext);
+      break;
+
+    case NAME_ELEMENT_GLUCOSE_TABLE:
+      saveDateRangeInSession(dateContext);
+      window.location.reload();
+      break;
+
+    default:
+      console.warn(`Unknown element type: ${element}`);
   }
 }
 
@@ -81,7 +95,7 @@ function processDateRange(element) {
 
   if (isValidDateRange(startDate, endDate)) {
     if (element === NAME_ELEMENT_CHART) {
-      loadGlucoseReadingsByUserId(startDate, endDate);
+      loadGlucoseReadingsByUserId({startDate, endDate, source: FILTER_FLAG});
     } else if (element === NAME_ELEMENT_GLUCOSE_TABLE) {
       saveDateRangeInSession({startDate, endDate});
       window.location.reload();
@@ -106,10 +120,7 @@ function processDateRange(element) {
  * than the second date,indicating a valid date range. Otherwise, returns false.
  */
 function isValidDateRange(inputDate1, inputDate2) {
-  if (inputDate1 && inputDate2) {
-    return new Date(inputDate1) < new Date(inputDate2);
-  }
-  return false;
+  return (inputDate1 && inputDate2) ? (new Date(inputDate1) < new Date(inputDate2)) : false;
 }
 
 /**
@@ -118,7 +129,5 @@ function isValidDateRange(inputDate1, inputDate2) {
  * @return {Array} An array containing the start and end dates.
  */
 function getDateRange() {
-  const startDate = fieldStartDate.value;
-  const endDate = fieldEndDate.value;
-  return [startDate, endDate];
+  return [fieldStartDate.value, fieldEndDate.value];
 }

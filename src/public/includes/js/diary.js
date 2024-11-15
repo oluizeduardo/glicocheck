@@ -100,8 +100,12 @@ function sendGETToGlucose(xmlhttp, dateRange) {
  */
 function getDateRangeFromSession() {
   const obj = getDateRangeSessionStorage();
-  if (obj) return JSON.parse(obj);
-  return null;
+  if (obj) {
+    return JSON.parse(obj);
+  } else {
+    const [startDate, endDate] = getDateRangeByNumberOfWeeks(1);
+    return {startDate, endDate};
+  }
 }
 /**
  * Before printing values on the table, remove the
