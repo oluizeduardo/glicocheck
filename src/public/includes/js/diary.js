@@ -103,7 +103,7 @@ function getDateRangeFromSession() {
   if (obj) {
     return JSON.parse(obj);
   } else {
-    const [startDate, endDate] = getDateRangeByNumberOfWeeks(1);
+    const [startDate, endDate] = getDateRangeByPeriods(1, 'weeks');
     return {startDate, endDate};
   }
 }
