@@ -125,12 +125,11 @@
   
                     <!-- FILTER BY WEEKS -->
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 0)">Today</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 1)">1 week</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 2)">2 weeks</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 4)">4 weeks</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 8)">8 weeks</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByWeeks('chart', 12)">12 weeks</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 0, 'weeks')">Today</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 1, 'weeks')">1 week</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 1, 'months')">1 month</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 2, 'months')">2 months</a></li>
+                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 3, 'months')">3 months</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Custom</a></li>
                     </ul>

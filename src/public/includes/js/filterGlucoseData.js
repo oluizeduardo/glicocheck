@@ -7,13 +7,22 @@ const NAME_ELEMENT_GLUCOSE_TABLE = 'table';
 const FILTER_FLAG = 'FILTER';
 
 /**
- * Updates the chart or diary table based on the specified number of weeks.
- * @param {string} element - An indicator of the element that wants to be updated.
- * @param {number} numOfWeeks - The number of weeks to retrieve data for.
- * @return {void}
+ * Updates data based on the provided number of periods (weeks or months) and the element type.
+ * Determines the date range and sets the context for subsequent operations.
+ *
+ * @param {string} element - The identifier for the element to be updated (e.g., chart or table).
+ * @param {number} numOfPeriods - The number of periods (weeks or months) to determine the date range.
+ * @param {string} unit - The unit of time for the periods, either 'weeks' or 'months'.
  */
-function updateDataByWeeks(element, numOfWeeks) {
-  const [startDate, endDate] = getDateRangeByNumberOfWeeks(numOfWeeks);
+function updateDataByPeriods(element, numOfPeriods, unit) {
+  if (typeof numOfPeriods !== 'number' || numOfPeriods < 0) {
+    throw new TypeError('numOfPeriods must be a non-negative number');
+  }
+  if (unit !== 'weeks' && unit !== 'months') {
+    throw new TypeError('unit must be either \'weeks\' or \'months\'');
+  }
+
+  const [startDate, endDate] = getDateRangeByPeriods(numOfPeriods, unit);
 
   dateContext ={
     startDate,
@@ -37,23 +46,31 @@ function updateDataByWeeks(element, numOfWeeks) {
 }
 
 /**
- * Gets a date range based on the specified number of weeks.
+ * Returns a date range based on the provided number of weeks or months.
+ * The unit parameter specifies whether the input should be interpreted as weeks or months.
  *
- * @param {number} numOfWeeks - The number of weeks to go back from the current date.
- * A positive value will set the start date to the calculated weeks before the current date.
- * If 0 or negative, the start date will be the same as the end date (today).
- *
- * @return {string[]} An array with two formatted date strings [startDate, endDate] in the format `YYYY-MM-DD`.
- * The end date is always the current date, and the start date is calculated based on `numOfWeeks`.
+ * @param {number} numOfPeriods - The number of weeks or months for the date range.
+ * @param {string} unit - The unit of time, either 'weeks' or 'months'.
+ * @return {string[]} - An array with the start date and end date formatted as 'YYYY-MM-DD'.
+ * @throws {TypeError} - Throws if numOfPeriods is not a non-negative number or unit is invalid.
  */
-function getDateRangeByNumberOfWeeks(numOfWeeks) {
-  if (typeof numOfWeeks !== 'number' || numOfWeeks < 0) {
-    throw new TypeError('numOfWeeks must be a non-negative number');
+function getDateRangeByPeriods(numOfPeriods, unit) {
+  if (typeof numOfPeriods !== 'number' || numOfPeriods < 0) {
+    throw new TypeError('numOfPeriods must be a non-negative number');
+  }
+
+  if (unit !== 'weeks' && unit !== 'months') {
+    throw new TypeError('unit must be either \'weeks\' or \'months\'');
   }
 
   const endDate = new Date();
   const startDate = new Date();
-  startDate.setDate(endDate.getDate() - numOfWeeks * 7);
+
+  if (unit === 'weeks') {
+    startDate.setDate(endDate.getDate() - numOfPeriods * 7);
+  } else if (unit === 'months') {
+    startDate.setMonth(endDate.getMonth() - numOfPeriods);
+  }
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -64,6 +81,7 @@ function getDateRangeByNumberOfWeeks(numOfWeeks) {
 
   return [formatDate(startDate), formatDate(endDate)];
 }
+
 
 /**
  * Saves the given date range object in the sessionStorage.
