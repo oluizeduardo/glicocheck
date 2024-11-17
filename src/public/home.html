@@ -113,26 +113,40 @@
           <div id="panel-chart" class="invisible">
             <div class="card mb-3">
               <div class="card-body">                
-                <div class="justify-content">
+                <div class="d-flex justify-content-between">
                   <h5 class="card-title"><span class="ms-2" id="search_date_range"></span></h5>
 
-                  <div class="filter me-3">
-                    <!-- BUTTON FILTER -->
-                    <a class="icon" href="#" data-bs-toggle="dropdown">                      
-                    <button type="button" class="me-2 btn btn-sm btn-outline-secondary">
-                      <span data-feather="calendar" class="align-text-bottom"></span>
-                    </button>
-  
-                    <!-- FILTER BY PERIODS -->
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 0, 'weeks')">Today</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 1, 'weeks')">1 week</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 1, 'months')">1 month</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 2, 'months')">2 months</a></li>
-                      <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 3, 'months')">3 months</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Custom</a></li>
-                    </ul>
+                  <div class="filter-container">
+                    <div class="filter-options">
+                      <div class="filter-item" onclick="updateDataByPeriods('chart', 0, 'weeks')" >Today</div>
+                      <div class="filter-item selected" onclick="updateDataByPeriods('chart', 1, 'weeks')" >1 week</div>
+                      <div class="filter-item" onclick="updateDataByPeriods('chart', 1, 'months')" >1 month</div>
+                      <div class="filter-item" onclick="updateDataByPeriods('chart', 2, 'months')" >2 months</div>
+                      <div class="filter-item" onclick="updateDataByPeriods('chart', 3, 'months')" >3 months</div>
+
+                      <button type="button" class="icon me-2 btn btn-sm btn-outline-secondary"
+                        title="Set custom period"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalCalendar">
+                        <span data-feather="calendar" class="align-text-bottom"></span>
+                      </button>
+                    </div>
+                    <div class="filter-calendar me-3">
+                      <a class="icon" href="#" data-bs-toggle="dropdown">                      
+                      <button type="button" class="me-2 btn btn-sm btn-outline-secondary">
+                        <span data-feather="calendar" class="align-text-bottom"></span>
+                      </button>
+    
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 0, 'weeks')">Today</a></li>
+                        <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 1, 'weeks')">1 week</a></li>
+                        <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 1, 'months')">1 month</a></li>
+                        <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 2, 'months')">2 months</a></li>
+                        <li><a class="dropdown-item" onclick="updateDataByPeriods('chart', 3, 'months')">3 months</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalCalendar" href="#">Custom</a></li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
                 
@@ -246,7 +260,10 @@
 
           <!-- ADD GLYCEMIA LOG -->
           <button type="button" class="mb-2 me-2 btn btn-sm btn-primary add-entry" 
-            data-bs-toggle="modal" data-bs-target="#modalNewEntry" id="btnAddGlycemiaLog">
+            data-bs-toggle="modal"
+            title="Add new glycemia reading"
+            data-bs-target="#modalNewEntry" 
+            id="btnAddGlycemiaLog">
             <span data-feather="plus" class="align-text-bottom"></span>
           </button>
         </main>
