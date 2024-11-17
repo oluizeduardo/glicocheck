@@ -192,8 +192,12 @@ body {
 }
 
 /**********************************
-  FILTER CHART
+  CHART FILTER
 ***********************************/
+.icon:hover{
+  color: var(--chart-filter-item-selected-background);
+}
+
 .filter-calendar {
   display: none;
   position: absolute;
@@ -372,7 +376,7 @@ body {
   }  
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .filter-options {
     display: none;
   }

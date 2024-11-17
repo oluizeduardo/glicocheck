@@ -123,6 +123,13 @@
                       <div class="filter-item" onclick="updateDataByPeriods('chart', 1, 'months')" >1 month</div>
                       <div class="filter-item" onclick="updateDataByPeriods('chart', 2, 'months')" >2 months</div>
                       <div class="filter-item" onclick="updateDataByPeriods('chart', 3, 'months')" >3 months</div>
+
+                      <button type="button" class="icon me-2 btn btn-sm btn-outline-secondary"
+                        title="Set custom period"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalCalendar">
+                        <span data-feather="calendar" class="align-text-bottom"></span>
+                      </button>
                     </div>
                     <div class="filter-calendar me-3">
                       <a class="icon" href="#" data-bs-toggle="dropdown">                      
@@ -253,7 +260,10 @@
 
           <!-- ADD GLYCEMIA LOG -->
           <button type="button" class="mb-2 me-2 btn btn-sm btn-primary add-entry" 
-            data-bs-toggle="modal" data-bs-target="#modalNewEntry" id="btnAddGlycemiaLog">
+            data-bs-toggle="modal"
+            title="Add new glycemia reading"
+            data-bs-target="#modalNewEntry" 
+            id="btnAddGlycemiaLog">
             <span data-feather="plus" class="align-text-bottom"></span>
           </button>
         </main>
