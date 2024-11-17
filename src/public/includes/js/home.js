@@ -328,6 +328,21 @@ function getDateRangeByNumberOfWeeks(numOfWeeks) {
   return [formatDate(startDate), formatDate(endDate)];
 }
 
+/**
+ * Adds event listeners to filter items to apply the 'selected' class
+ * when clicked and remove it from other items.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  const filterItems = document.querySelectorAll('.filter-options .filter-item');
+
+  filterItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      filterItems.forEach((i) => i.classList.remove('selected'));
+      item.classList.add('selected');
+    });
+  });
+});
+
 const [start, end] = getDateRangeByNumberOfWeeks(1);
 dateContext ={
   startDate: start,

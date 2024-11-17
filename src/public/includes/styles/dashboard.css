@@ -5,6 +5,9 @@
   --sidebar-secondary-color: #80c3ef;
   --default-background-color: #f6f9ff;
   --menuitem-background-color: #f6f6f6;
+  --chart-filter-item-selected-color: #007bff;
+  --chart-filter-item-selected-background: #e9f1fa;
+  --chart-filter-item-border-radius: 30%;
 }
 
 * {
@@ -46,10 +49,9 @@ body {
   margin-left: 3px;
 }
 
-/*
+/********************************
  * Sidebar
- */
-
+ ********************************/
 .sidebar {
   position: fixed;
   top: 0;
@@ -85,10 +87,9 @@ body {
   color: var(--menuitem-background-color);
 }
 
-/*
+/********************************
  * Navbar
- */
-
+ ********************************/
 .navbar-brand {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -126,9 +127,9 @@ body {
   justify-content: flex-end;
 }
 
-/*
+/*******************************
  * Chart
- */
+ *******************************/
 .visible {
   display: block;
 }
@@ -141,9 +142,9 @@ body {
   display: none;
 }
 
-/*
+/********************************
 * Welcome center
-*/
+********************************/
 #welcome-center {
   display: block;
   padding-top: 25vh;
@@ -186,24 +187,48 @@ body {
   background: #dee2e6;
 }
 
-.dropdown-item {
-  cursor: pointer;
-}
-
 .nav-item {
   padding: 1px;
 }
 
-.filter {
+/**********************************
+  FILTER CHART
+***********************************/
+.filter-calendar {
+  display: none;
   position: absolute;
   padding: 10px 0 0 0;
   right: 0px;
   top: 15px;
 }
 
-.filter .icon {
-  color: #aab7cf;
-  transition: 0.3s;
+.filter-container {
+  display: flex;
+  align-items: center;
+}
+
+.filter-options {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-item {
+  font-size: 15px;
+  color: #555;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.filter-item:hover {
+  background-color: var(--chart-filter-item-selected-background);
+  border-radius: var(--chart-filter-item-border-radius);  
+}
+
+.filter-item.selected {
+  color: var(--chart-filter-item-selected-color);
+  font-weight: bold;
+  background-color: var(--chart-filter-item-selected-background);
+  border-radius: var(--chart-filter-item-border-radius); 
 }
 
 .card-title {
@@ -237,9 +262,9 @@ body {
   border-radius: 50px;
 }
 
-/************************* 
+/******************************* 
  Panel Statistics
- *************************/
+ *******************************/
 .statistics-panel{
   display: flex;
   flex-wrap: wrap;
@@ -344,6 +369,15 @@ body {
   }
   .scrollablePanel {
     max-height: 150px;
+  }  
+}
+
+@media (max-width: 600px) {
+  .filter-options {
+    display: none;
+  }
+  .filter-calendar {
+    display: block;
   }
 }
 
